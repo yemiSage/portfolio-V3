@@ -5,26 +5,43 @@ import {
   Whatsapp,
 } from "iconsax-reactjs";
 
-const asset = (name) => `/assets/figma/${name}`;
+import portraitImage from "../assets/figma/portrait.png";
+import tasafricaImage from "../assets/figma/tasafrica.png";
+import limestoneImage from "../assets/figma/limestone.png";
+import xeruitImage from "../assets/figma/xeruit.png";
+import figmaLogo from "../assets/figma/figma.svg";
+import htmlCssLogo from "../assets/figma/html-css.svg";
+import wordpressLogo from "../assets/figma/wordpress.svg";
+import miroLogo from "../assets/figma/miro.svg";
+import illustratorLogo from "../assets/figma/adobe-illustrator.svg";
+import msSuiteLogo from "../assets/figma/ms-suite.svg";
+import photoshopLogo from "../assets/figma/photoshop.svg";
+import notionLogo from "../assets/figma/notion.svg";
+import trelloLogo from "../assets/figma/trello.svg";
+import googleAiLogo from "../assets/figma/google-ai.svg";
+import antigravityLogo from "../assets/figma/antigravity.png";
+import codexLogo from "../assets/figma/codex.svg";
+import vsCodeLogo from "../assets/figma/vs-code.svg";
+import claudeLogo from "../assets/figma/claude.svg";
 
 const projects = [
   {
     name: "Soludesks Inc.",
-    image: asset("tasafrica.png"),
+    image: tasafricaImage,
     tags: ["Networking", "Sport", "Social Media"],
     description:
       "Built a scalable design system and discovery flows that connect African talent with global scouts.",
   },
   {
     name: "Limestone App",
-    image: asset("limestone.png"),
+    image: limestoneImage,
     tags: ["Networking", "Sport", "Social Media"],
     description:
       "Built a scalable design system and discovery flows that connect African talent with global scouts.",
   },
   {
     name: "Xeruit Talent",
-    image: asset("xeruit.png"),
+    image: xeruitImage,
     tags: ["AI", "Hiring", "SAAS", "B2B"],
     description:
       "Built a scalable design system and discovery flows that connect African talent with global scouts.",
@@ -32,20 +49,20 @@ const projects = [
 ];
 
 const tools = [
-  ["Figma", asset("figma.svg")],
-  ["HTML and CSS", asset("html-css.svg")],
-  ["Wordpress", asset("wordpress.svg")],
-  ["Miro", asset("miro.svg")],
-  ["Adobe Illustrator", asset("adobe-illustrator.svg")],
-  ["MS Suite", asset("ms-suite.svg")],
-  ["Photoshop", asset("photoshop.svg")],
-  ["Notion", asset("notion.svg")],
-  ["Trello", asset("trello.svg")],
-  ["Google AI Studio", asset("google-ai.svg")],
-  ["Antigravity", asset("antigravity.png")],
-  ["Codex", asset("codex.svg")],
-  ["VS Code", asset("vs-code.svg")],
-  ["Claude", asset("claude.svg")],
+  ["Figma", figmaLogo],
+  ["HTML and CSS", htmlCssLogo],
+  ["Wordpress", wordpressLogo],
+  ["Miro", miroLogo],
+  ["Adobe Illustrator", illustratorLogo],
+  ["MS Suite", msSuiteLogo],
+  ["Photoshop", photoshopLogo],
+  ["Notion", notionLogo],
+  ["Trello", trelloLogo],
+  ["Google AI Studio", googleAiLogo],
+  ["Antigravity", antigravityLogo],
+  ["Codex", codexLogo],
+  ["VS Code", vsCodeLogo],
+  ["Claude", claudeLogo],
 ];
 
 function SocialLink({ href, label, children }) {
@@ -86,7 +103,7 @@ function App() {
         <aside className="identity-column" aria-label="Introduction">
           <div className="identity-main">
             <a className="portrait" href="#top" aria-label="Back to the top">
-              <img src={asset("portrait.png")} alt="Opeyemi Adegboye" />
+              <img src={portraitImage} alt="Opeyemi Adegboye" />
             </a>
 
             <div className="intro-stack">
