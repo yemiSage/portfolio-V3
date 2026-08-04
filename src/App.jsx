@@ -1,5 +1,9 @@
+import { useEffect, useState } from "react";
 import {
   ArrowDown,
+  ArrowLeft2,
+  ArrowRight2,
+  CloseCircle,
   Instagram,
   Sms,
   Whatsapp,
@@ -28,14 +32,14 @@ const projects = [
   {
     name: "Soludesks Inc.",
     image: tasafricaImage,
-    tags: ["Networking", "Sport", "Social Media"],
+    tags: ["AI", "Support", "SaaS", "B2B"],
     description:
       "Built a scalable design system and discovery flows that connect African talent with global scouts.",
   },
   {
     name: "Limestone App",
     image: limestoneImage,
-    tags: ["Networking", "Sport", "Social Media"],
+    tags: ["Community", "Security", "Real Estate", "B2B"],
     description:
       "Built a scalable design system and discovery flows that connect African talent with global scouts.",
   },
@@ -65,6 +69,11 @@ const tools = [
   ["Claude", claudeLogo],
 ];
 
+const shots = Array.from(
+  { length: 36 },
+  (_, index) => `/shots/shot-${String(index + 1).padStart(2, "0")}.webp`,
+);
+
 function SocialLink({ href, label, children }) {
   return (
     <a className="social-link" href={href} target="_blank" rel="noreferrer" aria-label={label}>
@@ -73,17 +82,50 @@ function SocialLink({ href, label, children }) {
   );
 }
 
-function Project({ project }) {
+function Tool({ name, logo }) {
+  const showColor = (event) => event.currentTarget.classList.add("is-active");
+  const hideColor = (event) => event.currentTarget.classList.remove("is-active");
+
   return (
-    <article className="project-card">
+    <li data-tool={name} onPointerMove={showColor} onPointerLeave={hideColor}>
+      <img src={logo} alt="" />
+      <span>{name}</span>
+    </li>
+  );
+}
+
+function Project({ project }) {
+  const handlePointerMove = (event) => {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    const card = event.currentTarget;
+    const bounds = card.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+    card.style.setProperty("--tilt-y", `${(x * 4).toFixed(2)}deg`);
+    card.style.setProperty("--tilt-x", `${(-y * 2.5).toFixed(2)}deg`);
+  };
+
+  const resetTilt = (event) => {
+    event.currentTarget.style.setProperty("--tilt-y", "0deg");
+    event.currentTarget.style.setProperty("--tilt-x", "0deg");
+  };
+
+  return (
+    <article
+      className="project-card"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetTilt}
+    >
       <div className="project-copy">
         <div>
+          <h3>{project.name}</h3>
           <div className="project-tags" aria-label="Project categories">
             {project.tags.map((tag) => (
               <span key={tag}>{tag}</span>
             ))}
           </div>
-          <h3>{project.name}</h3>
         </div>
         <p>{project.description}</p>
       </div>
@@ -97,6 +139,32 @@ function Project({ project }) {
 }
 
 function App() {
+  const [activeWork, setActiveWork] = useState("projects");
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+
+  const closeLightbox = () => setLightboxIndex(null);
+  const showPreviousShot = () => setLightboxIndex((index) => (index - 1 + shots.length) % shots.length);
+  const showNextShot = () => setLightboxIndex((index) => (index + 1) % shots.length);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") showPreviousShot();
+      if (event.key === "ArrowRight") showNextShot();
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [lightboxIndex]);
+
   return (
     <main className="portfolio" id="top" data-node-id="3549:1194">
       <div className="portfolio-grid">
@@ -110,7 +178,10 @@ function App() {
               <div className="intro-copy">
                 <div className="intro-heading">
                   <p className="greeting">Hi 👋, i’m Yemi.</p>
-                  <h1>UI/UX Engineer</h1>
+                  <h1 aria-label="Digital Product Designer">
+                    <span className="title-line"><span>Digital Product</span></span>
+                    <span className="title-line"><span>Designer</span></span>
+                  </h1>
                 </div>
                 <p className="intro-description">
                   I turn complex product ideas into clear, useful experiences user enjoy coming back to. I
@@ -155,7 +226,47 @@ function App() {
           </section>
 
           <section className="projects" id="work" aria-label="Selected projects">
-            {projects.map((project) => <Project key={project.name} project={project} />)}
+            <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeWork === "projects"}
+                className={activeWork === "projects" ? "is-selected" : ""}
+                onClick={() => {
+                  setActiveWork("projects");
+                  closeLightbox();
+                }}
+              >
+                Projects
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeWork === "shots"}
+                className={activeWork === "shots" ? "is-selected" : ""}
+                onClick={() => setActiveWork("shots")}
+              >
+                Shots
+              </button>
+            </div>
+
+            {activeWork === "projects" ? (
+              projects.map((project) => <Project key={project.name} project={project} />)
+            ) : (
+              <div className="shots-grid" role="tabpanel" aria-label="Design shots">
+                {shots.map((image, index) => (
+                  <button
+                    className="shot-card"
+                    key={image}
+                    type="button"
+                    aria-label={`Open portfolio design shot ${index + 1}`}
+                    onClick={() => setLightboxIndex(index)}
+                  >
+                    <img src={image} alt="" />
+                  </button>
+                ))}
+              </div>
+            )}
           </section>
 
           <section className="toolbox" aria-labelledby="toolbox-heading">
@@ -168,10 +279,7 @@ function App() {
             </div>
             <ul className="tool-grid">
               {tools.map(([name, logo]) => (
-                <li key={name} data-tool={name}>
-                  <img src={logo} alt="" />
-                  <span>{name}</span>
-                </li>
+                <Tool key={name} name={name} logo={logo} />
               ))}
             </ul>
           </section>
@@ -201,6 +309,21 @@ function App() {
           </footer>
         </section>
       </div>
+
+      {lightboxIndex !== null && (
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Portfolio design shot" onMouseDown={(event) => event.target === event.currentTarget && closeLightbox()}>
+          <button className="lightbox-close" type="button" onClick={closeLightbox} aria-label="Close image viewer">
+            <CloseCircle size={30} color="currentColor" variant="Linear" />
+          </button>
+          <button className="lightbox-nav lightbox-previous" type="button" onClick={showPreviousShot} aria-label="Previous image">
+            <ArrowLeft2 size={32} color="currentColor" variant="Linear" />
+          </button>
+          <img className="lightbox-image" src={shots[lightboxIndex]} alt={`Portfolio design shot ${lightboxIndex + 1}`} />
+          <button className="lightbox-nav lightbox-next" type="button" onClick={showNextShot} aria-label="Next image">
+            <ArrowRight2 size={32} color="currentColor" variant="Linear" />
+          </button>
+        </div>
+      )}
     </main>
   );
 }
