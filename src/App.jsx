@@ -4,6 +4,7 @@ import {
   ArrowLeft2,
   ArrowRight2,
   CloseCircle,
+  HamburgerMenu,
   Instagram,
   Sms,
   Whatsapp,
@@ -141,6 +142,7 @@ function Project({ project }) {
 function App() {
   const [activeWork, setActiveWork] = useState("projects");
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const closeLightbox = () => setLightboxIndex(null);
   const showPreviousShot = () => setLightboxIndex((index) => (index - 1 + shots.length) % shots.length);
@@ -165,8 +167,50 @@ function App() {
     };
   }, [lightboxIndex]);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return undefined;
+
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [mobileMenuOpen]);
+
   return (
     <main className="portfolio" id="top" data-node-id="3549:1194">
+      <header className="mobile-header">
+        <a className="portrait mobile-brand" href="#top" aria-label="Back to the top">
+          <img src={portraitImage} alt="Opeyemi Adegboye" />
+        </a>
+        <button
+          className="mobile-menu-toggle"
+          type="button"
+          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-menu"
+          onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}
+        >
+          {mobileMenuOpen ? (
+            <CloseCircle size={26} color="currentColor" variant="Linear" aria-hidden="true" />
+          ) : (
+            <HamburgerMenu size={26} color="currentColor" variant="Linear" aria-hidden="true" />
+          )}
+        </button>
+        {mobileMenuOpen && (
+          <nav className="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+            <a href="#about" onClick={() => setMobileMenuOpen(false)}>About Me</a>
+            <a
+              href="mailto:adegboyeopeyemi065@gmail.com?subject=Resume%20request"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Resume
+            </a>
+          </nav>
+        )}
+      </header>
+
       <div className="portfolio-grid">
         <aside className="identity-column" aria-label="Introduction">
           <div className="identity-main">
@@ -174,7 +218,7 @@ function App() {
               <img src={portraitImage} alt="Opeyemi Adegboye" />
             </a>
 
-            <div className="intro-stack">
+            <div className="intro-stack" id="about">
               <div className="intro-copy">
                 <div className="intro-heading">
                   <p className="greeting">Hi 👋, i’m Yemi.</p>
@@ -198,18 +242,24 @@ function App() {
           </div>
 
           <div className="availability">
-            <p className="find-me">Find me on</p>
-            <div className="social-row">
-              <SocialLink href="https://wa.me/2349122546487" label="WhatsApp">
-                <Whatsapp size={20} color="currentColor" variant="Linear" />
-              </SocialLink>
-              <SocialLink href="https://www.instagram.com/ope_yemi066/" label="Instagram">
-                <Instagram size={20} color="currentColor" variant="Linear" />
-              </SocialLink>
-              <SocialLink href="mailto:adegboyeopeyemi065@gmail.com" label="Email">
-                <Sms size={20} color="currentColor" variant="Linear" />
-              </SocialLink>
+            <div className="availability-social">
+              <p className="find-me">Find me on</p>
+              <div className="social-row">
+                <SocialLink href="https://wa.me/2349122546487" label="WhatsApp">
+                  <Whatsapp size={20} color="currentColor" variant="Linear" />
+                </SocialLink>
+                <SocialLink href="https://www.instagram.com/ope_yemi066/" label="Instagram">
+                  <Instagram size={20} color="currentColor" variant="Linear" />
+                </SocialLink>
+                <SocialLink href="mailto:adegboyeopeyemi065@gmail.com" label="Email">
+                  <Sms size={20} color="currentColor" variant="Linear" />
+                </SocialLink>
+              </div>
             </div>
+            <nav className="identity-links" aria-label="Profile links">
+              <a href="#about">About Me</a>
+              <a href="mailto:adegboyeopeyemi065@gmail.com?subject=Resume%20request">Resume</a>
+            </nav>
           </div>
         </aside>
 
@@ -262,7 +312,14 @@ function App() {
                     aria-label={`Open portfolio design shot ${index + 1}`}
                     onClick={() => setLightboxIndex(index)}
                   >
-                    <img src={image} alt="" />
+                    <img
+                      src={`/thumbnails/shot-${String(index + 1).padStart(2, "0")}.webp`}
+                      alt=""
+                      width="720"
+                      height="556"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </button>
                 ))}
               </div>
@@ -318,7 +375,14 @@ function App() {
           <button className="lightbox-nav lightbox-previous" type="button" onClick={showPreviousShot} aria-label="Previous image">
             <ArrowLeft2 size={32} color="currentColor" variant="Linear" />
           </button>
-          <img className="lightbox-image" src={shots[lightboxIndex]} alt={`Portfolio design shot ${lightboxIndex + 1}`} />
+          <img
+            className="lightbox-image"
+            src={shots[lightboxIndex]}
+            alt={`Portfolio design shot ${lightboxIndex + 1}`}
+            width="1878"
+            height="1450"
+            decoding="async"
+          />
           <button className="lightbox-nav lightbox-next" type="button" onClick={showNextShot} aria-label="Next image">
             <ArrowRight2 size={32} color="currentColor" variant="Linear" />
           </button>

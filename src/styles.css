@@ -146,6 +146,10 @@ h3,
   gap: var(--shell-gap);
 }
 
+.mobile-header {
+  display: none;
+}
+
 .identity-column {
   width: 100%;
   max-width: var(--rail-width);
@@ -189,6 +193,10 @@ h3,
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+#about {
+  scroll-margin-top: 96px;
 }
 
 .intro-copy {
@@ -301,6 +309,14 @@ h1 {
   bottom: 32px;
   width: 100%;
   display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.availability-social {
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
@@ -318,6 +334,25 @@ h1 {
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+.identity-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.identity-links a {
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+  opacity: var(--body-opacity);
+  transition: opacity 180ms ease;
+}
+
+.identity-links a:hover {
+  opacity: 1;
 }
 
 .social-link {
@@ -470,7 +505,11 @@ h1 {
 }
 
 .shot-card {
+    display: block;
+    width: 100%;
     overflow: hidden;
+    aspect-ratio: 1878 / 1450;
+    margin: 0;
     border-radius: 16px;
     border: 0;
     padding: 0;
@@ -481,14 +520,10 @@ h1 {
 .shot-card img {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    transition: transform 280ms ease;
-  }
-
-  .shot-card:hover img,
-  .shot-card:focus-visible img {
-    transform: scale(1.025);
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    image-rendering: auto;
   }
 
   .shot-card:focus-visible {
@@ -725,7 +760,10 @@ h1 {
 
 .button:focus-visible,
 .social-link:focus-visible,
-.scroll-link:focus-visible {
+.scroll-link:focus-visible,
+.identity-links a:focus-visible,
+.mobile-menu-toggle:focus-visible,
+.mobile-menu a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -833,6 +871,89 @@ h1 {
 }
 
 @media (max-width: 767px) {
+  .mobile-header {
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 68px;
+    padding: 12px var(--page-padding);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+  }
+
+  .mobile-brand {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .mobile-menu-toggle {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--ink);
+    background: transparent;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .mobile-menu-toggle:hover,
+  .mobile-menu-toggle[aria-expanded="true"] {
+    background: var(--gray-5);
+  }
+
+  .mobile-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: var(--page-padding);
+    right: var(--page-padding);
+    padding: 8px;
+    border: 1px solid #dfe2e6;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    box-shadow: 0 18px 44px rgba(10, 11, 13, 0.12);
+    animation: soft-rise 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .mobile-menu a {
+    min-height: 48px;
+    padding: 0 14px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  .mobile-menu a:hover {
+    background: var(--gray-5);
+  }
+
+  .identity-column {
+    padding-top: 92px;
+  }
+
+  .identity-main > .portrait,
+  .identity-links {
+    display: none;
+  }
+
+  .availability {
+    justify-content: flex-start;
+  }
+
   .intro-heading {
     gap: 8px;
   }
@@ -859,6 +980,15 @@ h1 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .tool-grid li {
+    color: #0a0b0d;
+  }
+
+  .tool-grid img {
+    filter: none;
+    opacity: 1;
+  }
+
   .shots-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -866,6 +996,19 @@ h1 {
   .project-copy,
   .section-intro {
     max-width: none;
+  }
+
+  .project-copy h3 {
+    font-size: 20px;
+  }
+
+  .project-tags {
+    font-weight: 500;
+  }
+
+  .project-copy > p,
+  .section-intro p {
+    font-size: 14px;
   }
 
   .footer {
@@ -885,15 +1028,18 @@ h1 {
   }
 
   h1 {
-    font-size: 44px;
+    font-size: 32px;
+    font-weight: 700;
   }
 
   .hero-caption {
+    padding-top: 8px;
     padding-bottom: 0;
   }
 
   .hero-caption h2 {
-    font-size: 20px;
+    color: #3b3b3b;
+    font-size: 18px;
     letter-spacing: -0.6px;
   }
 
