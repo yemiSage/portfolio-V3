@@ -107,8 +107,8 @@ function Project({ project }) {
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
 
-    card.style.setProperty("--tilt-y", `${(x * 4).toFixed(2)}deg`);
-    card.style.setProperty("--tilt-x", `${(-y * 2.5).toFixed(2)}deg`);
+    card.style.setProperty("--tilt-y", `${(x * 12).toFixed(2)}deg`);
+    card.style.setProperty("--tilt-x", `${(-y * 8).toFixed(2)}deg`);
   };
 
   const resetTilt = (event) => {

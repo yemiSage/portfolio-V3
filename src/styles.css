@@ -200,9 +200,9 @@ h6 {
 }
 
 .portrait {
-  width: 56px;
-  height: 56px;
-  flex: 0 0 56px;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
   border-radius: 0;
   overflow: hidden;
   background: transparent;
@@ -768,10 +768,10 @@ h1 {
   border-radius: 0;
   background: transparent;
   object-fit: initial;
-  transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   transform-style: preserve-3d;
   will-change: transform;
-  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .toolbox {
@@ -835,7 +835,7 @@ h1 {
 
 @media (hover: hover) and (pointer: fine) {
   .project-card:hover .project-visual {
-    transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateZ(10px) scale(1.008);
+    transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateZ(2px) scale(1.002);
   }
 
   .tool-grid li:is(:hover, .is-active) {
@@ -987,9 +987,9 @@ h1 {
   .mobile-brand {
     position: relative;
     z-index: 2;
-    width: 44px;
-    height: 44px;
-    flex-basis: 44px;
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
   }
 
   .mobile-menu-toggle {
