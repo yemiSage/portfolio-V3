@@ -30,7 +30,7 @@ import codexLogo from "../assets/figma/codex.svg";
 import vsCodeLogo from "../assets/figma/vs-code.svg";
 import claudeLogo from "../assets/figma/claude.svg";
 
-const portraitImage = "/portfolio-logo.png";
+const portraitImage = "/portfolio-logo.svg";
 
 const projects = [
   {
@@ -265,13 +265,17 @@ function App() {
                 <div className="intro-heading">
                   <p className="greeting">Hi 👋, i’m Yemi.</p>
                   <h1 aria-label="Digital Product Designer">
-                    <span className="title-line"><span>Digital Product</span></span>
-                    <span className="title-line"><span>Designer</span></span>
+                    <span className="title-line"><span>Digital Product Designer</span></span>
                   </h1>
                 </div>
                 <p className="intro-description">
-                  I turn complex product ideas into clear, useful experiences user enjoy coming back to. I
-                  don’t just think design, I think business.
+                  <strong>
+                    An electrical engineer who discovered that pixels conduct ideas better than wires.
+                  </strong>{" "}
+                  For the past four years, I have worked across AI, fintech, logistics, EdTech, sports,
+                  social, and talent products, turning complicated problems into experiences that feel simple.
+                  At Xeruit, I helped take the product from an idea to V1, welcoming thousands of users within
+                  its first few weeks.
                 </p>
               </div>
 

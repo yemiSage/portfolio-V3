@@ -9,6 +9,10 @@
   --ink: #0a0b0d;
   --muted-ink: #545456;
   --subtle-ink: #68696a;
+  --body-copy: #777777;
+  --body-copy-size: 14px;
+  --body-copy-line-height: 24px;
+  --body-copy-tracking: -0.28px;
   --paper: #ffffff;
   --gray-5: #eef0f3;
   --accent: #e0733d;
@@ -32,11 +36,12 @@ body {
   margin: 0;
   min-width: 0;
   min-height: 100vh;
-  color: var(--ink);
+  color: var(--body-copy);
   background: var(--paper);
-  font-size: 16px;
-  line-height: 1.5;
-  letter-spacing: 0;
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  font-size: var(--body-copy-size);
+  line-height: var(--body-copy-line-height);
+  letter-spacing: var(--body-copy-tracking);
   font-weight: 400;
 }
 
@@ -189,7 +194,7 @@ h6 {
 .identity-top {
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 24px;
 }
@@ -198,14 +203,15 @@ h6 {
   width: 56px;
   height: 56px;
   flex: 0 0 56px;
-  border-radius: 50%;
+  border-radius: 0;
   overflow: hidden;
-  background: #ff611a;
+  background: transparent;
 }
 
 .portrait img {
   width: 100%;
   height: 100%;
+  border-radius: 8px;
   object-fit: cover;
 }
 
@@ -232,23 +238,24 @@ h6 {
 .intro-heading {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
 .greeting {
   padding-left: 4px;
-  color: var(--muted-ink);
+  color: #777777;
+  font-family: "DM Sans", sans-serif;
   font-size: 16px;
   line-height: 1.5;
   letter-spacing: 0;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 h1 {
   font-family: "DM Sans", sans-serif;
   max-width: none;
   color: #1c1c1c;
-  font-size: 54px;
+  font-size: 40px;
   line-height: 1.2;
   letter-spacing: -3.5px;
   font-weight: 600;
@@ -271,12 +278,19 @@ h1 {
 .intro-description {
   width: 100%;
   max-width: none;
-  color: var(--muted-ink);
-  font-size: 14px;
-  line-height: 1.5;
-  letter-spacing: 0;
-  font-weight: 500;
+  padding-bottom: 0;
+  color: var(--body-copy);
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  font-size: var(--body-copy-size);
+  line-height: var(--body-copy-line-height);
+  letter-spacing: var(--body-copy-tracking);
+  font-weight: 400;
   text-wrap: pretty;
+}
+
+.intro-description strong {
+  color: #333232;
+  font-weight: 700;
 }
 
 .button-row {
@@ -288,19 +302,19 @@ h1 {
 }
 
 .button {
-  width: fit-content;
+  width: 127.844px;
   height: 40px;
-  padding: 0 22px;
-  border: 1px solid var(--accent);
-  border-radius: 14px;
+  padding: 0;
+  border: 1px solid #333232;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: "Inter", sans-serif;
-  font-size: 16px;
-  line-height: 22px;
-  letter-spacing: -0.4px;
-  font-weight: 600;
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: -0.28px;
+  font-weight: 400;
   transition: background-color 200ms ease-out, color 200ms ease-out, opacity 200ms ease-out;
 }
 
@@ -309,9 +323,9 @@ h1 {
 }
 
 .button-primary {
-  color: #000000;
-  border-color: #b94f21;
-  background: #ee7a3d;
+  color: #f4f4f4;
+  border-color: #333232;
+  background: #333232;
 }
 
 .preloader {
@@ -335,9 +349,9 @@ h1 {
   justify-content: center;
   color: #0a0b0d;
   font-family: "DM Sans", sans-serif;
-  font-size: clamp(28px, 4vw, 54px);
-  line-height: 1.15;
-  letter-spacing: -1.8px;
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: -0.48px;
   font-weight: 600;
   text-align: center;
   text-wrap: balance;
@@ -365,7 +379,7 @@ h1 {
 }
 
 .button-primary:hover {
-  background: #f58a52;
+  background: #454343;
 }
 
 .button-secondary {
@@ -407,7 +421,7 @@ h1 {
 .social-row {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
 }
 
 .identity-links {
@@ -432,17 +446,18 @@ h1 {
 .social-link {
   width: 32px;
   height: 32px;
-  border: 1px solid var(--accent);
-  border-radius: 50%;
-  color: var(--accent);
+  border: 0;
+  border-radius: 0;
+  color: #333232;
+  background: transparent;
   display: grid;
   place-items: center;
   transition: background-color 200ms ease-out, color 200ms ease-out;
 }
 
 .social-link:hover {
-  color: #ffffff;
-  background: var(--accent);
+  color: var(--accent);
+  background: transparent;
 }
 
 .content-column {
@@ -484,7 +499,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: var(--feature-gap);
-  padding: 40px 0 20px;
+  padding: 40px 0 0;
 }
 
 .hero-caption h2,
@@ -510,7 +525,7 @@ h1 {
 }
 
 .project-copy h3 {
-  font-size: 22px;
+  font-size: 20px;
   letter-spacing: -0.6px;
   font-weight: 600;
 }
@@ -554,7 +569,7 @@ h1 {
 .work-toggle button {
   min-width: 80px;
   min-height: 36px;
-  padding: 0 12px;
+  padding: 0 22px;
   border: 0;
   border-radius: 999px;
   color: var(--subtle-ink);
@@ -698,7 +713,7 @@ h1 {
 .project-copy > div {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .project-tags {
@@ -731,16 +746,17 @@ h1 {
 
 .project-copy > p,
 .section-intro p {
-  color: var(--muted-ink);
-  font-size: 15px;
-  line-height: 1.5;
-  letter-spacing: 0;
+  color: var(--body-copy);
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  font-size: var(--body-copy-size);
+  line-height: var(--body-copy-line-height);
+  letter-spacing: var(--body-copy-tracking);
   font-weight: 400;
   text-wrap: pretty;
 }
 
 .project-copy > p {
-  letter-spacing: 0;
+  letter-spacing: var(--body-copy-tracking);
   font-weight: 400;
 }
 
@@ -904,7 +920,7 @@ h1 {
 }
 
 .footer-links a:hover {
-  color: var(--ink);
+  color: var(--accent);
 }
 
 @media (max-width: 1199px) {
@@ -939,7 +955,7 @@ h1 {
   }
 
   h1 {
-    font-size: 58px;
+    font-size: 40px;
   }
 
   .content-column {
@@ -948,6 +964,11 @@ h1 {
 }
 
 @media (max-width: 767px) {
+  .preloader-copy {
+    font-size: 18px;
+    letter-spacing: -0.36px;
+  }
+
   .mobile-header {
     position: fixed;
     z-index: 20;
@@ -1046,7 +1067,7 @@ h1 {
 
   h1 {
     max-width: 520px;
-    font-size: 48px;
+    font-size: 32px;
     line-height: 1.2;
     letter-spacing: -0.4px;
   }
