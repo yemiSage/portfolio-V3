@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import {
   ArrowDown,
   ArrowLeft2,
@@ -10,7 +11,7 @@ import {
   Whatsapp,
 } from "iconsax-reactjs";
 
-import portraitImage from "../assets/figma/portrait.png";
+import FullScreenPreloader from "./components/FullScreenPreloader";
 import tasafricaImage from "../assets/figma/tasafrica.png";
 import limestoneImage from "../assets/figma/limestone.png";
 import xeruitImage from "../assets/figma/xeruit.png";
@@ -28,6 +29,8 @@ import antigravityLogo from "../assets/figma/antigravity.png";
 import codexLogo from "../assets/figma/codex.svg";
 import vsCodeLogo from "../assets/figma/vs-code.svg";
 import claudeLogo from "../assets/figma/claude.svg";
+
+const portraitImage = "/portfolio-logo.png";
 
 const projects = [
   {
@@ -143,6 +146,8 @@ function App() {
   const [activeWork, setActiveWork] = useState("projects");
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isPageScrolling, setIsPageScrolling] = useState(false);
+  const [showPreloader, setShowPreloader] = useState(true);
 
   const closeLightbox = () => setLightboxIndex(null);
   const showPreviousShot = () => setLightboxIndex((index) => (index - 1 + shots.length) % shots.length);
@@ -174,12 +179,43 @@ function App() {
       if (event.key === "Escape") setMobileMenuOpen(false);
     };
 
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
   }, [mobileMenuOpen]);
 
+  useEffect(() => {
+    let scrollEndTimer;
+    const updateScrollState = () => {
+      setIsPageScrolling(true);
+      window.clearTimeout(scrollEndTimer);
+      scrollEndTimer = window.setTimeout(() => setIsPageScrolling(false), 160);
+    };
+
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    return () => {
+      window.clearTimeout(scrollEndTimer);
+      window.removeEventListener("scroll", updateScrollState);
+    };
+  }, []);
+
   return (
-    <main className="portfolio" id="top" data-node-id="3549:1194">
+    <>
+      <AnimatePresence>
+        {showPreloader && (
+          <FullScreenPreloader key="portfolio-preloader" onComplete={() => setShowPreloader(false)} />
+        )}
+      </AnimatePresence>
+
+      <main
+        className={`portfolio${isPageScrolling ? " is-scrolling" : ""}`}
+        id="top"
+        data-node-id="3549:1194"
+      >
       <header className="mobile-header">
         <a className="portrait mobile-brand" href="#top" aria-label="Back to the top">
           <img src={portraitImage} alt="Opeyemi Adegboye" />
@@ -214,9 +250,15 @@ function App() {
       <div className="portfolio-grid">
         <aside className="identity-column" aria-label="Introduction">
           <div className="identity-main">
-            <a className="portrait" href="#top" aria-label="Back to the top">
-              <img src={portraitImage} alt="Opeyemi Adegboye" />
-            </a>
+            <div className="identity-top">
+              <a className="portrait" href="#top" aria-label="Back to the top">
+                <img src={portraitImage} alt="Opeyemi Adegboye" />
+              </a>
+              <nav className="identity-links" aria-label="Profile links">
+                <a href="#about">About Me</a>
+                <a href="mailto:adegboyeopeyemi065@gmail.com?subject=Resume%20request">Resume</a>
+              </nav>
+            </div>
 
             <div className="intro-stack" id="about">
               <div className="intro-copy">
@@ -256,18 +298,36 @@ function App() {
                 </SocialLink>
               </div>
             </div>
-            <nav className="identity-links" aria-label="Profile links">
-              <a href="#about">About Me</a>
-              <a href="mailto:adegboyeopeyemi065@gmail.com?subject=Resume%20request">Resume</a>
-            </nav>
           </div>
         </aside>
 
         <section className="content-column" aria-label="Portfolio content">
-          <section className="hero-panel" aria-labelledby="designing-heading">
+          <section className="hero-panel" aria-label="Portfolio showreel and work navigation">
             <div className="hero-media" aria-label="Showreel placeholder" />
             <div className="hero-caption">
-              <h2 id="designing-heading">Designing with clarity, building with intent.</h2>
+              <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeWork === "projects"}
+                  className={activeWork === "projects" ? "is-selected" : ""}
+                  onClick={() => {
+                    setActiveWork("projects");
+                    closeLightbox();
+                  }}
+                >
+                  Projects
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeWork === "shots"}
+                  className={activeWork === "shots" ? "is-selected" : ""}
+                  onClick={() => setActiveWork("shots")}
+                >
+                  Shots
+                </button>
+              </div>
               <a className="scroll-link" href="#work">
                 <span>Scroll to explore</span>
                 <ArrowDown size={24} color="currentColor" variant="Linear" />
@@ -276,30 +336,6 @@ function App() {
           </section>
 
           <section className="projects" id="work" aria-label="Selected projects">
-            <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeWork === "projects"}
-                className={activeWork === "projects" ? "is-selected" : ""}
-                onClick={() => {
-                  setActiveWork("projects");
-                  closeLightbox();
-                }}
-              >
-                Projects
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={activeWork === "shots"}
-                className={activeWork === "shots" ? "is-selected" : ""}
-                onClick={() => setActiveWork("shots")}
-              >
-                Shots
-              </button>
-            </div>
-
             {activeWork === "projects" ? (
               projects.map((project) => <Project key={project.name} project={project} />)
             ) : (
@@ -388,7 +424,8 @@ function App() {
           </button>
         </div>
       )}
-    </main>
+      </main>
+    </>
   );
 }
 
