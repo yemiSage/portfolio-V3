@@ -12,6 +12,8 @@ import {
 } from "iconsax-reactjs";
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
+import LimestoneCaseStudy from "./components/LimestoneCaseStudy";
+import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
 import tasafricaImage from "../assets/figma/tasafrica.png";
 import limestoneImage from "../assets/figma/limestone.png";
 import xeruitImage from "../assets/figma/xeruit.png";
@@ -43,6 +45,7 @@ const projects = [
   {
     name: "Limestone App",
     image: limestoneImage,
+    href: "/projects/limestone",
     tags: ["Community", "Security", "Real Estate", "B2B"],
     description:
       "Built a scalable design system and discovery flows that connect African talent with global scouts.",
@@ -116,9 +119,13 @@ function Project({ project }) {
     event.currentTarget.style.setProperty("--tilt-x", "0deg");
   };
 
+  const Card = project.href ? "a" : "article";
+
   return (
-    <article
+    <Card
       className="project-card"
+      href={project.href}
+      aria-label={project.href ? `View ${project.name} case study` : undefined}
       onPointerMove={handlePointerMove}
       onPointerLeave={resetTilt}
     >
@@ -138,16 +145,21 @@ function Project({ project }) {
         src={project.image}
         alt={`${project.name} product interface`}
       />
-    </article>
+    </Card>
   );
 }
 
 function App() {
+  const isLimestoneCaseStudy = window.location.pathname.replace(/\/+$/, "") === "/projects/limestone";
+  const isResumePage = window.location.pathname.replace(/\/+$/, "") === "/resume";
+  const [activePanel, setActivePanel] = useState(isResumePage ? "resume" : "home");
   const [activeWork, setActiveWork] = useState("projects");
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
-  const [showPreloader, setShowPreloader] = useState(true);
+  const [showPreloader, setShowPreloader] = useState(() => {
+    return !isResumePage && sessionStorage.getItem("portfolio-preloader-seen") !== "true";
+  });
 
   const closeLightbox = () => setLightboxIndex(null);
   const showPreviousShot = () => setLightboxIndex((index) => (index - 1 + shots.length) % shots.length);
@@ -203,11 +215,38 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const syncPanelWithHistory = () => {
+      setActivePanel(window.location.pathname.replace(/\/+$/, "") === "/resume" ? "resume" : "home");
+    };
+
+    window.addEventListener("popstate", syncPanelWithHistory);
+    return () => window.removeEventListener("popstate", syncPanelWithHistory);
+  }, []);
+
+  const showResume = (event) => {
+    event.preventDefault();
+    if (activePanel !== "resume") window.history.pushState({}, "", "/resume");
+    setActivePanel("resume");
+    window.scrollTo(0, 0);
+  };
+
+  const showHome = (event) => {
+    event?.preventDefault();
+    if (activePanel !== "home") window.history.pushState({}, "", "/");
+    setActivePanel("home");
+    window.requestAnimationFrame(() => document.getElementById("about")?.scrollIntoView({ behavior: "auto" }));
+  };
+
+  if (isLimestoneCaseStudy) {
+    return <LimestoneCaseStudy />;
+  }
+
   return (
     <>
       <AnimatePresence>
         {showPreloader && (
-          <FullScreenPreloader key="portfolio-preloader" onComplete={() => setShowPreloader(false)} />
+          <FullScreenPreloader key="portfolio-preloader" onComplete={() => { sessionStorage.setItem("portfolio-preloader-seen", "true"); setShowPreloader(false); }} />
         )}
       </AnimatePresence>
 
@@ -236,13 +275,8 @@ function App() {
         </button>
         {mobileMenuOpen && (
           <nav className="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
-            <a href="#about" onClick={() => setMobileMenuOpen(false)}>About Me</a>
-            <a
-              href="mailto:adegboyeopeyemi065@gmail.com?subject=Resume%20request"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Resume
-            </a>
+            <a href="#about" onClick={(event) => { showHome(event); setMobileMenuOpen(false); }}>About Me</a>
+            <ResponsiveResumeLink onClick={() => setMobileMenuOpen(false)} />
           </nav>
         )}
       </header>
@@ -255,27 +289,22 @@ function App() {
                 <img src={portraitImage} alt="Opeyemi Adegboye" />
               </a>
               <nav className="identity-links" aria-label="Profile links">
-                <a href="#about">About Me</a>
-                <a href="mailto:adegboyeopeyemi065@gmail.com?subject=Resume%20request">Resume</a>
+                <a href="#about" onClick={showHome}>About Me</a>
+                <ResponsiveResumeLink onClick={showResume} isActive={activePanel === "resume"} />
               </nav>
             </div>
 
             <div className="intro-stack" id="about">
               <div className="intro-copy">
                 <div className="intro-heading">
-                  <p className="greeting">Hi 👋, i’m Yemi.</p>
-                  <h1 aria-label="Digital Product Designer">
-                    <span className="title-line"><span>Digital Product Designer</span></span>
+                  <p className="greeting">Need A</p>
+                  <h1 aria-label="Product Designer Who Codes?">
+                    <span className="title-line"><span>Product Designer Who Codes?</span></span>
                   </h1>
                 </div>
                 <p className="intro-description">
-                  <strong>
-                    An electrical engineer who discovered that pixels conduct ideas better than wires.
-                  </strong>{" "}
-                  For the past four years, I have worked across AI, fintech, logistics, EdTech, sports,
-                  social, and talent products, turning complicated problems into experiences that feel simple.
-                  At Xeruit, I helped take the product from an idea to V1, welcoming thousands of users within
-                  its first few weeks.
+                  Hi, I am Yemi, an Electrical and Electronics Engineer who discovered that pixels communicate ideas better than wires. Today, I design digital products that improve user engagement and satisfaction while supporting business goals. I also bring my designs to life by building functional frontend experiences. {" "}
+                  <strong>At Xeruit, I helped take the product from an idea to V1, onboarding 2,999 users within the first week of launch.</strong>
                 </p>
               </div>
 
@@ -305,7 +334,11 @@ function App() {
           </div>
         </aside>
 
-        <section className="content-column" aria-label="Portfolio content">
+        <section className={`content-column${activePanel === "resume" ? " content-column-resume" : ""}`} aria-label="Portfolio content">
+          {activePanel === "resume" ? (
+            <ResumeContent />
+          ) : (
+            <>
           <section className="hero-panel" aria-label="Portfolio showreel and work navigation">
             <div className="hero-media" aria-label="Showreel placeholder" />
             <div className="hero-caption">
@@ -392,8 +425,8 @@ function App() {
                 <div>
                   <a href="#top">Articles</a>
                   <a href="#work">Projects</a>
-                  <a href="#top">About Me</a>
-                  <a href="mailto:adegboyeopeyemi065@gmail.com?subject=Resume%20request">Resume</a>
+                  <a href="#about" onClick={showHome}>About Me</a>
+                  <ResponsiveResumeLink onClick={showResume} isActive={activePanel === "resume"} />
                 </div>
                 <div>
                   <a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noreferrer">Instagram</a>
@@ -404,6 +437,8 @@ function App() {
               </div>
             </nav>
           </footer>
+            </>
+          )}
         </section>
       </div>
 
