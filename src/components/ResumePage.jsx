@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
-import pdfWorkerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
-
-GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+import { ArrowLeft2 } from "iconsax-reactjs";
 
 export const resumeViewUrl =
   "https://drive.google.com/file/d/1EQeSjevkPsXHZVUMtA8nd28qx604djE_/view?usp=sharing";
@@ -21,6 +18,11 @@ function ResumePages() {
 
     const renderResume = async () => {
       try {
+        const [{ getDocument, GlobalWorkerOptions }, workerModule] = await Promise.all([
+          import("pdfjs-dist"),
+          import("pdfjs-dist/build/pdf.worker.min.mjs?url"),
+        ]);
+        GlobalWorkerOptions.workerSrc = workerModule.default;
         loadingTask = getDocument({ url: "/resume/opeyemi-adegboye-resume.pdf" });
         const pdf = await loadingTask.promise;
         if (!isCurrent) return;
@@ -70,12 +72,21 @@ function ResumePages() {
   );
 }
 
-export function ResponsiveResumeLink({ className = "", onClick, isActive = false }) {
+export function ResponsiveResumeLink({
+  className = "",
+  onDesktopClick,
+  onMobileClick,
+  isActive = false,
+}) {
   const linkClassName = `${className}${isActive ? " is-active" : ""}`.trim();
 
   return (
     <>
-      <a className={`resume-link-desktop ${linkClassName}`.trim()} href="/resume" onClick={onClick}>
+      <a
+        className={`resume-link-desktop ${linkClassName}`.trim()}
+        href="/resume"
+        onClick={onDesktopClick}
+      >
         Resume
       </a>
       <a
@@ -83,7 +94,7 @@ export function ResponsiveResumeLink({ className = "", onClick, isActive = false
         href={resumeViewUrl}
         target="_blank"
         rel="noreferrer"
-        onClick={onClick}
+        onClick={onMobileClick}
       >
         Resume
       </a>
@@ -91,11 +102,14 @@ export function ResponsiveResumeLink({ className = "", onClick, isActive = false
   );
 }
 
-export default function ResumeContent() {
+export default function ResumeContent({ onBack }) {
   return (
     <section className="resume-viewer" aria-labelledby="resume-heading">
       <header className="resume-toolbar">
-        <p id="resume-heading">My Resume</p>
+        <a className="resume-back" id="resume-heading" href="#about" onClick={onBack}>
+          <ArrowLeft2 size={18} color="currentColor" variant="Linear" aria-hidden="true" />
+          <span>Go Back</span>
+        </a>
         <div className="resume-actions">
           <a
             href={resumeDownloadUrl}

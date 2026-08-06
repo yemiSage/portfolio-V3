@@ -557,6 +557,25 @@ h1 {
   font-weight: 700;
 }
 
+.resume-back {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #777777;
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -0.28px;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.resume-back:hover {
+  color: #333232;
+}
+
 .content-column-resume .resume-frame-shell {
   min-height: calc(100vh - 92px);
   border: 0;
@@ -612,10 +631,6 @@ h1 {
 
 .identity-links a:hover {
   color: var(--ink);
-}
-
-.identity-links a.is-active {
-  color: var(--accent);
 }
 
 .social-link {
@@ -861,6 +876,10 @@ h1 {
   @keyframes lightbox-in {
     from { opacity: 0; }
     to { opacity: 1; }
+  }
+
+  .lightbox-progress {
+    display: none;
   }
 
 .project-card {
@@ -2110,6 +2129,18 @@ h1 {
     padding-bottom: 0;
   }
 
+  .intro-description {
+    padding-bottom: 20px;
+  }
+
+  .work-toggle {
+    padding: 2px;
+  }
+
+  .scroll-link {
+    gap: 4px;
+  }
+
   .hero-caption h2 {
     color: #3b3b3b;
     font-size: 18px;
@@ -2121,7 +2152,52 @@ h1 {
   }
 
   .toolbox {
-    padding-top: 56px;
+    padding-top: 0;
+  }
+
+  .projects > article.project-card:nth-of-type(2) .project-copy {
+    padding-bottom: 0;
+  }
+
+  .lightbox {
+    padding: 72px 12px 56px;
+    touch-action: pan-y;
+  }
+
+  .lightbox-image {
+    width: 100%;
+    max-width: none;
+    max-height: calc(100dvh - 152px);
+    border-radius: 8px;
+  }
+
+  .lightbox-nav {
+    display: none;
+  }
+
+  .lightbox-progress {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    width: min(100% - 32px, 360px);
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    transform: translateX(-50%);
+  }
+
+  .lightbox-progress span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex: 0 0 5px;
+    background: rgba(255, 255, 255, 0.35);
+    transition: background-color 180ms ease, transform 180ms ease;
+  }
+
+  .lightbox-progress span.is-active {
+    background: #ffffff;
+    transform: scale(1.45);
   }
 
   .shots-grid {

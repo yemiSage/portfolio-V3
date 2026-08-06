@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import {
   ArrowDown,
@@ -160,6 +160,7 @@ function App() {
   const [showPreloader, setShowPreloader] = useState(() => {
     return !isResumePage && sessionStorage.getItem("portfolio-preloader-seen") !== "true";
   });
+  const lightboxPointerStart = useRef(null);
 
   const closeLightbox = () => setLightboxIndex(null);
   const showPreviousShot = () => setLightboxIndex((index) => (index - 1 + shots.length) % shots.length);
@@ -276,7 +277,7 @@ function App() {
         {mobileMenuOpen && (
           <nav className="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
             <a href="#about" onClick={(event) => { showHome(event); setMobileMenuOpen(false); }}>About Me</a>
-            <ResponsiveResumeLink onClick={() => setMobileMenuOpen(false)} />
+            <ResponsiveResumeLink onMobileClick={() => setMobileMenuOpen(false)} />
           </nav>
         )}
       </header>
@@ -290,7 +291,7 @@ function App() {
               </a>
               <nav className="identity-links" aria-label="Profile links">
                 <a href="#about" onClick={showHome}>About Me</a>
-                <ResponsiveResumeLink onClick={showResume} isActive={activePanel === "resume"} />
+                <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
               </nav>
             </div>
 
@@ -336,7 +337,7 @@ function App() {
 
         <section className={`content-column${activePanel === "resume" ? " content-column-resume" : ""}`} aria-label="Portfolio content">
           {activePanel === "resume" ? (
-            <ResumeContent />
+            <ResumeContent onBack={showHome} />
           ) : (
             <>
           <section className="hero-panel" aria-label="Portfolio showreel and work navigation">
@@ -426,7 +427,7 @@ function App() {
                   <a href="#top">Articles</a>
                   <a href="#work">Projects</a>
                   <a href="#about" onClick={showHome}>About Me</a>
-                  <ResponsiveResumeLink onClick={showResume} isActive={activePanel === "resume"} />
+                  <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
                 </div>
                 <div>
                   <a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noreferrer">Instagram</a>
@@ -443,7 +444,25 @@ function App() {
       </div>
 
       {lightboxIndex !== null && (
-        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Portfolio design shot" onMouseDown={(event) => event.target === event.currentTarget && closeLightbox()}>
+        <div
+          className="lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Portfolio design shot"
+          onMouseDown={(event) => event.target === event.currentTarget && closeLightbox()}
+          onPointerDown={(event) => {
+            lightboxPointerStart.current = event.clientX;
+          }}
+          onPointerUp={(event) => {
+            if (lightboxPointerStart.current === null) return;
+            const delta = event.clientX - lightboxPointerStart.current;
+            lightboxPointerStart.current = null;
+            if (Math.abs(delta) < 48) return;
+            if (delta < 0) showNextShot();
+            else showPreviousShot();
+          }}
+          onPointerCancel={() => { lightboxPointerStart.current = null; }}
+        >
           <button className="lightbox-close" type="button" onClick={closeLightbox} aria-label="Close image viewer">
             <CloseCircle size={30} color="currentColor" variant="Linear" />
           </button>
@@ -461,6 +480,11 @@ function App() {
           <button className="lightbox-nav lightbox-next" type="button" onClick={showNextShot} aria-label="Next image">
             <ArrowRight2 size={32} color="currentColor" variant="Linear" />
           </button>
+          <div className="lightbox-progress" aria-label={`Image ${lightboxIndex + 1} of ${shots.length}`}>
+            {shots.map((_, index) => (
+              <span key={index} className={index === lightboxIndex ? "is-active" : ""} />
+            ))}
+          </div>
         </div>
       )}
       </main>
