@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft2, ArrowRight2 } from "iconsax-reactjs";
+import { ArrowLeft2, CloseCircle, HamburgerMenu } from "iconsax-reactjs";
 
 const portraitImage = "/portfolio-logo.svg";
 
@@ -52,6 +52,8 @@ function CaseStudySection({ id, eyebrow, title, children, className = "" }) {
 
 export default function LimestoneCaseStudy() {
   const [activeSection, setActiveSection] = useState("overview");
+  const [jumpMenuOpen, setJumpMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -82,13 +84,53 @@ export default function LimestoneCaseStudy() {
           <a className="case-study-avatar" href="/" aria-label="Return to portfolio home">
             <img src={portraitImage} alt="Opeyemi Adegboye" />
           </a>
+          <button
+            className="case-study-menu-toggle"
+            type="button"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="case-study-mobile-menu"
+            onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}
+          >
+            {mobileMenuOpen ? (
+              <CloseCircle size={26} color="currentColor" variant="Linear" aria-hidden="true" />
+            ) : (
+              <HamburgerMenu size={26} color="currentColor" variant="Linear" aria-hidden="true" />
+            )}
+          </button>
         </div>
 
+        {mobileMenuOpen && (
+          <nav className="case-study-mobile-menu" id="case-study-mobile-menu" aria-label="Mobile navigation">
+            <a href="/#about" onClick={() => setMobileMenuOpen(false)}>About Me</a>
+            <a
+              href="https://drive.google.com/file/d/1EQeSjevkPsXHZVUMtA8nd28qx604djE_/view?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Resume
+            </a>
+          </nav>
+        )}
+
         <nav className="case-study-index" aria-label="Sections on this page">
-          <a className="case-study-index-back" href="/#work">
-            <ArrowLeft2 size={18} color="currentColor" variant="Linear" aria-hidden="true" />
-            <span>Back to projects</span>
-          </a>
+          <div className="case-study-index-top">
+            <a className="case-study-index-back" href="/#work">
+              <ArrowLeft2 size={18} color="currentColor" variant="Linear" aria-hidden="true" />
+              <span>Back to projects</span>
+            </a>
+            <button
+              className="case-study-jump"
+              type="button"
+              aria-expanded={jumpMenuOpen}
+              aria-controls="case-study-jump-menu"
+              onClick={() => setJumpMenuOpen((isOpen) => !isOpen)}
+            >
+              <span className="case-study-jump-icon" aria-hidden="true">↵</span>
+              <span>Jump to</span>
+            </button>
+          </div>
           {sections.map(([id, label]) => (
             <a
               key={id}
@@ -99,6 +141,20 @@ export default function LimestoneCaseStudy() {
               <span>{label}</span>
             </a>
           ))}
+          {jumpMenuOpen && (
+            <div className="case-study-jump-menu" id="case-study-jump-menu">
+              {sections.map(([id, label]) => (
+                <a
+                  key={id}
+                  className={activeSection === id ? "is-active" : ""}
+                  href={`#${id}`}
+                  onClick={() => setJumpMenuOpen(false)}
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          )}
         </nav>
 
         <div className="case-study-rail-meta">
@@ -250,14 +306,6 @@ export default function LimestoneCaseStudy() {
             <article><strong>Self-service</strong><p>Residents can complete onboarding without manager-led account creation.</p></article>
             <article><strong>Faster response</strong><p>Emergency alerts are easier to find and send with location context.</p></article>
             <article><strong>Clearer system</strong><p>Community services are organised within one consistent dashboard.</p></article>
-          </div>
-          <div className="case-study-store-links">
-            <a href="https://play.google.com/store/apps/details?id=com.limestone.community&hl=en-US&pli=1" target="_blank" rel="noreferrer">
-              View on Google Play <ArrowRight2 size={17} color="currentColor" variant="Linear" />
-            </a>
-            <a href="https://apps.apple.com/ng/app/my-limestone/id6449851791" target="_blank" rel="noreferrer">
-              View on the App Store <ArrowRight2 size={17} color="currentColor" variant="Linear" />
-            </a>
           </div>
         </CaseStudySection>
 
