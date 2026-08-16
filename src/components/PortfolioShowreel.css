@@ -1,0 +1,300 @@
+.yemi-reel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: var(--yemi-foreground);
+  background: var(--yemi-background);
+  cursor: pointer;
+  isolation: isolate;
+  container-type: inline-size;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.yemi-reel-stage,
+.yemi-reel-scene {
+  position: absolute;
+  inset: 0;
+}
+
+.yemi-reel-stage {
+  overflow: hidden;
+  background: var(--yemi-background);
+}
+
+.yemi-reel-stage:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.78);
+  outline-offset: -4px;
+}
+
+.yemi-reel-scene {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 7% 8%;
+  color: var(--yemi-foreground);
+  background: var(--yemi-background);
+  font-family: "Bricolage Grotesque", "Inter", sans-serif;
+  font-weight: 600;
+  font-synthesis: none;
+  will-change: opacity;
+}
+
+.yemi-intro-lockup {
+  width: min(82%, 660px);
+  text-align: center;
+}
+
+.yemi-intro-lockup h2,
+.yemi-intro-lockup p,
+.yemi-kinetic-line {
+  margin: 0;
+}
+
+.yemi-intro-lockup h2 {
+  font-family: "Funnel Display", "Bricolage Grotesque", sans-serif;
+  font-size: 32px;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  font-weight: 700;
+}
+
+.yemi-intro-role {
+  margin-top: 2.8% !important;
+  font-size: 20px;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+
+.yemi-kinetic-line,
+.yemi-kinetic-row,
+.yemi-intent-line {
+  color: var(--yemi-foreground);
+  font-size: clamp(21px, 4.8cqw, 42px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.yemi-intent-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  translate: -50% -50%;
+  will-change: transform;
+}
+
+.yemi-intent-tail {
+  position: absolute;
+  left: calc(100% + clamp(7px, 1.4cqw, 12px));
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(7px, 1.4cqw, 12px);
+}
+
+.yemi-kinetic-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(7px, 1.4cqw, 12px);
+}
+
+.yemi-kinetic-row > span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.yemi-muted-word {
+  color: rgba(245,245,243,0.38);
+}
+
+.yemi-inline-media {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: clamp(54px, 9.8cqw, 84px);
+  height: clamp(30px, 5.5cqw, 47px);
+  overflow: hidden;
+  border-radius: clamp(3px, 0.6cqw, 6px);
+  background: #191919;
+}
+
+.yemi-inline-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.yemi-inline-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.82) contrast(1.08);
+  transform: scale(1.12);
+  animation: yemi-media-drift 1.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.yemi-outcome-media {
+  flex: 0 0 auto;
+  will-change: opacity, transform;
+}
+
+.yemi-persistent-outcomes {
+  position: absolute;
+  inset: 0;
+  color: var(--yemi-foreground);
+  font-size: clamp(21px, 4.8cqw, 42px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.yemi-persistent-lead {
+  position: absolute;
+  top: 50%;
+  right: 53%;
+  width: clamp(76px, 15cqw, 128px);
+  height: 1em;
+  color: rgba(245,245,243,0.38);
+  translate: 0 -50%;
+  will-change: transform;
+}
+
+.yemi-persistent-lead > span {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  text-align: right;
+}
+
+.yemi-outcomes-tail {
+  position: absolute;
+  top: 50%;
+  left: 49%;
+  width: 47%;
+  height: max(48px, 6cqw);
+  translate: 0 -50%;
+  will-change: transform;
+}
+
+.yemi-outcome-beat {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(7px, 1.4cqw, 12px);
+  translate: 0 -50%;
+  will-change: opacity, transform;
+}
+
+.yemi-connector-scene {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  font-size: clamp(21px, 4.8cqw, 42px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+  translate: -50% -50%;
+}
+
+.yemi-reel-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 30;
+  height: 1px;
+  background: rgba(255,255,255,0.42);
+  pointer-events: none;
+  transform-origin: left;
+}
+
+.yemi-reel-controls {
+  position: absolute;
+  right: max(8px, 2%);
+  bottom: max(8px, 3%);
+  z-index: 40;
+  display: flex;
+  gap: 6px;
+}
+
+.yemi-reel-control {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,0.24);
+  border-radius: 50%;
+  color: white;
+  background: rgba(5,5,5,0.72);
+  opacity: 0.34;
+  cursor: pointer;
+  transition: opacity 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.yemi-reel:hover .yemi-reel-control,
+.yemi-reel-control:focus-visible,
+.yemi-reel.is-paused .yemi-reel-control {
+  opacity: 0.94;
+}
+
+.yemi-reel-control:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.yemi-play-icon {
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid currentColor;
+}
+
+.yemi-pause-icon {
+  width: 8px;
+  height: 10px;
+  border-right: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+}
+
+@keyframes yemi-media-drift {
+  from { transform: scale(1.03) translateX(-2%); }
+  to { transform: scale(1.13) translateX(2%); }
+}
+
+@container (max-width: 520px) {
+  .yemi-reel-scene { padding-inline: 6%; }
+  .yemi-intro-lockup { width: 90%; }
+  .yemi-intro-lockup h2 { font-size: 24px; }
+  .yemi-intro-role { font-size: 18px; }
+  .yemi-kinetic-line,
+  .yemi-kinetic-row,
+  .yemi-intent-line { font-size: clamp(19px, 5.9cqw, 30px); }
+  .yemi-persistent-outcomes { font-size: clamp(18px, 5.8cqw, 29px); }
+  .yemi-connector-scene { font-size: clamp(18px, 5.8cqw, 29px); }
+  .yemi-persistent-lead { right: 55%; width: 31%; }
+  .yemi-outcomes-tail { left: 47%; width: 51%; }
+  .yemi-reel-control { width: 34px; height: 34px; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .yemi-reel-control { opacity: 0.62; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yemi-inline-frame img { animation: none; transform: none; }
+}

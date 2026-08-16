@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import {
   ArrowDown,
@@ -13,7 +13,9 @@ import {
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
 import LimestoneCaseStudy from "./components/LimestoneCaseStudy";
+import PortfolioShowreel from "./components/PortfolioShowreel";
 import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
+import StreamingText from "./components/StreamingText";
 import tasafricaImage from "../assets/figma/tasafrica.png";
 import limestoneImage from "../assets/figma/limestone.png";
 import xeruitImage from "../assets/figma/xeruit.png";
@@ -33,6 +35,16 @@ import vsCodeLogo from "../assets/figma/vs-code.svg";
 import claudeLogo from "../assets/figma/claude.svg";
 
 const portraitImage = "/portfolio-logo.svg";
+
+const introSegments = [
+  {
+    text: "Hi, I am Yemi, an Electrical and Electronics Engineer who discovered that pixels communicate ideas better than wires. Today, I design digital products that improve user engagement and satisfaction while supporting business goals. I also bring my designs to life by building functional frontend experiences.",
+  },
+  {
+    text: "At Xeruit, I helped take the product from an idea to V1, onboarding 2,999 users within the first week of launch.",
+    emphasis: true,
+  },
+];
 
 const projects = [
   {
@@ -157,10 +169,12 @@ function App() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
+  const [hasIntroStreamed, setHasIntroStreamed] = useState(false);
   const [showPreloader, setShowPreloader] = useState(() => {
     return !isResumePage && sessionStorage.getItem("portfolio-preloader-seen") !== "true";
   });
   const lightboxPointerStart = useRef(null);
+  const handleIntroStreamingComplete = useCallback(() => setHasIntroStreamed(true), []);
 
   const closeLightbox = () => setLightboxIndex(null);
   const showPreviousShot = () => setLightboxIndex((index) => (index - 1 + shots.length) % shots.length);
@@ -303,13 +317,15 @@ function App() {
                     <span className="title-line"><span>Product Designer Who Codes?</span></span>
                   </h1>
                 </div>
-                <p className="intro-description">
-                  Hi, I am Yemi, an Electrical and Electronics Engineer who discovered that pixels communicate ideas better than wires. Today, I design digital products that improve user engagement and satisfaction while supporting business goals. I also bring my designs to life by building functional frontend experiences. {" "}
-                  <strong>At Xeruit, I helped take the product from an idea to V1, onboarding 2,999 users within the first week of launch.</strong>
-                </p>
+                <StreamingText
+                  className="intro-description"
+                  complete={hasIntroStreamed}
+                  onComplete={handleIntroStreamingComplete}
+                  segments={introSegments}
+                />
               </div>
 
-              <div className="button-row">
+              <div className={`button-row intro-followup${hasIntroStreamed ? " is-revealed" : ""}`}>
                 <a className="button button-primary" href="mailto:adegboyeopeyemi065@gmail.com">
                   Contact Me
                 </a>
@@ -341,7 +357,9 @@ function App() {
           ) : (
             <>
           <section className="hero-panel" aria-label="Portfolio showreel and work navigation">
-            <div className="hero-media" aria-label="Showreel placeholder" />
+            <div className="hero-media">
+              <PortfolioShowreel />
+            </div>
             <div className="hero-caption">
               <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
                 <button

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft2, CloseCircle, HamburgerMenu } from "iconsax-reactjs";
 
 const portraitImage = "/portfolio-logo.svg";
@@ -50,6 +50,89 @@ function CaseStudySection({ id, eyebrow, title, children, className = "" }) {
   );
 }
 
+function SectionNavigation({ activeSection, jumpMenuOpen, onJumpMenuToggle, onSectionSelect }) {
+  const navigationRef = useRef(null);
+  const [highlight, setHighlight] = useState({ top: 0, height: 0, visible: false });
+
+  const moveHighlight = useCallback((sectionId) => {
+    const navigation = navigationRef.current;
+    const target = navigation?.querySelector(`[data-section-id="${sectionId}"]`);
+    if (!navigation || !target) return;
+
+    setHighlight({
+      top: target.offsetTop,
+      height: target.offsetHeight,
+      visible: true,
+    });
+  }, []);
+
+  useEffect(() => {
+    moveHighlight(activeSection);
+    const handleResize = () => moveHighlight(activeSection);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [activeSection, moveHighlight]);
+
+  const handlePointerEnter = (event) => {
+    if (event.pointerType !== "touch") moveHighlight(event.currentTarget.dataset.sectionId);
+  };
+
+  const handlePointerLeave = (event) => {
+    if (event.pointerType !== "touch") moveHighlight(activeSection);
+  };
+
+  return (
+    <nav className="case-study-index" aria-label="Sections on this page" ref={navigationRef} onPointerLeave={handlePointerLeave}>
+      <div className="case-study-index-top">
+        <a className="case-study-index-back" href="/#work">
+          <ArrowLeft2 size={18} color="currentColor" variant="Linear" aria-hidden="true" />
+          <span>Back to projects</span>
+        </a>
+        <button
+          className="case-study-jump"
+          type="button"
+          aria-expanded={jumpMenuOpen}
+          aria-controls="case-study-jump-menu"
+          onClick={onJumpMenuToggle}
+        >
+          <span className="case-study-jump-icon" aria-hidden="true">↵</span>
+          <span>Jump to</span>
+        </button>
+      </div>
+
+      <span
+        aria-hidden="true"
+        className="case-study-nav-highlight"
+        style={{ top: `${highlight.top}px`, height: `${highlight.height}px`, opacity: highlight.visible ? 1 : 0 }}
+      />
+
+      {sections.map(([id, label]) => (
+        <a
+          key={id}
+          className={`case-study-index-link${activeSection === id ? " is-active" : ""}`}
+          data-section-id={id}
+          href={`#${id}`}
+          aria-current={activeSection === id ? "location" : undefined}
+          onPointerEnter={handlePointerEnter}
+          onClick={(event) => onSectionSelect(event, id)}
+        >
+          <span>{label}</span>
+        </a>
+      ))}
+
+      {jumpMenuOpen && (
+        <div className="case-study-jump-menu" id="case-study-jump-menu">
+          {sections.map(([id, label]) => (
+            <a key={id} className={activeSection === id ? "is-active" : ""} href={`#${id}`} onClick={(event) => onSectionSelect(event, id, true)}>
+              {label}
+            </a>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+}
+
 export default function LimestoneCaseStudy() {
   const [activeSection, setActiveSection] = useState("overview");
   const [jumpMenuOpen, setJumpMenuOpen] = useState(false);
@@ -77,9 +160,16 @@ export default function LimestoneCaseStudy() {
     return () => observer.disconnect();
   }, []);
 
+  const handleSectionSelect = (event, id, closeJumpMenu = false) => {
+    event.preventDefault();
+    if (closeJumpMenu) setJumpMenuOpen(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", `#${id}`);
+  };
+
   return (
     <main className="case-study-page">
-      <aside className="case-study-rail" aria-label="Limestone case study navigation">
+      <aside className={`case-study-rail${mobileMenuOpen ? " is-menu-open" : ""}`} aria-label="Limestone case study navigation">
         <div className="case-study-rail-top">
           <a className="case-study-avatar" href="/" aria-label="Return to portfolio home">
             <img src={portraitImage} alt="Opeyemi Adegboye" />
@@ -114,6 +204,13 @@ export default function LimestoneCaseStudy() {
           </nav>
         )}
 
+        <SectionNavigation
+          activeSection={activeSection}
+          jumpMenuOpen={jumpMenuOpen}
+          onJumpMenuToggle={() => setJumpMenuOpen((isOpen) => !isOpen)}
+          onSectionSelect={handleSectionSelect}
+        />
+        {/*
         <nav className="case-study-index" aria-label="Sections on this page">
           <div className="case-study-index-top">
             <a className="case-study-index-back" href="/#work">
@@ -156,6 +253,7 @@ export default function LimestoneCaseStudy() {
             </div>
           )}
         </nav>
+        */}
 
         <div className="case-study-rail-meta">
           <p>Product design case study</p>
