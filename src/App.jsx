@@ -75,6 +75,10 @@ const projects = [
 
 const tools = [
   ["Figma", figmaLogo],
+  ["Google AI Studio", googleAiLogo],
+  ["Antigravity", antigravityLogo],
+  ["Codex", codexLogo],
+  ["Claude", claudeLogo],
   ["HTML and CSS", htmlCssLogo],
   ["Wordpress", wordpressLogo],
   ["Miro", miroLogo],
@@ -83,11 +87,7 @@ const tools = [
   ["Photoshop", photoshopLogo],
   ["Notion", notionLogo],
   ["Trello", trelloLogo],
-  ["Google AI Studio", googleAiLogo],
-  ["Antigravity", antigravityLogo],
-  ["Codex", codexLogo],
   ["VS Code", vsCodeLogo],
-  ["Claude", claudeLogo],
 ];
 
 const contributedProjects = [
@@ -105,7 +105,13 @@ const contributedProjects = [
     projects: [
       { name: "Flxfleet", status: "www.flxfleet.ca", href: "https://www.flxfleet.ca", logoDomain: "flxfleet.ca", description: "Canadian logistics platform for moving, delivery, driver booking, and real-time tracking." },
       { name: "AfternoonPrep", status: "www.afternoonprep.com", href: "https://www.afternoonprep.com", logoDomain: "afternoonprep.com", description: "A UK-based education platform for exam preparation, learning, and student practice." },
-      { name: "The Ark", status: "Check on Appstore", logoDomain: "apple.com" },
+      {
+        name: "The Ark",
+        status: "Check on Play Store",
+        href: "https://play.google.com/store/apps/details?id=com.app.theark&hl=en",
+        logo: "/the-ark-icon.png",
+        description: "A faith community app for connection, Bible study, social sharing, and rewards.",
+      },
     ],
   },
 ];
@@ -156,7 +162,7 @@ function ContributedProjects() {
                   <div className="contribution-thumbnail" aria-hidden="true">
                     <span>{project.name.slice(0, 2)}</span>
                     <img
-                      src={`https://www.google.com/s2/favicons?domain=${project.logoDomain}&sz=128`}
+                      src={project.logo || `https://www.google.com/s2/favicons?domain=${project.logoDomain}&sz=128`}
                       alt=""
                       loading="lazy"
                       onError={(event) => { event.currentTarget.style.display = "none"; }}
@@ -426,13 +432,13 @@ function App() {
               <p className="find-me">Let&apos;s talk</p>
               <div className="social-row">
                 <SocialLink href="https://wa.me/2349122546487" label="WhatsApp">
-                  <Whatsapp size={32} color="currentColor" variant="Linear" />
+                  <Whatsapp size={24} color="currentColor" variant="Linear" />
                 </SocialLink>
                 <SocialLink href="https://www.instagram.com/ope_yemi066/" label="Instagram">
-                  <Instagram size={32} color="currentColor" variant="Linear" />
+                  <Instagram size={24} color="currentColor" variant="Linear" />
                 </SocialLink>
                 <SocialLink href="mailto:adegboyeopeyemi065@gmail.com" label="Email">
-                  <Sms size={32} color="currentColor" variant="Linear" />
+                  <Sms size={24} color="currentColor" variant="Linear" />
                 </SocialLink>
               </div>
             </div>

@@ -197,7 +197,7 @@ h6 {
 .identity-top {
   width: 100%;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
 }
@@ -338,7 +338,11 @@ h1 {
 }
 
 .streaming-text-paragraph + .streaming-text-paragraph {
-  margin-top: 6px;
+  margin-top: 0;
+}
+
+.streaming-text-paragraph:first-child {
+  padding-bottom: 12px;
 }
 
 .intro-followup {
@@ -724,8 +728,8 @@ h1 {
 }
 
 .social-link svg {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
 }
 
 .content-column {
@@ -743,6 +747,14 @@ h1 {
 @media (min-width: 1024px) {
   .content-column {
     padding-right: 36px;
+  }
+
+  .intro-stack {
+    padding-top: 40px;
+  }
+
+  .intro-heading h1 {
+    padding-bottom: 12px;
   }
 }
 
@@ -1995,18 +2007,18 @@ h1 {
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid rgba(28, 28, 28, 0.08);
-    background: rgba(255, 255, 255, 0.72);
-    box-shadow: 0 8px 28px rgba(28, 28, 28, 0.08);
-    -webkit-backdrop-filter: blur(24px) saturate(1.35);
-    backdrop-filter: blur(24px) saturate(1.35);
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: none;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     transition: background-color 180ms ease, backdrop-filter 180ms ease, box-shadow 180ms ease;
   }
 
   .portfolio.is-scrolling .mobile-header {
-    background: rgba(255, 255, 255, 0.62);
-    box-shadow: 0 10px 32px rgba(28, 28, 28, 0.12);
-    -webkit-backdrop-filter: blur(32px) saturate(1.45);
-    backdrop-filter: blur(32px) saturate(1.45);
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: none;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
 
   .content-column-resume .resume-viewer {
@@ -2036,7 +2048,7 @@ h1 {
     align-items: center;
     gap: 4px;
     background: rgba(255, 255, 255, 0.78);
-    box-shadow: 0 6px 18px rgba(28, 28, 28, 0.08);
+    box-shadow: none;
   }
 
   .mobile-contact-button {
@@ -2171,7 +2183,8 @@ h1 {
   }
 
   .contributed-projects {
-    padding-top: 32px;
+    padding-top: 0;
+    padding-bottom: 60px;
   }
 
   .contribution-group {
@@ -2181,6 +2194,10 @@ h1 {
 
   .contribution-item {
     margin-bottom: 24px;
+  }
+
+  .contribution-group:first-child .contribution-item:last-child {
+    margin-bottom: 0;
   }
 
   .contribution-thumbnail {
@@ -2213,6 +2230,14 @@ h1 {
     padding-top: 0;
     color: var(--muted-ink);
     font-weight: 500;
+  }
+
+  .contribution-group:first-child .contribution-year {
+    padding-bottom: 16px;
+  }
+
+  .contribution-group:nth-child(2) .contribution-year {
+    padding-bottom: 20px;
   }
 
   .project-copy h3 {
@@ -2574,7 +2599,15 @@ h1 {
     padding-bottom: 0;
   }
 
+  .hero-media {
+    aspect-ratio: 4 / 5;
+  }
+
   .intro-description {
+    padding-bottom: 20px;
+  }
+
+  .streaming-text-paragraph:first-child {
     padding-bottom: 20px;
   }
 
@@ -2928,7 +2961,7 @@ h1 {
 .case-study-other-screens h4 {
   margin: 0;
   color: #2e2a2c;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 21px;
   font-weight: 600;
 }
@@ -2960,6 +2993,10 @@ h1 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px;
   align-items: start;
+}
+
+.case-study-footer .footer-statement {
+  font-weight: 500;
 }
 
 /* Keep unstyled prose consistent across the landing page and case studies. */
