@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import {
-  ArrowDown,
   ArrowLeft2,
   ArrowRight2,
   CloseCircle,
@@ -41,11 +40,10 @@ const portraitImage = "/portfolio-logo.svg";
 
 const introSegments = [
   {
-    text: "Hi, I am Yemi, an Electrical and Electronics Engineer who discovered that pixels communicate ideas better than wires. Today, I design digital products that improve user engagement and satisfaction while supporting business goals. I also bring my designs to life by building functional frontend experiences.",
+    text: '"Yemi is truly outstanding! He possesses a remarkable ability to understand swiftly and he consistently delivers high-quality UI/UX Design. I am genuinely impressed with his exceptional Product Design skills."',
   },
   {
-    text: "At Xeruit, I helped take the product from an idea to V1, onboarding 2,999 users within the first week of launch.",
-    emphasis: true,
+    text: "~ Emmanuel Enemchukwu (AfternoonPrep, UK)",
   },
 ];
 
@@ -96,18 +94,18 @@ const contributedProjects = [
   {
     year: "2026",
     projects: [
-      { name: "Norocio", status: "In development", isNew: true, description: "A cross-border payments platform for global transfers, multi-currency accounts, and stablecoin." },
-      { name: "Stayafrika", status: "www.stayafrika.com", href: "https://www.stayafrika.com", description: "A travel marketplace for discovering stays, local experiences, and essential travel services across Africa." },
-      { name: "Soludesks", status: "www.soludesks.com", href: "https://www.soludesks.com", description: "A B2B SaaS platform for managing team learning, support, attendance, and business operations." },
-      { name: "Feexeet", status: "www.feexeet.com", href: "https://www.feexeet.com", description: "A service marketplace connecting homeowners and businesses with verified service professionals." },
+      { name: "Norocio", status: "In development", isNew: true, logoDomain: "norocio.com", description: "A cross-border payments platform for global transfers, multi-currency accounts, and stablecoin." },
+      { name: "Stayafrika", status: "www.stayafrika.com", href: "https://www.stayafrika.com", logoDomain: "stayafrika.com", description: "A travel marketplace for discovering stays, local experiences, and essential travel services across Africa." },
+      { name: "Soludesks", status: "www.soludesks.com", href: "https://www.soludesks.com", logoDomain: "soludesks.com", description: "A B2B SaaS platform for managing team learning, support, attendance, and business operations." },
+      { name: "Feexeet", status: "www.feexeet.com", href: "https://www.feexeet.com", logoDomain: "feexeet.com", description: "A service marketplace connecting homeowners and businesses with verified service professionals." },
     ],
   },
   {
     year: "2025",
     projects: [
-      { name: "Flxfleet", status: "www.flxfleet.ca", href: "https://www.flxfleet.ca", description: "Canadian logistics platform for moving, delivery, driver booking, and real-time tracking." },
-      { name: "AfternoonPrep", status: "www.afternoonprep.com", href: "https://www.afternoonprep.com", description: "A UK-based education platform for exam preparation, learning, and student practice." },
-      { name: "The Ark", status: "Check on Appstore" },
+      { name: "Flxfleet", status: "www.flxfleet.ca", href: "https://www.flxfleet.ca", logoDomain: "flxfleet.ca", description: "Canadian logistics platform for moving, delivery, driver booking, and real-time tracking." },
+      { name: "AfternoonPrep", status: "www.afternoonprep.com", href: "https://www.afternoonprep.com", logoDomain: "afternoonprep.com", description: "A UK-based education platform for exam preparation, learning, and student practice." },
+      { name: "The Ark", status: "Check on Appstore", logoDomain: "apple.com" },
     ],
   },
 ];
@@ -155,6 +153,15 @@ function ContributedProjects() {
             <div className="contribution-list">
               {group.projects.map((project) => (
                 <article className="contribution-item" key={project.name}>
+                  <div className="contribution-thumbnail" aria-hidden="true">
+                    <span>{project.name.slice(0, 2)}</span>
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${project.logoDomain}&sz=128`}
+                      alt=""
+                      loading="lazy"
+                      onError={(event) => { event.currentTarget.style.display = "none"; }}
+                    />
+                  </div>
                   <div className="contribution-item-heading">
                     <div className="contribution-name-wrap">
                       <h3>{project.name}</h3>
@@ -352,20 +359,23 @@ function App() {
         <a className="portrait mobile-brand" href="#top" aria-label="Back to the top">
           <img src={portraitImage} alt="Opeyemi Adegboye" />
         </a>
-        <button
-          className="mobile-menu-toggle"
-          type="button"
-          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={mobileMenuOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}
-        >
-          {mobileMenuOpen ? (
-            <CloseCircle size={26} color="currentColor" variant="Linear" aria-hidden="true" />
-          ) : (
-            <HamburgerMenu size={26} color="currentColor" variant="Linear" aria-hidden="true" />
-          )}
-        </button>
+        <div className="mobile-header-actions">
+          <a className="mobile-contact-button" href="mailto:adegboyeopeyemi065@gmail.com">Contact Me</a>
+          <button
+            className="mobile-menu-toggle"
+            type="button"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}
+          >
+            {mobileMenuOpen ? (
+              <CloseCircle size={24} color="currentColor" variant="Linear" aria-hidden="true" />
+            ) : (
+              <HamburgerMenu size={24} color="currentColor" variant="Linear" aria-hidden="true" />
+            )}
+          </button>
+        </div>
         {mobileMenuOpen && (
           <nav className="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
             <a href="#about" onClick={(event) => { showHome(event); setMobileMenuOpen(false); }}>About Me</a>
@@ -390,9 +400,9 @@ function App() {
             <div className="intro-stack" id="about">
               <div className="intro-copy">
                 <div className="intro-heading">
-                  <p className="greeting">Need A</p>
-                  <h1 aria-label="Product Designer Who Codes?">
-                    <span className="title-line"><span>Product Designer Who Codes?</span></span>
+                  <p className="greeting">Need a Professional</p>
+                  <h1 aria-label="Digital Product Designer ?">
+                    <span className="title-line"><span>Digital Product Designer ?</span></span>
                   </h1>
                 </div>
                 <StreamingText
@@ -413,16 +423,16 @@ function App() {
 
           <div className="availability">
             <div className="availability-social">
-              <p className="find-me">Find me on</p>
+              <p className="find-me">Let&apos;s talk</p>
               <div className="social-row">
                 <SocialLink href="https://wa.me/2349122546487" label="WhatsApp">
-                  <Whatsapp size={20} color="currentColor" variant="Linear" />
+                  <Whatsapp size={32} color="currentColor" variant="Linear" />
                 </SocialLink>
                 <SocialLink href="https://www.instagram.com/ope_yemi066/" label="Instagram">
-                  <Instagram size={20} color="currentColor" variant="Linear" />
+                  <Instagram size={32} color="currentColor" variant="Linear" />
                 </SocialLink>
                 <SocialLink href="mailto:adegboyeopeyemi065@gmail.com" label="Email">
-                  <Sms size={20} color="currentColor" variant="Linear" />
+                  <Sms size={32} color="currentColor" variant="Linear" />
                 </SocialLink>
               </div>
             </div>
@@ -462,10 +472,6 @@ function App() {
                   Shots
                 </button>
               </div>
-              <a className="scroll-link" href="#work">
-                <span>Scroll to explore</span>
-                <ArrowDown size={24} color="currentColor" variant="Linear" />
-              </a>
             </div>
           </section>
 

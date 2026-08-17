@@ -16,6 +16,7 @@ function makeChunks(segments) {
         chunks.push({
           text: `${group.join(" ")}${isLastWord && segmentIndex === segments.length - 1 ? "" : " "}`,
           emphasis: Boolean(segment.emphasis),
+          segmentIndex,
           pause: endsSentence ? 230 : endsPhrase ? 130 : 42,
         });
         group = [];
@@ -28,7 +29,6 @@ function makeChunks(segments) {
 
 export default function StreamingText({ className = "", segments, onComplete, complete = false }) {
   const chunks = useMemo(() => makeChunks(segments), [segments]);
-  const accessibleText = useMemo(() => segments.map((segment) => segment.text).join(" "), [segments]);
   const [visibleCount, setVisibleCount] = useState(complete ? chunks.length : 0);
   const [finished, setFinished] = useState(complete);
 
@@ -63,16 +63,27 @@ export default function StreamingText({ className = "", segments, onComplete, co
     return () => window.clearTimeout(timer);
   }, [chunks, complete, onComplete]);
 
+  const visibleChunks = chunks.slice(0, visibleCount);
+  const activeSegmentIndex = chunks[Math.max(visibleCount - 1, 0)]?.segmentIndex ?? 0;
+
   return (
-    <p className={`${className} streaming-text`}>
-      <span className="streaming-text-visual" aria-hidden="true">
-        {chunks.slice(0, visibleCount).map((chunk, index) => {
-          const Tag = chunk.emphasis ? "strong" : "span";
-          return <Tag className="streaming-text-chunk" key={`${index}-${chunk.text}`}>{chunk.text}</Tag>;
-        })}
-        {!finished && <span className="streaming-text-caret" aria-hidden="true" />}
-      </span>
-      <span className="sr-only">{accessibleText}</span>
-    </p>
+    <div className={`${className} streaming-text`}>
+      {segments.map((segment, segmentIndex) => (
+        <p className="streaming-text-paragraph" key={`${segmentIndex}-${segment.text}`}>
+          <span className="streaming-text-visual" aria-hidden="true">
+            {visibleChunks
+              .filter((chunk) => chunk.segmentIndex === segmentIndex)
+              .map((chunk, index) => {
+                const Tag = chunk.emphasis ? "strong" : "span";
+                return <Tag className="streaming-text-chunk" key={`${index}-${chunk.text}`}>{chunk.text}</Tag>;
+              })}
+            {!finished && activeSegmentIndex === segmentIndex && (
+              <span className="streaming-text-caret" aria-hidden="true" />
+            )}
+          </span>
+          <span className="sr-only">{segment.text}</span>
+        </p>
+      ))}
+    </div>
   );
 }
