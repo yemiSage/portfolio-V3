@@ -278,6 +278,10 @@ h1 {
   animation-delay: 100ms;
 }
 
+.title-line-mobile {
+  display: none;
+}
+
 .intro-description {
   width: 100%;
   max-width: none;
@@ -869,9 +873,9 @@ h1 {
 }
 
 .work-toggle button.is-selected {
-  color: var(--accent);
+  color: #1c1c1c;
   background: transparent;
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 0 0 2px #1c1c1c;
 }
 
 .shots-grid {
@@ -2149,6 +2153,14 @@ h1 {
     letter-spacing: -0.4px;
   }
 
+  .title-line-desktop {
+    display: none;
+  }
+
+  .title-line-mobile {
+    display: block;
+  }
+
   .hero-caption,
   .project-card,
   .footer {
@@ -2586,8 +2598,12 @@ h1 {
   }
 
   h1 {
-    font-size: 32px;
+    font-size: 38px;
     font-weight: 700;
+  }
+
+  .intro-heading h1 {
+    padding-bottom: 8px;
   }
 
   .case-study-intro h1 {
@@ -2609,6 +2625,7 @@ h1 {
 
   .streaming-text-paragraph:first-child {
     padding-bottom: 20px;
+    line-height: 1.5;
   }
 
   .streaming-text {
@@ -2631,16 +2648,31 @@ h1 {
 
   .projects {
     gap: 20px;
+    padding-bottom: 0;
+  }
+
+  .project-card {
+    padding-bottom: 38px;
+  }
+
+  .contributed-projects {
+    padding-bottom: 20px;
+  }
+
+  .contribution-group:nth-child(2) .contribution-item:nth-child(3) .contribution-thumbnail img {
+    padding: 2px;
   }
 
   .contribution-item-heading {
+    flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    row-gap: 4px;
+    column-gap: 8px;
   }
 
   .contribution-item-heading > a,
   .contribution-item-heading > span {
-    text-align: right;
+    text-align: left;
     white-space: normal;
   }
 

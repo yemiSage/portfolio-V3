@@ -407,8 +407,9 @@ function App() {
               <div className="intro-copy">
                 <div className="intro-heading">
                   <p className="greeting">Need a Professional</p>
-                  <h1 aria-label="Digital Product Designer ?">
-                    <span className="title-line"><span>Digital Product Designer ?</span></span>
+                  <h1 aria-label="Product Designer Who Codes?">
+                    <span className="title-line title-line-desktop"><span>Digital Product Designer ?</span></span>
+                    <span className="title-line title-line-mobile"><span>Product Designer Who Codes?</span></span>
                   </h1>
                 </div>
                 <StreamingText
