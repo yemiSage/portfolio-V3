@@ -96,17 +96,17 @@ const contributedProjects = [
   {
     year: "2026",
     projects: [
-      { name: "Norocio", status: "In development", isNew: true },
-      { name: "Stayafrika", status: "www.stayafrika.com", href: "https://www.stayafrika.com" },
-      { name: "Soludesks", status: "www.soludesks.com", href: "https://www.soludesks.com" },
-      { name: "Feexeet", status: "www.feexeet.com", href: "https://www.feexeet.com" },
+      { name: "Norocio", status: "In development", isNew: true, description: "A cross-border payments platform for global transfers, multi-currency accounts, and stablecoin." },
+      { name: "Stayafrika", status: "www.stayafrika.com", href: "https://www.stayafrika.com", description: "A travel marketplace for discovering stays, local experiences, and essential travel services across Africa." },
+      { name: "Soludesks", status: "www.soludesks.com", href: "https://www.soludesks.com", description: "A B2B SaaS platform for managing team learning, support, attendance, and business operations." },
+      { name: "Feexeet", status: "www.feexeet.com", href: "https://www.feexeet.com", description: "A service marketplace connecting homeowners and businesses with verified service professionals." },
     ],
   },
   {
     year: "2025",
     projects: [
-      { name: "Flxfleet", status: "www.flxfleet.ca", href: "https://www.flxfleet.ca" },
-      { name: "AfternoonPrep", status: "www.afternoonprep.com", href: "https://www.afternoonprep.com" },
+      { name: "Flxfleet", status: "www.flxfleet.ca", href: "https://www.flxfleet.ca", description: "Canadian logistics platform for moving, delivery, driver booking, and real-time tracking." },
+      { name: "AfternoonPrep", status: "www.afternoonprep.com", href: "https://www.afternoonprep.com", description: "A UK-based education platform for exam preparation, learning, and student practice." },
       { name: "The Ark", status: "Check on Appstore" },
     ],
   },
@@ -174,7 +174,7 @@ function ContributedProjects() {
                       <span>{project.status}</span>
                     )}
                   </div>
-                  <p>{contributedProjectDescription}</p>
+                  <p>{project.description ?? contributedProjectDescription}</p>
                 </article>
               ))}
             </div>

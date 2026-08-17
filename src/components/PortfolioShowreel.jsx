@@ -3,7 +3,7 @@ import { cubicBezier, motion, useMotionValue, useReducedMotion, useTransform } f
 import "./PortfolioShowreel.css";
 
 export const SHOWREEL_CONFIG = {
-  duration: 15,
+  duration: 16,
   colors: {
     background: "#050505",
     foreground: "#f5f5f3",
@@ -25,6 +25,7 @@ export const SHOWREEL_CONFIG = {
   },
   assets: {
     pixels: "/thumbnails/shot-01.webp",
+    final: "/showreel-final.png",
   },
   outcomes: {
     users: { lead: "I move", word: "users.", image: "/thumbnails/shot-12.webp", start: 4.6, end: 6.3 },
@@ -196,6 +197,31 @@ function OutcomesScene({ clock, scene, reducedMotion }) {
   );
 }
 
+function FinalScene({ clock, completed, onReplay }) {
+  const opacity = useTransform(clock, [15, 15.6], [0, 1], { ease: EASE });
+
+  return (
+    <motion.section className="yemi-reel-final" style={{ opacity }} aria-hidden={!completed}>
+      <img
+        className="yemi-reel-final-image"
+        src={SHOWREEL_CONFIG.assets.final}
+        alt=""
+        aria-hidden="true"
+      />
+      {completed && (
+        <button
+          type="button"
+          className="yemi-replay-button"
+          aria-label="Replay portfolio showreel"
+          onClick={(event) => { event.stopPropagation(); onReplay(); }}
+        >
+          <span className="yemi-replay-icon" aria-hidden="true" />
+        </button>
+      )}
+    </motion.section>
+  );
+}
+
 const SCENE_COMPONENTS = {
   intro: IntroScene,
   intent: IntentScene,
@@ -208,9 +234,10 @@ export default function PortfolioShowreel() {
   const clock = useMotionValue(0);
   const reducedMotion = Boolean(useReducedMotion());
   const [manualPause, setManualPause] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const [inView, setInView] = useState(false);
   const [documentVisible, setDocumentVisible] = useState(() => !document.hidden);
-  const playing = inView && documentVisible && !manualPause;
+  const playing = inView && documentVisible && !manualPause && !completed;
   const progress = useTransform(clock, [0, SHOWREEL_CONFIG.duration], [0, 1]);
   const cssVariables = useMemo(
     () => Object.fromEntries(Object.entries(SHOWREEL_CONFIG.colors).map(([key, value]) => [`--yemi-${key}`, value])),
@@ -241,14 +268,32 @@ export default function PortfolioShowreel() {
       const delta = Math.min((timestamp - previous) / 1000, 0.1);
       previous = timestamp;
       const next = clock.get() + delta;
-      clock.set(next >= SHOWREEL_CONFIG.duration ? 0 : next);
+      if (next >= SHOWREEL_CONFIG.duration) {
+        clock.set(SHOWREEL_CONFIG.duration);
+        setCompleted(true);
+        animationFrameRef.current = null;
+        return;
+      }
+      clock.set(next);
       animationFrameRef.current = requestAnimationFrame(tick);
     };
     animationFrameRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animationFrameRef.current);
   }, [clock, playing]);
 
-  const togglePlayback = () => setManualPause((paused) => !paused);
+  const replay = () => {
+    clock.set(0);
+    setCompleted(false);
+    setManualPause(false);
+  };
+
+  const togglePlayback = () => {
+    if (completed) {
+      replay();
+      return;
+    }
+    setManualPause((paused) => !paused);
+  };
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" || event.key === " ") {
@@ -259,7 +304,7 @@ export default function PortfolioShowreel() {
 
   return (
     <div
-      className={`portfolio-showreel yemi-reel${playing ? " is-playing" : " is-paused"}`}
+      className={`portfolio-showreel yemi-reel${playing ? " is-playing" : " is-paused"}${completed ? " is-complete" : ""}`}
       ref={rootRef}
       role="group"
       aria-label="Silent animated portfolio introduction for Yemi."
@@ -269,7 +314,7 @@ export default function PortfolioShowreel() {
         className="yemi-reel-stage"
         role="button"
         tabIndex={0}
-        aria-label={playing ? "Pause portfolio showreel" : "Replay portfolio showreel"}
+        aria-label={completed ? "Replay portfolio showreel" : playing ? "Pause portfolio showreel" : "Resume portfolio showreel"}
         aria-pressed={!playing}
         onClick={togglePlayback}
         onKeyDown={handleKeyDown}
@@ -278,19 +323,20 @@ export default function PortfolioShowreel() {
           const Component = SCENE_COMPONENTS[scene.id];
           return <Component key={scene.id} clock={clock} scene={scene} reducedMotion={reducedMotion} />;
         })}
+        <FinalScene clock={clock} completed={completed} onReplay={replay} />
       </div>
 
       <motion.span className="yemi-reel-progress" style={{ scaleX: progress }} aria-hidden="true" />
-      <div className="yemi-reel-controls">
+      {!completed && <div className="yemi-reel-controls">
         <button
           type="button"
           className="yemi-reel-control"
-          aria-label={playing ? "Pause portfolio showreel" : "Replay portfolio showreel"}
+          aria-label={playing ? "Pause portfolio showreel" : "Resume portfolio showreel"}
           onClick={(event) => { event.stopPropagation(); togglePlayback(); }}
         >
           <span className={playing ? "yemi-pause-icon" : "yemi-play-icon"} aria-hidden="true" />
         </button>
-      </div>
+      </div>}
     </div>
   );
 }

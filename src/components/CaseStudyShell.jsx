@@ -68,14 +68,46 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    const observedSections = sections.map(([id]) => document.getElementById(id)).filter(Boolean);
-    const observer = new IntersectionObserver((entries) => {
-      const visibleEntry = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visibleEntry) setActiveSection(visibleEntry.target.id);
-    }, { rootMargin: "-18% 0px -62% 0px", threshold: [0, 0.15, 0.5] });
-    observedSections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    const pageSections = sections.map(([id]) => document.getElementById(id)).filter(Boolean);
+    let animationFrame;
+
+    const syncActiveSection = () => {
+      const readingLine = window.innerHeight * 0.28;
+      const isAtPageEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      let currentSection = pageSections[0];
+
+      if (isAtPageEnd) {
+        currentSection = pageSections.at(-1);
+      } else {
+        pageSections.forEach((section) => {
+          if (section.getBoundingClientRect().top <= readingLine) currentSection = section;
+        });
+      }
+
+      if (currentSection) setActiveSection(currentSection.id);
+    };
+
+    const handleScroll = () => {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = window.requestAnimationFrame(syncActiveSection);
+    };
+
+    const requestedSectionId = decodeURIComponent(window.location.hash.slice(1));
+    const requestedSection = pageSections.find((section) => section.id === requestedSectionId);
+    if (requestedSection) {
+      requestedSection.scrollIntoView({ block: "start" });
+      setActiveSection(requestedSection.id);
+    } else {
+      window.scrollTo(0, 0);
+      syncActiveSection();
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, [sections]);
 
   const handleSectionSelect = (event, id, closeJumpMenu = false) => {

@@ -1672,6 +1672,10 @@ h1 {
   margin-top: 24px;
 }
 
+.case-study-section-body > .case-study-list + p {
+  margin-top: 20px;
+}
+
 .case-study-list li {
   position: relative;
   padding-left: 24px;
@@ -2703,7 +2707,7 @@ h1 {
   margin-top: 8px;
   font-family: "Inter", sans-serif;
   font-size: 20px;
-  line-height: 22px;
+  line-height: 1.45;
   letter-spacing: -0.4px;
   font-weight: 600;
 }
@@ -2802,6 +2806,15 @@ h1 {
   line-height: 24px;
 }
 
+.case-study-subsection > p + p {
+  margin-top: 12px;
+}
+
+.case-study-other-screens p strong {
+  color: #2e2a2c;
+  font-weight: 600;
+}
+
 .case-study-other-screens {
   margin-top: 20px;
   display: grid;
@@ -2890,8 +2903,8 @@ h1 {
   }
 
   .case-study-intro h1 {
-    font-size: 24px;
-    line-height: 1.2;
+    font-size: 20px;
+    line-height: 1.5;
     letter-spacing: -1px;
   }
 
@@ -2917,8 +2930,12 @@ h1 {
 
   .case-study-section h2 {
     font-size: 20px;
-    line-height: 22px;
+    line-height: 1.45;
     letter-spacing: -0.4px;
+  }
+
+  .tasafrica-case-study #takeaways {
+    padding-bottom: 60px;
   }
 
   .case-study-section-body {
