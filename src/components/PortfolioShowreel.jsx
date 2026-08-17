@@ -157,6 +157,7 @@ function OutcomeBeat({ clock, reducedMotion, outcome }) {
 
   return (
     <motion.div className="yemi-outcome-beat" style={{ opacity: wordOpacity, y: wordY }}>
+      <span className="yemi-outcome-lead">{outcome.lead}</span>
       <InlineMedia source={outcome.image} className="yemi-outcome-media" style={{ opacity: imageOpacity, scale: imageScale }} />
       <span>{outcome.word}</span>
     </motion.div>
@@ -166,15 +167,6 @@ function OutcomeBeat({ clock, reducedMotion, outcome }) {
 function OutcomesScene({ clock, scene, reducedMotion }) {
   const outcomes = Object.values(SHOWREEL_CONFIG.outcomes);
   const connectorScene = SHOWREEL_CONFIG.connectorScene;
-  const goalsStart = SHOWREEL_CONFIG.outcomes.goals.start;
-  const moveOpacity = useTransform(clock, [scene.start, connectorScene.start - 0.002, connectorScene.start], [1, 1, 0]);
-  const driveOpacity = useTransform(clock, [goalsStart - 0.002, goalsStart, scene.end], [0, 1, 1]);
-  const compositionShift = useTransform(
-    clock,
-    [connectorScene.start, connectorScene.end],
-    ["0cqw", "-9cqw"],
-    { ease: EASE },
-  );
   const connectorOpacity = useTransform(
     clock,
     [connectorScene.start, connectorScene.start + 0.14, connectorScene.end - 0.14, connectorScene.end],
@@ -191,15 +183,11 @@ function OutcomesScene({ clock, scene, reducedMotion }) {
   return (
     <Scene clock={clock} scene={scene} reducedMotion={reducedMotion} className="yemi-outcomes-scene">
       <div className="yemi-persistent-outcomes">
-        <motion.div className="yemi-persistent-lead" style={{ x: compositionShift }} aria-hidden="true">
-          <motion.span style={{ opacity: moveOpacity }}>I move</motion.span>
-          <motion.span style={{ opacity: driveOpacity }}>I drive</motion.span>
-        </motion.div>
-        <motion.div className="yemi-outcomes-tail" style={{ x: compositionShift }}>
+        <div className="yemi-outcome-composition">
           {outcomes.map((outcome) => (
             <OutcomeBeat key={outcome.word} clock={clock} reducedMotion={reducedMotion} outcome={outcome} />
           ))}
-        </motion.div>
+        </div>
         <motion.p className="yemi-connector-scene" style={{ opacity: connectorOpacity, y: connectorY }}>
           {SHOWREEL_CONFIG.copy.connector}
         </motion.p>

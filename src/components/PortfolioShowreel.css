@@ -148,6 +148,8 @@
 .yemi-persistent-outcomes {
   position: absolute;
   inset: 0;
+  display: grid;
+  place-items: center;
   color: var(--yemi-foreground);
   font-size: clamp(21px, 4.8cqw, 42px);
   line-height: 1;
@@ -156,43 +158,23 @@
   white-space: nowrap;
 }
 
-.yemi-persistent-lead {
+.yemi-outcome-composition {
   position: absolute;
-  top: 50%;
-  right: 53%;
-  width: clamp(76px, 15cqw, 128px);
-  height: 1em;
+  inset: 0;
+}
+
+.yemi-outcome-lead {
   color: rgba(245,245,243,0.38);
-  translate: 0 -50%;
-  will-change: transform;
-}
-
-.yemi-persistent-lead > span {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: block;
-  text-align: right;
-}
-
-.yemi-outcomes-tail {
-  position: absolute;
-  top: 50%;
-  left: 49%;
-  width: 47%;
-  height: max(48px, 6cqw);
-  translate: 0 -50%;
-  will-change: transform;
 }
 
 .yemi-outcome-beat {
   position: absolute;
   top: 50%;
-  left: 0;
+  left: 50%;
   display: flex;
   align-items: center;
   gap: clamp(7px, 1.4cqw, 12px);
-  translate: 0 -50%;
+  translate: -50% -50%;
   will-change: opacity, transform;
 }
 
@@ -286,8 +268,6 @@
   .yemi-intent-line { font-size: clamp(19px, 5.9cqw, 30px); }
   .yemi-persistent-outcomes { font-size: clamp(18px, 5.8cqw, 29px); }
   .yemi-connector-scene { font-size: clamp(18px, 5.8cqw, 29px); }
-  .yemi-persistent-lead { right: 55%; width: 31%; }
-  .yemi-outcomes-tail { left: 47%; width: 51%; }
   .yemi-reel-control { width: 34px; height: 34px; }
 }
 

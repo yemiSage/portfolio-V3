@@ -13,6 +13,7 @@ import {
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
 import LimestoneCaseStudy from "./components/LimestoneCaseStudy";
+import TasaAfricaCaseStudy from "./components/TasaAfricaCaseStudy";
 import PortfolioShowreel from "./components/PortfolioShowreel";
 import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
 import StreamingText from "./components/StreamingText";
@@ -33,6 +34,8 @@ import antigravityLogo from "../assets/figma/antigravity.png";
 import codexLogo from "../assets/figma/codex.svg";
 import vsCodeLogo from "../assets/figma/vs-code.svg";
 import claudeLogo from "../assets/figma/claude.svg";
+import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
+import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
 
 const portraitImage = "/portfolio-logo.svg";
 
@@ -48,9 +51,10 @@ const introSegments = [
 
 const projects = [
   {
-    name: "Soludesks Inc.",
+    name: "TASAfrica",
     image: tasafricaImage,
-    tags: ["AI", "Support", "SaaS", "B2B"],
+    href: "/projects/tasafrica",
+    tags: ["AI", "Sport", "Social", "Analytics"],
     description:
       "Built a scalable design system and discovery flows that connect African talent with global scouts.",
   },
@@ -60,14 +64,14 @@ const projects = [
     href: "/projects/limestone",
     tags: ["Community", "Security", "Real Estate", "B2B"],
     description:
-      "Built a scalable design system and discovery flows that connect African talent with global scouts.",
+      "Simplified community living with offline check-ins, panic alerts, and clearer security workflows.",
   },
   {
     name: "Xeruit Talent",
     image: xeruitImage,
     tags: ["AI", "Hiring", "SAAS", "B2B"],
     description:
-      "Built a scalable design system and discovery flows that connect African talent with global scouts.",
+      "Shipped an AI hiring OS with verified talent and scalable recruiter discovery.",
   },
 ];
 
@@ -87,6 +91,29 @@ const tools = [
   ["VS Code", vsCodeLogo],
   ["Claude", claudeLogo],
 ];
+
+const contributedProjects = [
+  {
+    year: "2026",
+    projects: [
+      { name: "Norocio", status: "In development", isNew: true },
+      { name: "Stayafrika", status: "www.stayafrika.com", href: "https://www.stayafrika.com" },
+      { name: "Soludesks", status: "www.soludesks.com", href: "https://www.soludesks.com" },
+      { name: "Feexeet", status: "www.feexeet.com", href: "https://www.feexeet.com" },
+    ],
+  },
+  {
+    year: "2025",
+    projects: [
+      { name: "Flxfleet", status: "www.flxfleet.ca", href: "https://www.flxfleet.ca" },
+      { name: "AfternoonPrep", status: "www.afternoonprep.com", href: "https://www.afternoonprep.com" },
+      { name: "The Ark", status: "Check on Appstore" },
+    ],
+  },
+];
+
+const contributedProjectDescription =
+  "Over the course of four years now, i have found myself using these tools and making them part of my day to day activities.";
 
 const shots = Array.from(
   { length: 36 },
@@ -110,6 +137,51 @@ function Tool({ name, logo }) {
       <img src={logo} alt="" />
       <span>{name}</span>
     </li>
+  );
+}
+
+function ContributedProjects() {
+  return (
+    <section className="contributed-projects" aria-labelledby="contributed-projects-heading">
+      <div className="section-intro">
+        <h2 id="contributed-projects-heading">Other project I contributed to</h2>
+        <p>{contributedProjectDescription}</p>
+      </div>
+
+      <div className="contribution-groups">
+        {contributedProjects.map((group) => (
+          <div className="contribution-group" key={group.year}>
+            <p className="contribution-year">{group.year}</p>
+            <div className="contribution-list">
+              {group.projects.map((project) => (
+                <article className="contribution-item" key={project.name}>
+                  <div className="contribution-item-heading">
+                    <div className="contribution-name-wrap">
+                      <h3>{project.name}</h3>
+                      {project.isNew && (
+                        <span className="new-badge" aria-label="New">
+                          <span>New</span>
+                          <img src={newBadgeLoop} alt="" />
+                          <img src={newBadgeStroke} alt="" />
+                        </span>
+                      )}
+                    </div>
+                    {project.href ? (
+                      <a href={project.href} target="_blank" rel="noreferrer">
+                        {project.status}
+                      </a>
+                    ) : (
+                      <span>{project.status}</span>
+                    )}
+                  </div>
+                  <p>{contributedProjectDescription}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -162,7 +234,9 @@ function Project({ project }) {
 }
 
 function App() {
-  const isLimestoneCaseStudy = window.location.pathname.replace(/\/+$/, "") === "/projects/limestone";
+  const currentPath = window.location.pathname.replace(/\/+$/, "");
+  const isLimestoneCaseStudy = currentPath === "/projects/limestone";
+  const isTasaAfricaCaseStudy = currentPath === "/projects/tasafrica";
   const isResumePage = window.location.pathname.replace(/\/+$/, "") === "/resume";
   const [activePanel, setActivePanel] = useState(isResumePage ? "resume" : "home");
   const [activeWork, setActiveWork] = useState("projects");
@@ -255,6 +329,10 @@ function App() {
 
   if (isLimestoneCaseStudy) {
     return <LimestoneCaseStudy />;
+  }
+
+  if (isTasaAfricaCaseStudy) {
+    return <TasaAfricaCaseStudy />;
   }
 
   return (
@@ -417,6 +495,8 @@ function App() {
               </div>
             )}
           </section>
+
+          <ContributedProjects />
 
           <section className="toolbox" aria-labelledby="toolbox-heading">
             <div className="section-intro">
