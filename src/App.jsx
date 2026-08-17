@@ -157,8 +157,14 @@ function ContributedProjects() {
           <div className="contribution-group" key={group.year}>
             <p className="contribution-year">{group.year}</p>
             <div className="contribution-list">
-              {group.projects.map((project) => (
-                <article className="contribution-item" key={project.name}>
+              {group.projects.map((project) => {
+                const ContributionTag = project.href ? "a" : "article";
+                return (
+                <ContributionTag
+                  className="contribution-item"
+                  key={project.name}
+                  {...(project.href ? { href: project.href, target: "_blank", rel: "noreferrer", "aria-label": `Open ${project.name} in a new tab` } : {})}
+                >
                   <div className="contribution-thumbnail" aria-hidden="true">
                     <span>{project.name.slice(0, 2)}</span>
                     <img
@@ -179,17 +185,12 @@ function ContributedProjects() {
                         </span>
                       )}
                     </div>
-                    {project.href ? (
-                      <a href={project.href} target="_blank" rel="noreferrer">
-                        {project.status}
-                      </a>
-                    ) : (
-                      <span>{project.status}</span>
-                    )}
+                    <span>{project.status}</span>
                   </div>
                   <p>{project.description ?? contributedProjectDescription}</p>
-                </article>
-              ))}
+                </ContributionTag>
+                );
+              })}
             </div>
           </div>
         ))}

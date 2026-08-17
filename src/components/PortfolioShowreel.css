@@ -229,7 +229,7 @@
   display: grid;
   place-items: center;
   color: #111111;
-  background: rgba(255,255,255,0.9);
+  background: #7a7a7a;
   box-shadow: 0 10px 30px rgba(0,0,0,0.28);
   cursor: pointer;
   pointer-events: auto;
@@ -239,7 +239,7 @@
 }
 
 .yemi-replay-button:hover {
-  background: #ffffff;
+  background: #858585;
   transform: scale(1.05);
 }
 
