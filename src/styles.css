@@ -46,6 +46,67 @@ body {
   font-weight: 400;
 }
 
+.yemi-cursor {
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-100px, -100px, 0);
+  transition: opacity 120ms ease;
+}
+
+.yemi-cursor[data-visible="true"] {
+  opacity: 1;
+}
+
+.yemi-cursor-pointer {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 18px;
+  height: 22px;
+  background: #7657e8;
+  clip-path: polygon(0 0, 100% 72%, 58% 78%, 43% 100%);
+  transform: rotate(-8deg);
+  filter: drop-shadow(0 2px 3px rgba(43, 30, 96, 0.18));
+}
+
+.yemi-cursor-label {
+  position: absolute;
+  top: 15px;
+  left: 13px;
+  padding: 3px 10px 4px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #7657e8;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(43, 30, 96, 0.16);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html,
+  body,
+  a,
+  button,
+  [role="button"] {
+    cursor: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .yemi-cursor {
+    display: none;
+  }
+}
+
 button,
 a {
   color: inherit;
@@ -2624,11 +2685,21 @@ a.contribution-item {
   }
 
   .hero-media {
-    aspect-ratio: 4 / 5;
+    height: calc((100vw - (2 * var(--page-padding))) * 1.25 - 8px);
+    aspect-ratio: auto;
+  }
+
+  .hero-panel {
+    row-gap: 40px;
+  }
+
+  .availability {
+    padding-bottom: 20px;
   }
 
   .intro-description {
     padding-bottom: 20px;
+    font-size: 15px;
   }
 
   .streaming-text-paragraph:first-child {
@@ -2664,7 +2735,11 @@ a.contribution-item {
   }
 
   .contributed-projects {
-    padding-bottom: 20px;
+    padding-bottom: 40px;
+  }
+
+  .footer-statement {
+    font-size: 18px;
   }
 
   .contribution-group:nth-child(2) .contribution-item:nth-child(3) .contribution-thumbnail img {

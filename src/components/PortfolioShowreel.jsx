@@ -5,10 +5,10 @@ import "./PortfolioShowreel.css";
 export const SHOWREEL_CONFIG = {
   duration: 16,
   colors: {
-    background: "#050505",
-    foreground: "#f5f5f3",
-    muted: "#555553",
-    line: "rgba(255,255,255,0.14)",
+    background: "#ffffff",
+    foreground: "#111111",
+    muted: "#8a8a8a",
+    line: "rgba(17,17,17,0.16)",
   },
   motion: {
     ease: [0.22, 1, 0.36, 1],
