@@ -199,15 +199,11 @@ function OutcomesScene({ clock, scene, reducedMotion }) {
 
 function FinalScene({ clock, completed, onReplay }) {
   const opacity = useTransform(clock, [14.98, 15.08], [0, 1], { ease: EASE });
-  const topY = useTransform(clock, [15, 15.82], ["-100%", "0%"], { ease: EASE });
-  const bottomY = useTransform(clock, [15, 15.82], ["100%", "0%"], { ease: EASE });
+  const imageY = useTransform(clock, [15, 15.95], ["100%", "0%"], { ease: EASE });
 
   return (
     <motion.section className="yemi-reel-final" style={{ opacity }} aria-hidden={!completed}>
-      <motion.div className="yemi-final-curtain yemi-final-curtain-top" style={{ y: topY }}>
-        <img src={SHOWREEL_CONFIG.assets.final} alt="" aria-hidden="true" />
-      </motion.div>
-      <motion.div className="yemi-final-curtain yemi-final-curtain-bottom" style={{ y: bottomY }}>
+      <motion.div className="yemi-final-image" style={{ y: imageY }}>
         <img src={SHOWREEL_CONFIG.assets.final} alt="" aria-hidden="true" />
       </motion.div>
       {completed && (

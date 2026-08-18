@@ -5,9 +5,6 @@ import {
   ArrowRight2,
   CloseCircle,
   HamburgerMenu,
-  Instagram,
-  Sms,
-  Whatsapp,
 } from "iconsax-reactjs";
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
@@ -40,12 +37,17 @@ const portraitImage = "/portfolio-logo.svg";
 
 const introSegments = [
   {
-    text: '"Yemi is truly outstanding! He possesses a remarkable ability to understand swiftly and he consistently delivers high-quality UI/UX Design. I am genuinely impressed with his exceptional Product Design skills."',
+    text: "Hi, I am Yemi, a product designer for business and enterprise products.",
   },
   {
-    text: "~ Emmanuel Enemchukwu (AfternoonPrep, UK)",
+    text: "I design clear, intentional experiences for complex products, from B2B, B2C and SaaS platforms to marketplaces, AI-integrated systems, and operational products, balancing user needs with business goals.",
   },
 ];
+
+const testimonial = {
+  quote: '"Yemi is truly outstanding! He possesses a remarkable ability to understand swiftly and he consistently delivers high-quality UI/UX Design. I am genuinely impressed with his exceptional Product Design skills."',
+  author: "~ Emmanuel Enemchukwu (AfternoonPrep, UK)",
+};
 
 const projects = [
   {
@@ -117,20 +119,12 @@ const contributedProjects = [
 ];
 
 const contributedProjectDescription =
-  "Over the course of four years now, i have found myself using these tools and making them part of my day to day activities.";
+  "A selection of products I’ve helped shape over the years, across different industries, teams, and business needs.";
 
 const shots = Array.from(
   { length: 36 },
   (_, index) => `/shots/shot-${String(index + 1).padStart(2, "0")}.webp`,
 );
-
-function SocialLink({ href, label, children }) {
-  return (
-    <a className="social-link" href={href} target="_blank" rel="noreferrer" aria-label={label}>
-      {children}
-    </a>
-  );
-}
 
 function Tool({ name, logo }) {
   const showColor = (event) => event.currentTarget.classList.add("is-active");
@@ -409,7 +403,7 @@ function App() {
                 <div className="intro-heading">
                   <p className="greeting">Need a Professional</p>
                   <h1 aria-label="Product Designer Who Codes?">
-                    <span className="title-line title-line-desktop"><span>Digital Product Designer ?</span></span>
+                    <span className="title-line title-line-desktop"><span>Product Designer Who Codes?</span></span>
                     <span className="title-line title-line-mobile"><span>Product Designer Who Codes?</span></span>
                   </h1>
                 </div>
@@ -430,19 +424,18 @@ function App() {
           </div>
 
           <div className="availability">
-            <div className="availability-social">
-              <p className="find-me">Let&apos;s talk</p>
-              <div className="social-row">
-                <SocialLink href="https://wa.me/2349122546487" label="WhatsApp">
-                  <Whatsapp size={24} color="currentColor" variant="Linear" />
-                </SocialLink>
-                <SocialLink href="https://www.instagram.com/ope_yemi066/" label="Instagram">
-                  <Instagram size={24} color="currentColor" variant="Linear" />
-                </SocialLink>
-                <SocialLink href="mailto:adegboyeopeyemi065@gmail.com" label="Email">
-                  <Sms size={24} color="currentColor" variant="Linear" />
-                </SocialLink>
+            <div className="availability-testimonial">
+              <div className="testimonial-indicator" aria-label="Testimonial 1 of 6">
+                {Array.from({ length: 6 }, (_, index) => (
+                  <span
+                    className={index === 0 ? "is-active" : ""}
+                    key={index}
+                    aria-hidden="true"
+                  />
+                ))}
               </div>
+              <p>{testimonial.quote}</p>
+              <p className="testimonial-author">{testimonial.author}</p>
             </div>
           </div>
         </aside>
