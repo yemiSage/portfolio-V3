@@ -5,7 +5,7 @@ import "./PortfolioShowreel.css";
 export const SHOWREEL_CONFIG = {
   duration: 16,
   colors: {
-    background: "#ffffff",
+    background: "#fafafa",
     foreground: "#111111",
     muted: "#8a8a8a",
     line: "rgba(17,17,17,0.16)",
@@ -238,7 +238,6 @@ export default function PortfolioShowreel() {
   const [inView, setInView] = useState(false);
   const [documentVisible, setDocumentVisible] = useState(() => !document.hidden);
   const playing = inView && documentVisible && !manualPause && !completed;
-  const progress = useTransform(clock, [0, SHOWREEL_CONFIG.duration], [0, 1]);
   const cssVariables = useMemo(
     () => Object.fromEntries(Object.entries(SHOWREEL_CONFIG.colors).map(([key, value]) => [`--yemi-${key}`, value])),
     [],
@@ -326,7 +325,6 @@ export default function PortfolioShowreel() {
         <FinalScene clock={clock} completed={completed} onReplay={replay} />
       </div>
 
-      <motion.span className="yemi-reel-progress" style={{ scaleX: progress }} aria-hidden="true" />
       {!completed && <div className="yemi-reel-controls">
         <button
           type="button"

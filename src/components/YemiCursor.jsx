@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Pointer } from "iconsax-reactjs";
 
 export default function YemiCursor() {
   const cursorRef = useRef(null);
@@ -29,7 +30,7 @@ export default function YemiCursor() {
 
   return (
     <div className="yemi-cursor" ref={cursorRef} data-visible="false" aria-hidden="true">
-      <span className="yemi-cursor-pointer" />
+      <Pointer className="yemi-cursor-pointer" size={20} color="currentColor" variant="Bold" />
       <span className="yemi-cursor-label">Yemi</span>
     </div>
   );
