@@ -5,7 +5,7 @@ import "./PortfolioShowreel.css";
 export const SHOWREEL_CONFIG = {
   duration: 16,
   colors: {
-    background: "#fafafa",
+    background: "#f2f2f2",
     foreground: "#111111",
     muted: "#8a8a8a",
     line: "rgba(17,17,17,0.16)",
@@ -24,16 +24,16 @@ export const SHOWREEL_CONFIG = {
     connector: "and",
   },
   assets: {
-    pixels: "/thumbnails/shot-01.webp",
+    pixels: "/showreel/pixels.png",
     final: "/showreel-final.png",
   },
   outcomes: {
-    users: { lead: "I move", word: "users.", image: "/thumbnails/shot-12.webp", start: 4.6, end: 6.3 },
-    revenue: { lead: "I move", word: "revenue.", image: "/thumbnails/shot-18.webp", start: 6.1, end: 7.8 },
-    hearts: { lead: "I move", word: "hearts.", image: "/thumbnails/shot-30.webp", start: 7.6, end: 9.3 },
-    investors: { lead: "I move", word: "investors.", image: "/thumbnails/shot-06.webp", start: 9.1, end: 10.8 },
-    clarity: { lead: "I move", word: "clarity.", image: "/thumbnails/shot-01.webp", start: 10.6, end: 11.95 },
-    goals: { lead: "I drive", word: "business goals.", image: "/thumbnails/shot-24.webp", start: 12.8, end: 15 },
+    users: { lead: "I move", word: "users.", image: "/showreel/users.png", start: 4.6, end: 6.3 },
+    revenue: { lead: "I move", word: "revenue.", image: "/showreel/revenue.png", start: 6.1, end: 7.8 },
+    hearts: { lead: "I move", word: "hearts.", image: "/showreel/hearts.png", start: 7.6, end: 9.3 },
+    investors: { lead: "I move", word: "investors.", image: "/showreel/investors.png", start: 9.1, end: 10.8 },
+    clarity: { lead: "I move", word: "clarity.", image: "/showreel/clarity.png", start: 10.6, end: 11.95 },
+    goals: { lead: "I drive", word: "business goals.", image: "/showreel/business-goals.png", start: 12.8, end: 15 },
   },
   connectorScene: { start: 11.95, end: 12.8 },
   scenes: [
@@ -198,16 +198,18 @@ function OutcomesScene({ clock, scene, reducedMotion }) {
 }
 
 function FinalScene({ clock, completed, onReplay }) {
-  const opacity = useTransform(clock, [15, 15.6], [0, 1], { ease: EASE });
+  const opacity = useTransform(clock, [14.98, 15.08], [0, 1], { ease: EASE });
+  const topY = useTransform(clock, [15, 15.82], ["-100%", "0%"], { ease: EASE });
+  const bottomY = useTransform(clock, [15, 15.82], ["100%", "0%"], { ease: EASE });
 
   return (
     <motion.section className="yemi-reel-final" style={{ opacity }} aria-hidden={!completed}>
-      <img
-        className="yemi-reel-final-image"
-        src={SHOWREEL_CONFIG.assets.final}
-        alt=""
-        aria-hidden="true"
-      />
+      <motion.div className="yemi-final-curtain yemi-final-curtain-top" style={{ y: topY }}>
+        <img src={SHOWREEL_CONFIG.assets.final} alt="" aria-hidden="true" />
+      </motion.div>
+      <motion.div className="yemi-final-curtain yemi-final-curtain-bottom" style={{ y: bottomY }}>
+        <img src={SHOWREEL_CONFIG.assets.final} alt="" aria-hidden="true" />
+      </motion.div>
       {completed && (
         <button
           type="button"

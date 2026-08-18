@@ -127,11 +127,11 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: clamp(54px, 9.8cqw, 84px);
-  height: clamp(30px, 5.5cqw, 47px);
+  width: clamp(38px, 6.2cqw, 52px);
+  height: clamp(38px, 6.2cqw, 52px);
   overflow: hidden;
-  border-radius: clamp(3px, 0.6cqw, 6px);
-  background: #191919;
+  border-radius: clamp(7px, 1cqw, 10px);
+  background: transparent;
 }
 
 .yemi-inline-frame {
@@ -145,10 +145,10 @@
 .yemi-inline-frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: saturate(0.82) contrast(1.08);
-  transform: scale(1.12);
-  animation: yemi-media-drift 1.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  object-fit: contain;
+  filter: none;
+  transform: none;
+  animation: none;
 }
 
 .yemi-outcome-media {
@@ -198,6 +198,7 @@
   line-height: 1;
   letter-spacing: -0.045em;
   font-weight: 600;
+  color: var(--yemi-muted);
   translate: -50% -50%;
 }
 
@@ -209,12 +210,33 @@
   will-change: opacity;
 }
 
-.yemi-reel-final-image {
+.yemi-final-curtain {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 50%;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.yemi-final-curtain-top {
+  top: 0;
+}
+
+.yemi-final-curtain-bottom {
+  bottom: 0;
+}
+
+.yemi-final-curtain img {
   width: 100%;
-  height: 100%;
+  height: 200%;
   display: block;
   object-fit: cover;
   object-position: center 20%;
+}
+
+.yemi-final-curtain-bottom img {
+  transform: translateY(-50%);
 }
 
 .yemi-replay-button {
@@ -225,14 +247,14 @@
   width: clamp(52px, 8cqw, 68px);
   height: clamp(52px, 8cqw, 68px);
   padding: 0;
-  border: 1px solid rgba(255,255,255,0.7);
+  border: 0;
   border-radius: 50%;
   display: grid;
   place-items: center;
   color: #fafafa;
-  background: #7a7a7a;
-  opacity: 0.4;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+  background: rgba(242, 242, 242, 0.42);
+  opacity: 0.32;
+  box-shadow: none;
   cursor: pointer;
   pointer-events: auto;
   translate: -50% -50%;
@@ -241,7 +263,8 @@
 }
 
 .yemi-replay-button:hover {
-  background: #858585;
+  background: rgba(242, 242, 242, 0.52);
+  opacity: 0.45;
   transform: scale(1.05);
 }
 
@@ -293,6 +316,7 @@
   outline: 2px solid #111111;
   outline-offset: 2px;
 }
+
 
 .yemi-play-icon {
   width: 0;
