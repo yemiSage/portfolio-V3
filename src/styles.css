@@ -976,6 +976,7 @@ h1 {
   gap: var(--feature-gap);
   align-items: stretch;
   padding-bottom: 60px;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), opacity 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-copy {
@@ -1102,7 +1103,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: opacity 140ms ease;
+  transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1), transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 a.contribution-item {
@@ -1115,14 +1116,13 @@ a.contribution-item {
   display: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .contribution-groups:hover .contribution-item {
-    opacity: 0.3;
-  }
+.contribution-groups:hover .contribution-item {
+  opacity: 0.3;
+}
 
-  .contribution-groups .contribution-item:hover {
-    opacity: 1;
-  }
+.contribution-groups .contribution-item:hover {
+  opacity: 1;
+  transform: translateX(1px);
 }
 
 .contribution-item:last-child {
@@ -1264,20 +1264,22 @@ a.contribution-item {
   transition: filter 180ms ease, opacity 180ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .project-card:hover .project-visual {
-    transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateZ(2px) scale(1.002);
-  }
+.project-card:hover {
+  transform: translateY(-2px);
+}
 
-  .tool-grid li:is(:hover, .is-active) {
-    color: #0a0b0d;
-  }
+.project-card:hover .project-visual {
+  transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateZ(6px) scale(1.03);
+}
 
-  .tool-grid li:is(:hover, .is-active) img {
-    filter: none;
-    opacity: 1;
-    transform: scale(1.06);
-  }
+.tool-grid li:is(:hover, .is-active) {
+  color: #0a0b0d;
+}
+
+.tool-grid li:is(:hover, .is-active) img {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.06);
 }
 
 .button:focus-visible,
@@ -3148,8 +3150,9 @@ a.contribution-item {
   color: var(--ink);
 }
 
-.nav-yemi-llm-btn svg {
-  color: #000000;
+.nav-yemi-llm-btn svg,
+#yemi-llm-nav-btn svg {
+  color: #878787;
   flex-shrink: 0;
 }
 
@@ -3164,7 +3167,7 @@ a.contribution-item {
   line-height: 1.2;
   font-weight: 600;
   text-align: center;
-  font-family: "DM Sans", sans-serif;
+  font-family: inherit;
   color: var(--ink);
   gap: 10px;
   transition: background-color 150ms ease;
@@ -3274,15 +3277,21 @@ a.contribution-item {
 
 @media (max-width: 640px) {
   .rachel-chat-window {
-    top: 0;
+    top: auto;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    border: none;
-    border-radius: 0;
+    height: 82vh;
+    height: 82dvh;
+    border-top: 1px solid #e5e7eb;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     box-shadow: none !important;
   }
 }

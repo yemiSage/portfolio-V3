@@ -192,8 +192,6 @@ function ContributedProjects() {
 
 function Project({ project }) {
   const handlePointerMove = (event) => {
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-
     const card = event.currentTarget;
     const bounds = card.getBoundingClientRect();
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
