@@ -106,7 +106,7 @@ export default function ResumeContent({ onBack }) {
   return (
     <section className="resume-viewer" aria-labelledby="resume-heading">
       <header className="resume-toolbar">
-        <a className="resume-back" id="resume-heading" href="#about" onClick={onBack}>
+        <a className="resume-back" id="resume-heading" href="/#about" onClick={onBack}>
           <ArrowLeft2 size={18} color="currentColor" variant="Linear" aria-hidden="true" />
           <span>Go Back</span>
         </a>

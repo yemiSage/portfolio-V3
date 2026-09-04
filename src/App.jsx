@@ -330,6 +330,8 @@ function App() {
     window.requestAnimationFrame(() => document.getElementById("about")?.scrollIntoView({ behavior: "auto" }));
   };
 
+  const homeAnchorHref = (anchor) => (activePanel === "resume" ? `/${anchor}` : anchor);
+
   if (isLimestoneCaseStudy) {
     return <LimestoneCaseStudy />;
   }
@@ -352,7 +354,7 @@ function App() {
         data-node-id="3549:1194"
       >
       <header className="mobile-header">
-        <a className="portrait mobile-brand" href="#top" aria-label="Back to the top">
+        <a className="portrait mobile-brand" href={homeAnchorHref("#top")} aria-label="Back to the top">
           <img src={portraitImage} alt="Opeyemi Adegboye" />
         </a>
         <div className="mobile-header-actions">
@@ -374,7 +376,7 @@ function App() {
         </div>
         {mobileMenuOpen && (
           <nav className="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
-            <a href="#about" onClick={(event) => { showHome(event); setMobileMenuOpen(false); }}>About Me</a>
+            <a href={homeAnchorHref("#about")} onClick={(event) => { showHome(event); setMobileMenuOpen(false); }}>About Me</a>
             <ResponsiveResumeLink onMobileClick={() => setMobileMenuOpen(false)} />
           </nav>
         )}
@@ -384,11 +386,11 @@ function App() {
         <aside className="identity-column" aria-label="Introduction">
           <div className="identity-main">
             <div className="identity-top">
-              <a className="portrait" href="#top" aria-label="Back to the top">
+              <a className="portrait" href={homeAnchorHref("#top")} aria-label="Back to the top">
                 <img src={portraitImage} alt="Opeyemi Adegboye" />
               </a>
               <nav className="identity-links" aria-label="Profile links">
-                <a href="#about" onClick={showHome}>About Me</a>
+                <a href={homeAnchorHref("#about")} onClick={showHome}>About Me</a>
                 <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
               </nav>
             </div>
@@ -509,9 +511,9 @@ function App() {
               <h2>Explore</h2>
               <div className="footer-links">
                 <div>
-                  <a href="#top">Articles</a>
-                  <a href="#work">Projects</a>
-                  <a href="#about" onClick={showHome}>About Me</a>
+                  <a href={homeAnchorHref("#top")}>Articles</a>
+                  <a href={homeAnchorHref("#work")}>Projects</a>
+                  <a href={homeAnchorHref("#about")} onClick={showHome}>About Me</a>
                   <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
                 </div>
                 <div>
