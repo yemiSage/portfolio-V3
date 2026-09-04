@@ -44,11 +44,6 @@ const introSegments = [
   },
 ];
 
-const testimonial = {
-  quote: '"Yemi is truly outstanding! He possesses a remarkable ability to understand swiftly and he consistently delivers high-quality UI/UX Design. I am genuinely impressed with his exceptional Product Design skills."',
-  author: "~ Emmanuel Enemchukwu (AfternoonPrep, UK)",
-};
-
 const projects = [
   {
     name: "TASAfrica",
@@ -423,21 +418,6 @@ function App() {
             </div>
           </div>
 
-          <div className="availability">
-            <div className="availability-testimonial">
-              <div className="testimonial-indicator" aria-label="Testimonial 1 of 6">
-                {Array.from({ length: 6 }, (_, index) => (
-                  <span
-                    className={index === 0 ? "is-active" : ""}
-                    key={index}
-                    aria-hidden="true"
-                  />
-                ))}
-              </div>
-              <p>{testimonial.quote}</p>
-              <p className="testimonial-author">{testimonial.author}</p>
-            </div>
-          </div>
         </aside>
 
         <section className={`content-column${activePanel === "resume" ? " content-column-resume" : ""}`} aria-label="Portfolio content">
