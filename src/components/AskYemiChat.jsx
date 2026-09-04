@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getSmartPortfolioReply } from "../utils/chatKnowledge";
 
 const DEFAULT_SUGGESTIONS = [
   "What's your design process?",
@@ -282,10 +283,15 @@ export default function AskYemiChat({
         throw new Error(`HTTP ${response.status}`);
       }
 
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Received non-JSON response from server");
+      }
+
       const data = await response.json();
       const replyText =
         data.reply ||
-        "I'm here to answer questions about Yemi's design craft, approach, and projects!";
+        getSmartPortfolioReply(text);
 
       setMessages((prev) => [
         ...prev,
@@ -297,14 +303,15 @@ export default function AskYemiChat({
         },
       ]);
     } catch (error) {
-      console.error("Chat error:", error);
+      console.warn("Chat API unavailable or fallback used:", error);
+      const fallbackReply = getSmartPortfolioReply(text);
+
       setMessages((prev) => [
         ...prev,
         {
           id: `assistant-${Date.now()}`,
           role: "assistant",
-          content:
-            "Feel free to explore Yemi's featured projects: [TASAfrica](/projects/tasafrica) (sports discovery platform) and [Limestone App](/projects/limestone) (estate security), or reach him directly at [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com).",
+          content: fallbackReply,
           suggestions: getFollowUpSuggestions(text),
         },
       ]);
