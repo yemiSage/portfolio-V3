@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft2, CloseCircle, HamburgerMenu } from "iconsax-reactjs";
+import AiAsteriskIcon from "./AiAsteriskIcon";
 
 const resumeUrl = "https://drive.google.com/file/d/1EQeSjevkPsXHZVUMtA8nd28qx604djE_/view?usp=sharing";
 
@@ -17,14 +18,20 @@ export function CaseStudySection({ id, eyebrow, title, children, className = "" 
   );
 }
 
-export function CaseStudyFooter() {
+export function CaseStudyFooter({ onOpenAiChat }) {
+  const triggerAiChat = onOpenAiChat || (() => window.dispatchEvent(new CustomEvent("open-yemi-llm")));
+
   return (
     <footer className="case-study-footer">
       <p className="footer-statement">Define purpose, <em>solve problems,</em> set scope and <em>achieve goals</em> - let&apos;s make magic together</p>
       <nav className="footer-nav" aria-label="Case study footer navigation">
         <h2>Explore</h2>
         <div className="footer-links">
-          <div><a href="/#top">Articles</a><a href="/#work">Projects</a><a href="/#about">About Me</a><a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a></div>
+          <div>
+            <a href="/#top">Articles</a>
+            <a href="/#work">Projects</a>
+            <a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a>
+          </div>
           <div><a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.linkedin.com/in/opeyemiadegboyeazeez/" target="_blank" rel="noreferrer">LinkedIn</a><a href="mailto:adegboyeopeyemi065@gmail.com">Email</a><a href="https://wa.me/2349122546487" target="_blank" rel="noreferrer">WhatsApp</a></div>
         </div>
       </nav>
@@ -62,10 +69,12 @@ function SectionNavigation({ sections, activeSection, jumpMenuOpen, onJumpMenuTo
   );
 }
 
-export default function CaseStudyShell({ sections, projectName, date, children, className = "" }) {
+export default function CaseStudyShell({ sections, projectName, date, children, className = "", onOpenAiChat }) {
   const [activeSection, setActiveSection] = useState(sections[0][0]);
   const [jumpMenuOpen, setJumpMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const triggerAiChat = onOpenAiChat || (() => window.dispatchEvent(new CustomEvent("open-yemi-llm")));
 
   useEffect(() => {
     const pageSections = sections.map(([id]) => document.getElementById(id)).filter(Boolean);
@@ -122,14 +131,41 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
     <main className={`case-study-page ${className}`.trim()}>
       <aside className={`case-study-rail${mobileMenuOpen ? " is-menu-open" : ""}`} aria-label={`${projectName} case study navigation`}>
         <div className="case-study-rail-top">
-          <nav className="case-study-profile-links" aria-label="Profile links"><a href="/#about">About Me</a><a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a></nav>
+          <nav className="case-study-profile-links" aria-label="Profile links">
+            <button
+              type="button"
+              className="nav-yemi-llm-btn case-study-yemi-llm-btn"
+              onClick={triggerAiChat}
+              aria-label="Open Yemi LLM"
+            >
+              <AiAsteriskIcon size={14} />
+              <span>Yemi LLM</span>
+            </button>
+            <a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a>
+          </nav>
           <button className="case-study-menu-toggle" type="button" aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen} aria-controls="case-study-mobile-menu" onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}>{mobileMenuOpen ? <CloseCircle size={26} color="currentColor" variant="Linear" aria-hidden="true" /> : <HamburgerMenu size={26} color="currentColor" variant="Linear" aria-hidden="true" />}</button>
         </div>
-        {mobileMenuOpen && <nav className="case-study-mobile-menu" id="case-study-mobile-menu" aria-label="Mobile navigation"><a href="/#about">About Me</a><a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a></nav>}
+        {mobileMenuOpen && (
+          <nav className="case-study-mobile-menu" id="case-study-mobile-menu" aria-label="Mobile navigation">
+            <button
+              type="button"
+              className="nav-yemi-llm-btn case-study-mobile-yemi-btn"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                triggerAiChat();
+              }}
+              aria-label="Open Yemi LLM"
+            >
+              <AiAsteriskIcon size={20} />
+              <span>Yemi LLM</span>
+            </button>
+            <a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a>
+          </nav>
+        )}
         <SectionNavigation sections={sections} activeSection={activeSection} jumpMenuOpen={jumpMenuOpen} onJumpMenuToggle={() => setJumpMenuOpen((isOpen) => !isOpen)} onSectionSelect={handleSectionSelect} />
         <div className="case-study-rail-meta"><p>Product design case study</p><span>{date}</span></div>
       </aside>
-      <article className="case-study-content">{children}<CaseStudyFooter /></article>
+      <article className="case-study-content">{children}<CaseStudyFooter onOpenAiChat={triggerAiChat} /></article>
     </main>
   );
 }

@@ -20,9 +20,15 @@ const media = {
   dashboard: "https://res.cloudinary.com/dv7yvatu2/image/upload/q_auto,f_auto/v1770799108/Image_lhrcrd.png",
 };
 
-export default function LimestoneCaseStudy() {
+export default function LimestoneCaseStudy({ onOpenAiChat }) {
   return (
-    <CaseStudyShell sections={sections} projectName="Limestone" date="March 2024" className="limestone-case-study">
+    <CaseStudyShell
+      sections={sections}
+      projectName="Limestone"
+      date="March 2024"
+      className="limestone-case-study"
+      onOpenAiChat={onOpenAiChat}
+    >
       <header className="case-study-intro">
         <h1>Designed a smart community platform for safer, simpler, connected living.</h1>
         <p className="case-study-lede">Lifestyle, real estate and community management in one dependable mobile experience.</p>

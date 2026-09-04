@@ -30,9 +30,15 @@ const otherScreens = [
   ["Settings", "Give users control over their presence", "Settings covered the quieter parts of the product that still mattered. Users could manage profile details, notifications, privacy, and how their professional information appeared across the platform."],
 ];
 
-export default function TasaAfricaCaseStudy() {
+export default function TasaAfricaCaseStudy({ onOpenAiChat }) {
   return (
-    <CaseStudyShell sections={sections} projectName="TASAfrica" date="March 2024" className="tasafrica-case-study">
+    <CaseStudyShell
+      sections={sections}
+      projectName="TASAfrica"
+      date="March 2024"
+      className="tasafrica-case-study"
+      onOpenAiChat={onOpenAiChat}
+    >
       <header className="case-study-intro">
         <h1>Designed a mobile-first sports platform that helps athletes build visibility, connect with people in the sports ecosystem, and find better opportunities.</h1>
         <p className="case-study-lede">Designing a mobile-first sports platform that helps African athletes build visibility, connect with people in the sports ecosystem, and find better opportunities.</p>

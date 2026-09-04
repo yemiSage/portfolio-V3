@@ -13,6 +13,7 @@ import TasaAfricaCaseStudy from "./components/TasaAfricaCaseStudy";
 import PortfolioShowreel from "./components/PortfolioShowreel";
 import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
 import StreamingText from "./components/StreamingText";
+import AskYemiChat from "./components/AskYemiChat";
 import tasafricaImage from "../assets/figma/tasafrica.png";
 import limestoneImage from "../assets/figma/limestone.png";
 import xeruitImage from "../assets/figma/xeruit.png";
@@ -32,6 +33,7 @@ import vsCodeLogo from "../assets/figma/vs-code.svg";
 import claudeLogo from "../assets/figma/claude.svg";
 import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
+import AiAsteriskIcon from "./components/AiAsteriskIcon";
 
 const portraitImage = "/portfolio-logo.svg";
 
@@ -250,6 +252,7 @@ function App() {
   const [showPreloader, setShowPreloader] = useState(() => {
     return !isResumePage && sessionStorage.getItem("portfolio-preloader-seen") !== "true";
   });
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const lightboxPointerStart = useRef(null);
   const handleIntroStreamingComplete = useCallback(() => setHasIntroStreamed(true), []);
 
@@ -316,6 +319,12 @@ function App() {
     return () => window.removeEventListener("popstate", syncPanelWithHistory);
   }, []);
 
+  useEffect(() => {
+    const handleOpenYemiLlm = () => setIsChatOpen(true);
+    window.addEventListener("open-yemi-llm", handleOpenYemiLlm);
+    return () => window.removeEventListener("open-yemi-llm", handleOpenYemiLlm);
+  }, []);
+
   const showResume = (event) => {
     event.preventDefault();
     if (activePanel !== "resume") window.history.pushState({}, "", "/resume");
@@ -332,12 +341,48 @@ function App() {
 
   const homeAnchorHref = (anchor) => (activePanel === "resume" ? `/${anchor}` : anchor);
 
+  const handleChatNavigate = (url) => {
+    if (url === "/projects/tasafrica" || url === "/projects/limestone") {
+      window.location.href = url;
+    } else if (url === "/resume") {
+      window.history.pushState({}, "", "/resume");
+      setActivePanel("resume");
+      window.scrollTo(0, 0);
+    } else if (url === "/" || url.startsWith("/#")) {
+      window.history.pushState({}, "", "/");
+      setActivePanel("home");
+      window.scrollTo(0, 0);
+    } else if (url.startsWith("/")) {
+      window.location.href = url;
+    }
+  };
+
   if (isLimestoneCaseStudy) {
-    return <LimestoneCaseStudy />;
+    return (
+      <>
+        <LimestoneCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
+        <AskYemiChat
+          isOpen={isChatOpen}
+          onOpen={() => setIsChatOpen(true)}
+          onClose={() => setIsChatOpen(false)}
+          onNavigate={handleChatNavigate}
+        />
+      </>
+    );
   }
 
   if (isTasaAfricaCaseStudy) {
-    return <TasaAfricaCaseStudy />;
+    return (
+      <>
+        <TasaAfricaCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
+        <AskYemiChat
+          isOpen={isChatOpen}
+          onOpen={() => setIsChatOpen(true)}
+          onClose={() => setIsChatOpen(false)}
+          onNavigate={handleChatNavigate}
+        />
+      </>
+    );
   }
 
   return (
@@ -376,7 +421,17 @@ function App() {
         </div>
         {mobileMenuOpen && (
           <nav className="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
-            <a href={homeAnchorHref("#about")} onClick={(event) => { showHome(event); setMobileMenuOpen(false); }}>About Me</a>
+            <button
+              type="button"
+              className="nav-yemi-llm-btn"
+              onClick={() => {
+                setIsChatOpen(true);
+                setMobileMenuOpen(false);
+              }}
+            >
+              <AiAsteriskIcon size={14} />
+              <span>Yemi LLM</span>
+            </button>
             <ResponsiveResumeLink onMobileClick={() => setMobileMenuOpen(false)} />
           </nav>
         )}
@@ -390,7 +445,16 @@ function App() {
                 <img src={portraitImage} alt="Opeyemi Adegboye" />
               </a>
               <nav className="identity-links" aria-label="Profile links">
-                <a href={homeAnchorHref("#about")} onClick={showHome}>About Me</a>
+                <button
+                  type="button"
+                  id="yemi-llm-nav-btn"
+                  className="nav-yemi-llm-btn"
+                  onClick={() => setIsChatOpen(true)}
+                  aria-label="Open Yemi LLM"
+                >
+                  <AiAsteriskIcon size={14} />
+                  <span>Yemi LLM</span>
+                </button>
                 <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
               </nav>
             </div>
@@ -513,7 +577,6 @@ function App() {
                 <div>
                   <a href={homeAnchorHref("#top")}>Articles</a>
                   <a href={homeAnchorHref("#work")}>Projects</a>
-                  <a href={homeAnchorHref("#about")} onClick={showHome}>About Me</a>
                   <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
                 </div>
                 <div>
@@ -575,6 +638,13 @@ function App() {
         </div>
       )}
       </main>
+
+      <AskYemiChat
+        isOpen={isChatOpen}
+        onOpen={() => setIsChatOpen(true)}
+        onClose={() => setIsChatOpen(false)}
+        onNavigate={handleChatNavigate}
+      />
     </>
   );
 }
