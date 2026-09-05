@@ -104,13 +104,6 @@ const contributedProjects = [
     projects: [
       { name: "Flxfleet", status: "www.flxfleet.ca", href: "https://www.flxfleet.ca", logoDomain: "flxfleet.ca", description: "Canadian logistics platform for moving, delivery, driver booking, and real-time tracking." },
       { name: "AfternoonPrep", status: "www.afternoonprep.com", href: "https://www.afternoonprep.com", logoDomain: "afternoonprep.com", description: "A UK-based education platform for exam preparation, learning, and student practice." },
-      {
-        name: "The Ark",
-        status: "Check on Play Store",
-        href: "https://play.google.com/store/apps/details?id=com.app.theark&hl=en",
-        logo: "/the-ark-icon.png",
-        description: "A faith community app for connection, Bible study, social sharing, and rewards.",
-      },
     ],
   },
 ];

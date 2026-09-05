@@ -3172,6 +3172,11 @@ a.contribution-item {
   flex-shrink: 0;
 }
 
+.nav-yemi-llm-btn svg path,
+#yemi-llm-nav-btn svg path {
+  opacity: 0.6;
+}
+
 .mobile-menu .nav-yemi-llm-btn {
   min-height: 56px;
   padding: 0 20px;

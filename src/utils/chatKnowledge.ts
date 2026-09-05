@@ -45,7 +45,6 @@ OTHER CONTRIBUTIONS AND WORK EXPERIENCE:
 - Norocio (2026, in development): Cross-border stablecoin and multi-currency payments fintech.
 - Feexeet: Local service marketplace connecting people with verified local home service pros.
 - Fisíkóló and MedBay: Digital healthcare portals focusing on accessibility and trust.
-- The Ark: Faith community platform available on the Google Play Store.
 
 COMMUNITY, EDUCATION, AND MENTORSHIP:
 - Mentorship is a massive part of Yemi's identity. He enjoys EdTech because he loves teaching.
