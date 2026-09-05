@@ -1603,19 +1603,20 @@ a.contribution-item {
 
 .case-study-meta-grid a {
   width: fit-content;
-  color: #333232;
+  color: var(--accent);
   font-size: 14px;
   line-height: 24px;
   letter-spacing: -0.28px;
   font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-underline-offset: 4px;
-  transition: color 180ms ease;
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color 180ms ease, text-decoration 180ms ease, opacity 180ms ease;
 }
 
 .case-study-meta-grid a:hover {
   color: var(--accent);
+  text-decoration: underline;
+  opacity: 0.85;
 }
 
 .case-study-tags {
@@ -2821,13 +2822,28 @@ a.contribution-item {
   text-transform: uppercase;
 }
 
-.case-study-meta-grid strong,
-.case-study-meta-grid a {
+.case-study-meta-grid strong {
   color: #666481;
   font-size: 15px;
   line-height: 22.5px;
   letter-spacing: 0;
   font-weight: 500;
+}
+
+.case-study-meta-grid a {
+  color: var(--accent);
+  font-size: 15px;
+  line-height: 22.5px;
+  letter-spacing: 0;
+  font-weight: 500;
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: opacity 180ms ease, text-decoration 180ms ease;
+}
+
+.case-study-meta-grid a:hover {
+  text-decoration: underline;
+  opacity: 0.85;
 }
 
 .case-study-section {
@@ -3477,17 +3493,22 @@ a.contribution-item {
   line-height: 1.4;
 }
 
-.rachel-chat-link {
+.rachel-chat-link,
+.rachel-chat-window a:not(.button):not(.rachel-close-btn):not(.rachel-action-btn):not(.rachel-suggestion-item),
+.rachel-text-body a {
   color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
+  text-underline-offset: 3px;
   font-weight: 500;
   cursor: pointer;
-  transition: opacity 140ms ease;
+  transition: opacity 140ms ease, text-decoration 140ms ease;
 }
 
-.rachel-chat-link:hover {
-  opacity: 0.8;
+.rachel-chat-link:hover,
+.rachel-chat-window a:not(.button):not(.rachel-close-btn):not(.rachel-action-btn):not(.rachel-suggestion-item):hover,
+.rachel-text-body a:hover {
+  text-decoration: underline;
+  opacity: 0.85;
 }
 
 /* Divider under assistant message */
@@ -3641,5 +3662,32 @@ a.contribution-item {
     font-size: 16px !important;
   }
 }
+
+/* Clickable content links styling */
+.case-study-section-body a:not(.button),
+.case-study-content p a:not(.button),
+.case-study-content li a:not(.button),
+.case-study-lede a:not(.button),
+.project-copy a:not(.button),
+.contribution-item a:not(.button),
+.resume-body a:not(.button) {
+  color: var(--accent);
+  text-decoration: none;
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: opacity 160ms ease, text-decoration 160ms ease;
+}
+
+.case-study-section-body a:not(.button):hover,
+.case-study-content p a:not(.button):hover,
+.case-study-content li a:not(.button):hover,
+.case-study-lede a:not(.button):hover,
+.project-copy a:not(.button):hover,
+.contribution-item a:not(.button):hover,
+.resume-body a:not(.button):hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
 
 
