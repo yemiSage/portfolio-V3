@@ -5,6 +5,7 @@ import { createServer as createViteServer } from "vite";
 import {
   YEMI_SYSTEM_INSTRUCTION,
   getSmartPortfolioReply,
+  cleanChatOutput,
 } from "./src/utils/chatKnowledge";
 
 const PORT = 3000;
@@ -54,8 +55,9 @@ async function startServer() {
       if (!apiKey) {
         // High-quality contextual fallback if API key is missing in environment
         return res.json({
-          reply:
-            "I'm askYemi, Opeyemi's portfolio AI assistant! Right now, the AI backend key is being configured. In the meantime, feel free to explore Yemi's featured projects: **TASAfrica** (sports scout discovery), **Limestone App** (community security), and **Xeruit Talent** (AI hiring OS). You can reach Yemi directly at adegboyeopeyemi065@gmail.com!",
+          reply: cleanChatOutput(
+            "This is Yemi LLM, Opeyemi's portfolio assistant. Feel free to explore Yemi's featured projects: TASAfrica (sports scout discovery), Limestone App (community security), and Xeruit Talent (AI hiring OS). You can reach Yemi directly at adegboyeopeyemi065@gmail.com!"
+          ),
         });
       }
 
@@ -120,10 +122,12 @@ async function startServer() {
         replyText = getSmartPortfolioReply(message);
       }
 
-      res.json({ reply: replyText });
+      res.json({ reply: cleanChatOutput(replyText) });
     } catch (error: any) {
       console.error("[askYemi API Error]:", error);
-      const fallback = "I'm askYemi, Opeyemi's portfolio assistant! You can explore his featured case studies: **[TASAfrica](/projects/tasafrica)** and **[Limestone App](/projects/limestone)**, or reach him directly at [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com).";
+      const fallback = cleanChatOutput(
+        "Yemi is a Product Designer Who Codes with over 4 years of experience. You can explore his featured case studies: [TASAfrica](/projects/tasafrica) and [Limestone App](/projects/limestone), or reach him directly at [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com)."
+      );
       res.json({ reply: fallback });
     }
   });

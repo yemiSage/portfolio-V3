@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getSmartPortfolioReply } from "../utils/chatKnowledge";
+import { getSmartPortfolioReply, cleanChatOutput } from "../utils/chatKnowledge";
 
 const DEFAULT_SUGGESTIONS = [
-  "What's your design process?",
+  "What is Yemi's design process?",
   "Tell me about TASAfrica",
   "What problem does Limestone App solve?",
-  "What inspires you?",
+  "What inspires Yemi?",
   "What tools and tech does Yemi use?",
   "How can I contact or hire Yemi?",
 ];
@@ -16,7 +16,7 @@ function getFollowUpSuggestions(lastQuery = "") {
   if (q.includes("tasafrica") || q.includes("sport")) {
     return [
       "What problem does Limestone App solve?",
-      "What's your design process?",
+      "What is Yemi's design process?",
       "How can I contact or hire Yemi?",
     ];
   }
@@ -29,22 +29,22 @@ function getFollowUpSuggestions(lastQuery = "") {
   }
   if (q.includes("process") || q.includes("approach")) {
     return [
-      "What makes your design approach unique?",
-      "What inspires you?",
+      "What makes Yemi's design approach unique?",
+      "What inspires Yemi?",
       "Tell me about TASAfrica",
     ];
   }
   if (q.includes("contact") || q.includes("hire")) {
     return [
       "What projects has Yemi worked on?",
-      "What's your design process?",
+      "What is Yemi's design process?",
       "What tools and tech does Yemi use?",
     ];
   }
   return [
-    "What's your design process?",
-    "What are your favorite parts of design?",
-    "What makes your design approach unique?",
+    "What is Yemi's design process?",
+    "What are Yemi's favorite parts of design?",
+    "What makes Yemi's design approach unique?",
   ];
 }
 
@@ -125,11 +125,12 @@ function ArrowUpIcon({ size = 16 }) {
   );
 }
 
-// Formatter for clean rendering of bold, bullet points, and case-study navigation links
+// Formatter for clean rendering of bullet points and case-study navigation links without asterisks or em-dashes
 function FormattedAssistantText({ text, onNavigate }) {
   if (!text) return null;
 
-  const lines = text.split("\n");
+  const cleaned = cleanChatOutput(text);
+  const lines = cleaned.split("\n");
 
   const formatInline = (str) => {
     const parts = [];
@@ -165,18 +166,7 @@ function FormattedAssistantText({ text, onNavigate }) {
     if (lastIdx < str.length) {
       parts.push(str.substring(lastIdx));
     }
-
-    return parts.map((part, pIdx) => {
-      if (typeof part !== "string") return part;
-
-      const boldParts = part.split(/\*\*([^*]+)\*\*/g);
-      return boldParts.map((sub, sIdx) => {
-        if (sIdx % 2 === 1) {
-          return <strong key={`${pIdx}-${sIdx}`}>{sub}</strong>;
-        }
-        return sub;
-      });
-    });
+    return parts;
   };
 
   return (
@@ -186,7 +176,7 @@ function FormattedAssistantText({ text, onNavigate }) {
         if (!trimmed) {
           return <div key={lIdx} className="rachel-text-gap" />;
         }
-        if (trimmed.startsWith("* ") || trimmed.startsWith("- ")) {
+        if (trimmed.startsWith("- ") || trimmed.startsWith("• ")) {
           return (
             <div key={lIdx} className="rachel-list-item">
               <span className="rachel-bullet">•</span>
@@ -215,11 +205,11 @@ export default function AskYemiChat({
       id: "initial-msg",
       role: "assistant",
       content:
-        "I find inspiration in ambitious people who are highly intentional about what they do. Surrounding myself with that kind of energy really pushes me to do better work. I also draw inspiration from the challenges I see around me and the desire to create meaningful experiences through design and technology.",
+        "Yemi finds inspiration in ambitious people who are highly intentional about what they do. Surrounding himself with that kind of energy pushes him to do better work. He also draws inspiration from the challenges around him and the desire to create meaningful experiences through design and technology.",
       suggestions: [
-        "What's your design process?",
-        "What are your favorite parts of design?",
-        "What makes your design approach unique?",
+        "What is Yemi's design process?",
+        "What are Yemi's favorite parts of design?",
+        "What makes Yemi's design approach unique?",
       ],
     },
   ]);
@@ -289,9 +279,10 @@ export default function AskYemiChat({
       }
 
       const data = await response.json();
-      const replyText =
+      const replyText = cleanChatOutput(
         data.reply ||
-        getSmartPortfolioReply(text);
+        getSmartPortfolioReply(text)
+      );
 
       setMessages((prev) => [
         ...prev,
@@ -304,7 +295,7 @@ export default function AskYemiChat({
       ]);
     } catch (error) {
       console.warn("Chat API unavailable or fallback used:", error);
-      const fallbackReply = getSmartPortfolioReply(text);
+      const fallbackReply = cleanChatOutput(getSmartPortfolioReply(text));
 
       setMessages((prev) => [
         ...prev,
@@ -326,11 +317,11 @@ export default function AskYemiChat({
         id: `reset-${Date.now()}`,
         role: "assistant",
         content:
-          "I find inspiration in ambitious people who are highly intentional about what they do. Surrounding myself with that kind of energy really pushes me to do better work. I also draw inspiration from the challenges I see around me and the desire to create meaningful experiences through design and technology.",
+          "Yemi finds inspiration in ambitious people who are highly intentional about what they do. Surrounding himself with that kind of energy pushes him to do better work. He also draws inspiration from the challenges around him and the desire to create meaningful experiences through design and technology.",
         suggestions: [
-          "What's your design process?",
-          "What are your favorite parts of design?",
-          "What makes your design approach unique?",
+          "What is Yemi's design process?",
+          "What are Yemi's favorite parts of design?",
+          "What makes Yemi's design approach unique?",
         ],
       },
     ]);
