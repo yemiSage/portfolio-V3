@@ -4,6 +4,7 @@ import "./PortfolioShowreel.css";
 
 export const SHOWREEL_CONFIG = {
   duration: 16,
+  speed: 1.28, // 28% faster tempo for a punchier transition speed
   colors: {
     background: "#f2f2f2",
     foreground: "#111111",
@@ -11,10 +12,10 @@ export const SHOWREEL_CONFIG = {
     line: "rgba(17,17,17,0.16)",
   },
   motion: {
-    ease: [0.22, 1, 0.36, 1],
+    ease: [0.16, 1, 0.3, 1], // Premium Apple-inspired deceleration curve
     fade: 0.22,
-    enter: 0.38,
-    movement: 18,
+    enter: 0.44, // Slightly extended enter duration to let the slow glide feel incredibly smooth
+    movement: 14, // Reduced movement distance for a more elegant and subtle rise
   },
   copy: {
     introName: "Hello, I am Yemi",
@@ -59,13 +60,14 @@ function useReveal(clock, start, reducedMotion, distance = SHOWREEL_CONFIG.motio
   const enter = reducedMotion ? 0.52 : SHOWREEL_CONFIG.motion.enter;
   const opacity = useTransform(clock, [start, start + enter], [0, 1], { ease: EASE });
   const y = useTransform(clock, [start, start + enter], [reducedMotion ? 0 : distance, 0], { ease: EASE });
+  const scale = useTransform(clock, [start, start + enter], [reducedMotion ? 1 : 0.97, 1], { ease: EASE });
   const clipPath = useTransform(
     clock,
     [start, start + enter],
     [reducedMotion ? "inset(0 0 0 0)" : "inset(0 0 100% 0)", "inset(0 0 0% 0)"],
     { ease: EASE },
   );
-  return { opacity, y, clipPath };
+  return { opacity, y, scale, clipPath };
 }
 
 function Scene({ clock, scene, reducedMotion, className = "", children }) {
@@ -156,11 +158,24 @@ function OutcomeBeat({ clock, reducedMotion, outcome }) {
     { ease: EASE },
   );
 
+  const isIMove = outcome.lead === "I move";
+
+  if (isIMove) {
+    return (
+      <motion.div className="yemi-outcome-beat" style={{ opacity: wordOpacity, y: wordY }}>
+        <div className="yemi-outcome-tail-col solo-tail">
+          <InlineMedia source={outcome.image} className="yemi-outcome-media" style={{ opacity: imageOpacity, scale: imageScale }} />
+          <span className="yemi-outcome-word">{outcome.word}</span>
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
-    <motion.div className="yemi-outcome-beat" style={{ opacity: wordOpacity, y: wordY }}>
+    <motion.div className="yemi-outcome-beat centralized-beat" style={{ opacity: wordOpacity, y: wordY }}>
       <span className="yemi-outcome-lead">{outcome.lead}</span>
       <InlineMedia source={outcome.image} className="yemi-outcome-media" style={{ opacity: imageOpacity, scale: imageScale }} />
-      <span>{outcome.word}</span>
+      <span className="yemi-outcome-word">{outcome.word}</span>
     </motion.div>
   );
 }
@@ -181,10 +196,34 @@ function OutcomesScene({ clock, scene, reducedMotion }) {
     { ease: EASE },
   );
 
+  // Persistent "I move" stays steady from the start (4.6) to the end of clarity (11.95) without fading out on individual transitions
+  const persistentLeadOpacity = useTransform(
+    clock,
+    [4.6, 4.6 + 0.24, 11.95 - 0.24, 11.95],
+    [0, 1, 1, 0],
+    { ease: EASE }
+  );
+  const persistentLeadY = useTransform(
+    clock,
+    [4.6, 4.6 + 0.3, 11.95 - 0.3, 11.95],
+    [reducedMotion ? 0 : 8, 0, 0, reducedMotion ? 0 : -8],
+    { ease: EASE }
+  );
+
   return (
     <Scene clock={clock} scene={scene} reducedMotion={reducedMotion} className="yemi-outcomes-scene">
       <div className="yemi-persistent-outcomes">
         <div className="yemi-outcome-composition">
+          {/* Steady persistent lead */}
+          <motion.div 
+            className="yemi-persistent-lead-wrapper"
+            style={{ opacity: persistentLeadOpacity, y: persistentLeadY }}
+          >
+            <div className="yemi-outcome-lead-col">
+              <span className="yemi-outcome-lead">I move</span>
+            </div>
+          </motion.div>
+
           {outcomes.map((outcome) => (
             <OutcomeBeat key={outcome.word} clock={clock} reducedMotion={reducedMotion} outcome={outcome} />
           ))}
@@ -264,7 +303,7 @@ export default function PortfolioShowreel() {
     const tick = (timestamp) => {
       const delta = Math.min((timestamp - previous) / 1000, 0.1);
       previous = timestamp;
-      const next = clock.get() + delta;
+      const next = clock.get() + delta * (SHOWREEL_CONFIG.speed || 1);
       if (next >= SHOWREEL_CONFIG.duration) {
         clock.set(SHOWREEL_CONFIG.duration);
         setCompleted(true);

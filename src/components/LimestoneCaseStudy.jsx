@@ -37,7 +37,7 @@ export default function LimestoneCaseStudy({ onOpenAiChat }) {
           <div><span>Industry</span><strong>Community, Real Estate</strong></div>
           <div><span>Services</span><strong>User research<br />UI design (mobile, web)<br />Design system</strong></div>
           <div><span>Date</span><strong>March 2024</strong></div>
-          <div><span>Live site</span><a href="https://play.google.com/store/apps/details?id=com.limestone.community&hl=en-US&pli=1" target="_blank" rel="noreferrer">View on Google Play</a></div>
+          <div><span>Live site</span><a href="https://play.google.com/store/apps/details?id=com.limestone.community&hl=en-US&pli=1" target="_blank" rel="noopener noreferrer">View on Google Play</a></div>
         </div>
       </header>
 

@@ -3233,6 +3233,126 @@ a.contribution-item {
   color: var(--accent);
 }
 
+/* ==========================================================================
+   YEMMY LLM FAB & NOTION CALLOUT (Optimized for High-Contrast on White Canvas)
+   ========================================================================== */
+
+.yemmy-notion-callout-wrapper {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 899;
+  max-width: min(340px, calc(100vw - 36px));
+}
+
+.yemmy-notion-bubble {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 8px 14px;
+  box-shadow: 0 12px 30px -6px rgba(15, 23, 42, 0.14), 0 4px 12px -2px rgba(15, 23, 42, 0.07);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  user-select: none;
+}
+
+.yemmy-notion-bubble:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.18), 0 6px 16px -2px rgba(15, 23, 42, 0.09);
+}
+
+.yemmy-notion-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #4f46e5;
+  text-transform: none;
+}
+
+.yemmy-notion-sparkle {
+  font-size: 24px;
+  line-height: 1;
+  display: inline-block;
+  color: #a6a6a6;
+  animation: notionSparkleSpin 4s ease-in-out infinite;
+}
+
+@keyframes notionSparkleSpin {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(180deg); }
+}
+
+.yemmy-notion-tag {
+  font-size: 14px;
+  line-height: 28px;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  background: transparent;
+  color: #646464;
+  padding: 0;
+}
+
+.yemmy-notion-query-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.yemmy-notion-query-text {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #1f2937;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.yemmy-notion-arrow {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6366f1;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.yemmy-notion-bubble:hover .yemmy-notion-arrow {
+  transform: translateX(2px) translateY(1px);
+}
+
+.yemmy-notion-dismiss-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.15s ease;
+}
+
+.yemmy-notion-dismiss-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* FAB Container and clean white pill */
 .ask-yemi-fab {
   position: fixed;
   bottom: 24px;
@@ -3253,6 +3373,7 @@ a.contribution-item {
   cursor: pointer;
   transition: all 180ms ease;
   font-family: inherit;
+  white-space: nowrap;
 }
 
 .ask-yemi-fab:hover {
@@ -3262,8 +3383,28 @@ a.contribution-item {
   color: #111827;
 }
 
+.fab-text {
+  font-weight: 550;
+  color: inherit;
+}
+
 .ask-yemi-fab.is-hidden {
   display: none !important;
+}
+
+@media (max-width: 640px) {
+  .yemmy-notion-callout-wrapper {
+    bottom: 18px;
+    right: 16px;
+    left: 16px;
+    max-width: calc(100vw - 32px);
+  }
+  .ask-yemi-fab {
+    bottom: 18px;
+    right: 16px;
+    padding: 9px 15px;
+    font-size: 12.5px;
+  }
 }
 
 .rachel-chat-backdrop {

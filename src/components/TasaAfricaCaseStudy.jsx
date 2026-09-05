@@ -47,7 +47,7 @@ export default function TasaAfricaCaseStudy({ onOpenAiChat }) {
           <div><span>Industry</span><strong>Sports, Social Networking</strong></div>
           <div><span>Services</span><strong>User Research<br />UI Design (mobile, web)<br />Design System</strong></div>
           <div><span>Date</span><strong>March 2024</strong></div>
-          <div><span>Live site</span><a href="https://app.tasafrica.com" target="_blank" rel="noreferrer">app.tasafrica.com</a></div>
+          <div><span>Live site</span><a href="https://app.tasafrica.com" target="_blank" rel="noopener noreferrer">app.tasafrica.com</a></div>
         </div>
       </header>
 

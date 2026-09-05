@@ -3,48 +3,80 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getSmartPortfolioReply, cleanChatOutput } from "../utils/chatKnowledge";
 
 const DEFAULT_SUGGESTIONS = [
+  "How can I work with Yemi?",
+  "What kind of projects does Yemi work on?",
+  "How can I contact Yemi?",
   "What is Yemi's design process?",
   "Tell me about TASAfrica",
   "What problem does Limestone App solve?",
   "What inspires Yemi?",
   "What tools and tech does Yemi use?",
-  "How can I contact or hire Yemi?",
 ];
 
 function getFollowUpSuggestions(lastQuery = "") {
   const q = lastQuery.toLowerCase();
+  if (q.includes("work with") || q.includes("hire") || q.includes("collaborat")) {
+    return [
+      "What kind of projects does Yemi work on?",
+      "How can I contact Yemi?",
+      "What is Yemi's design process?",
+      "Tell me about TASAfrica",
+    ];
+  }
+  if (q.includes("project") || q.includes("work on")) {
+    return [
+      "How can I work with Yemi?",
+      "How can I contact Yemi?",
+      "What is Yemi's design process?",
+      "Tell me about TASAfrica",
+      "What problem does Limestone App solve?",
+    ];
+  }
+  if (
+    q.includes("contact") ||
+    q.includes("reach") ||
+    q.includes("phone") ||
+    q.includes("whatsapp") ||
+    q.includes("email") ||
+    q.includes("upwork")
+  ) {
+    return [
+      "How can I work with Yemi?",
+      "What kind of projects does Yemi work on?",
+      "What is Yemi's design process?",
+    ];
+  }
+  if (q.includes("process") || q.includes("approach") || q.includes("framework")) {
+    return [
+      "What kind of projects does Yemi work on?",
+      "How can I work with Yemi?",
+      "How can I contact Yemi?",
+      "What makes Yemi's design approach unique?",
+    ];
+  }
   if (q.includes("tasafrica") || q.includes("sport")) {
     return [
       "What problem does Limestone App solve?",
-      "What is Yemi's design process?",
-      "How can I contact or hire Yemi?",
+      "What kind of projects does Yemi work on?",
+      "How can I work with Yemi?",
+      "How can I contact Yemi?",
     ];
   }
   if (q.includes("limestone") || q.includes("security")) {
     return [
       "Tell me about TASAfrica",
-      "What tools and tech does Yemi use?",
-      "How can I contact or hire Yemi?",
-    ];
-  }
-  if (q.includes("process") || q.includes("approach")) {
-    return [
-      "What makes Yemi's design approach unique?",
-      "What inspires Yemi?",
-      "Tell me about TASAfrica",
-    ];
-  }
-  if (q.includes("contact") || q.includes("hire")) {
-    return [
-      "What projects has Yemi worked on?",
+      "What kind of projects does Yemi work on?",
       "What is Yemi's design process?",
-      "What tools and tech does Yemi use?",
+      "How can I contact Yemi?",
     ];
   }
   return [
+    "How can I work with Yemi?",
+    "What kind of projects does Yemi work on?",
+    "How can I contact Yemi?",
     "What is Yemi's design process?",
-    "What are Yemi's favorite parts of design?",
-    "What makes Yemi's design approach unique?",
+    "Tell me about TASAfrica",
+    "What problem does Limestone App solve?",
   ];
 }
 
@@ -86,6 +118,30 @@ function ResetIcon({ size = 15 }) {
     </svg>
   );
 }
+
+function SparklesIcon({ size = 15, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M12 2L14.4 7.6L20 10L14.4 12.4L12 18L9.6 12.4L4 10L9.6 7.6L12 2Z" />
+      <path d="M19 15L20.2 17.8L23 19L20.2 20.2L19 23L17.8 20.2L15 19L17.8 17.8L19 15Z" opacity="0.8" />
+      <path d="M5 16L5.8 17.8L7.6 18.6L5.8 19.4L5 21.2L4.2 19.4L2.4 18.6L4.2 17.8L5 16Z" opacity="0.6" />
+    </svg>
+  );
+}
+
+const NOTION_PROMPTS = [
+  "How can I work with Yemi?",
+  "What kind of projects does Yemi work on?",
+  "How can I contact Yemi?",
+  "What is Yemi's design process?",
+];
 
 function CloseIcon({ size = 16 }) {
   return (
@@ -144,6 +200,12 @@ function FormattedAssistantText({ text, onNavigate }) {
       }
       const label = match[1];
       const url = match[2];
+      const isExternal =
+        url.startsWith("http://") ||
+        url.startsWith("https://") ||
+        url.startsWith("//") ||
+        url.startsWith("mailto:") ||
+        url.startsWith("tel:");
       parts.push(
         <a
           key={match.index}
@@ -155,8 +217,8 @@ function FormattedAssistantText({ text, onNavigate }) {
               onNavigate(url);
             }
           }}
-          target={url.startsWith("http") ? "_blank" : undefined}
-          rel={url.startsWith("http") ? "noreferrer" : undefined}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
         >
           {label}
         </a>
@@ -207,9 +269,10 @@ export default function AskYemiChat({
       content:
         "Yemi finds inspiration in ambitious people who are highly intentional about what they do. Surrounding himself with that kind of energy pushes him to do better work. He also draws inspiration from the challenges around him and the desire to create meaningful experiences through design and technology.",
       suggestions: [
+        "How can I work with Yemi?",
+        "What kind of projects does Yemi work on?",
+        "How can I contact Yemi?",
         "What is Yemi's design process?",
-        "What are Yemi's favorite parts of design?",
-        "What makes Yemi's design approach unique?",
       ],
     },
   ]);
@@ -219,8 +282,18 @@ export default function AskYemiChat({
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth <= 640 : false
   );
+  const [activePromptIndex, setActivePromptIndex] = useState(0);
+  const [isNotionDismissed, setIsNotionDismissed] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen || isNotionDismissed) return;
+    const interval = setInterval(() => {
+      setActivePromptIndex((prev) => (prev + 1) % NOTION_PROMPTS.length);
+    }, 4200);
+    return () => clearInterval(interval);
+  }, [isOpen, isNotionDismissed]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -319,9 +392,10 @@ export default function AskYemiChat({
         content:
           "Yemi finds inspiration in ambitious people who are highly intentional about what they do. Surrounding himself with that kind of energy pushes him to do better work. He also draws inspiration from the challenges around him and the desire to create meaningful experiences through design and technology.",
         suggestions: [
+          "How can I work with Yemi?",
+          "What kind of projects does Yemi work on?",
+          "How can I contact Yemi?",
           "What is Yemi's design process?",
-          "What are Yemi's favorite parts of design?",
-          "What makes Yemi's design approach unique?",
         ],
       },
     ]);
@@ -336,18 +410,40 @@ export default function AskYemiChat({
 
   return (
     <>
-      {/* Floating Action Button */}
-      <motion.button
-        type="button"
-        id="ask-yemi-fab"
-        className={`ask-yemi-fab ${isOpen ? "is-hidden" : ""}`}
-        onClick={onOpen}
-        aria-label="Open Ask yemiLLM chat"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        <span className="fab-text">Ask yemiLLM</span>
-      </motion.button>
+      {/* Notion-style Floating Prompt Callout */}
+      <AnimatePresence>
+        {!isOpen && !isNotionDismissed && (
+          <motion.div
+            id="yemmy-notion-callout-wrapper"
+            className="yemmy-notion-callout-wrapper"
+            initial={{ opacity: 0, y: 14, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.94 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <motion.div
+              className="yemmy-notion-bubble"
+              animate={{ y: [0, -4, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+              onClick={onOpen}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onOpen();
+                }
+              }}
+              aria-label="Ask yemiLLM"
+            >
+              <div className="yemmy-notion-badge">
+                <span className="yemmy-notion-sparkle">✦</span>
+                <span className="yemmy-notion-tag">Ask yemiLLM</span>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Chat Dialog / Modal */}
       <AnimatePresence>

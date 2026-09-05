@@ -93,7 +93,7 @@ export function ResponsiveResumeLink({
         className={`resume-link-mobile ${linkClassName}`.trim()}
         href={resumeViewUrl}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
         onClick={onMobileClick}
       >
         Resume
@@ -117,7 +117,7 @@ export default function ResumeContent({ onBack }) {
           >
             Download
           </a>
-          <a href={resumeViewUrl} target="_blank" rel="noreferrer">Open in new tab</a>
+          <a href={resumeViewUrl} target="_blank" rel="noopener noreferrer">Open in new tab</a>
         </div>
       </header>
       <div className="resume-frame-shell">

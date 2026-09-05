@@ -95,7 +95,7 @@ async function startServer() {
       for (const model of CANDIDATE_MODELS) {
         try {
           const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Timeout")), 4000)
+            setTimeout(() => reject(new Error("Timeout")), 6500)
           );
 
           const generatePromise = ai.models.generateContent({
@@ -103,7 +103,7 @@ async function startServer() {
             contents,
             config: {
               systemInstruction: YEMI_SYSTEM_INSTRUCTION,
-              temperature: 0.7,
+              temperature: 0.85,
             },
           });
 

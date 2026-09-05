@@ -30,9 +30,14 @@ export function CaseStudyFooter({ onOpenAiChat }) {
           <div>
             <a href="/#top">Articles</a>
             <a href="/#work">Projects</a>
-            <a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a>
+            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">Resume</a>
           </div>
-          <div><a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.linkedin.com/in/opeyemiadegboyeazeez/" target="_blank" rel="noreferrer">LinkedIn</a><a href="mailto:adegboyeopeyemi065@gmail.com">Email</a><a href="https://wa.me/2349122546487" target="_blank" rel="noreferrer">WhatsApp</a></div>
+          <div>
+            <a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://www.linkedin.com/in/opeyemiadegboyeazeez/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>
+            <a href="https://wa.me/2349122546487" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          </div>
         </div>
       </nav>
     </footer>
@@ -141,7 +146,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
               <AiAsteriskIcon size={14} />
               <span>Yemi LLM</span>
             </button>
-            <a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a>
+            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">Resume</a>
           </nav>
           <button className="case-study-menu-toggle" type="button" aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen} aria-controls="case-study-mobile-menu" onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}>{mobileMenuOpen ? <CloseCircle size={26} color="currentColor" variant="Linear" aria-hidden="true" /> : <HamburgerMenu size={26} color="currentColor" variant="Linear" aria-hidden="true" />}</button>
         </div>
@@ -159,7 +164,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
               <AiAsteriskIcon size={20} />
               <span>Yemi LLM</span>
             </button>
-            <a href={resumeUrl} target="_blank" rel="noreferrer">Resume</a>
+            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">Resume</a>
           </nav>
         )}
         <SectionNavigation sections={sections} activeSection={activeSection} jumpMenuOpen={jumpMenuOpen} onJumpMenuToggle={() => setJumpMenuOpen((isOpen) => !isOpen)} onSectionSelect={handleSectionSelect} />

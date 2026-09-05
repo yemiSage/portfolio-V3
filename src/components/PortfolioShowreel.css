@@ -181,12 +181,56 @@
 .yemi-outcome-beat {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(10px, 1.8cqw, 18px);
+  translate: 0 -50%;
+  will-change: opacity, transform;
+}
+
+.yemi-outcome-lead-col {
+  justify-self: end;
+  text-align: right;
+  display: flex;
+  align-items: center;
+}
+
+.yemi-persistent-lead-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(10px, 1.8cqw, 18px);
+  translate: 0 -50%;
+  pointer-events: none;
+}
+
+.yemi-outcome-tail-col {
+  justify-self: start;
+  text-align: left;
   display: flex;
   align-items: center;
   gap: clamp(7px, 1.4cqw, 12px);
+}
+
+.yemi-outcome-tail-col.solo-tail {
+  grid-column: 2;
+}
+
+.yemi-outcome-beat.centralized-beat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(10px, 1.8cqw, 18px);
+  left: 50%;
+  right: auto;
   translate: -50% -50%;
-  will-change: opacity, transform;
 }
 
 .yemi-connector-scene {

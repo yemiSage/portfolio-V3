@@ -147,7 +147,7 @@ function ContributedProjects() {
                 <ContributionTag
                   className="contribution-item"
                   key={project.name}
-                  {...(project.href ? { href: project.href, target: "_blank", rel: "noreferrer", "aria-label": `Open ${project.name} in a new tab` } : {})}
+                  {...(project.href ? { href: project.href, target: "_blank", rel: "noopener noreferrer", "aria-label": `Open ${project.name} in a new tab` } : {})}
                 >
                   <div className="contribution-thumbnail" aria-hidden="true">
                     <span>{project.name.slice(0, 2)}</span>
@@ -316,6 +316,31 @@ function App() {
     return () => window.removeEventListener("open-yemi-llm", handleOpenYemiLlm);
   }, []);
 
+  useEffect(() => {
+    const handleGlobalLinkClick = (event) => {
+      const anchor = event.target.closest("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href) return;
+
+      const isExternal =
+        href.startsWith("http://") ||
+        href.startsWith("https://") ||
+        href.startsWith("//") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:") ||
+        (anchor.hostname && anchor.hostname !== window.location.hostname);
+
+      if (isExternal) {
+        anchor.setAttribute("target", "_blank");
+        anchor.setAttribute("rel", "noopener noreferrer");
+      }
+    };
+
+    document.addEventListener("click", handleGlobalLinkClick, { capture: true });
+    return () => document.removeEventListener("click", handleGlobalLinkClick, { capture: true });
+  }, []);
+
   const showResume = (event) => {
     event.preventDefault();
     if (activePanel !== "resume") window.history.pushState({}, "", "/resume");
@@ -394,7 +419,7 @@ function App() {
           <img src={portraitImage} alt="Opeyemi Adegboye" />
         </a>
         <div className="mobile-header-actions">
-          <a className="mobile-contact-button" href="mailto:adegboyeopeyemi065@gmail.com">Contact Me</a>
+          <a className="mobile-contact-button" href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">Contact Me</a>
           <button
             className="mobile-menu-toggle"
             type="button"
@@ -468,7 +493,7 @@ function App() {
               </div>
 
               <div className={`button-row intro-followup${hasIntroStreamed ? " is-revealed" : ""}`}>
-                <a className="button button-primary" href="mailto:adegboyeopeyemi065@gmail.com">
+                <a className="button button-primary" href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">
                   Contact Me
                 </a>
               </div>
@@ -571,10 +596,10 @@ function App() {
                   <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
                 </div>
                 <div>
-                  <a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noreferrer">Instagram</a>
-                  <a href="https://www.linkedin.com/in/opeyemiadegboyeazeez/" target="_blank" rel="noreferrer">LinkedIn</a>
-                  <a href="mailto:adegboyeopeyemi065@gmail.com">Email</a>
-                  <a href="https://wa.me/2349122546487" target="_blank" rel="noreferrer">WhatsApp</a>
+                  <a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                  <a href="https://www.linkedin.com/in/opeyemiadegboyeazeez/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                  <a href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>
+                  <a href="https://wa.me/2349122546487" target="_blank" rel="noopener noreferrer">WhatsApp</a>
                 </div>
               </div>
             </nav>
