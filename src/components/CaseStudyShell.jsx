@@ -141,10 +141,10 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
               type="button"
               className="nav-yemi-llm-btn case-study-yemi-llm-btn"
               onClick={triggerAiChat}
-              aria-label="Open Yemi LLM"
+              aria-label="Open yemiLLM"
             >
               <AiAsteriskIcon size={14} />
-              <span>Yemi LLM</span>
+              <span>yemiLLM</span>
             </button>
             <a href={resumeUrl} target="_blank" rel="noopener noreferrer">Resume</a>
           </nav>
@@ -159,10 +159,10 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
                 setMobileMenuOpen(false);
                 triggerAiChat();
               }}
-              aria-label="Open Yemi LLM"
+              aria-label="Open yemiLLM"
             >
               <AiAsteriskIcon size={20} />
-              <span>Yemi LLM</span>
+              <span>yemiLLM</span>
             </button>
             <a href={resumeUrl} target="_blank" rel="noopener noreferrer">Resume</a>
           </nav>

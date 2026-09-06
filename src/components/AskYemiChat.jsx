@@ -261,6 +261,7 @@ export default function AskYemiChat({
   onClose,
   onOpen,
   onNavigate,
+  mobileMenuOpen,
 }) {
   const [messages, setMessages] = useState([
     {
@@ -412,7 +413,7 @@ export default function AskYemiChat({
     <>
       {/* Notion-style Floating Prompt Callout */}
       <AnimatePresence>
-        {!isOpen && !isNotionDismissed && (
+        {!isOpen && !isNotionDismissed && !mobileMenuOpen && (
           <motion.div
             id="yemmy-notion-callout-wrapper"
             className="yemmy-notion-callout-wrapper"
@@ -464,7 +465,7 @@ export default function AskYemiChat({
               id="rachel-chat-window"
               className="rachel-chat-window"
               role="dialog"
-              aria-label="YEMILLM Portfolio Assistant"
+              aria-label="yemiLLM Portfolio Assistant"
               initial={isMobile ? { y: "100%" } : { x: "100%" }}
               animate={isMobile ? { y: 0 } : { x: 0 }}
               exit={isMobile ? { y: "100%" } : { x: "100%" }}
@@ -477,12 +478,12 @@ export default function AskYemiChat({
               {/* Header */}
               <div className="rachel-chat-header">
                 <div className="rachel-header-left">
-                  <span className="rachel-header-title">YEMILLM</span>
+                  <span className="rachel-header-title">yemiLLM</span>
                   <div className="rachel-info-wrapper">
                     <button
                       type="button"
                       className="rachel-info-button"
-                      aria-label="About YEMILLM"
+                      aria-label="About yemiLLM"
                       onClick={() => setShowInfoTooltip(!showInfoTooltip)}
                       onMouseEnter={() => setShowInfoTooltip(true)}
                       onMouseLeave={() => setShowInfoTooltip(false)}

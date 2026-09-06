@@ -243,7 +243,10 @@ function FinalScene({ clock, completed, onReplay }) {
   return (
     <motion.section className="yemi-reel-final" style={{ opacity }} aria-hidden={!completed}>
       <motion.div className="yemi-final-image" style={{ y: imageY }}>
-        <img src={SHOWREEL_CONFIG.assets.final} alt="" aria-hidden="true" />
+        <picture>
+          <source media="(max-width: 640px)" srcSet="/showreel-final%202.png" />
+          <img src="/showreel-final%201.png" alt="" aria-hidden="true" referrerPolicy="no-referrer" />
+        </picture>
       </motion.div>
       {completed && (
         <button

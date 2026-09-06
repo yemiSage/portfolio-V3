@@ -9,7 +9,7 @@ export function getYemiAge(): number {
   return age;
 }
 
-export const YEMI_SYSTEM_INSTRUCTION = `You are "askYemi" (also known as Yemi LLM or YemiAI), an intelligent, highly articulate, and deeply authentic AI assistant representing Opeyemi Adegboye ("Yemi" or "yemiSage").
+export const YEMI_SYSTEM_INSTRUCTION = `You are "askYemi" (also known as yemiLLM or YemiAI), an intelligent, highly articulate, and deeply authentic AI assistant representing Opeyemi Adegboye ("Yemi" or "yemiSage").
 
 CRITICAL FORMATTING AND PERSPECTIVE RULES:
 1. THIRD-PERSON PERSPECTIVE: ALWAYS speak about Yemi in the third person. Yemi is a male / guy, so use "Yemi is", "He", "His work", "Him". NEVER use first-person pronouns ("I", "me", "my", "mine", "myself").
@@ -223,7 +223,7 @@ export function getSmartPortfolioReply(query: string = ""): string {
     const aiVariations = [
       "Yemi is a committed AI enthusiast who actively integrates modern generative AI workflows into his design practice. He works with tools like Google AI Studio, Claude, and Antigravity to prototype ideas rapidly, design AI-native interfaces like Xeruit Talent, and build intelligent features that feel effortless for users.",
       "Beyond traditional UI and UX, Yemi is deeply fascinated by artificial intelligence. He experiments with large language models, prompt workflows, and agentic systems, believing that the future of design lies in creating intuitive human interactions with intelligent software.",
-      "As an AI enthusiast, Yemi combines his background in engineering with modern AI tooling. Whether he is architecting automated candidate matching flows for Xeruit or building conversational portfolio agents like Yemi LLM, he treats AI as a creative partner that elevates usability."
+      "As an AI enthusiast, Yemi combines his background in engineering with modern AI tooling. Whether he is architecting automated candidate matching flows for Xeruit or building conversational portfolio agents like yemiLLM, he treats AI as a creative partner that elevates usability."
     ];
     return cleanChatOutput(pickRandom(aiVariations));
   }
@@ -425,9 +425,9 @@ export function getSmartPortfolioReply(query: string = ""): string {
 
   // Default helpful overview with dynamic greetings
   const defaultOverviews = [
-    "Hello! This is Yemi LLM, Opeyemi's portfolio assistant. Yemi is a male Product Designer Who Codes with an engineering background (Electrical and Electronics Engineering, Power and Machine option) who is now pursuing digital product design and active in AI.\n\nWhat would you like to explore? Feel free to ask about:\n- His background, education, and childhood in music\n- His contact details: Phone 09122546487, WhatsApp, LinkedIn, or Upwork\n- Case studies: [TASAfrica](/projects/tasafrica) and [Limestone](/projects/limestone)\n- His AI enthusiasm, design methodology, or work on Xeruit and Afternoon Prep",
-    "Welcome to Yemi LLM! I am here to share insights about Opeyemi Adegboye: his design approach, engineering background, case studies, and current work as an AI enthusiast.\n\nYou can ask about:\n- Contact information (Phone 09122546487, WhatsApp, LinkedIn, Email)\n- His education in Electrical Engineering (Power and Machine)\n- Case studies like [TASAfrica](/projects/tasafrica) and [Limestone](/projects/limestone)\n- Mentorship, design tools, or freelance inquiries via Upwork",
-    "Hi there! Yemi LLM here, representing product designer Opeyemi Adegboye. Yemi pairs an Electrical Electronics Engineering education with human-centered product craft and passion for artificial intelligence.\n\nFeel free to ask about his background, case studies ([TASAfrica](/projects/tasafrica), [Limestone](/projects/limestone)), his design process, or how to reach him via Phone, WhatsApp, LinkedIn, or Upwork!"
+    "Hello! This is yemiLLM, Opeyemi's portfolio assistant. Yemi is a male Product Designer Who Codes with an engineering background (Electrical and Electronics Engineering, Power and Machine option) who is now pursuing digital product design and active in AI.\n\nWhat would you like to explore? Feel free to ask about:\n- His background, education, and childhood in music\n- His contact details: Phone 09122546487, WhatsApp, LinkedIn, or Upwork\n- Case studies: [TASAfrica](/projects/tasafrica) and [Limestone](/projects/limestone)\n- His AI enthusiasm, design methodology, or work on Xeruit and Afternoon Prep",
+    "Welcome to yemiLLM! I am here to share insights about Opeyemi Adegboye: his design approach, engineering background, case studies, and current work as an AI enthusiast.\n\nYou can ask about:\n- Contact information (Phone 09122546487, WhatsApp, LinkedIn, Email)\n- His education in Electrical Engineering (Power and Machine)\n- Case studies like [TASAfrica](/projects/tasafrica) and [Limestone](/projects/limestone)\n- Mentorship, design tools, or freelance inquiries via Upwork",
+    "Hi there! yemiLLM here, representing product designer Opeyemi Adegboye. Yemi pairs an Electrical Electronics Engineering education with human-centered product craft and passion for artificial intelligence.\n\nFeel free to ask about his background, case studies ([TASAfrica](/projects/tasafrica), [Limestone](/projects/limestone)), his design process, or how to reach him via Phone, WhatsApp, LinkedIn, or Upwork!"
   ];
   return cleanChatOutput(pickRandom(defaultOverviews));
 }

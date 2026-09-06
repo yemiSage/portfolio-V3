@@ -14,6 +14,7 @@ import PortfolioShowreel from "./components/PortfolioShowreel";
 import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
 import StreamingText from "./components/StreamingText";
 import AskYemiChat from "./components/AskYemiChat";
+import SeoDiagnosticOverlay from "./components/SeoDiagnosticOverlay";
 import tasafricaImage from "../assets/figma/tasafrica.png";
 import limestoneImage from "../assets/figma/limestone.png";
 import xeruitImage from "../assets/figma/xeruit.png";
@@ -446,7 +447,7 @@ function App() {
               }}
             >
               <AiAsteriskIcon size={14} />
-              <span>Yemi LLM</span>
+              <span>yemiLLM</span>
             </button>
             <ResponsiveResumeLink onMobileClick={() => setMobileMenuOpen(false)} />
           </nav>
@@ -466,10 +467,10 @@ function App() {
                   id="yemi-llm-nav-btn"
                   className="nav-yemi-llm-btn"
                   onClick={() => setIsChatOpen(true)}
-                  aria-label="Open Yemi LLM"
+                  aria-label="Open yemiLLM"
                 >
                   <AiAsteriskIcon size={14} />
-                  <span>Yemi LLM</span>
+                  <span>yemiLLM</span>
                 </button>
                 <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
               </nav>
@@ -660,7 +661,10 @@ function App() {
         onOpen={() => setIsChatOpen(true)}
         onClose={() => setIsChatOpen(false)}
         onNavigate={handleChatNavigate}
+        mobileMenuOpen={mobileMenuOpen}
       />
+
+      <SeoDiagnosticOverlay />
     </>
   );
 }

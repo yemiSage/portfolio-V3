@@ -260,6 +260,12 @@
   will-change: transform;
 }
 
+.yemi-final-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .yemi-final-image img {
   width: 100%;
   height: 100%;
@@ -400,4 +406,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   .yemi-inline-frame img { animation: none; transform: none; }
+}
+
+
+/* Custom styling for yemmy-notion-callout span */
+div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) {
+  font-weight: normal !important;
+}
+
+/* Color override for selected mobile-menu navigation button span */
+div#root:nth-of-type(1) > main#top:nth-of-type(1) > header:nth-of-type(1) > nav#mobile-menu:nth-of-type(1) > button:nth-of-type(1) > span:nth-of-type(1) {
+  color: #666481 !important;
 }

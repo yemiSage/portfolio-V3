@@ -1,0 +1,42 @@
+# robots.txt for Opeyemi Adegboye Portfolio
+User-agent: *
+Allow: /
+
+# Explicit permissions for Search Engines & AI Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://ais-pre-pzkybmtjoyqdbwpqja2dra-27898525178.europe-west1.run.app/sitemap.xml
+# AI Model context file
+# See https://llmstxt.org
+# /llms.txt
