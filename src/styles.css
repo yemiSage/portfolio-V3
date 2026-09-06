@@ -768,6 +768,12 @@ h1 {
   background: #000000;
 }
 
+@media screen and (max-width: 768px) {
+  .hero-media {
+    aspect-ratio: 21 / 10; /* Make showreel shorter and more compact on mobile/tablet */
+  }
+}
+
 .hero-caption {
   display: flex;
   align-items: center;
@@ -3249,21 +3255,23 @@ a.contribution-item {
   position: relative;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 8px 14px;
-  box-shadow: 0 12px 30px -6px rgba(15, 23, 42, 0.14), 0 4px 12px -2px rgba(15, 23, 42, 0.07);
+  border-radius: 32px;
+  padding: 8px 8px;
+  box-shadow: none;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 5px;
   text-align: left;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  width: fit-content;
+  margin-left: auto;
+  transition: border-color 0.2s ease, transform 0.2s ease;
   user-select: none;
 }
 
 .yemmy-notion-bubble:hover {
   border-color: #cbd5e1;
-  box-shadow: 0 16px 36px -6px rgba(15, 23, 42, 0.18), 0 6px 16px -2px rgba(15, 23, 42, 0.09);
+  box-shadow: none;
 }
 
 .yemmy-notion-badge {
@@ -3293,7 +3301,7 @@ a.contribution-item {
 .yemmy-notion-tag {
   font-size: 14px;
   line-height: 28px;
-  font-weight: bold;
+  font-weight: normal;
   letter-spacing: 0.02em;
   background: transparent;
   color: #646464;
@@ -3833,6 +3841,14 @@ a.contribution-item {
 .resume-body a:not(.button):hover {
   text-decoration: underline;
   opacity: 0.85;
+}
+
+@media screen and (max-width: 768px) {
+  .yemmy-notion-callout-wrapper {
+    bottom: 16px;
+    right: 16px;
+    max-width: calc(100vw - 32px);
+  }
 }
 
 
