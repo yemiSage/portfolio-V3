@@ -77,10 +77,41 @@ const RECOMMENDED_KEYWORDS = [
 export default function SeoDiagnosticOverlay() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [alwaysShowInProd, setAlwaysShowInProd] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("seo_tool_always_show") === "true";
+    }
+    return false;
+  });
+
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("seo") || params.has("diagnostics")) return true;
+      if (localStorage.getItem("seo_tool_always_show") === "true") return true;
+      // In dev mode, show by default. In production, keep hidden unless requested via ?seo or hotkey
+      return Boolean(import.meta.env.DEV);
+    }
+    return false;
+  });
+
   const [activeTab, setActiveTab] = useState("keywords"); // 'keywords' | 'benchmarks' | 'ai' | 'preview'
   const [copiedKey, setCopiedKey] = useState(null);
   const [keywordInput, setKeywordInput] = useState("");
   const [notification, setNotification] = useState(null);
+
+  // Keyboard shortcut (Cmd+Shift+S or Ctrl+Shift+S) to open or reveal anywhere
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "S" || e.key === "s")) {
+        e.preventDefault();
+        setIsVisible(true);
+        setIsOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // Live meta tag state
   const [keywords, setKeywords] = useState([]);
@@ -300,6 +331,10 @@ export default function SeoDiagnosticOverlay() {
       checks
     };
   }, [metaTitle, metaDescription, keywords, ogData, jsonLdSummary]);
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <>
@@ -863,11 +898,32 @@ export default function SeoDiagnosticOverlay() {
 
               {/* Footer status bar */}
               <div className="seo-diag-modal-footer">
-                <div className="flex items-center gap-1.5 text-[11px] text-gray-500">
-                  <span className="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
-                  <span>
-                    Keywords synced with <code>&lt;meta name="keywords"&gt;</code>
-                  </span>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-[11px] text-gray-500">
+                  <div className="flex items-center gap-1.5">
+                    <span className="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>
+                      Keywords synced with <code>&lt;meta&gt;</code>
+                    </span>
+                  </div>
+
+                  <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900 select-none pl-0 sm:pl-2 sm:border-l sm:border-gray-200">
+                    <input
+                      type="checkbox"
+                      checked={alwaysShowInProd}
+                      onChange={(e) => {
+                        const val = e.target.checked;
+                        setAlwaysShowInProd(val);
+                        localStorage.setItem("seo_tool_always_show", val ? "true" : "false");
+                        showNotification(
+                          val
+                            ? "SEO tool will always display in production"
+                            : "SEO tool hidden from production visitors (press Cmd+Shift+S or add ?seo=true)"
+                        );
+                      }}
+                      className="rounded border-gray-300 text-[#e0733d] focus:ring-0"
+                    />
+                    <span>Show in live production</span>
+                  </label>
                 </div>
 
                 <div className="flex items-center gap-2">

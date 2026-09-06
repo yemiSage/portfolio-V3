@@ -248,16 +248,6 @@ function FinalScene({ clock, completed, onReplay }) {
           <img src="/showreel-final%201.png" alt="" aria-hidden="true" referrerPolicy="no-referrer" />
         </picture>
       </motion.div>
-      {completed && (
-        <button
-          type="button"
-          className="yemi-replay-button"
-          aria-label="Replay portfolio showreel"
-          onClick={(event) => { event.stopPropagation(); onReplay(); }}
-        >
-          <span className="yemi-replay-icon" aria-hidden="true" />
-        </button>
-      )}
     </motion.section>
   );
 }
@@ -365,16 +355,16 @@ export default function PortfolioShowreel() {
         <FinalScene clock={clock} completed={completed} onReplay={replay} />
       </div>
 
-      {!completed && <div className="yemi-reel-controls">
+      <div className="yemi-reel-controls">
         <button
           type="button"
           className="yemi-reel-control"
-          aria-label={playing ? "Pause portfolio showreel" : "Resume portfolio showreel"}
+          aria-label={completed ? "Replay portfolio showreel" : playing ? "Pause portfolio showreel" : "Resume portfolio showreel"}
           onClick={(event) => { event.stopPropagation(); togglePlayback(); }}
         >
           <span className={playing ? "yemi-pause-icon" : "yemi-play-icon"} aria-hidden="true" />
         </button>
-      </div>}
+      </div>
     </div>
   );
 }
