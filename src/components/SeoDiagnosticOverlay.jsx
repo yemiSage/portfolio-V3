@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles,
@@ -9,18 +9,14 @@ import {
   Check,
   CheckCircle2,
   AlertCircle,
-  FileText,
   Bot,
   Share2,
   Code,
   RotateCcw,
-  Search,
   Tag,
-  Layers,
   Globe,
-  ChevronRight,
   Eye,
-  Minimize2
+  Minimize2,
 } from "lucide-react";
 
 // Industry recommended keywords organized by design sub-domains

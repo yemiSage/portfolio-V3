@@ -331,11 +331,6 @@
   to { transform: scale(1.13) translateX(2%); }
 }
 
-@keyframes yemi-replay-enter {
-  from { opacity: 0; transform: scale(0.86); }
-  to { opacity: 1; transform: scale(1); }
-}
-
 @container (max-width: 520px) {
   .yemi-reel-scene { padding-inline: 6%; }
   .yemi-intro-lockup { width: 90%; }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 import {
   ArrowLeft2,
@@ -8,13 +8,14 @@ import {
 } from "iconsax-reactjs";
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
-import LimestoneCaseStudy from "./components/LimestoneCaseStudy";
-import TasaAfricaCaseStudy from "./components/TasaAfricaCaseStudy";
 import PortfolioShowreel from "./components/PortfolioShowreel";
 import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
 import StreamingText from "./components/StreamingText";
 import AskYemiChat from "./components/AskYemiChat";
-import SeoDiagnosticOverlay from "./components/SeoDiagnosticOverlay";
+
+const LimestoneCaseStudy = lazy(() => import("./components/LimestoneCaseStudy"));
+const TasaAfricaCaseStudy = lazy(() => import("./components/TasaAfricaCaseStudy"));
+const SeoDiagnosticOverlay = lazy(() => import("./components/SeoDiagnosticOverlay"));
 import tasafricaImage from "../assets/figma/tasafrica.png";
 import limestoneImage from "../assets/figma/limestone.png";
 import xeruitImage from "../assets/figma/xeruit.png";
@@ -376,7 +377,7 @@ function App() {
 
   if (isLimestoneCaseStudy) {
     return (
-      <>
+      <Suspense fallback={null}>
         <LimestoneCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
         <AskYemiChat
           isOpen={isChatOpen}
@@ -384,13 +385,13 @@ function App() {
           onClose={() => setIsChatOpen(false)}
           onNavigate={handleChatNavigate}
         />
-      </>
+      </Suspense>
     );
   }
 
   if (isTasaAfricaCaseStudy) {
     return (
-      <>
+      <Suspense fallback={null}>
         <TasaAfricaCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
         <AskYemiChat
           isOpen={isChatOpen}
@@ -398,7 +399,7 @@ function App() {
           onClose={() => setIsChatOpen(false)}
           onNavigate={handleChatNavigate}
         />
-      </>
+      </Suspense>
     );
   }
 
@@ -664,7 +665,9 @@ function App() {
         mobileMenuOpen={mobileMenuOpen}
       />
 
-      <SeoDiagnosticOverlay />
+      <Suspense fallback={null}>
+        <SeoDiagnosticOverlay />
+      </Suspense>
     </>
   );
 }
