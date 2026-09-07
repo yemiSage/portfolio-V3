@@ -238,11 +238,11 @@ function OutcomesScene({ clock, scene, reducedMotion }) {
 
 function FinalScene({ clock, completed, onReplay }) {
   const opacity = useTransform(clock, [14.98, 15.08], [0, 1], { ease: EASE });
-  const imageY = useTransform(clock, [15, 15.95], ["100%", "0%"], { ease: EASE });
+  const imageOpacity = useTransform(clock, [15, 15.95], [0, 1], { ease: EASE });
 
   return (
     <motion.section className="yemi-reel-final" style={{ opacity }} aria-hidden={!completed}>
-      <motion.div className="yemi-final-image" style={{ y: imageY }}>
+      <motion.div className="yemi-final-image" style={{ opacity: imageOpacity }}>
         <picture>
           <source media="(max-width: 640px)" srcSet="/showreel-final%202.jpg" />
           <img src="/showreel-final%201.jpg" alt="" aria-hidden="true" referrerPolicy="no-referrer" />

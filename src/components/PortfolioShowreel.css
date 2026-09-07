@@ -248,7 +248,7 @@
 .yemi-final-image {
   position: absolute;
   inset: 0;
-  will-change: transform;
+  will-change: opacity;
 }
 
 .yemi-final-image picture {
@@ -341,7 +341,8 @@
   .yemi-persistent-outcomes { font-size: clamp(18px, 5.8cqw, 29px); }
   .yemi-persistent-lead-wrapper,
   .yemi-outcome-beat:not(.centralized-beat) {
-    margin-left: -20px;
+    left: -25px !important;
+    right: 25px !important;
   }
   .yemi-connector-scene { font-size: clamp(18px, 5.8cqw, 29px); }
   .yemi-reel-control { width: 34px; height: 34px; }
@@ -353,6 +354,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .yemi-inline-frame img { animation: none; transform: none; }
+}
+
+@media (max-width: 640px) {
+  .yemi-persistent-lead-wrapper,
+  .yemi-outcome-beat:not(.centralized-beat) {
+    left: -25px !important;
+    right: 25px !important;
+  }
 }
 
 
