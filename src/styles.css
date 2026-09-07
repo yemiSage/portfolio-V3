@@ -4447,3 +4447,103 @@ a.contribution-item {
     left: 16px;
   }
 }
+
+@media screen and (max-width: 640px) {
+  div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) {
+    padding-bottom: 4px;
+    padding-top: 4px;
+    padding-left: 14px;
+    padding-right: 14px;
+    border-radius: 100px;
+  }
+}
+
+/* Global Mobile Hover Reset */
+@media (max-width: 768px) {
+  /* Disable scale/transform on cards */
+  .project-card:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .project-card:hover .project-visual {
+    transform: none !important;
+  }
+  
+  /* Disable button scaling and hover transitions */
+  .button-primary:hover,
+  .button-secondary:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Reset social, scroll, and other anchor links opacity/transforms */
+  .social-link:hover,
+  .scroll-link:hover,
+  .identity-links a:hover,
+  .footer-links a:hover,
+  .resume-actions a:hover {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  /* Reset tool-grid list hover states */
+  .tool-grid li:is(:hover, .is-active) {
+    border-color: #e2e8f0 !important;
+    background: transparent !important;
+  }
+  .tool-grid li:is(:hover, .is-active) img {
+    filter: grayscale(100%) !important;
+    opacity: 0.54 !important;
+  }
+  
+  /* Reset yemmy notion bubble and fab hover states */
+  .yemmy-notion-bubble:hover {
+    border-color: #7a7a7a !important;
+    transform: none !important;
+  }
+  .yemmy-notion-bubble:hover .yemmy-notion-arrow {
+    transform: none !important;
+  }
+  .yemmy-notion-dismiss-btn:hover {
+    opacity: 0.45 !important;
+    transform: none !important;
+  }
+  .ask-yemi-fab:hover {
+    transform: none !important;
+  }
+  
+  /* Reset Rachel chatbot hover elements */
+  .rachel-info-button:hover,
+  .rachel-icon-button:hover {
+    transform: none !important;
+  }
+  .rachel-suggestion-item:hover {
+    background-color: #f1f5f9 !important;
+    transform: none !important;
+  }
+  .rachel-suggestion-item:hover .rachel-suggestion-arrow {
+    transform: none !important;
+  }
+  
+  /* Disable portfolio showreel control opacity hover trigger */
+  .yemi-reel-control {
+    opacity: 0.62 !important;
+  }
+  .yemi-reel:hover .yemi-reel-control {
+    opacity: 0.62 !important;
+  }
+
+  /* Reset SEO diagnostic button hover states */
+  .seo-diag-pill-btn:hover,
+  .seo-diag-mini-btn:hover,
+  .seo-diag-minimize-btn:hover,
+  .seo-diag-close-btn:hover,
+  .seo-diag-tab:hover,
+  .seo-diag-add-btn:hover,
+  .seo-diag-text-action:hover,
+  .seo-diag-rec-chip:hover,
+  .seo-diag-save-btn:hover {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
