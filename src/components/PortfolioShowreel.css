@@ -42,15 +42,6 @@
   will-change: opacity;
 }
 
-.yemi-reel-final::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: rgba(5, 5, 5, 0.16);
-  pointer-events: none;
-}
-
 .yemi-intro-lockup {
   width: min(82%, 660px);
   text-align: center;
@@ -348,6 +339,10 @@
     left: auto;
   }
   .yemi-persistent-outcomes { font-size: clamp(18px, 5.8cqw, 29px); }
+  .yemi-persistent-lead-wrapper,
+  .yemi-outcome-beat:not(.centralized-beat) {
+    margin-left: -20px;
+  }
   .yemi-connector-scene { font-size: clamp(18px, 5.8cqw, 29px); }
   .yemi-reel-control { width: 34px; height: 34px; }
 }
