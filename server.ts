@@ -7,6 +7,7 @@ import {
   getSmartPortfolioReply,
   cleanChatOutput,
 } from "./src/utils/chatKnowledge";
+import { retrieveRelevantContext } from "./src/utils/ragServer";
 
 const PORT = 3000;
 
@@ -92,6 +93,9 @@ async function startServer() {
       let replyText = "";
       let lastError: any = null;
 
+      // Retrieve high-fidelity context dynamically from the project & page markdown files via the RAG pipeline
+      const ragContext = retrieveRelevantContext(message);
+
       for (const model of CANDIDATE_MODELS) {
         try {
           const timeoutPromise = new Promise((_, reject) =>
@@ -99,6 +103,9 @@ async function startServer() {
           );
 
           let dynamicSystemInstruction = YEMI_SYSTEM_INSTRUCTION;
+          if (ragContext) {
+            dynamicSystemInstruction += `\n\n[RAG SYSTEM PORTFOLIO KNOWLEDGE BASE]\nThe following is highly accurate, extracted context from Opeyemi's official project and page markdown documents. Use it to answer any specific or implicit questions about his portfolio projects, key metrics, client results, background, skills, contact channels, or work philosophy with deep, context-rich intelligence:\n"""\n${ragContext}\n"""`;
+          }
           if (context && typeof context === "object") {
             dynamicSystemInstruction += `\n\n[USER SCREEN CONTEXT]\nThe user is currently browsing the page: "${context.currentPath || '/'}".\nPage Title: "${context.pageTitle || ''}".\nHere is the visible content on this page:\n"""\n${context.extractedText || ''}\n"""\nYou are fully aware of everything on this page. When the user asks "what is this page about?", "who is this?", or questions about any text, details, metrics, case studies, sections, or bullet points on this screen, use the visible text above to answer accurately and intelligently as if you are looking at their screen!`;
           }

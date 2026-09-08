@@ -3299,7 +3299,7 @@ a.contribution-item {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #4f46e5;
+  color: #1c1c1c;
   text-transform: none;
 }
 
@@ -3325,7 +3325,7 @@ a.contribution-item {
   font-weight: bold;
   letter-spacing: 0.02em;
   background: transparent;
-  color: #646464;
+  color: #1c1c1c;
   padding: 0;
 }
 
@@ -3427,7 +3427,8 @@ a.contribution-item {
   .yemmy-notion-callout-wrapper {
     bottom: 18px;
     right: 16px;
-    left: 16px;
+    left: auto;
+    width: fit-content;
     max-width: calc(100vw - 32px);
   }
   .ask-yemi-fab {
@@ -4601,5 +4602,34 @@ a.contribution-item {
 }
 
 div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) {
-  font-weight: normal !important;
+  font-weight: 500 !important;
+}
+
+div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1) {
+  font-weight: 500 !important;
+}
+
+div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) {
+  width: fit-content !important;
+  max-width: calc(100vw - 32px) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  left: auto !important;
+  right: 16px !important;
+  bottom: 18px !important;
+}
+
+div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) {
+  width: fit-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 640px) {
+  div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) {
+    right: 16px !important;
+    left: auto !important;
+    width: fit-content !important;
+  }
 }
