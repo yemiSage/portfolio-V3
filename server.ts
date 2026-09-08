@@ -45,7 +45,7 @@ async function startServer() {
   // Chat API endpoint
   app.post("/api/chat", async (req, res) => {
     try {
-      const { message, history } = req.body;
+      const { message, history, context } = req.body;
 
       if (!message || typeof message !== "string") {
         return res.status(400).json({ error: "Message is required." });
@@ -98,11 +98,16 @@ async function startServer() {
             setTimeout(() => reject(new Error("Timeout")), 6500)
           );
 
+          let dynamicSystemInstruction = YEMI_SYSTEM_INSTRUCTION;
+          if (context && typeof context === "object") {
+            dynamicSystemInstruction += `\n\n[USER SCREEN CONTEXT]\nThe user is currently browsing the page: "${context.currentPath || '/'}".\nPage Title: "${context.pageTitle || ''}".\nHere is the visible content on this page:\n"""\n${context.extractedText || ''}\n"""\nYou are fully aware of everything on this page. When the user asks "what is this page about?", "who is this?", or questions about any text, details, metrics, case studies, sections, or bullet points on this screen, use the visible text above to answer accurately and intelligently as if you are looking at their screen!`;
+          }
+
           const generatePromise = ai.models.generateContent({
             model,
             contents,
             config: {
-              systemInstruction: YEMI_SYSTEM_INSTRUCTION,
+              systemInstruction: dynamicSystemInstruction,
               temperature: 0.85,
             },
           });

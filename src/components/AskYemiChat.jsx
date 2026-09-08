@@ -332,6 +332,20 @@ export default function AskYemiChat({
     setIsLoading(true);
 
     try {
+      // Extract dynamic page text context
+      let extractedText = "";
+      try {
+        const mainContentEl = document.querySelector("main") || document.querySelector("#root") || document.body;
+        if (mainContentEl) {
+          const clone = mainContentEl.cloneNode(true);
+          clone.querySelectorAll(".yemmy-notion-callout-wrapper, .yemmy-notion-bubble, .rachel-chat-container, .rachel-chat-backdrop, .seo-diag-container, .seo-diag-overlay, script, style, svg").forEach(el => el.remove());
+          extractedText = clone.innerText || clone.textContent || "";
+          extractedText = extractedText.replace(/\s+/g, " ").substring(0, 15000);
+        }
+      } catch (contextErr) {
+        console.warn("Could not extract page context:", contextErr);
+      }
+
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -341,6 +355,11 @@ export default function AskYemiChat({
             role: m.role,
             content: m.content,
           })),
+          context: {
+            currentPath: window.location.pathname,
+            pageTitle: document.title,
+            extractedText: extractedText
+          }
         }),
       });
 
