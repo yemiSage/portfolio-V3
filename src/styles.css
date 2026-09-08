@@ -31,6 +31,27 @@
 
 html {
   scroll-behavior: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.4) transparent;
+}
+
+/* Global scrollbars for WebKit browsers */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.35);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.55);
 }
 
 body {
@@ -3263,6 +3284,7 @@ a.contribution-item {
   margin-left: auto;
   transition: border-color 0.2s ease, transform 0.2s ease;
   user-select: none;
+  animation: yemmy-bubble-glow 3.2s infinite ease-in-out;
 }
 
 .yemmy-notion-bubble:hover {
@@ -3285,7 +3307,10 @@ a.contribution-item {
   font-size: 24px;
   line-height: 1;
   display: inline-block;
-  color: #a6a6a6;
+  background: linear-gradient(135deg, #a5b4fc, #c084fc, #fbcfe8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 5px rgba(192, 132, 252, 0.45));
   animation: notionSparkleSpin 4s ease-in-out infinite;
 }
 
@@ -3370,7 +3395,7 @@ a.contribution-item {
   background: #ffffff;
   color: #374151;
   border: 1px solid #e5e7eb;
-  box-shadow: none !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
   font-size: 12.5px;
   font-weight: 500;
   letter-spacing: -0.1px;
@@ -3378,13 +3403,15 @@ a.contribution-item {
   transition: all 180ms ease;
   font-family: inherit;
   white-space: nowrap;
+  animation: yemmy-fab-pulse 3.2s infinite ease-in-out;
 }
 
 .ask-yemi-fab:hover {
   background: #f9fafb;
   border-color: #d1d5db;
-  box-shadow: none !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
   color: #111827;
+  animation-play-state: paused;
 }
 
 .fab-text {
@@ -4546,4 +4573,33 @@ a.contribution-item {
     transform: none !important;
     opacity: 1 !important;
   }
+}
+
+/* Subtle pulse animations for Floating Chat Assistants */
+@keyframes yemmy-fab-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    border-color: #e5e7eb;
+  }
+  50% {
+    transform: scale(1.035);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.1), 0 0 0 3px rgba(79, 70, 229, 0.05);
+    border-color: #4f46e5;
+  }
+}
+
+@keyframes yemmy-bubble-glow {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    border-color: #7a7a7a;
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.1), 0 0 0 2px rgba(79, 70, 229, 0.05);
+    border-color: #4f46e5;
+  }
+}
+
+div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) {
+  font-weight: normal !important;
 }

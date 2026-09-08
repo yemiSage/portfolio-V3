@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BorderBeam } from "border-beam";
 import { getSmartPortfolioReply, cleanChatOutput } from "../utils/chatKnowledge";
 
 const DEFAULT_SUGGESTIONS = [
@@ -417,31 +418,33 @@ export default function AskYemiChat({
           <motion.div
             id="yemmy-notion-callout-wrapper"
             className="yemmy-notion-callout-wrapper"
-            initial={{ opacity: 0, y: 14, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.94 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            <motion.div
-              className="yemmy-notion-bubble"
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-              onClick={onOpen}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  onOpen();
-                }
-              }}
-              aria-label="Ask yemiLLM"
-            >
-              <div className="yemmy-notion-badge">
-                <span className="yemmy-notion-sparkle">✦</span>
-                <span className="yemmy-notion-tag">Ask yemiLLM</span>
-              </div>
-            </motion.div>
+            <BorderBeam size="md" colorVariant="colorful" strength={0.7}>
+              <motion.div
+                className="yemmy-notion-bubble"
+                onClick={onOpen}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onOpen();
+                  }
+                }}
+                aria-label="Ask yemiLLM"
+              >
+                <div className="yemmy-notion-badge">
+                  <BorderBeam size="sm" colorVariant="sunset" strength={0.9}>
+                    <span className="yemmy-notion-sparkle" style={{ display: "inline-block", padding: "2px" }}>✦</span>
+                  </BorderBeam>
+                  <span className="yemmy-notion-tag">Ask yemiLLM</span>
+                </div>
+              </motion.div>
+            </BorderBeam>
           </motion.div>
         )}
       </AnimatePresence>

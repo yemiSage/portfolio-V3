@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft2,
   ArrowRight2,
@@ -248,6 +248,85 @@ function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const lightboxPointerStart = useRef(null);
   const handleIntroStreamingComplete = useCallback(() => setHasIntroStreamed(true), []);
+
+  // Reading Progress Indicator State & Effect
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        const progress = (window.scrollY / totalHeight) * 100;
+        setScrollProgress(progress);
+      } else {
+        setScrollProgress(0);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Clipboard Copier with Custom Visual Toast
+  const [toastMessage, setToastMessage] = useState("");
+
+  const handleCopyText = useCallback((text, label = "Content") => {
+    navigator.clipboard.writeText(text).then(() => {
+      setToastMessage(`${label} copied to clipboard!`);
+      setTimeout(() => setToastMessage(""), 2000);
+    }).catch(() => {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy");
+        setToastMessage(`${label} copied to clipboard!`);
+      } catch (err) {
+        console.error("Failed to copy text", err);
+      }
+      document.body.removeChild(textArea);
+      setTimeout(() => setToastMessage(""), 2000);
+    });
+  }, []);
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      const copyableElement = e.target.closest("[data-copyable='true'], code, pre, .copyable-item");
+      if (copyableElement) {
+        if (e.target.tagName === "A" || e.target.tagName === "BUTTON") return;
+        const textToCopy = copyableElement.getAttribute("data-copy-value") || copyableElement.innerText || copyableElement.textContent;
+        const label = copyableElement.getAttribute("data-copy-label") || "Text";
+        handleCopyText(textToCopy, label);
+      }
+    };
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, [handleCopyText]);
+
+  // Global Keyboard Shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const activeEl = document.activeElement;
+      const isTyping = activeEl && (
+        activeEl.tagName === "INPUT" || 
+        activeEl.tagName === "TEXTAREA" || 
+        activeEl.isContentEditable
+      );
+
+      if (e.key === "Escape") {
+        setIsChatOpen(false);
+        setLightboxIndex(null);
+      } else if ((e.key === "k" || e.key === "K") && !isTyping) {
+        e.preventDefault();
+        setIsChatOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const closeLightbox = () => setLightboxIndex(null);
   const showPreviousShot = () => setLightboxIndex((index) => (index - 1 + shots.length) % shots.length);
@@ -668,6 +747,55 @@ function App() {
       <Suspense fallback={null}>
         <SeoDiagnosticOverlay />
       </Suspense>
+
+      {/* Reading Progress Indicator Bar */}
+      {(isLimestoneCaseStudy || isTasaAfricaCaseStudy || activePanel === "resume") && (
+        <div 
+          id="reading-progress-indicator"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: `${scrollProgress}%`,
+            height: "4px",
+            backgroundColor: "#4f46e5",
+            zIndex: 100000,
+            transition: "width 0.08s ease-out"
+          }}
+        />
+      )}
+
+      {/* Minimalist 'Copied!' Toast Notification */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 15, scale: 0.95 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            style={{
+              position: "fixed",
+              bottom: "84px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              backgroundColor: "#1f2937",
+              color: "#ffffff",
+              padding: "10px 18px",
+              borderRadius: "8px",
+              fontSize: "13px",
+              fontWeight: "500",
+              boxShadow: "0 10px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.15)",
+              zIndex: 1000000,
+              pointerEvents: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px"
+            }}
+          >
+            <span style={{ color: "#10b981" }}>✓</span> {toastMessage}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
