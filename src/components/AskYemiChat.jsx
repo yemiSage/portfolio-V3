@@ -457,9 +457,7 @@ export default function AskYemiChat({
                 aria-label="Ask yemiLLM"
               >
                 <div className="yemmy-notion-badge">
-                  <BorderBeam size="sm" colorVariant="sunset" strength={0.9}>
-                    <span className="yemmy-notion-sparkle" style={{ display: "inline-block", padding: "2px" }}>✦</span>
-                  </BorderBeam>
+                  <span className="yemmy-notion-sparkle" style={{ display: "inline-block", padding: "2px" }}>✦</span>
                   <span className="yemmy-notion-tag">Ask yemiLLM</span>
                 </div>
               </motion.div>
