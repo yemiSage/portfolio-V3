@@ -232,11 +232,47 @@ function Project({ project }) {
 }
 
 function App() {
-  const currentPath = window.location.pathname.replace(/\/+$/, "");
-  const isLimestoneCaseStudy = currentPath === "/projects/limestone";
-  const isTasaAfricaCaseStudy = currentPath === "/projects/tasafrica";
-  const isResumePage = window.location.pathname.replace(/\/+$/, "") === "/resume";
+  const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, ""));
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionProgress, setTransitionProgress] = useState(0);
+
+  const isLimestoneCaseStudy = path === "/projects/limestone";
+  const isTasaAfricaCaseStudy = path === "/projects/tasafrica";
+  const isResumePage = path === "/resume";
   const [activePanel, setActivePanel] = useState(isResumePage ? "resume" : "home");
+
+  const navigateTo = useCallback((targetPath) => {
+    const normalizedTarget = targetPath.replace(/\/+$/, "") || "/";
+    const currentNormalized = window.location.pathname.replace(/\/+$/, "") || "/";
+    
+    setIsTransitioning(true);
+    setTransitionProgress(15);
+
+    const timer1 = setTimeout(() => setTransitionProgress(45), 80);
+    const timer2 = setTimeout(() => setTransitionProgress(75), 180);
+    const timer3 = setTimeout(() => setTransitionProgress(90), 320);
+
+    const timerComplete = setTimeout(() => {
+      window.history.pushState({}, "", normalizedTarget);
+      setPath(normalizedTarget);
+      setActivePanel(normalizedTarget === "/resume" ? "resume" : "home");
+      setTransitionProgress(100);
+      window.scrollTo(0, 0);
+
+      setTimeout(() => {
+        setIsTransitioning(false);
+        setTransitionProgress(0);
+      }, 150);
+    }, 450);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+      clearTimeout(timerComplete);
+    };
+  }, [path]);
+
   const [activeWork, setActiveWork] = useState("projects");
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -384,7 +420,9 @@ function App() {
 
   useEffect(() => {
     const syncPanelWithHistory = () => {
-      setActivePanel(window.location.pathname.replace(/\/+$/, "") === "/resume" ? "resume" : "home");
+      const newPath = window.location.pathname.replace(/\/+$/, "");
+      setPath(newPath);
+      setActivePanel(newPath === "/resume" ? "resume" : "home");
     };
 
     window.addEventListener("popstate", syncPanelWithHistory);
@@ -415,48 +453,62 @@ function App() {
       if (isExternal) {
         anchor.setAttribute("target", "_blank");
         anchor.setAttribute("rel", "noopener noreferrer");
+      } else {
+        const cleanHref = href.split("#")[0];
+        if (
+          cleanHref === "/projects/tasafrica" ||
+          cleanHref === "/projects/limestone" ||
+          cleanHref === "/resume" ||
+          cleanHref === "/" ||
+          cleanHref === ""
+        ) {
+          event.preventDefault();
+          navigateTo(href);
+        }
       }
     };
 
     document.addEventListener("click", handleGlobalLinkClick, { capture: true });
     return () => document.removeEventListener("click", handleGlobalLinkClick, { capture: true });
-  }, []);
+  }, [navigateTo]);
 
   const showResume = (event) => {
     event.preventDefault();
-    if (activePanel !== "resume") window.history.pushState({}, "", "/resume");
-    setActivePanel("resume");
-    window.scrollTo(0, 0);
+    navigateTo("/resume");
   };
 
   const showHome = (event) => {
     event?.preventDefault();
-    if (activePanel !== "home") window.history.pushState({}, "", "/");
-    setActivePanel("home");
+    navigateTo("/");
     window.requestAnimationFrame(() => document.getElementById("about")?.scrollIntoView({ behavior: "auto" }));
   };
 
   const homeAnchorHref = (anchor) => (activePanel === "resume" ? `/${anchor}` : anchor);
 
   const handleChatNavigate = (url) => {
-    if (url === "/projects/tasafrica" || url === "/projects/limestone") {
-      window.location.href = url;
-    } else if (url === "/resume") {
-      window.history.pushState({}, "", "/resume");
-      setActivePanel("resume");
-      window.scrollTo(0, 0);
-    } else if (url === "/" || url.startsWith("/#")) {
-      window.history.pushState({}, "", "/");
-      setActivePanel("home");
-      window.scrollTo(0, 0);
-    } else if (url.startsWith("/")) {
-      window.location.href = url;
-    }
+    navigateTo(url);
   };
+
+  const topProgressBar = (
+    <AnimatePresence>
+      {isTransitioning && (
+        <motion.div
+          key="top-loading-progress-bar"
+          className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#818cf8] via-[#f472b6] to-[#4f46e5] z-[99999] shadow-[0_1px_8px_rgba(129,140,248,0.4)]"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: transitionProgress / 100 }}
+          exit={{ opacity: 0 }}
+          transition={{ ease: "easeInOut", duration: 0.15 }}
+          style={{ originX: 0 }}
+        />
+      )}
+    </AnimatePresence>
+  );
 
   if (isLimestoneCaseStudy) {
     return (
       <Suspense fallback={null}>
+        {topProgressBar}
         <LimestoneCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
         <AskYemiChat
           isOpen={isChatOpen}
@@ -471,6 +523,7 @@ function App() {
   if (isTasaAfricaCaseStudy) {
     return (
       <Suspense fallback={null}>
+        {topProgressBar}
         <TasaAfricaCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
         <AskYemiChat
           isOpen={isChatOpen}
@@ -484,6 +537,7 @@ function App() {
 
   return (
     <>
+      {topProgressBar}
       <AnimatePresence>
         {showPreloader && (
           <FullScreenPreloader key="portfolio-preloader" onComplete={() => { sessionStorage.setItem("portfolio-preloader-seen", "true"); setShowPreloader(false); }} />
@@ -584,109 +638,127 @@ function App() {
         </aside>
 
         <section className={`content-column${activePanel === "resume" ? " content-column-resume" : ""}`} aria-label="Portfolio content">
-          {activePanel === "resume" ? (
-            <ResumeContent onBack={showHome} />
-          ) : (
-            <>
-          <section className="hero-panel" aria-label="Portfolio showreel and work navigation">
-            <div className="hero-media">
-              <PortfolioShowreel />
-            </div>
-            <div className="hero-caption">
-              <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeWork === "projects"}
-                  className={activeWork === "projects" ? "is-selected" : ""}
-                  onClick={() => {
-                    setActiveWork("projects");
-                    closeLightbox();
-                  }}
-                >
-                  Projects
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeWork === "shots"}
-                  className={activeWork === "shots" ? "is-selected" : ""}
-                  onClick={() => setActiveWork("shots")}
-                >
-                  Shots
-                </button>
-              </div>
-            </div>
-          </section>
-
-          <section className="projects" id="work" aria-label="Selected projects">
-            {activeWork === "projects" ? (
-              projects.map((project) => <Project key={project.name} project={project} />)
+          <AnimatePresence mode="wait">
+            {activePanel === "resume" ? (
+              <motion.div
+                key="resume"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full"
+              >
+                <ResumeContent onBack={showHome} />
+              </motion.div>
             ) : (
-              <div className="shots-grid" role="tabpanel" aria-label="Design shots">
-                {shots.map((image, index) => (
-                  <button
-                    className="shot-card"
-                    key={image}
-                    type="button"
-                    aria-label={`Open portfolio design shot ${index + 1}`}
-                    onClick={() => setLightboxIndex(index)}
-                  >
-                    <img
-                      src={`/thumbnails/shot-${String(index + 1).padStart(2, "0")}.webp`}
-                      alt=""
-                      width="720"
-                      height="556"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </button>
-                ))}
-              </div>
+              <motion.div
+                key="home"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full"
+              >
+                <section className="hero-panel" aria-label="Portfolio showreel and work navigation">
+                  <div className="hero-media">
+                    <PortfolioShowreel />
+                  </div>
+                  <div className="hero-caption">
+                    <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={activeWork === "projects"}
+                        className={activeWork === "projects" ? "is-selected" : ""}
+                        onClick={() => {
+                          setActiveWork("projects");
+                          closeLightbox();
+                        }}
+                      >
+                        Projects
+                      </button>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={activeWork === "shots"}
+                        className={activeWork === "shots" ? "is-selected" : ""}
+                        onClick={() => setActiveWork("shots")}
+                      >
+                        Shots
+                      </button>
+                    </div>
+                  </div>
+                </section>
+
+                <section className="projects" id="work" aria-label="Selected projects">
+                  {activeWork === "projects" ? (
+                    projects.map((project) => <Project key={project.name} project={project} />)
+                  ) : (
+                    <div className="shots-grid" role="tabpanel" aria-label="Design shots">
+                      {shots.map((image, index) => (
+                        <button
+                          className="shot-card"
+                          key={image}
+                          type="button"
+                          aria-label={`Open portfolio design shot ${index + 1}`}
+                          onClick={() => setLightboxIndex(index)}
+                        >
+                          <img
+                            src={`/thumbnails/shot-${String(index + 1).padStart(2, "0")}.webp`}
+                            alt=""
+                            width="720"
+                            height="556"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </section>
+
+                <ContributedProjects />
+
+                <section className="toolbox" aria-labelledby="toolbox-heading">
+                  <div className="section-intro">
+                    <h2 id="toolbox-heading">My Tool Box</h2>
+                    <p>
+                      Over the course of four years now, i have found myself using these tools and making them
+                      part of my day to day activities.
+                    </p>
+                  </div>
+                  <ul className="tool-grid">
+                    {tools.map(([name, logo]) => (
+                      <Tool key={name} name={name} logo={logo} />
+                    ))}
+                  </ul>
+                </section>
+
+                <footer className="footer">
+                  <p className="footer-statement">
+                    Define purpose, <em>solve problems,</em> set scope and <em>achieve goals</em> - let&apos;s
+                    make magic together
+                  </p>
+                  <nav className="footer-nav" aria-label="Footer navigation">
+                    <h2>Explore</h2>
+                    <div className="footer-links">
+                      <div>
+                        <a href={homeAnchorHref("#top")}>Articles</a>
+                        <a href={homeAnchorHref("#work")}>Projects</a>
+                        <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
+                      </div>
+                      <div>
+                        <a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noopener noreferrer">Instagram</a>
+                        <a href="https://www.linkedin.com/in/opeyemiadegboyeazeez/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                        <a href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>
+                        <a href="https://wa.me/2349122546487" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                      </div>
+                    </div>
+                  </nav>
+                </footer>
+              </motion.div>
             )}
-          </section>
-
-          <ContributedProjects />
-
-          <section className="toolbox" aria-labelledby="toolbox-heading">
-            <div className="section-intro">
-              <h2 id="toolbox-heading">My Tool Box</h2>
-              <p>
-                Over the course of four years now, i have found myself using these tools and making them
-                part of my day to day activities.
-              </p>
-            </div>
-            <ul className="tool-grid">
-              {tools.map(([name, logo]) => (
-                <Tool key={name} name={name} logo={logo} />
-              ))}
-            </ul>
-          </section>
-
-          <footer className="footer">
-            <p className="footer-statement">
-              Define purpose, <em>solve problems,</em> set scope and <em>achieve goals</em> - let&apos;s
-              make magic together
-            </p>
-            <nav className="footer-nav" aria-label="Footer navigation">
-              <h2>Explore</h2>
-              <div className="footer-links">
-                <div>
-                  <a href={homeAnchorHref("#top")}>Articles</a>
-                  <a href={homeAnchorHref("#work")}>Projects</a>
-                  <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
-                </div>
-                <div>
-                  <a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noopener noreferrer">Instagram</a>
-                  <a href="https://www.linkedin.com/in/opeyemiadegboyeazeez/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                  <a href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>
-                  <a href="https://wa.me/2349122546487" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-                </div>
-              </div>
-            </nav>
-          </footer>
-            </>
-          )}
+          </AnimatePresence>
         </section>
       </div>
 

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft2, CloseCircle, HamburgerMenu } from "iconsax-reactjs";
+import { motion } from "framer-motion";
 import AiAsteriskIcon from "./AiAsteriskIcon";
 
 const resumeUrl = "https://drive.google.com/file/d/1EQeSjevkPsXHZVUMtA8nd28qx604djE_/view?usp=sharing";
@@ -133,7 +134,12 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
   };
 
   return (
-    <main className={`case-study-page ${className}`.trim()}>
+    <motion.main
+      className={`case-study-page ${className}`.trim()}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+    >
       <aside className={`case-study-rail${mobileMenuOpen ? " is-menu-open" : ""}`} aria-label={`${projectName} case study navigation`}>
         <div className="case-study-rail-top">
           <nav className="case-study-profile-links" aria-label="Profile links">
@@ -171,6 +177,6 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
         <div className="case-study-rail-meta"><p>Product design case study</p><span>{date}</span></div>
       </aside>
       <article className="case-study-content">{children}<CaseStudyFooter onOpenAiChat={triggerAiChat} /></article>
-    </main>
+    </motion.main>
   );
 }
