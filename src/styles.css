@@ -2180,6 +2180,18 @@ a.contribution-item {
     gap: 8px;
   }
 
+  .hero-caption {
+    padding-bottom: 20px;
+  }
+
+  .projects {
+    padding-bottom: 40px;
+  }
+
+  .projects > .project-card:last-child {
+    padding-bottom: 0;
+  }
+
   .project-visual {
     order: -1;
   }
@@ -2624,7 +2636,7 @@ a.contribution-item {
 
   .hero-caption {
     padding-top: 8px;
-    padding-bottom: 0;
+    padding-bottom: 20px;
   }
 
   .hero-media {
@@ -2666,6 +2678,10 @@ a.contribution-item {
 
   .projects {
     gap: 20px;
+    padding-bottom: 40px;
+  }
+
+  .projects > .project-card:last-child {
     padding-bottom: 0;
   }
 
