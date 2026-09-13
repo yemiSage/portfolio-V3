@@ -3342,10 +3342,10 @@ a.contribution-item {
   font-size: 24px;
   line-height: 1;
   display: inline-block;
-  background: linear-gradient(135deg, #a5b4fc, #c084fc, #fbcfe8);
+  background: linear-gradient(135deg, #0a0b0d, #475569, #64748b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 5px rgba(192, 132, 252, 0.45));
+  filter: drop-shadow(0 0 3px rgba(100, 116, 139, 0.25));
   animation: notionSparkleSpin 4s ease-in-out infinite;
 }
 
@@ -4631,8 +4631,8 @@ a.contribution-item {
     border-color: #7a7a7a;
   }
   50% {
-    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.1), 0 0 0 2px rgba(79, 70, 229, 0.05);
-    border-color: #4f46e5;
+    box-shadow: 0 6px 18px rgba(71, 85, 105, 0.08), 0 0 0 2px rgba(71, 85, 105, 0.04);
+    border-color: #7a7a7a;
   }
 }
 

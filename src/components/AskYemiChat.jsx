@@ -443,7 +443,7 @@ export default function AskYemiChat({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <BorderBeam size="md" colorVariant="colorful" strength={0.7}>
+            <BorderBeam size="md" colorVariant="ocean" saturation={0.35} strength={0.8} hueRange={10}>
               <motion.div
                 className="yemmy-notion-bubble"
                 onClick={onOpen}
