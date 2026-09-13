@@ -165,10 +165,10 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
                 setMobileMenuOpen(false);
                 triggerAiChat();
               }}
-              aria-label="Open yemiLLM"
+              aria-label="About"
             >
               <AiAsteriskIcon size={20} />
-              <span>yemiLLM</span>
+              <span>About</span>
             </button>
             <a href={resumeUrl} target="_blank" rel="noopener noreferrer">Resume</a>
           </nav>

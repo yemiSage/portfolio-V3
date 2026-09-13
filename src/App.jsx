@@ -609,9 +609,10 @@ function App() {
                 setIsChatOpen(true);
                 setMobileMenuOpen(false);
               }}
+              aria-label="About"
             >
               <AiAsteriskIcon size={14} />
-              <span>yemiLLM</span>
+              <span>About</span>
             </button>
             <ResponsiveResumeLink onMobileClick={() => setMobileMenuOpen(false)} />
           </nav>
