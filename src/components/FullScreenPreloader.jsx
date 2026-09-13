@@ -80,11 +80,13 @@ export default function FullScreenPreloader({ onComplete, isInitial = true }) {
     document.body.style.overflow = "hidden";
     document.body.style.touchAction = "none";
     document.body.style.overscrollBehavior = "none";
+    document.body.classList.add("is-preloading");
 
     return () => {
       document.body.style.overflow = previousOverflow;
       document.body.style.touchAction = previousTouchAction;
       document.body.style.overscrollBehavior = previousOverscrollBehavior;
+      document.body.classList.remove("is-preloading");
     };
   }, []);
 

@@ -427,7 +427,7 @@ h1 {
 
 .preloader {
   position: fixed;
-  z-index: 50;
+  z-index: 99990;
   inset: 0;
   min-height: 100dvh;
   padding: 32px;
@@ -436,6 +436,17 @@ h1 {
   color: #0a0b0d;
   background: #ffffff;
   overscroll-behavior: contain;
+}
+
+body.is-preloading .yemmy-notion-callout-wrapper,
+body.is-preloading #yemmy-notion-callout-wrapper,
+body.is-preloading .ask-yemi-fab,
+.preloader ~ .yemmy-notion-callout-wrapper,
+.preloader ~ #yemmy-notion-callout-wrapper {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 .preloader-copy {
@@ -2181,11 +2192,11 @@ a.contribution-item {
   }
 
   .hero-caption {
-    padding-bottom: 20px;
+    padding-bottom: 36px;
   }
 
   .projects {
-    padding-bottom: 40px;
+    padding-bottom: 120px;
   }
 
   .projects > .project-card:last-child {
@@ -2220,7 +2231,7 @@ a.contribution-item {
 
   .contributed-projects {
     padding-top: 0;
-    padding-bottom: 60px;
+    padding-bottom: 120px;
   }
 
   .contribution-group {
@@ -2232,8 +2243,14 @@ a.contribution-item {
     margin-bottom: 24px;
   }
 
-  .contribution-group:first-child .contribution-item:last-child {
+  .contribution-group:first-child .contribution-item:last-child,
+  .contribution-group:last-child .contribution-item:last-child {
     margin-bottom: 0;
+  }
+
+  .toolbox {
+    padding-top: 0;
+    padding-bottom: 120px;
   }
 
   .contribution-thumbnail {
@@ -2636,7 +2653,7 @@ a.contribution-item {
 
   .hero-caption {
     padding-top: 8px;
-    padding-bottom: 20px;
+    padding-bottom: 36px;
   }
 
   .hero-media {
@@ -2678,7 +2695,7 @@ a.contribution-item {
 
   .projects {
     gap: 20px;
-    padding-bottom: 40px;
+    padding-bottom: 120px;
   }
 
   .projects > .project-card:last-child {
@@ -2690,7 +2707,8 @@ a.contribution-item {
   }
 
   .contributed-projects {
-    padding-bottom: 40px;
+    padding-top: 0;
+    padding-bottom: 120px;
   }
 
   .footer-statement {
@@ -2716,6 +2734,7 @@ a.contribution-item {
 
   .toolbox {
     padding-top: 0;
+    padding-bottom: 120px;
   }
 
   .projects > article.project-card .project-copy {

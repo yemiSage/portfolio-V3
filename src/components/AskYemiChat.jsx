@@ -263,6 +263,7 @@ export default function AskYemiChat({
   onOpen,
   onNavigate,
   mobileMenuOpen,
+  isSiteLoading = false,
 }) {
   const [messages, setMessages] = useState([
     {
@@ -433,14 +434,14 @@ export default function AskYemiChat({
     <>
       {/* Notion-style Floating Prompt Callout */}
       <AnimatePresence>
-        {!isOpen && !isNotionDismissed && !mobileMenuOpen && (
+        {!isOpen && !isNotionDismissed && !mobileMenuOpen && !isSiteLoading && (
           <motion.div
             id="yemmy-notion-callout-wrapper"
             className="yemmy-notion-callout-wrapper"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <BorderBeam size="md" colorVariant="colorful" strength={0.7}>
               <motion.div

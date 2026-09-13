@@ -281,6 +281,32 @@ function App() {
   const [showPreloader, setShowPreloader] = useState(() => {
     return !isResumePage && sessionStorage.getItem("portfolio-preloader-seen") !== "true";
   });
+  const [isPreloaderDone, setIsPreloaderDone] = useState(() => {
+    return isResumePage || sessionStorage.getItem("portfolio-preloader-seen") === "true";
+  });
+  const [isInitialReady, setIsInitialReady] = useState(false);
+
+  useEffect(() => {
+    const markReady = () => {
+      setTimeout(() => setIsInitialReady(true), 200);
+    };
+
+    if (document.readyState === "complete") {
+      markReady();
+    } else {
+      window.addEventListener("load", markReady, { once: true });
+      return () => window.removeEventListener("load", markReady);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!showPreloader && !isPreloaderDone) {
+      const timer = setTimeout(() => setIsPreloaderDone(true), 1300);
+      return () => clearTimeout(timer);
+    }
+  }, [showPreloader, isPreloaderDone]);
+
+  const isSiteLoading = !isInitialReady || !isPreloaderDone || showPreloader || isTransitioning;
   const [isChatOpen, setIsChatOpen] = useState(false);
   const lightboxPointerStart = useRef(null);
   const handleIntroStreamingComplete = useCallback(() => setHasIntroStreamed(true), []);
@@ -515,6 +541,8 @@ function App() {
           onOpen={() => setIsChatOpen(true)}
           onClose={() => setIsChatOpen(false)}
           onNavigate={handleChatNavigate}
+          mobileMenuOpen={mobileMenuOpen}
+          isSiteLoading={isSiteLoading}
         />
       </Suspense>
     );
@@ -530,6 +558,8 @@ function App() {
           onOpen={() => setIsChatOpen(true)}
           onClose={() => setIsChatOpen(false)}
           onNavigate={handleChatNavigate}
+          mobileMenuOpen={mobileMenuOpen}
+          isSiteLoading={isSiteLoading}
         />
       </Suspense>
     );
@@ -538,7 +568,7 @@ function App() {
   return (
     <>
       {topProgressBar}
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={() => setIsPreloaderDone(true)}>
         {showPreloader && (
           <FullScreenPreloader key="portfolio-preloader" onComplete={() => { sessionStorage.setItem("portfolio-preloader-seen", "true"); setShowPreloader(false); }} />
         )}
@@ -814,6 +844,7 @@ function App() {
         onClose={() => setIsChatOpen(false)}
         onNavigate={handleChatNavigate}
         mobileMenuOpen={mobileMenuOpen}
+        isSiteLoading={isSiteLoading}
       />
 
       <Suspense fallback={null}>
