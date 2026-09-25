@@ -43,6 +43,173 @@ async function startServer() {
     });
   });
 
+  // In-memory cache for GitHub statistics (TTL: 15 minutes)
+  let githubCache: { data: any; timestamp: number } | null = null;
+  const GITHUB_CACHE_TTL = 15 * 60 * 1000;
+
+  const DEFAULT_GITHUB_STATS = {
+    username: "yemiSage",
+    name: "Adegboye Opeyemi",
+    profileUrl: "https://github.com/yemiSage",
+    avatarUrl: "https://avatars.githubusercontent.com/u/114894864?v=4",
+    bio: "UI/UX Designer | Framer Developer",
+    projectsShipped: 2,
+    prs: 0,
+    commitsThisYear: 70,
+    totalProjects: 5,
+    year: 2026,
+    followers: 10,
+    following: 11,
+    publicGists: 5,
+    topLanguages: ["TypeScript", "JavaScript", "HTML"],
+    featuredRepos: [
+      {
+        name: "PHA_WebApp",
+        url: "https://github.com/yemiSage/PHA_WebApp",
+        demo: "https://pha-pi.vercel.app",
+        description: "Web application for Product Hub Africa",
+        language: "TypeScript",
+        isShipped: true,
+      },
+      {
+        name: "portfolio-V3",
+        url: "https://github.com/yemiSage/portfolio-V3",
+        demo: "https://portfolio-v3-flame-two.vercel.app",
+        description: "Official portfolio website built with modern React",
+        language: "JavaScript",
+        isShipped: true,
+      },
+      {
+        name: "soludesks",
+        url: "https://github.com/yemiSage/soludesks",
+        demo: null,
+        description: "Modern productivity and workspace application",
+        language: "TypeScript",
+        isShipped: false,
+      },
+    ],
+  };
+
+  // GitHub Stats API endpoint
+  app.get("/api/github-stats", async (_req, res) => {
+    const now = Date.now();
+    if (githubCache && now - githubCache.timestamp < GITHUB_CACHE_TTL) {
+      return res.json(githubCache.data);
+    }
+
+    try {
+      const headers: Record<string, string> = {
+        "User-Agent": "yemi-portfolio",
+        Accept: "application/vnd.github.v3+json",
+      };
+
+      const [userRes, reposRes] = await Promise.all([
+        fetch("https://api.github.com/users/yemiSage", { headers }),
+        fetch("https://api.github.com/users/yemiSage/repos?per_page=100&sort=updated", { headers }),
+      ]);
+
+      if (!userRes.ok || !reposRes.ok) {
+        return res.json(githubCache?.data || DEFAULT_GITHUB_STATS);
+      }
+
+      const userData = (await userRes.json()) as any;
+      const reposData = (await reposRes.json()) as any[];
+
+      let projectsShipped = 0;
+      const languagesSet = new Set<string>();
+
+      if (Array.isArray(reposData)) {
+        for (const repo of reposData) {
+          if (repo.homepage && repo.homepage.trim().length > 0) {
+            projectsShipped++;
+          }
+          if (repo.language) {
+            languagesSet.add(repo.language);
+          }
+        }
+      }
+
+      // Ensure at least 2 shipped based on live production sites
+      if (projectsShipped < 2) {
+        projectsShipped = 2;
+      }
+
+      let commitsThisYear = 70;
+      try {
+        const commitRes = await fetch(
+          "https://api.github.com/search/commits?q=author:yemiSage+author-date:>=2026-01-01",
+          {
+            headers: {
+              ...headers,
+              Accept: "application/vnd.github.cloak-preview",
+            },
+          }
+        );
+        if (commitRes.ok) {
+          const commitData = (await commitRes.json()) as any;
+          if (typeof commitData.total_count === "number" && commitData.total_count > 0) {
+            commitsThisYear = commitData.total_count;
+          }
+        }
+      } catch {
+        // fallback to cached/default commits
+      }
+
+      let prs = 0;
+      try {
+        const prRes = await fetch(
+          "https://api.github.com/search/issues?q=author:yemiSage+type:pr",
+          { headers }
+        );
+        if (prRes.ok) {
+          const prData = (await prRes.json()) as any;
+          if (typeof prData.total_count === "number") {
+            prs = prData.total_count;
+          }
+        }
+      } catch {
+        // fallback to default PRs
+      }
+
+      const liveData = {
+        username: userData.login || "yemiSage",
+        name: userData.name || "Adegboye Opeyemi",
+        profileUrl: userData.html_url || "https://github.com/yemiSage",
+        avatarUrl: userData.avatar_url || "https://avatars.githubusercontent.com/u/114894864?v=4",
+        bio: userData.bio || "UI/UX Designer | Framer Developer",
+        projectsShipped,
+        prs,
+        commitsThisYear,
+        totalProjects: userData.public_repos || (Array.isArray(reposData) ? reposData.length : 5),
+        year: 2026,
+        followers: userData.followers ?? 10,
+        following: userData.following ?? 11,
+        publicGists: userData.public_gists ?? 5,
+        topLanguages: Array.from(languagesSet),
+        featuredRepos: Array.isArray(reposData)
+          ? reposData.slice(0, 3).map((r) => ({
+              name: r.name,
+              url: r.html_url,
+              demo: r.homepage || null,
+              description: r.description,
+              language: r.language,
+              isShipped: Boolean(r.homepage && r.homepage.trim().length > 0),
+            }))
+          : DEFAULT_GITHUB_STATS.featuredRepos,
+      };
+
+      githubCache = {
+        data: liveData,
+        timestamp: now,
+      };
+
+      return res.json(liveData);
+    } catch (error) {
+      console.warn("[github-stats] Error fetching GitHub data:", error);
+      return res.json(DEFAULT_GITHUB_STATS);
+    }
+  });
+
   // Chat API endpoint
   app.post("/api/chat", async (req, res) => {
     try {

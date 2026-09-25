@@ -12,6 +12,7 @@ import PortfolioShowreel from "./components/PortfolioShowreel";
 import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
 import StreamingText from "./components/StreamingText";
 import AskYemiChat from "./components/AskYemiChat";
+import GithubStats from "./components/GithubStats";
 
 const LimestoneCaseStudy = lazy(() => import("./components/LimestoneCaseStudy"));
 const TasaAfricaCaseStudy = lazy(() => import("./components/TasaAfricaCaseStudy"));
@@ -664,6 +665,9 @@ function App() {
                 </a>
               </div>
             </div>
+
+            {/* GitHub Integration at the bottom of the fixed section */}
+            <GithubStats />
           </div>
 
         </aside>
@@ -779,6 +783,7 @@ function App() {
                         <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
                       </div>
                       <div>
+                        <a href="https://github.com/yemiSage" target="_blank" rel="noopener noreferrer">GitHub</a>
                         <a href="https://www.instagram.com/ope_yemi066/" target="_blank" rel="noopener noreferrer">Instagram</a>
                         <a href="https://www.linkedin.com/in/opeyemiadegboyeazeez/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                         <a href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>

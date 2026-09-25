@@ -18,6 +18,7 @@ CRITICAL FORMATTING AND PERSPECTIVE RULES:
 4. NO EM DASHES: NEVER use em dashes (—) or en dashes (–) or double hyphens (--). Use natural conversational punctuation like commas, periods, or simple parentheses instead.
 5. CLEAR AND CONVERSATIONAL: Keep explanations articulate, warm, and natural. Avoid hollow buzzwords and generic filler.
 6. LINKS: When mentioning links, format them as clean standard markdown without asterisks:
+   - GitHub: [github.com/yemiSage](https://github.com/yemiSage)
    - LinkedIn: [linkedin.com/in/opeyemiadegboyeazeez](https://www.linkedin.com/in/opeyemiadegboyeazeez/)
    - X (Twitter): [x.com/opeyemiadeazeez](https://x.com/opeyemiadeazeez)
    - Upwork: [Upwork Profile](https://www.upwork.com/freelancers/~01e2c6c8a33a8649c0?mp_source=share)
@@ -29,6 +30,7 @@ CRITICAL FORMATTING AND PERSPECTIVE RULES:
 
 WHO IS OPEYEMI ADEGBOYE ("YEMI")?
 - Full Name: Opeyemi Adegboye Azeez (commonly known as "Yemi" or "yemiSage").
+- GitHub: [github.com/yemiSage](https://github.com/yemiSage). Activity this year (2026): 2 projects shipped to production, 0 PRs, 70 commits, 5 total repositories.
 - Gender: Male (guy). Pronouns: He / Him / His.
 - Date of Birth & Age: Born July 21, 1997. As of today, calculating from July 21, 1997 to today, he is ${getYemiAge()} years old. His birthday is on July 21.
 - Education: Studied Electrical and Electronics Engineering in school, specifically the Power and Machine option.
@@ -156,11 +158,26 @@ export function getSmartPortfolioReply(query: string = ""): string {
     q.includes("touch")
   ) {
     const contactVariations = [
-      "Here is how you can connect with Yemi directly:\n\nPhone: 09122546487 (International: +234 912 254 6487)\nWhatsApp: [+234 912 254 6487](https://wa.me/2349122546487)\nLinkedIn: [linkedin.com/in/opeyemiadegboyeazeez](https://www.linkedin.com/in/opeyemiadegboyeazeez)\nEmail: [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com)\nInstagram: [instagram.com/ope_yemi066](https://www.instagram.com/ope_yemi066/)\n\nHe is also active on Upwork for freelance UI/UX and product design contracts. Feel free to send him a note!",
-      "Yemi is easy to reach across several channels:\n\nMobile / Phone: 09122546487\nDirect WhatsApp: [+234 912 254 6487](https://wa.me/2349122546487)\nProfessional LinkedIn: [linkedin.com/in/opeyemiadegboyeazeez](https://www.linkedin.com/in/opeyemiadegboyeazeez)\nOfficial Email: [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com)\n\nWhether you need a full-time product designer, contract consultant, or want to collaborate via Upwork, he is available to talk.",
-      "You can get in touch with Yemi right away:\n\nWhatsApp or Call: [+234 912 254 6487](https://wa.me/2349122546487) (Local: 09122546487)\nLinkedIn: [Opeyemi Adegboye](https://www.linkedin.com/in/opeyemiadegboyeazeez)\nEmail: [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com)\nInstagram: [ope_yemi066](https://www.instagram.com/ope_yemi066/)\n\nHe is open to new opportunities and freelance engagements on Upwork as well."
+      "Here is how you can connect with Yemi directly:\n\nPhone: 09122546487 (International: +234 912 254 6487)\nWhatsApp: [+234 912 254 6487](https://wa.me/2349122546487)\nLinkedIn: [linkedin.com/in/opeyemiadegboyeazeez](https://www.linkedin.com/in/opeyemiadegboyeazeez)\nEmail: [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com)\nGitHub: [github.com/yemiSage](https://github.com/yemiSage)\nInstagram: [instagram.com/ope_yemi066](https://www.instagram.com/ope_yemi066/)\n\nHe is also active on Upwork for freelance UI/UX and product design contracts. Feel free to send him a note!",
+      "Yemi is easy to reach across several channels:\n\nMobile / Phone: 09122546487\nDirect WhatsApp: [+234 912 254 6487](https://wa.me/2349122546487)\nProfessional LinkedIn: [linkedin.com/in/opeyemiadegboyeazeez](https://www.linkedin.com/in/opeyemiadegboyeazeez)\nOfficial Email: [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com)\nGitHub: [github.com/yemiSage](https://github.com/yemiSage)\n\nWhether you need a full-time product designer, contract consultant, or want to collaborate via Upwork, he is available to talk.",
+      "You can get in touch with Yemi right away:\n\nWhatsApp or Call: [+234 912 254 6487](https://wa.me/2349122546487) (Local: 09122546487)\nLinkedIn: [Opeyemi Adegboye](https://www.linkedin.com/in/opeyemiadegboyeazeez)\nEmail: [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com)\nGitHub: [github.com/yemiSage](https://github.com/yemiSage)\nInstagram: [ope_yemi066](https://www.instagram.com/ope_yemi066/)\n\nHe is open to new opportunities and freelance engagements on Upwork as well."
     ];
     return cleanChatOutput(pickRandom(contactVariations));
+  }
+
+  // GitHub & Coding statistics
+  if (
+    q.includes("github") ||
+    q.includes("git ") ||
+    q.includes("commit") ||
+    q.includes("repo") ||
+    q.includes("pull request") ||
+    q.includes("pr ") ||
+    q.includes("projects ship")
+  ) {
+    return cleanChatOutput(
+      "Yemi's GitHub profile is [github.com/yemiSage](https://github.com/yemiSage).\n\nHere are his current GitHub stats this year (2026):\n- Projects Shipped: 2 live production web apps (PHA_WebApp, portfolio-V3)\n- Pull Requests: 0\n- Commits: 70+ commits this year\n- Total Projects: 5 repositories\n\nYou can also explore the live GitHub stats card at the bottom of the fixed sidebar on the homepage!"
+    );
   }
 
   // Age / Date of birth / Birthday
