@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import GithubContributionGraph from "./GithubContributionGraph";
 
 // Default stats computed directly from Opeyemi Adegboye's GitHub profile (@yemiSage)
 const DEFAULT_STATS = {
@@ -7,8 +8,9 @@ const DEFAULT_STATS = {
   profileUrl: "https://github.com/yemiSage",
   projectsShipped: 2,
   totalProjects: 5,
-  commitsThisYear: 70,
+  commitsThisYear: 77,
   prs: 0,
+  contributions: 78,
   year: 2026,
 };
 
@@ -42,71 +44,42 @@ export default function GithubStats() {
   return (
     <div className="github-activity-margin">
       <div className="github-activity-card">
-        {/* Frame 2147226663: Top Header */}
-        <div className="github-activity-header">
-          {/* Frame 2147226658: GitHub icon and @yemiSage */}
-          <a
-            href={stats.profileUrl || "https://github.com/yemiSage"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="github-activity-user"
-            aria-label="Visit Opeyemi Adegboye's GitHub profile (@yemiSage)"
-            title="View GitHub Profile: @yemiSage"
-          >
-            <span className="github-activity-icon-container">
-              <svg
-                className="github-activity-octocat"
-                viewBox="0 0 24 24"
-                width="18"
-                height="18"
-                fill="#000000"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                />
-              </svg>
-            </span>
-            <span className="github-activity-username">@{stats.username}</span>
-          </a>
-
-          {/* Pill Badge: This Year (2026) */}
-          <div className="github-activity-pill">
-            <span className="github-activity-pill-text">
-              This Year ({stats.year || 2026})
-            </span>
-          </div>
-        </div>
-
-        {/* GitHub statistics for this year: 4-col row */}
-        <div className="github-activity-stats-row" role="group" aria-label="GitHub statistics for this year">
-          {/* Frame 2147226659: Projects Shipped */}
+        {/* GitHub 4-col statistics row */}
+        <div className="github-activity-stats-row" role="group" aria-label="GitHub statistics">
+          {/* Projects Shipped */}
           <div className="github-activity-stat-col stat-col-shipped">
             <span className="github-activity-stat-value">{stats.projectsShipped}</span>
             <span className="github-activity-stat-label">Projects Shipped</span>
           </div>
 
-          {/* Frame 2147226662: Projects */}
+          {/* Projects */}
           <div className="github-activity-stat-col stat-col-projects">
             <span className="github-activity-stat-value">{stats.totalProjects}</span>
             <span className="github-activity-stat-label">Projects</span>
           </div>
 
-          {/* Frame 2147226661: Commits */}
+          {/* Commits */}
           <div className="github-activity-stat-col stat-col-commits">
             <span className="github-activity-stat-value">{stats.commitsThisYear}</span>
             <span className="github-activity-stat-label">Commits</span>
           </div>
 
-          {/* Frame 2147226663: Pull requests */}
-          <div className="github-activity-stat-col stat-col-prs">
-            <span className="github-activity-stat-value">{stats.prs}</span>
-            <span className="github-activity-stat-label">Pull requests</span>
+          {/* Contributions */}
+          <div className="github-activity-stat-col stat-col-contributions">
+            <span className="github-activity-stat-value">
+              {stats.contributions !== undefined ? stats.contributions : 78}
+            </span>
+            <span className="github-activity-stat-label">Contributions</span>
           </div>
         </div>
       </div>
+
+      {/* GitHub Live Contribution Heatmap Calendar (Last 5 Months) */}
+      <GithubContributionGraph
+        initialData={stats.contributionCalendar}
+        username={stats.username}
+        profileUrl={stats.profileUrl}
+      />
     </div>
   );
 }

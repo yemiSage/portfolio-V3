@@ -43,9 +43,13 @@ async function startServer() {
     });
   });
 
-  // In-memory cache for GitHub statistics (TTL: 15 minutes)
+  // In-memory cache for GitHub statistics (TTL: 1 hour)
   let githubCache: { data: any; timestamp: number } | null = null;
-  const GITHUB_CACHE_TTL = 15 * 60 * 1000;
+  const GITHUB_CACHE_TTL = 60 * 60 * 1000;
+
+  // In-memory cache for GitHub contributions calendar (TTL: 1 hour)
+  let githubContributionsCache: { data: any; timestamp: number } | null = null;
+  const CONTRIBUTIONS_CACHE_TTL = 60 * 60 * 1000;
 
   const DEFAULT_GITHUB_STATS = {
     username: "yemiSage",
@@ -55,7 +59,8 @@ async function startServer() {
     bio: "UI/UX Designer | Framer Developer",
     projectsShipped: 2,
     prs: 0,
-    commitsThisYear: 70,
+    commitsThisYear: 77,
+    contributions: 78,
     totalProjects: 5,
     year: 2026,
     followers: 10,
@@ -89,6 +94,73 @@ async function startServer() {
       },
     ],
   };
+
+  async function fetchContributionsData(username = "yemiSage") {
+    try {
+      const res = await fetch(`https://github.com/users/${username}/contributions`, {
+        headers: { "User-Agent": "yemi-portfolio" },
+      });
+      if (!res.ok) return null;
+      const html = await res.text();
+
+      const countMatch = html.match(/([\d,]+)\s+contributions\s+in the last year/i);
+      const totalContributions = countMatch ? parseInt(countMatch[1].replace(/,/g, ""), 10) : 78;
+
+      const thead = html.match(/<thead>[\s\S]*?<\/thead>/);
+      const months: Array<{ name: string; colspan: number }> = [];
+      if (thead) {
+        for (const m of thead[0].matchAll(/<td[^>]*colspan="(\d+)"[^>]*>[\s\S]*?<span aria-hidden="true"[^>]*>([A-Za-z]+)<\/span>/g)) {
+          months.push({ name: m[2], colspan: parseInt(m[1], 10) });
+        }
+      }
+
+      const tooltipMap = new Map<string, string>();
+      for (const m of html.matchAll(/<tool-tip[^>]*for="([^"]+)"[^>]*>([\s\S]*?)<\/tool-tip>/g)) {
+        tooltipMap.set(m[1], m[2].trim());
+      }
+
+      const tbody = html.match(/<tbody>[\s\S]*?<\/tbody>/);
+      if (!tbody) return { totalContributions, months, weeks: [] };
+
+      const rowMatches = [...tbody[0].matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)];
+      const rows = rowMatches.map((tr, dayOfWeek) => {
+        const tds = [...tr[1].matchAll(/<td([^>]*)>/g)];
+        const days: any[] = [];
+        for (const td of tds) {
+          const raw = td[1];
+          const dateMatch = raw.match(/data-date="([^"]+)"/);
+          if (!dateMatch) continue;
+          const date = dateMatch[1];
+          const levelMatch = raw.match(/data-level="([^"]+)"/);
+          const level = levelMatch ? parseInt(levelMatch[1], 10) : 0;
+          const idMatch = raw.match(/id="([^"]+)"/);
+          const id = idMatch ? idMatch[1] : "";
+          const tooltip = tooltipMap.get(id) || "";
+          days.push({ date, level, tooltip, dayOfWeek });
+        }
+        return days;
+      });
+
+      const colCount = Math.max(...rows.map((r) => r.length));
+      const weeks: any[][] = [];
+      for (let c = 0; c < colCount; c++) {
+        const week: any[] = [];
+        for (let r = 0; r < 7; r++) {
+          week.push(rows[r][c] || null);
+        }
+        weeks.push(week);
+      }
+
+      return {
+        totalContributions,
+        months,
+        weeks,
+      };
+    } catch (err) {
+      console.warn("[github-contributions] Error fetching contributions calendar:", err);
+      return null;
+    }
+  }
 
   // GitHub Stats API endpoint
   app.get("/api/github-stats", async (_req, res) => {
@@ -171,6 +243,10 @@ async function startServer() {
         // fallback to default PRs
       }
 
+      // Fetch live contribution calendar
+      const contribData = await fetchContributionsData(userData.login || "yemiSage");
+      const totalContribs = contribData?.totalContributions || 378;
+
       const liveData = {
         username: userData.login || "yemiSage",
         name: userData.name || "Adegboye Opeyemi",
@@ -180,8 +256,10 @@ async function startServer() {
         projectsShipped,
         prs,
         commitsThisYear,
+        contributions: totalContribs,
         totalProjects: userData.public_repos || (Array.isArray(reposData) ? reposData.length : 5),
         year: 2026,
+        contributionCalendar: contribData,
         followers: userData.followers ?? 10,
         following: userData.following ?? 11,
         publicGists: userData.public_gists ?? 5,
@@ -208,6 +286,47 @@ async function startServer() {
       console.warn("[github-stats] Error fetching GitHub data:", error);
       return res.json(DEFAULT_GITHUB_STATS);
     }
+  });
+
+  // Dedicated GitHub Contributions Calendar endpoint
+  app.get("/api/github-contributions", async (req, res) => {
+    const now = Date.now();
+    const forceRefresh = req.query.refresh === "true";
+
+    if (!forceRefresh && githubContributionsCache && now - githubContributionsCache.timestamp < CONTRIBUTIONS_CACHE_TTL) {
+      return res.json({
+        ...githubContributionsCache.data,
+        isCached: true,
+        cachedAt: new Date(githubContributionsCache.timestamp).toISOString(),
+      });
+    }
+
+    const data = await fetchContributionsData("yemiSage");
+    if (data) {
+      githubContributionsCache = {
+        data,
+        timestamp: now,
+      };
+      return res.json({
+        ...data,
+        isCached: false,
+        refreshedAt: new Date(now).toISOString(),
+      });
+    }
+
+    if (githubContributionsCache?.data) {
+      return res.json({
+        ...githubContributionsCache.data,
+        isCached: true,
+      });
+    }
+
+    return res.json({
+      totalContributions: 78,
+      months: [],
+      weeks: [],
+      isCached: false,
+    });
   });
 
   // Chat API endpoint

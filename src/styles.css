@@ -17,7 +17,7 @@
   --paper: #ffffff;
   --gray-5: #eef0f3;
   --accent: #e0733d;
-  --rail-width: 400px;
+  --rail-width: 40%;
   --page-padding: 32px;
   --shell-gap: 0px;
   --content-max: 1024px;
@@ -183,11 +183,11 @@ h6 {
 }
 
 .identity-column {
-  width: 100%;
-  max-width: calc(var(--rail-width) + 10px);
+  width: 40%;
+  max-width: 40%;
   min-height: 100%;
   padding: var(--page-padding);
-  flex: 0 0 calc(var(--rail-width) + 10px);
+  flex: 0 0 40%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -195,6 +195,7 @@ h6 {
   gap: 32px;
   border-right: 1px solid #f0f0f0;
   transition: border-color 180ms ease;
+  box-sizing: border-box;
 }
 
 .portfolio.is-scrolling .identity-column {
@@ -205,6 +206,7 @@ h6 {
   position: sticky;
   top: 32px;
   width: 100%;
+  max-width: 100%;
   min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
@@ -755,15 +757,16 @@ body.is-preloading .ask-yemi-fab,
 }
 
 .content-column {
-  width: 100%;
-  max-width: none;
+  width: 60%;
+  max-width: 60%;
   min-width: 0;
-  flex: 1 1 auto;
+  flex: 0 0 60%;
   padding: var(--page-padding);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--section-gap);
+  box-sizing: border-box;
 }
 
 @media (min-width: 1024px) {
@@ -1979,13 +1982,30 @@ a.contribution-item {
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1023px) and (min-width: 768px) {
+  .identity-column {
+    width: 40%;
+    max-width: 40%;
+    flex: 0 0 40%;
+    box-sizing: border-box;
+  }
+
+  .content-column {
+    width: 60%;
+    max-width: 60%;
+    flex: 0 0 60%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 767px) {
   .portfolio-grid {
     flex-direction: column;
     justify-content: flex-start;
   }
 
   .identity-column {
+    width: 100%;
     max-width: none;
     min-height: 100vh;
     min-height: 100dvh;
@@ -4736,7 +4756,7 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
   align-items: flex-start;
   padding: 12px;
   width: 100%;
-  max-width: 345px;
+  max-width: 100%;
   min-height: 105px;
   background: #F7F7F7;
   border-radius: 8px;
@@ -4745,6 +4765,7 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
   order: 2;
   align-self: stretch;
   flex-grow: 0;
+  gap: 12px;
 }
 
 /* GitHub Activity */
@@ -4753,10 +4774,10 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
-  gap: 20px;
+  gap: 0px;
   width: 100%;
-  max-width: 321px;
-  min-height: 81px;
+  max-width: 100%;
+  min-height: auto;
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.02)) drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.02));
   border-radius: 12px;
   flex: none;
@@ -4931,9 +4952,163 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
 @media (max-width: 1023px) {
   .github-activity-margin {
     width: 100%;
-    max-width: 620px;
+    max-width: 100%;
     margin-top: auto;
   }
+}
+
+/* ==========================================================================
+   GitHub Live Contribution Heatmap Calendar
+   ========================================================================== */
+
+.github-contrib-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+
+.github-contrib-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 2px;
+  gap: 8px;
+}
+
+.github-contrib-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1f2328;
+  margin: 0;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+.github-contrib-count {
+  font-weight: 600;
+  color: #1f2328;
+}
+
+.github-contrib-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 10px 12px 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(27, 31, 36, 0.04);
+}
+
+.github-contrib-svg-wrapper {
+  width: 100%;
+  display: block;
+  overflow: visible;
+  line-height: 0;
+}
+
+.github-contrib-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  shape-rendering: geometricPrecision;
+}
+
+.github-contrib-rect {
+  cursor: pointer;
+  transition: stroke 120ms ease, opacity 120ms ease;
+  outline: none;
+}
+
+.github-contrib-rect:hover,
+.github-contrib-rect:focus-visible {
+  stroke: #1f2328 !important;
+  stroke-width: 1.5 !important;
+  opacity: 0.92;
+}
+
+.github-contrib-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #57606a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding-top: 4px;
+  width: 100%;
+  gap: 12px;
+}
+
+.github-contrib-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #24292f;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: color 150ms ease;
+  cursor: pointer;
+}
+
+.github-contrib-user:hover {
+  color: #0969da;
+}
+
+.github-contrib-icon-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+}
+
+.github-contrib-username {
+  font-size: 11px;
+  font-weight: 600;
+  color: inherit;
+  letter-spacing: -0.2px;
+}
+
+.github-contrib-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10.5px;
+  color: #57606a;
+}
+
+.github-contrib-legend-text {
+  font-size: 10px;
+}
+
+.github-contrib-legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  outline: 1px solid rgba(27, 31, 36, 0.06);
+  outline-offset: -1px;
+}
+
+.github-contrib-floating-tooltip {
+  background: #24292f;
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  animation: tooltip-in 100ms ease-out;
 }
 
 
