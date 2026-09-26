@@ -17,7 +17,7 @@
   --paper: #ffffff;
   --gray-5: #eef0f3;
   --accent: #e0733d;
-  --rail-width: 40%;
+  --rail-width: 30%;
   --page-padding: 32px;
   --shell-gap: 0px;
   --content-max: 1024px;
@@ -183,23 +183,22 @@ h6 {
 }
 
 .identity-column {
-  width: 40%;
-  max-width: 40%;
+  width: 30%;
+  max-width: 30%;
   min-height: 100%;
   padding: var(--page-padding);
-  flex: 0 0 40%;
+  flex: 0 0 30%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
   gap: 32px;
   border-right: 1px solid #f0f0f0;
-  transition: border-color 180ms ease;
   box-sizing: border-box;
 }
 
 .portfolio.is-scrolling .identity-column {
-  border-right-color: transparent;
+  border-right-color: #f0f0f0;
 }
 
 .identity-main {
@@ -285,9 +284,9 @@ h1 {
   font-family: "DM Sans", sans-serif;
   max-width: none;
   color: #1c1c1c;
-  font-size: 52px;
-  line-height: 1.2;
-  letter-spacing: -3.5px;
+  font-size: clamp(34px, 2.7vw, 44px);
+  line-height: 1.18;
+  letter-spacing: -2px;
   font-weight: 600;
 }
 
@@ -757,10 +756,10 @@ body.is-preloading .ask-yemi-fab,
 }
 
 .content-column {
-  width: 60%;
-  max-width: 60%;
+  width: 70%;
+  max-width: 70%;
   min-width: 0;
-  flex: 0 0 60%;
+  flex: 0 0 70%;
   padding: var(--page-padding);
   display: flex;
   flex-direction: column;
@@ -1984,16 +1983,16 @@ a.contribution-item {
 
 @media (max-width: 1023px) and (min-width: 768px) {
   .identity-column {
-    width: 40%;
-    max-width: 40%;
-    flex: 0 0 40%;
+    width: 30%;
+    max-width: 30%;
+    flex: 0 0 30%;
     box-sizing: border-box;
   }
 
   .content-column {
-    width: 60%;
-    max-width: 60%;
-    flex: 0 0 60%;
+    width: 70%;
+    max-width: 70%;
+    flex: 0 0 70%;
     box-sizing: border-box;
   }
 }
@@ -4754,10 +4753,10 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 12px;
+  padding: 8px;
   width: 100%;
   max-width: 100%;
-  min-height: 105px;
+  min-height: auto;
   background: #F7F7F7;
   border-radius: 8px;
   box-sizing: border-box;
@@ -4765,7 +4764,7 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
   order: 2;
   align-self: stretch;
   flex-grow: 0;
-  gap: 12px;
+  gap: 0px;
 }
 
 /* GitHub Activity */
@@ -4967,7 +4966,7 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
   flex-direction: column;
   gap: 8px;
   box-sizing: border-box;
-  margin-top: 4px;
+  margin-top: 0px;
 }
 
 .github-contrib-header {
@@ -4997,9 +4996,9 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
 .github-contrib-card {
   width: 100%;
   background: #ffffff;
-  border: 1px solid #d0d7de;
+  border-style: none;
   border-radius: 6px;
-  padding: 10px 12px 8px;
+  padding: 8px 8px 8px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

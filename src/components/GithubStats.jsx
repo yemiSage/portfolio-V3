@@ -6,12 +6,6 @@ const DEFAULT_STATS = {
   username: "yemiSage",
   name: "Adegboye Opeyemi",
   profileUrl: "https://github.com/yemiSage",
-  projectsShipped: 2,
-  totalProjects: 5,
-  commitsThisYear: 77,
-  prs: 0,
-  contributions: 78,
-  year: 2026,
 };
 
 export default function GithubStats() {
@@ -43,37 +37,6 @@ export default function GithubStats() {
 
   return (
     <div className="github-activity-margin">
-      <div className="github-activity-card">
-        {/* GitHub 4-col statistics row */}
-        <div className="github-activity-stats-row" role="group" aria-label="GitHub statistics">
-          {/* Projects Shipped */}
-          <div className="github-activity-stat-col stat-col-shipped">
-            <span className="github-activity-stat-value">{stats.projectsShipped}</span>
-            <span className="github-activity-stat-label">Projects Shipped</span>
-          </div>
-
-          {/* Projects */}
-          <div className="github-activity-stat-col stat-col-projects">
-            <span className="github-activity-stat-value">{stats.totalProjects}</span>
-            <span className="github-activity-stat-label">Projects</span>
-          </div>
-
-          {/* Commits */}
-          <div className="github-activity-stat-col stat-col-commits">
-            <span className="github-activity-stat-value">{stats.commitsThisYear}</span>
-            <span className="github-activity-stat-label">Commits</span>
-          </div>
-
-          {/* Contributions */}
-          <div className="github-activity-stat-col stat-col-contributions">
-            <span className="github-activity-stat-value">
-              {stats.contributions !== undefined ? stats.contributions : 78}
-            </span>
-            <span className="github-activity-stat-label">Contributions</span>
-          </div>
-        </div>
-      </div>
-
       {/* GitHub Live Contribution Heatmap Calendar (Last 5 Months) */}
       <GithubContributionGraph
         initialData={stats.contributionCalendar}
