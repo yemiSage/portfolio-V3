@@ -193,8 +193,8 @@ function Project({ project }) {
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
 
-    card.style.setProperty("--tilt-y", `${(x * 12).toFixed(2)}deg`);
-    card.style.setProperty("--tilt-x", `${(-y * 8).toFixed(2)}deg`);
+    card.style.setProperty("--tilt-y", `${(x * 4).toFixed(2)}deg`);
+    card.style.setProperty("--tilt-x", `${(-y * 2.8).toFixed(2)}deg`);
   };
 
   const resetTilt = (event) => {
@@ -623,50 +623,52 @@ function App() {
       <div className="portfolio-grid">
         <aside className="identity-column" aria-label="Introduction">
           <div className="identity-main">
-            <div className="identity-top">
-              <a className="portrait" href={homeAnchorHref("#top")} aria-label="Back to the top">
-                <img src={portraitImage} alt="Opeyemi Adegboye" />
-              </a>
-              <nav className="identity-links" aria-label="Profile links">
-                <button
-                  type="button"
-                  id="yemi-llm-nav-btn"
-                  className="nav-yemi-llm-btn"
-                  onClick={() => setIsChatOpen(true)}
-                  aria-label="Open yemiLLM"
-                >
-                  <AiAsteriskIcon size={14} />
-                  <span>yemiLLM</span>
-                </button>
-                <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
-              </nav>
-            </div>
-
-            <div className="intro-stack" id="about">
-              <div className="intro-copy">
-                <div className="intro-heading">
-                  <p className="greeting">Need a Professional</p>
-                  <h1 aria-label="Product Designer Who Codes?">
-                    <span className="title-line title-line-desktop"><span>Product Designer Who Codes?</span></span>
-                    <span className="title-line title-line-mobile"><span>Product Designer Who Codes?</span></span>
-                  </h1>
-                </div>
-                <StreamingText
-                  className="intro-description"
-                  complete={hasIntroStreamed}
-                  onComplete={handleIntroStreamingComplete}
-                  segments={introSegments}
-                />
-              </div>
-
-              <div className={`button-row intro-followup${hasIntroStreamed ? " is-revealed" : ""}`}>
-                <a className="button button-primary" href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">
-                  Contact Me
+            <div className="identity-content-top">
+              <div className="identity-top">
+                <a className="portrait" href={homeAnchorHref("#top")} aria-label="Back to the top">
+                  <img src={portraitImage} alt="Opeyemi Adegboye" />
                 </a>
+                <nav className="identity-links" aria-label="Profile links">
+                  <button
+                    type="button"
+                    id="yemi-llm-nav-btn"
+                    className="nav-yemi-llm-btn"
+                    onClick={() => setIsChatOpen(true)}
+                    aria-label="Open yemiLLM"
+                  >
+                    <AiAsteriskIcon size={14} />
+                    <span>yemiLLM</span>
+                  </button>
+                  <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
+                </nav>
+              </div>
+
+              <div className="intro-stack" id="about">
+                <div className="intro-copy">
+                  <div className="intro-heading">
+                    <p className="greeting">Need a Professional</p>
+                    <h1 aria-label="Product Designer Who Codes?">
+                      <span className="title-line title-line-desktop"><span>Product Designer Who Codes?</span></span>
+                      <span className="title-line title-line-mobile"><span>Product Designer Who Codes?</span></span>
+                    </h1>
+                  </div>
+                  <StreamingText
+                    className="intro-description"
+                    complete={hasIntroStreamed}
+                    onComplete={handleIntroStreamingComplete}
+                    segments={introSegments}
+                  />
+                </div>
+
+                <div className={`button-row intro-followup${hasIntroStreamed ? " is-revealed" : ""}`}>
+                  <a className="button button-primary" href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">
+                    Contact Me
+                  </a>
+                </div>
               </div>
             </div>
 
-            {/* GitHub Integration at the bottom of the fixed section */}
+            {/* GitHub Activity positioned at the far bottom of the fixed section */}
             <GithubStats />
           </div>
 
