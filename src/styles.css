@@ -2003,51 +2003,10 @@ a.contribution-item {
     justify-content: flex-start;
   }
 
-  .identity-column {
-    width: 100%;
-    max-width: none;
-    min-height: 100vh;
-    min-height: 100dvh;
-    flex-basis: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-sizing: border-box;
-    border-right: 0;
-    padding-bottom: 24px;
-  }
-
-  .identity-main {
-    position: static;
-    min-height: 100%;
-    height: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 32px;
-    width: 100%;
-  }
-
-  .identity-content-top {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  .identity-main,
-  .intro-description,
-  h1 {
-    max-width: 620px;
-  }
-
-  h1 {
-    font-size: 40px;
-  }
-
   .content-column {
-    max-width: none;
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 100%;
   }
 
   .case-study-page {
@@ -2208,31 +2167,57 @@ a.contribution-item {
   }
 
   .identity-column {
+    width: 100%;
+    max-width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
-    padding-top: 92px;
-    padding-bottom: 24px;
+    height: 100dvh;
+    max-height: 100dvh;
+    padding-top: calc(68px + 8px);
+    padding-bottom: 12px;
+    padding-left: var(--page-padding);
+    padding-right: var(--page-padding);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
+    border-right: 0;
+    overflow: hidden;
   }
 
   .identity-main {
-    min-height: 100%;
+    height: 100%;
+    min-height: 0;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 20px;
+    gap: 8px;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .identity-content-top {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
+    flex-shrink: 1;
+    min-height: 0;
+  }
+
+  .intro-stack {
+    padding-top: 0;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .intro-copy {
+    gap: 6px;
+    display: flex;
+    flex-direction: column;
   }
 
   .intro-followup {
@@ -2245,14 +2230,21 @@ a.contribution-item {
   }
 
   .intro-heading {
-    gap: 8px;
+    gap: 4px;
+  }
+
+  .greeting {
+    font-size: 13px;
+    line-height: 1.3;
+    padding-left: 0;
   }
 
   h1 {
-    max-width: 520px;
-    font-size: 32px;
-    line-height: 1.2;
-    letter-spacing: -0.4px;
+    max-width: 100%;
+    font-size: clamp(23px, 5.8vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.8px;
+    margin: 0;
   }
 
   .title-line-desktop {
@@ -2261,6 +2253,69 @@ a.contribution-item {
 
   .title-line-mobile {
     display: block;
+  }
+
+  .identity-column .streaming-text {
+    min-height: 0 !important;
+  }
+
+  .intro-description {
+    max-width: 100%;
+    font-size: clamp(12.5px, 3.4vw, 14.5px);
+    line-height: 1.4;
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .github-activity-margin {
+    padding: 6px 8px;
+    margin-top: auto;
+    flex-shrink: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .github-contrib-container {
+    gap: 4px;
+    margin-top: 0;
+  }
+
+  .github-contrib-header {
+    margin-bottom: 0;
+  }
+
+  .github-contrib-title {
+    font-size: 11.5px;
+    line-height: 1.2;
+  }
+
+  .github-contrib-card {
+    padding: 6px 8px 5px;
+    gap: 4px;
+  }
+
+  .github-contrib-svg {
+    max-height: 82px;
+    width: 100%;
+    height: auto;
+  }
+
+  .github-contrib-footer {
+    padding-top: 2px;
+  }
+
+  .github-contrib-username {
+    font-size: 11px;
+  }
+
+  .github-contrib-legend {
+    gap: 3px;
+    font-size: 10px;
+  }
+
+  .github-contrib-legend-swatch {
+    width: 8px;
+    height: 8px;
   }
 
   .hero-caption,
