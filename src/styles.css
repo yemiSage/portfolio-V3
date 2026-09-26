@@ -1987,18 +1987,34 @@ a.contribution-item {
 
   .identity-column {
     max-width: none;
-    min-height: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
     flex-basis: auto;
-    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
     border-right: 0;
+    padding-bottom: 24px;
   }
 
   .identity-main {
     position: static;
-    min-height: auto;
-    height: auto;
-    justify-content: flex-start;
+    min-height: 100%;
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     gap: 32px;
+    width: 100%;
+  }
+
+  .identity-content-top {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
   .identity-main,
@@ -2173,7 +2189,31 @@ a.contribution-item {
   }
 
   .identity-column {
+    min-height: 100vh;
+    min-height: 100dvh;
     padding-top: 92px;
+    padding-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+
+  .identity-main {
+    min-height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .identity-content-top {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   .intro-followup {
@@ -4890,8 +4930,9 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
 
 @media (max-width: 1023px) {
   .github-activity-margin {
+    width: 100%;
     max-width: 620px;
-    margin-top: 16px;
+    margin-top: auto;
   }
 }
 
