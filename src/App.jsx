@@ -647,9 +647,9 @@ function App() {
                 <div className="intro-copy">
                   <div className="intro-heading">
                     <p className="greeting">Need a Professional</p>
-                    <h1 aria-label="Product Designer Who Codes?">
-                      <span className="title-line title-line-desktop"><span>Product Designer Who Codes?</span></span>
-                      <span className="title-line title-line-mobile"><span>Product Designer Who Codes?</span></span>
+                    <h1 aria-label="Design Engineer, Product & AI">
+                      <span className="title-line title-line-desktop"><span>Design Engineer, Product & AI</span></span>
+                      <span className="title-line title-line-mobile"><span>Design Engineer, Product & AI</span></span>
                     </h1>
                   </div>
                   <StreamingText

@@ -1,11 +1,11 @@
-# Opeyemi Adegboye Azeez - Lead Digital Product Designer Who Codes
+# Opeyemi Adegboye Azeez - Design Engineer, Product & AI
 
 ## Profile Summary
-Opeyemi Adegboye Azeez (commonly known as "Yemi" or "yemiSage") is an exceptionally skilled, multi-faceted Lead Digital Product Designer, UI/UX Specialist, and Front-End Developer with over **4 years of hands-on experience** designing and architecting complex, user-critical digital systems. Based in Lagos, Nigeria, Yemi pairs an engineering background with elegant, human-centered product craft, active Medium writing, and deep involvement in generative AI, prompt engineering, and workflow automation.
+Opeyemi Adegboye Azeez (commonly known as "Yemi" or "yemiSage") is an exceptionally skilled, multi-faceted Design Engineer (Product & AI), Lead Digital Product Designer, and Front-End Developer with over **4 years of hands-on experience** designing and architecting complex, user-critical digital systems. Based in Lagos, Nigeria, Yemi pairs an engineering background with elegant, human-centered product craft, active Medium writing, and deep involvement in generative AI, prompt engineering, and workflow automation.
 
 What sets Yemi apart is his **dual design and engineering mindset**. Because he writes clean front-end code (HTML, CSS, JavaScript, React, Tailwind) and understands technical feasibility, he bridges the gap between vision and production. He speaks the language of developers and product managers alike, ensuring designed interfaces ship efficiently, cleanly, and without compromised quality.
 
-- **Primary Role**: SaaS Product Designer & Front-End Developer Who Codes.
+- **Primary Role**: Design Engineer, Product & AI (SaaS Product Designer & Front-End Developer Who Codes).
 - **Location**: Lagos, Nigeria (Available for remote global contracts and on-site projects).
 - **Core Methodology**: User-centered design, constraint-first UX, systems thinking, component-driven UI design, and rapid prototyping.
 - **Specializations**: B2B SaaS, complex web & mobile dashboards, offline-first systems, travel marketplaces, AI-integrated platforms, and EdTech OS.
