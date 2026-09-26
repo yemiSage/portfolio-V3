@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
+import initialContributions from "../data/githubContributionsInitial.json";
 
 // Standard GitHub 5-level green color palette matching GitHub profile
 const LEVEL_COLORS = {
@@ -11,26 +12,19 @@ const LEVEL_COLORS = {
 
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-// Fallback 22 weeks (last 5 months)
-const DEFAULT_22_WEEKS = Array.from({ length: 22 }, () =>
-  Array.from({ length: 7 }, () => ({
-    level: 0,
-    tooltip: "No contributions",
-    date: "",
-  }))
-);
-
 export default function GithubContributionGraph({
   initialData,
   username = "yemiSage",
   profileUrl = "https://github.com/yemiSage",
 }) {
-  const [calendar, setCalendar] = useState(initialData || null);
+  // Initialize with baked-in authentic GitHub data so there is zero flash or blank state on live site
+  const [calendar, setCalendar] = useState(() => initialData || initialContributions || null);
   const [activeTooltip, setActiveTooltip] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(() => new Date());
 
-  // Fetch live contributions directly from backend / GitHub
+  // Fetch live contributions with dual-tier fallback: backend endpoint + public CORS GitHub API
   const fetchCalendar = useCallback(async (force = false) => {
+    // Tier 1: Try local backend route
     try {
       const url = force ? "/api/github-contributions?refresh=true" : "/api/github-contributions";
       const res = await fetch(url);
@@ -39,19 +33,60 @@ export default function GithubContributionGraph({
         if (data && Array.isArray(data.weeks) && data.weeks.length > 0) {
           setCalendar(data);
           setLastUpdated(new Date());
+          return;
         }
       }
     } catch {
-      // Gracefully maintain existing calendar state
+      // Proceed to Tier 2
     }
-  }, []);
 
-  // Initial load
-  useEffect(() => {
-    if (!calendar || !calendar.weeks || calendar.weeks.length === 0) {
-      fetchCalendar(false);
+    // Tier 2: Public CORS-enabled live GitHub contributions API (works seamlessly on static hosting, Vercel, Netlify, Cloud Run)
+    try {
+      const fallbackUrl = `https://github-contributions-api.jogruber.de/v4/${username}?y=last`;
+      const res = await fetch(fallbackUrl);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && Array.isArray(data.contributions) && data.contributions.length > 0) {
+          const weeks = [];
+          let currentWeek = [];
+          data.contributions.forEach((item) => {
+            const dObj = new Date(item.date + "T00:00:00Z");
+            const dayOfWeek = dObj.getUTCDay();
+            if (dayOfWeek === 0 && currentWeek.length > 0) {
+              weeks.push(currentWeek);
+              currentWeek = [];
+            }
+            currentWeek.push({
+              date: item.date,
+              level: item.level || 0,
+              tooltip:
+                item.count === 0
+                  ? `No contributions on ${item.date}`
+                  : `${item.count} contribution${item.count === 1 ? "" : "s"} on ${item.date}.`,
+              dayOfWeek,
+            });
+          });
+          if (currentWeek.length > 0) {
+            weeks.push(currentWeek);
+          }
+          if (weeks.length > 0) {
+            setCalendar({
+              totalContributions: data.total?.lastYear || 80,
+              weeks: weeks.slice(-22),
+            });
+            setLastUpdated(new Date());
+          }
+        }
+      }
+    } catch {
+      // Gracefully retain existing authentic calendar data
     }
-  }, [calendar, fetchCalendar]);
+  }, [username]);
+
+  // Initial live check
+  useEffect(() => {
+    fetchCalendar(false);
+  }, [fetchCalendar]);
 
   // Self-refreshing: Poll automatically every 1 hour (3,600,000 ms) in background
   useEffect(() => {
@@ -79,24 +114,23 @@ export default function GithubContributionGraph({
     };
   }, [fetchCalendar, lastUpdated]);
 
-  const allWeeks = calendar?.weeks || [];
+  const allWeeks = calendar?.weeks || initialContributions?.weeks || [];
   // Slice to exactly the last 5 months (~22 weeks)
   const displayedWeeks = useMemo(() => {
-    if (!allWeeks || allWeeks.length === 0) return DEFAULT_22_WEEKS;
+    if (!allWeeks || allWeeks.length === 0) return initialContributions?.weeks || [];
     return allWeeks.length > 22 ? allWeeks.slice(-22) : allWeeks;
   }, [allWeeks]);
 
   // Calculate contributions specifically in these last 5 months directly from GitHub's data
   const fiveMonthContributions = useMemo(() => {
-    if (!allWeeks || allWeeks.length === 0) return 78;
-    const lastWeeks = allWeeks.slice(-22);
+    if (!displayedWeeks || displayedWeeks.length === 0) return 80;
     let sum = 0;
-    lastWeeks.flat().filter(Boolean).forEach((day) => {
+    displayedWeeks.flat().filter(Boolean).forEach((day) => {
       const match = day.tooltip?.match(/(\d+)\s+contribution/);
       if (match) sum += parseInt(match[1], 10);
     });
-    return sum > 0 ? sum : 78;
-  }, [allWeeks]);
+    return sum > 0 ? sum : 80;
+  }, [displayedWeeks]);
 
   // Compute 5 distinct month labels (May, Jun, Jul, Aug, Sep) across the 22 weeks
   const monthLabels = useMemo(() => {

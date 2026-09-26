@@ -1,0 +1,974 @@
+{
+  "totalContributions": 79,
+  "weeks": [
+    [
+      {
+        "date": "2026-04-26",
+        "level": 0,
+        "tooltip": "No contributions on April 26th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-04-27",
+        "level": 0,
+        "tooltip": "No contributions on April 27th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-04-28",
+        "level": 0,
+        "tooltip": "No contributions on April 28th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-04-29",
+        "level": 0,
+        "tooltip": "No contributions on April 29th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-04-30",
+        "level": 0,
+        "tooltip": "No contributions on April 30th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-05-01",
+        "level": 0,
+        "tooltip": "No contributions on May 1st.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-05-02",
+        "level": 0,
+        "tooltip": "No contributions on May 2nd.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-05-03",
+        "level": 2,
+        "tooltip": "3 contributions on May 3rd.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-05-04",
+        "level": 0,
+        "tooltip": "No contributions on May 4th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-05-05",
+        "level": 0,
+        "tooltip": "No contributions on May 5th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-05-06",
+        "level": 0,
+        "tooltip": "No contributions on May 6th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-05-07",
+        "level": 0,
+        "tooltip": "No contributions on May 7th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-05-08",
+        "level": 0,
+        "tooltip": "No contributions on May 8th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-05-09",
+        "level": 0,
+        "tooltip": "No contributions on May 9th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-05-10",
+        "level": 0,
+        "tooltip": "No contributions on May 10th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-05-11",
+        "level": 0,
+        "tooltip": "No contributions on May 11th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-05-12",
+        "level": 0,
+        "tooltip": "No contributions on May 12th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-05-13",
+        "level": 0,
+        "tooltip": "No contributions on May 13th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-05-14",
+        "level": 0,
+        "tooltip": "No contributions on May 14th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-05-15",
+        "level": 0,
+        "tooltip": "No contributions on May 15th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-05-16",
+        "level": 0,
+        "tooltip": "No contributions on May 16th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-05-17",
+        "level": 0,
+        "tooltip": "No contributions on May 17th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-05-18",
+        "level": 0,
+        "tooltip": "No contributions on May 18th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-05-19",
+        "level": 0,
+        "tooltip": "No contributions on May 19th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-05-20",
+        "level": 0,
+        "tooltip": "No contributions on May 20th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-05-21",
+        "level": 0,
+        "tooltip": "No contributions on May 21st.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-05-22",
+        "level": 0,
+        "tooltip": "No contributions on May 22nd.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-05-23",
+        "level": 0,
+        "tooltip": "No contributions on May 23rd.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-05-24",
+        "level": 0,
+        "tooltip": "No contributions on May 24th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-05-25",
+        "level": 0,
+        "tooltip": "No contributions on May 25th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-05-26",
+        "level": 0,
+        "tooltip": "No contributions on May 26th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-05-27",
+        "level": 0,
+        "tooltip": "No contributions on May 27th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-05-28",
+        "level": 0,
+        "tooltip": "No contributions on May 28th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-05-29",
+        "level": 0,
+        "tooltip": "No contributions on May 29th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-05-30",
+        "level": 0,
+        "tooltip": "No contributions on May 30th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-05-31",
+        "level": 0,
+        "tooltip": "No contributions on May 31st.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-06-01",
+        "level": 0,
+        "tooltip": "No contributions on June 1st.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-06-02",
+        "level": 0,
+        "tooltip": "No contributions on June 2nd.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-06-03",
+        "level": 0,
+        "tooltip": "No contributions on June 3rd.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-06-04",
+        "level": 0,
+        "tooltip": "No contributions on June 4th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-06-05",
+        "level": 0,
+        "tooltip": "No contributions on June 5th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-06-06",
+        "level": 0,
+        "tooltip": "No contributions on June 6th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-06-07",
+        "level": 0,
+        "tooltip": "No contributions on June 7th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-06-08",
+        "level": 0,
+        "tooltip": "No contributions on June 8th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-06-09",
+        "level": 0,
+        "tooltip": "No contributions on June 9th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-06-10",
+        "level": 0,
+        "tooltip": "No contributions on June 10th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-06-11",
+        "level": 0,
+        "tooltip": "No contributions on June 11th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-06-12",
+        "level": 0,
+        "tooltip": "No contributions on June 12th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-06-13",
+        "level": 0,
+        "tooltip": "No contributions on June 13th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-06-14",
+        "level": 0,
+        "tooltip": "No contributions on June 14th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-06-15",
+        "level": 0,
+        "tooltip": "No contributions on June 15th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-06-16",
+        "level": 0,
+        "tooltip": "No contributions on June 16th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-06-17",
+        "level": 0,
+        "tooltip": "No contributions on June 17th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-06-18",
+        "level": 0,
+        "tooltip": "No contributions on June 18th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-06-19",
+        "level": 0,
+        "tooltip": "No contributions on June 19th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-06-20",
+        "level": 0,
+        "tooltip": "No contributions on June 20th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-06-21",
+        "level": 0,
+        "tooltip": "No contributions on June 21st.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-06-22",
+        "level": 0,
+        "tooltip": "No contributions on June 22nd.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-06-23",
+        "level": 0,
+        "tooltip": "No contributions on June 23rd.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-06-24",
+        "level": 0,
+        "tooltip": "No contributions on June 24th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-06-25",
+        "level": 0,
+        "tooltip": "No contributions on June 25th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-06-26",
+        "level": 0,
+        "tooltip": "No contributions on June 26th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-06-27",
+        "level": 0,
+        "tooltip": "No contributions on June 27th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-06-28",
+        "level": 0,
+        "tooltip": "No contributions on June 28th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-06-29",
+        "level": 0,
+        "tooltip": "No contributions on June 29th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-06-30",
+        "level": 0,
+        "tooltip": "No contributions on June 30th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-07-01",
+        "level": 0,
+        "tooltip": "No contributions on July 1st.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-07-02",
+        "level": 0,
+        "tooltip": "No contributions on July 2nd.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-07-03",
+        "level": 0,
+        "tooltip": "No contributions on July 3rd.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-07-04",
+        "level": 0,
+        "tooltip": "No contributions on July 4th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-07-05",
+        "level": 0,
+        "tooltip": "No contributions on July 5th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-07-06",
+        "level": 0,
+        "tooltip": "No contributions on July 6th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-07-07",
+        "level": 0,
+        "tooltip": "No contributions on July 7th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-07-08",
+        "level": 0,
+        "tooltip": "No contributions on July 8th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-07-09",
+        "level": 0,
+        "tooltip": "No contributions on July 9th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-07-10",
+        "level": 0,
+        "tooltip": "No contributions on July 10th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-07-11",
+        "level": 0,
+        "tooltip": "No contributions on July 11th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-07-12",
+        "level": 0,
+        "tooltip": "No contributions on July 12th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-07-13",
+        "level": 0,
+        "tooltip": "No contributions on July 13th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-07-14",
+        "level": 0,
+        "tooltip": "No contributions on July 14th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-07-15",
+        "level": 0,
+        "tooltip": "No contributions on July 15th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-07-16",
+        "level": 0,
+        "tooltip": "No contributions on July 16th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-07-17",
+        "level": 0,
+        "tooltip": "No contributions on July 17th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-07-18",
+        "level": 0,
+        "tooltip": "No contributions on July 18th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-07-19",
+        "level": 0,
+        "tooltip": "No contributions on July 19th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-07-20",
+        "level": 0,
+        "tooltip": "No contributions on July 20th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-07-21",
+        "level": 0,
+        "tooltip": "No contributions on July 21st.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-07-22",
+        "level": 0,
+        "tooltip": "No contributions on July 22nd.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-07-23",
+        "level": 0,
+        "tooltip": "No contributions on July 23rd.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-07-24",
+        "level": 0,
+        "tooltip": "No contributions on July 24th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-07-25",
+        "level": 0,
+        "tooltip": "No contributions on July 25th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-07-26",
+        "level": 0,
+        "tooltip": "No contributions on July 26th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-07-27",
+        "level": 0,
+        "tooltip": "No contributions on July 27th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-07-28",
+        "level": 0,
+        "tooltip": "No contributions on July 28th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-07-29",
+        "level": 0,
+        "tooltip": "No contributions on July 29th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-07-30",
+        "level": 0,
+        "tooltip": "No contributions on July 30th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-07-31",
+        "level": 0,
+        "tooltip": "No contributions on July 31st.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-08-01",
+        "level": 0,
+        "tooltip": "No contributions on August 1st.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-08-02",
+        "level": 4,
+        "tooltip": "6 contributions on August 2nd.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-08-03",
+        "level": 0,
+        "tooltip": "No contributions on August 3rd.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-08-04",
+        "level": 2,
+        "tooltip": "3 contributions on August 4th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-08-05",
+        "level": 2,
+        "tooltip": "3 contributions on August 5th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-08-06",
+        "level": 2,
+        "tooltip": "3 contributions on August 6th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-08-07",
+        "level": 0,
+        "tooltip": "No contributions on August 7th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-08-08",
+        "level": 0,
+        "tooltip": "No contributions on August 8th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-08-09",
+        "level": 0,
+        "tooltip": "No contributions on August 9th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-08-10",
+        "level": 0,
+        "tooltip": "No contributions on August 10th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-08-11",
+        "level": 0,
+        "tooltip": "No contributions on August 11th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-08-12",
+        "level": 0,
+        "tooltip": "No contributions on August 12th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-08-13",
+        "level": 0,
+        "tooltip": "No contributions on August 13th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-08-14",
+        "level": 0,
+        "tooltip": "No contributions on August 14th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-08-15",
+        "level": 0,
+        "tooltip": "No contributions on August 15th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-08-16",
+        "level": 1,
+        "tooltip": "1 contribution on August 16th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-08-17",
+        "level": 4,
+        "tooltip": "7 contributions on August 17th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-08-18",
+        "level": 4,
+        "tooltip": "6 contributions on August 18th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-08-19",
+        "level": 0,
+        "tooltip": "No contributions on August 19th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-08-20",
+        "level": 0,
+        "tooltip": "No contributions on August 20th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-08-21",
+        "level": 0,
+        "tooltip": "No contributions on August 21st.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-08-22",
+        "level": 0,
+        "tooltip": "No contributions on August 22nd.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-08-23",
+        "level": 0,
+        "tooltip": "No contributions on August 23rd.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-08-24",
+        "level": 0,
+        "tooltip": "No contributions on August 24th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-08-25",
+        "level": 0,
+        "tooltip": "No contributions on August 25th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-08-26",
+        "level": 0,
+        "tooltip": "No contributions on August 26th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-08-27",
+        "level": 0,
+        "tooltip": "No contributions on August 27th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-08-28",
+        "level": 0,
+        "tooltip": "No contributions on August 28th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-08-29",
+        "level": 0,
+        "tooltip": "No contributions on August 29th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-08-30",
+        "level": 0,
+        "tooltip": "No contributions on August 30th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-08-31",
+        "level": 3,
+        "tooltip": "4 contributions on August 31st.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-09-01",
+        "level": 0,
+        "tooltip": "No contributions on September 1st.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-09-02",
+        "level": 0,
+        "tooltip": "No contributions on September 2nd.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-09-03",
+        "level": 1,
+        "tooltip": "1 contribution on September 3rd.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-09-04",
+        "level": 4,
+        "tooltip": "7 contributions on September 4th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-09-05",
+        "level": 3,
+        "tooltip": "4 contributions on September 5th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-09-06",
+        "level": 4,
+        "tooltip": "6 contributions on September 6th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-09-07",
+        "level": 4,
+        "tooltip": "6 contributions on September 7th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-09-08",
+        "level": 3,
+        "tooltip": "5 contributions on September 8th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-09-09",
+        "level": 0,
+        "tooltip": "No contributions on September 9th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-09-10",
+        "level": 0,
+        "tooltip": "No contributions on September 10th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-09-11",
+        "level": 0,
+        "tooltip": "No contributions on September 11th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-09-12",
+        "level": 1,
+        "tooltip": "1 contribution on September 12th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-09-13",
+        "level": 2,
+        "tooltip": "2 contributions on September 13th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-09-14",
+        "level": 0,
+        "tooltip": "No contributions on September 14th.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-09-15",
+        "level": 0,
+        "tooltip": "No contributions on September 15th.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-09-16",
+        "level": 0,
+        "tooltip": "No contributions on September 16th.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-09-17",
+        "level": 2,
+        "tooltip": "3 contributions on September 17th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-09-18",
+        "level": 2,
+        "tooltip": "3 contributions on September 18th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-09-19",
+        "level": 0,
+        "tooltip": "No contributions on September 19th.",
+        "dayOfWeek": 6
+      }
+    ],
+    [
+      {
+        "date": "2026-09-20",
+        "level": 0,
+        "tooltip": "No contributions on September 20th.",
+        "dayOfWeek": 0
+      },
+      {
+        "date": "2026-09-21",
+        "level": 0,
+        "tooltip": "No contributions on September 21st.",
+        "dayOfWeek": 1
+      },
+      {
+        "date": "2026-09-22",
+        "level": 0,
+        "tooltip": "No contributions on September 22nd.",
+        "dayOfWeek": 2
+      },
+      {
+        "date": "2026-09-23",
+        "level": 0,
+        "tooltip": "No contributions on September 23rd.",
+        "dayOfWeek": 3
+      },
+      {
+        "date": "2026-09-24",
+        "level": 0,
+        "tooltip": "No contributions on September 24th.",
+        "dayOfWeek": 4
+      },
+      {
+        "date": "2026-09-25",
+        "level": 1,
+        "tooltip": "1 contribution on September 25th.",
+        "dayOfWeek": 5
+      },
+      {
+        "date": "2026-09-26",
+        "level": 3,
+        "tooltip": "4 contributions on September 26th.",
+        "dayOfWeek": 6
+      }
+    ]
+  ],
+  "lastUpdated": "2026-09-26T15:31:53.733Z"
+}
