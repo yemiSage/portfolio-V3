@@ -38,7 +38,7 @@ import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
 import AiAsteriskIcon from "./components/AiAsteriskIcon";
 
-const portraitImage = "/portfolio-logo.svg";
+const portraitImage = "/avatar.webp";
 
 const introSegments = [
   {

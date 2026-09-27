@@ -750,7 +750,7 @@ export default function SeoDiagnosticOverlay() {
                       <div className="seo-diag-google-preview">
                         <div className="google-url-row">
                           <img
-                            src="/portfolio-logo.svg"
+                            src="/avatar.webp"
                             alt="Logo"
                             className="w-4 h-4 rounded-full"
                           />
