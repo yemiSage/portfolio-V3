@@ -152,7 +152,7 @@ export default function SeoDiagnosticOverlay() {
     setOgData({
       title: getOg("og:title") || title,
       description: getOg("og:description") || desc,
-      image: getOg("og:image") || "/og-image.png",
+      image: getOg("og:image") || "/og-portfolio.jpg",
       type: getOg("og:type") || "profile",
       siteName: getOg("og:site_name") || "Opeyemi Adegboye"
     });
@@ -775,7 +775,7 @@ export default function SeoDiagnosticOverlay() {
                       <div className="seo-diag-social-preview">
                         <div className="social-img-wrap">
                           <img
-                            src={ogData.image || "/og-image.png"}
+                            src={ogData.image || "/og-portfolio.jpg"}
                             alt="OpenGraph Preview"
                             className="w-full h-auto object-cover"
                           />
