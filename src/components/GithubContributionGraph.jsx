@@ -190,7 +190,6 @@ export default function GithubContributionGraph({
             className="github-contrib-svg"
             viewBox={`0 0 ${svgWidth} ${svgHeight}`}
             width="100%"
-            height="auto"
             preserveAspectRatio="xMinYMin meet"
             role="img"
             aria-label={`GitHub contribution calendar for ${username}: ${fiveMonthContributions} contributions in the last 5 months`}
