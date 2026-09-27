@@ -371,6 +371,14 @@ export default function AskYemiChat({
       });
 
       if (!response.ok) {
+        // Gateway refusals (rate limit, message too long, wrong site) come with a friendly message
+        if ([400, 403, 429].includes(response.status)) {
+          const data = await response.json().catch(() => ({}));
+          if (data.error) {
+            setMessages((prev) => [...prev, { id: assistantId, role: "assistant", content: data.error }]);
+            return;
+          }
+        }
         throw new Error(`HTTP ${response.status}`);
       }
 
@@ -688,6 +696,7 @@ export default function AskYemiChat({
                     id="rachel-input-field"
                     type="text"
                     value={inputValue}
+                    maxLength={1000}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Ask about Yemi..."
