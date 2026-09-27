@@ -36,7 +36,7 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://ais-pre-pzkybmtjoyqdbwpqja2dra-27898525178.europe-west1.run.app/sitemap.xml
+Sitemap: https://yemii.vercel.app/sitemap.xml
 # AI Model context file
 # See https://llmstxt.org
 # /llms.txt

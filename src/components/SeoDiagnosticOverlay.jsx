@@ -758,7 +758,7 @@ export default function SeoDiagnosticOverlay() {
                             Opeyemi Adegboye Portfolio
                           </div>
                           <div className="google-url">
-                            https://ais-pre-pzkybmtjoyqdbwpqja2dra-27898525178.europe-west1.run.app
+                            https://yemii.vercel.app
                           </div>
                         </div>
                         <h3 className="google-title">{metaTitle}</h3>
