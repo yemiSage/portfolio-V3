@@ -156,17 +156,9 @@ h6 {
   animation: soft-rise 680ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
-.hero-panel {
-  animation-name: soft-reveal;
-  animation-delay: 80ms;
-}
-
 .project-card:nth-child(1) { animation-delay: 140ms; }
 .project-card:nth-child(2) { animation-delay: 220ms; }
 .project-card:nth-child(3) { animation-delay: 300ms; }
-.contributed-projects { animation-delay: 100ms; }
-.toolbox { animation-delay: 120ms; }
-.footer { animation-delay: 160ms; }
 
 .portfolio-grid {
   width: 100%;
@@ -312,7 +304,6 @@ h1 {
   width: 100%;
   max-width: none;
   padding-bottom: 0;
-  color: var(--body-copy);
   font-family: "Inter", "Inter Placeholder", sans-serif;
   font-size: var(--body-copy-size);
   line-height: 1.5;
@@ -798,6 +789,8 @@ body.is-preloading .ask-yemi-fab,
 }
 
 .hero-panel {
+  animation-name: soft-reveal;
+  animation-delay: 80ms;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -817,11 +810,6 @@ body.is-preloading .ask-yemi-fab,
   justify-content: space-between;
   gap: var(--feature-gap);
   padding: 40px 0 0;
-  margin-top: 0px;
-  margin-bottom: 32px;
-}
-
-div#root:nth-of-type(1) > main#top:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > div:nth-of-type(1) > section:nth-of-type(1) > div:nth-of-type(2) {
   margin-top: 0px;
   margin-bottom: 32px;
 }
@@ -1075,7 +1063,6 @@ div#root:nth-of-type(1) > main#top:nth-of-type(1) > div:nth-of-type(1) > section
 
 .project-copy > p,
 .section-intro p {
-  color: var(--body-copy);
   font-family: "Inter", "Inter Placeholder", sans-serif;
   font-size: var(--body-copy-size);
   line-height: var(--body-copy-line-height);
@@ -1104,6 +1091,7 @@ div#root:nth-of-type(1) > main#top:nth-of-type(1) > div:nth-of-type(1) > section
 }
 
 .contributed-projects {
+  animation-delay: 100ms;
   padding-top: 32px;
   display: flex;
   flex-direction: column;
@@ -1225,7 +1213,6 @@ a.contribution-item {
 }
 
 .contribution-item > p {
-  color: var(--body-copy);
   font-size: var(--body-copy-size);
   line-height: var(--body-copy-line-height);
   letter-spacing: var(--body-copy-tracking);
@@ -1258,6 +1245,7 @@ a.contribution-item {
 }
 
 .toolbox {
+  animation-delay: 120ms;
   padding-top: 80px;
   padding-bottom: 120px;
   display: flex;
@@ -1345,6 +1333,7 @@ a.contribution-item {
 }
 
 .footer {
+  animation-delay: 160ms;
   padding: 40px 0 32px;
   border-top: 1px solid #a3a3a3;
   display: grid;
@@ -1468,7 +1457,6 @@ a.contribution-item {
 }
 
 .case-study-index {
-  margin-top: 64px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -1602,34 +1590,19 @@ a.contribution-item {
 }
 
 .case-study-intro h1 {
-  max-width: 880px;
-  margin-top: 0;
   color: #1c1c1c;
   font-family: "DM Sans", sans-serif;
-  font-size: 32px;
-  line-height: 1.08;
-  letter-spacing: -1.28px;
-  font-weight: 700;
   text-wrap: balance;
-}
-
-.case-study-lede {
-  max-width: 700px;
-  margin-top: 24px;
-  color: #777777;
-  font-size: 16px;
-  line-height: 28px;
-  letter-spacing: -0.32px;
 }
 
 .case-study-meta-grid {
   width: 100%;
   max-width: none;
-  margin-top: 28px;
   padding-top: 20px;
   border-top: 1px solid #e7e7e7;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 32px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 24px;
 }
 
@@ -1639,36 +1612,8 @@ a.contribution-item {
   gap: 4px;
 }
 
-.case-study-meta-grid span {
-  color: #909090;
-  font-size: 12px;
-  line-height: 20px;
-}
-
-.case-study-meta-grid strong {
-  color: #333232;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.28px;
-  font-weight: 500;
-}
-
-.case-study-meta-grid a {
-  width: fit-content;
-  color: var(--accent);
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.28px;
-  font-weight: 500;
-  text-decoration: none;
-  text-underline-offset: 3px;
-  transition: color 180ms ease, text-decoration 180ms ease, opacity 180ms ease;
-}
-
 .case-study-meta-grid a:hover {
   color: var(--accent);
-  text-decoration: underline;
-  opacity: 0.85;
 }
 
 .case-study-tags {
@@ -1691,8 +1636,6 @@ a.contribution-item {
 
 .case-study-hero-image {
   width: 100%;
-  margin-top: 48px;
-  border-radius: 16px;
   overflow: hidden;
   background: #178ce5;
 }
@@ -1704,10 +1647,6 @@ a.contribution-item {
   height: auto;
 }
 
-.case-study-section {
-  padding-top: 80px;
-}
-
 .case-study-section-heading {
   display: flex;
   align-items: center;
@@ -1716,19 +1655,19 @@ a.contribution-item {
 
 .case-study-section h2 {
   max-width: 820px;
-  margin-top: 16px;
   color: #1c1c1c;
-  font-family: "DM Sans", sans-serif;
-  font-size: 32px;
-  line-height: 1.12;
-  letter-spacing: -1.28px;
-  font-weight: 700;
   text-wrap: balance;
+  margin-top: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  line-height: 1.45;
+  letter-spacing: -0.4px;
+  font-weight: 600;
 }
 
 .case-study-section-body {
   width: 100%;
-  margin-top: 32px;
+  margin-top: 20px;
 }
 
 .case-study-section-body > p,
@@ -1737,11 +1676,7 @@ a.contribution-item {
 }
 
 .case-study-section-body > p {
-  color: #777777;
   font-family: "Inter", "Inter Placeholder", sans-serif;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.28px;
   font-weight: 400;
 }
 
@@ -1751,9 +1686,10 @@ a.contribution-item {
 
 .case-study-list {
   padding: 0;
-  list-style: none;
   display: grid;
-  gap: 12px;
+  list-style: disc;
+  padding-left: 22px;
+  gap: 8px;
 }
 
 .case-study-section-body > p + .case-study-list {
@@ -1766,11 +1702,7 @@ a.contribution-item {
 
 .case-study-list li {
   position: relative;
-  padding-left: 24px;
-  color: #555555;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.28px;
+  padding-left: 0;
 }
 
 .case-study-list li::before {
@@ -1782,12 +1714,11 @@ a.contribution-item {
   height: 5px;
   border-radius: 50%;
   background: var(--accent);
+  display: none;
 }
 
 .case-study-video {
   width: 100%;
-  margin-top: 48px;
-  border-radius: 16px;
   display: block;
   aspect-ratio: 16 / 9;
   object-fit: cover;
@@ -1826,7 +1757,6 @@ a.contribution-item {
 .case-study-result-grid p {
   max-width: 300px;
   margin-top: 8px;
-  color: #777777;
   font-size: 14px;
   line-height: 24px;
   letter-spacing: -0.28px;
@@ -1875,7 +1805,6 @@ a.contribution-item {
 
 .case-study-flow-copy p {
   margin-top: 12px;
-  color: #777777;
   font-size: 14px;
   line-height: 24px;
   letter-spacing: -0.28px;
@@ -2011,22 +1940,8 @@ a.contribution-item {
 
   .case-study-page {
     --case-rail-width: 280px;
+    display: block;
   }
-
-  .case-study-rail {
-    padding: 24px;
-  }
-
-  .case-study-index {
-    margin-top: 48px;
-  }
-
-  .case-study-content {
-    padding-inline: 32px;
-  }
-}
-
-@media (max-width: 767px) {
   .resume-link-desktop {
     display: none !important;
   }
@@ -2440,10 +2355,6 @@ a.contribution-item {
     justify-self: start;
   }
 
-  .case-study-page {
-    display: block;
-  }
-
   .case-study-rail {
     position: sticky;
     top: 0;
@@ -2647,9 +2558,9 @@ a.contribution-item {
   }
 
   .case-study-content {
+    padding-inline: 32px;
     width: 100%;
     margin-left: 0;
-    padding: 40px 16px 80px;
   }
 
   .case-study-content img,
@@ -2664,46 +2575,19 @@ a.contribution-item {
 
   .case-study-intro h1 {
     margin-top: 0;
-    font-size: 32px;
-    line-height: 1.1;
-    letter-spacing: -1.28px;
   }
 
   .case-study-lede {
-    margin-top: 20px;
     font-size: 15px;
-    line-height: 25px;
-  }
-
-  .case-study-meta-grid {
-    margin-top: 36px;
-    grid-template-columns: 1fr;
-    gap: 12px;
   }
 
   .case-study-meta-grid div {
-    display: grid;
     grid-template-columns: 72px 1fr;
-    gap: 12px;
   }
 
   .case-study-hero-image {
     margin-top: 36px;
     border-radius: 12px;
-  }
-
-  .case-study-section {
-    padding-top: 80px;
-  }
-
-  .case-study-section h2 {
-    font-size: 24px;
-    line-height: 1.15;
-    letter-spacing: -1.28px;
-  }
-
-  .case-study-section-body {
-    margin-top: 24px;
   }
 
   .case-study-goal-grid,
@@ -2755,7 +2639,6 @@ a.contribution-item {
   .case-study-store-links a {
     width: 100%;
   }
-
 }
 
 @media (max-width: 440px) {
@@ -2985,16 +2868,9 @@ a.contribution-item {
 .case-study-lede {
   max-width: 804px;
   margin-top: 12px;
-  color: #666481;
   font-size: 15px;
   line-height: 22.5px;
   letter-spacing: 0;
-}
-
-.case-study-meta-grid {
-  margin-top: 32px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 24px;
 }
 
 .case-study-meta-grid span {
@@ -3014,6 +2890,7 @@ a.contribution-item {
 }
 
 .case-study-meta-grid a {
+  width: fit-content;
   color: var(--accent);
   font-size: 15px;
   line-height: 22.5px;
@@ -3055,39 +2932,11 @@ a.contribution-item {
   text-transform: none;
 }
 
-.case-study-section h2 {
-  margin-top: 8px;
-  font-family: "Inter", sans-serif;
-  font-size: 20px;
-  line-height: 1.45;
-  letter-spacing: -0.4px;
-  font-weight: 600;
-}
-
-.case-study-section-body {
-  margin-top: 20px;
-}
-
 .case-study-section-body > p,
 .case-study-list li {
-  color: #666481;
   font-size: 14px;
   line-height: 24px;
   letter-spacing: 0;
-}
-
-.case-study-list {
-  list-style: disc;
-  padding-left: 22px;
-  gap: 8px;
-}
-
-.case-study-list li {
-  padding-left: 0;
-}
-
-.case-study-list li::before {
-  display: none;
 }
 
 .case-study-hero-image,
@@ -3154,7 +3003,6 @@ a.contribution-item {
 
 .case-study-subsection > p {
   margin-top: 20px;
-  color: #666481;
   font-size: 14px;
   line-height: 24px;
 }
@@ -3198,7 +3046,6 @@ a.contribution-item {
 .case-study-other-screens p {
   max-width: 720px;
   margin-top: 4px;
-  color: var(--body-copy);
   font-size: 14px;
   line-height: 24px;
 }
@@ -4634,10 +4481,7 @@ a.contribution-item {
     bottom: 16px;
     left: 16px;
   }
-}
-
-@media screen and (max-width: 640px) {
-  div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) {
+  #root > #yemmy-notion-callout-wrapper > div:first-of-type {
     padding-bottom: 4px;
     padding-top: 4px;
     padding-left: 14px;
@@ -4761,15 +4605,15 @@ a.contribution-item {
   }
 }
 
-div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) {
+#root > #yemmy-notion-callout-wrapper .yemmy-notion-tag {
   font-weight: 500 !important;
 }
 
-div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(1) {
+#root > #yemmy-notion-callout-wrapper .yemmy-notion-sparkle {
   font-weight: 500 !important;
 }
 
-div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) {
+#root > #yemmy-notion-callout-wrapper {
   width: fit-content !important;
   max-width: calc(100vw - 32px) !important;
   margin: 0 !important;
@@ -4779,7 +4623,7 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) {
   bottom: 18px !important;
 }
 
-div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:nth-of-type(1) {
+#root > #yemmy-notion-callout-wrapper > div:first-of-type {
   width: fit-content !important;
   max-width: 100% !important;
   margin: 0 !important;
@@ -4787,7 +4631,7 @@ div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) > div:
 }
 
 @media (max-width: 640px) {
-  div#root:nth-of-type(1) > div#yemmy-notion-callout-wrapper:nth-of-type(1) {
+  #root > #yemmy-notion-callout-wrapper {
     right: 16px !important;
     left: auto !important;
     width: fit-content !important;
