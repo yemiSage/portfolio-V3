@@ -1,24 +1,20 @@
-import { handleChatRequest } from "../src/utils/chatEngine";
+import { handleChatWebRequest } from "../src/utils/chatEngine";
 
-export default async function handler(req: any, res: any) {
-  // CORS & Headers
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-  );
+// Web-standard handlers: Vercel streams the returned Response to the browser as it is generated.
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST,OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 
-  if (req.method === "OPTIONS") {
-    res.status(200).end();
-    return;
-  }
+export function OPTIONS() {
+  return new Response(null, { status: 200, headers: CORS_HEADERS });
+}
 
-  if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
+export function GET() {
+  return Response.json({ error: "Method not allowed" }, { status: 405, headers: CORS_HEADERS });
+}
 
-  await handleChatRequest(req, res);
+export async function POST(request: Request) {
+  return handleChatWebRequest(request, CORS_HEADERS);
 }

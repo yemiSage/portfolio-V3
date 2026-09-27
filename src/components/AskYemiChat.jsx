@@ -374,6 +374,9 @@ export default function AskYemiChat({
         throw new Error(`HTTP ${response.status}`);
       }
 
+      // Shows whether the reply came from Gemini or the built-in answers (useful when debugging)
+      console.info("[yemiLLM] reply source:", response.headers.get("X-YemiLLM-Source") || "unknown");
+
       const contentType = response.headers.get("content-type") || "";
 
       if (contentType.includes("text/plain") && response.body) {

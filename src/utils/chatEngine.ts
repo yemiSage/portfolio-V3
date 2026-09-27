@@ -107,13 +107,15 @@ function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise
 // answers only if no model manages to start a reply.
 export async function* streamChatReply(
   body: ChatRequestBody,
-  client?: Pick<GoogleGenAI, "models">
+  client?: Pick<GoogleGenAI, "models">,
+  meta: { source?: string } = {}
 ): AsyncGenerator<string> {
   const message = typeof body.message === "string" ? body.message.trim() : "";
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!client && !apiKey) {
     console.warn("[yemiLLM] GEMINI_API_KEY is not set; using built-in answers.");
+    meta.source = "fallback: no API key";
     yield getSmartPortfolioReply(message);
     return;
   }
@@ -136,6 +138,7 @@ export async function* streamChatReply(
         if (next.done) break;
         const text = next.value?.text;
         if (text) {
+          if (!started) meta.source = `model: ${model}`;
           started = true;
           yield text;
         }
@@ -152,20 +155,41 @@ export async function* streamChatReply(
   }
 
   console.warn("[yemiLLM] All models failed; using built-in answers.");
+  meta.source = "fallback: all models failed";
   yield getSmartPortfolioReply(message);
 }
 
-// Express and Vercel both pass Node-style req/res objects, so one handler serves both.
+// Starts the reply and waits for its first chunk, so we know (and can report) whether
+// it came from a model or from the built-in answers before any headers are sent.
+async function startReply(body: ChatRequestBody) {
+  const meta: { source?: string } = {};
+  const replies = streamChatReply(body, undefined, meta);
+  const first = await replies.next();
+  const chunks = (async function* () {
+    if (!first.done && first.value) yield first.value;
+    yield* replies;
+  })();
+  return { chunks, source: meta.source || "unknown" };
+}
+
+function isValidBody(body: ChatRequestBody): boolean {
+  return typeof body.message === "string" && body.message.trim().length > 0;
+}
+
+// Express (server.ts): Node-style req/res.
 export async function handleChatRequest(req: any, res: any) {
   const body: ChatRequestBody = req.body || {};
-  if (typeof body.message !== "string" || !body.message.trim()) {
+  if (!isValidBody(body)) {
     res.status(400).json({ error: "Message is required." });
     return;
   }
 
+  const { chunks, source } = await startReply(body);
+  res.setHeader("X-YemiLLM-Source", source);
+
   if (!body.stream) {
     let reply = "";
-    for await (const chunk of streamChatReply(body)) reply += chunk;
+    for await (const chunk of chunks) reply += chunk;
     res.status(200).json({ reply: cleanChatOutput(reply) });
     return;
   }
@@ -176,9 +200,53 @@ export async function handleChatRequest(req: any, res: any) {
   res.setHeader("X-Accel-Buffering", "no");
   res.flushHeaders?.();
   try {
-    for await (const chunk of streamChatReply(body)) res.write(chunk);
+    for await (const chunk of chunks) res.write(chunk);
   } catch (err: any) {
     console.error("[yemiLLM] Stream error:", err?.message || err);
   }
   res.end();
+}
+
+// Vercel (api/chat.ts): web-standard Request/Response, which Vercel streams to the browser.
+export async function handleChatWebRequest(request: Request, extraHeaders: Record<string, string> = {}): Promise<Response> {
+  let body: ChatRequestBody = {};
+  try {
+    body = await request.json();
+  } catch {
+    // fall through to the validation error below
+  }
+  if (!isValidBody(body)) {
+    return Response.json({ error: "Message is required." }, { status: 400, headers: extraHeaders });
+  }
+
+  const { chunks, source } = await startReply(body);
+  const headers = { ...extraHeaders, "X-YemiLLM-Source": source };
+
+  if (!body.stream) {
+    let reply = "";
+    for await (const chunk of chunks) reply += chunk;
+    return Response.json({ reply: cleanChatOutput(reply) }, { headers });
+  }
+
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream<Uint8Array>({
+    async pull(controller) {
+      try {
+        const next = await chunks.next();
+        if (next.done) controller.close();
+        else controller.enqueue(encoder.encode(next.value));
+      } catch (err: any) {
+        console.error("[yemiLLM] Stream error:", err?.message || err);
+        controller.close();
+      }
+    },
+  });
+  return new Response(stream, {
+    headers: {
+      ...headers,
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-cache, no-transform",
+      "X-Accel-Buffering": "no",
+    },
+  });
 }
