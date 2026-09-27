@@ -1,35 +1,10 @@
-import { GoogleGenAI } from "@google/genai";
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import {
-  YEMI_SYSTEM_INSTRUCTION,
-  getSmartPortfolioReply,
-  cleanChatOutput,
-} from "./src/utils/chatKnowledge";
-import { retrieveRelevantContext } from "./src/utils/ragServer";
 import { getGithubContributions, getGithubStats } from "./src/utils/githubData";
+import { handleChatRequest } from "./src/utils/chatEngine";
 
 const PORT = 3000;
-
-let aiClient: GoogleGenAI | null = null;
-function getGenAI(): GoogleGenAI {
-  if (!aiClient) {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      console.warn("[askYemi] Warning: GEMINI_API_KEY is not set.");
-    }
-    aiClient = new GoogleGenAI({
-      apiKey: apiKey || "",
-      httpOptions: {
-        headers: {
-          "User-Agent": "aistudio-build",
-        },
-      },
-    });
-  }
-  return aiClient;
-}
 
 async function startServer() {
   const app = express();
@@ -54,106 +29,8 @@ async function startServer() {
     res.json(await getGithubContributions(req.query.refresh === "true"));
   });
 
-  // Chat API endpoint
-  app.post("/api/chat", async (req, res) => {
-    try {
-      const { message, history, context } = req.body;
-
-      if (!message || typeof message !== "string") {
-        return res.status(400).json({ error: "Message is required." });
-      }
-
-      const apiKey = process.env.GEMINI_API_KEY;
-      if (!apiKey) {
-        // High-quality contextual fallback if API key is missing in environment
-        return res.json({
-          reply: cleanChatOutput(
-            "This is Yemi LLM, Opeyemi's portfolio assistant. Feel free to explore Yemi's featured projects: TASAfrica (sports scout discovery), Limestone App (community security), and Xeruit Talent (AI hiring OS). You can reach Yemi directly at adegboyeopeyemi065@gmail.com!"
-          ),
-        });
-      }
-
-      const ai = getGenAI();
-
-      // Format conversation history for Gemini multi-turn contents
-      const contents: Array<{ role: string; parts: Array<{ text: string }> }> = [];
-
-      if (Array.isArray(history)) {
-        for (const item of history.slice(-8)) {
-          if (item.role === "user" || item.role === "assistant" || item.role === "model") {
-            contents.push({
-              role: item.role === "assistant" ? "model" : "user",
-              parts: [{ text: String(item.content || item.text || "") }],
-            });
-          }
-        }
-      }
-
-      // Add current user prompt
-      contents.push({
-        role: "user",
-        parts: [{ text: message }],
-      });
-
-      const CANDIDATE_MODELS = [
-        "gemini-3.8-flash",
-        "gemini-3.6-flash",
-        "gemini-flash-latest",
-      ];
-
-      let replyText = "";
-      let lastError: any = null;
-
-      // Retrieve high-fidelity context dynamically from the project & page markdown files via the RAG pipeline
-      const ragContext = retrieveRelevantContext(message);
-
-      for (const model of CANDIDATE_MODELS) {
-        try {
-          const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Timeout")), 6500)
-          );
-
-          let dynamicSystemInstruction = YEMI_SYSTEM_INSTRUCTION;
-          if (ragContext) {
-            dynamicSystemInstruction += `\n\n[RAG SYSTEM PORTFOLIO KNOWLEDGE BASE]\nThe following is highly accurate, extracted context from Opeyemi's official project and page markdown documents. Use it to answer any specific or implicit questions about his portfolio projects, key metrics, client results, background, skills, contact channels, or work philosophy with deep, context-rich intelligence:\n"""\n${ragContext}\n"""`;
-          }
-          if (context && typeof context === "object") {
-            dynamicSystemInstruction += `\n\n[USER SCREEN CONTEXT]\nThe user is currently browsing the page: "${context.currentPath || '/'}".\nPage Title: "${context.pageTitle || ''}".\nHere is the visible content on this page:\n"""\n${context.extractedText || ''}\n"""\nYou are fully aware of everything on this page. When the user asks "what is this page about?", "who is this?", or questions about any text, details, metrics, case studies, sections, or bullet points on this screen, use the visible text above to answer accurately and intelligently as if you are looking at their screen!`;
-          }
-
-          const generatePromise = ai.models.generateContent({
-            model,
-            contents,
-            config: {
-              systemInstruction: dynamicSystemInstruction,
-              temperature: 0.85,
-            },
-          });
-
-          const response = (await Promise.race([generatePromise, timeoutPromise])) as any;
-          if (response && response.text) {
-            replyText = response.text;
-            break;
-          }
-        } catch (err: any) {
-          console.warn(`[askYemi] Model ${model} failed or timed out. Error:`, err?.message || err);
-          lastError = err;
-        }
-      }
-
-      if (!replyText) {
-        replyText = getSmartPortfolioReply(message);
-      }
-
-      res.json({ reply: cleanChatOutput(replyText) });
-    } catch (error: any) {
-      console.error("[askYemi API Error]:", error);
-      const fallback = cleanChatOutput(
-        "Yemi is a Product Designer Who Codes with over 4 years of experience. You can explore his featured case studies: [TASAfrica](/projects/tasafrica) and [Limestone App](/projects/limestone), or reach him directly at [adegboyeopeyemi065@gmail.com](mailto:adegboyeopeyemi065@gmail.com)."
-      );
-      res.json({ reply: fallback });
-    }
-  });
+  // Chat API endpoint (shared with the Vercel function in api/chat.ts)
+  app.post("/api/chat", handleChatRequest);
 
   // Vite development middleware or static serving
   if (process.env.NODE_ENV !== "production") {

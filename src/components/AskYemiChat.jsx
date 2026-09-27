@@ -281,6 +281,7 @@ export default function AskYemiChat({
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
   const [showInfoTooltip, setShowInfoTooltip] = useState(false);
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth <= 640 : false
@@ -332,6 +333,10 @@ export default function AskYemiChat({
     setInputValue("");
     setIsLoading(true);
 
+    const assistantId = `assistant-${Date.now()}`;
+    let streamedText = "";
+    let streamStarted = false;
+
     try {
       // Extract dynamic page text context
       let extractedText = "";
@@ -360,7 +365,8 @@ export default function AskYemiChat({
             currentPath: window.location.pathname,
             pageTitle: document.title,
             extractedText: extractedText
-          }
+          },
+          stream: true,
         }),
       });
 
@@ -368,9 +374,42 @@ export default function AskYemiChat({
         throw new Error(`HTTP ${response.status}`);
       }
 
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("Received non-JSON response from server");
+      const contentType = response.headers.get("content-type") || "";
+
+      if (contentType.includes("text/plain") && response.body) {
+        // Streamed reply: show the text as it arrives
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          streamedText += decoder.decode(value, { stream: true });
+          const content = streamedText;
+          if (!content.trim()) continue;
+          if (!streamStarted) {
+            streamStarted = true;
+            setIsStreaming(true);
+            setMessages((prev) => [...prev, { id: assistantId, role: "assistant", content }]);
+          } else {
+            setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, content } : m)));
+          }
+        }
+        streamedText += decoder.decode();
+        if (!streamedText.trim()) {
+          throw new Error("Empty streamed reply");
+        }
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantId
+              ? { ...m, content: cleanChatOutput(streamedText), suggestions: getFollowUpSuggestions(text) }
+              : m
+          )
+        );
+        return;
+      }
+
+      if (!contentType.includes("application/json")) {
+        throw new Error("Received an unexpected response from server");
       }
 
       const data = await response.json();
@@ -382,7 +421,7 @@ export default function AskYemiChat({
       setMessages((prev) => [
         ...prev,
         {
-          id: `assistant-${Date.now()}`,
+          id: assistantId,
           role: "assistant",
           content: replyText,
           suggestions: getFollowUpSuggestions(text),
@@ -390,12 +429,25 @@ export default function AskYemiChat({
       ]);
     } catch (error) {
       console.warn("Chat API unavailable or fallback used:", error);
+
+      if (streamStarted && streamedText.trim()) {
+        // Keep the part of the reply that already arrived
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantId
+              ? { ...m, content: cleanChatOutput(streamedText), suggestions: getFollowUpSuggestions(text) }
+              : m
+          )
+        );
+        return;
+      }
+
       const fallbackReply = cleanChatOutput(getSmartPortfolioReply(text));
 
       setMessages((prev) => [
         ...prev,
         {
-          id: `assistant-${Date.now()}`,
+          id: assistantId,
           role: "assistant",
           content: fallbackReply,
           suggestions: getFollowUpSuggestions(text),
@@ -403,6 +455,7 @@ export default function AskYemiChat({
       ]);
     } finally {
       setIsLoading(false);
+      setIsStreaming(false);
     }
   };
 
@@ -605,7 +658,7 @@ export default function AskYemiChat({
                 })}
 
                 {/* Thinking animation - ONLY pulsing dots, without text */}
-                {isLoading && (
+                {isLoading && !isStreaming && (
                   <div className="rachel-message-wrap is-assistant">
                     <div className="rachel-thinking-dots" aria-label="Thinking...">
                       <span />

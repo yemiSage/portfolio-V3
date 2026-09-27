@@ -1,4 +1,10 @@
 {
+  "functions": {
+    "api/chat.ts": {
+      "includeFiles": "src/data/projects/**",
+      "maxDuration": 60
+    }
+  },
   "rewrites": [
     {
       "source": "/((?!api/).*)",
