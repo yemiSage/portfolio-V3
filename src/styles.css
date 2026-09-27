@@ -2169,30 +2169,22 @@ a.contribution-item {
   .identity-column {
     width: 100%;
     max-width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
-    height: 100dvh;
-    max-height: 100dvh;
     padding-top: calc(68px + 8px);
-    padding-bottom: 12px;
+    padding-bottom: 32px;
     padding-left: var(--page-padding);
     padding-right: var(--page-padding);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     box-sizing: border-box;
     border-right: 0;
-    overflow: hidden;
   }
 
   .identity-main {
-    height: 100%;
+    position: static;
     min-height: 0;
-    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 8px;
+    gap: 24px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -2269,7 +2261,7 @@ a.contribution-item {
 
   .github-activity-margin {
     padding: 6px 8px;
-    margin-top: auto;
+    margin-top: 0;
     flex-shrink: 0;
     width: 100%;
     box-sizing: border-box;
@@ -2295,7 +2287,6 @@ a.contribution-item {
   }
 
   .github-contrib-svg {
-    max-height: 82px;
     width: 100%;
     height: auto;
   }
