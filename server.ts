@@ -1,8 +1,8 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import { getGithubContributions, getGithubStats } from "./src/utils/githubData";
-import { handleChatRequest } from "./src/utils/chatEngine";
+import { getGithubContributions, getGithubStats } from "./src/utils/githubData.js";
+import { handleChatRequest } from "./src/utils/chatEngine.js";
 
 const PORT = 3000;
 

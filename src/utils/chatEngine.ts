@@ -1,8 +1,8 @@
 // Shared yemiLLM chat logic used by the Express dev server (server.ts)
 // and the Vercel serverless function (api/chat.ts), so both behave the same.
 import { GoogleGenAI } from "@google/genai";
-import { YEMI_SYSTEM_INSTRUCTION, cleanChatOutput, getSmartPortfolioReply } from "./chatKnowledge";
-import { retrieveRelevantContext } from "./ragServer";
+import { YEMI_SYSTEM_INSTRUCTION, cleanChatOutput, getSmartPortfolioReply } from "./chatKnowledge.js";
+import { retrieveRelevantContext } from "./ragServer.js";
 
 // Tried in order. Override with a comma-separated GEMINI_MODELS env var.
 const DEFAULT_MODELS = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-flash-latest"];

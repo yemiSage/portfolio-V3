@@ -1,4 +1,4 @@
-import { getGithubStats } from "../src/utils/githubData";
+import { getGithubStats } from "../src/utils/githubData.js";
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "GET") {

@@ -1,4 +1,4 @@
-import { handleChatWebRequest } from "../src/utils/chatEngine";
+import { handleChatWebRequest } from "../src/utils/chatEngine.js";
 
 // Web-standard handlers: Vercel streams the returned Response to the browser as it is generated.
 const CORS_HEADERS = {
