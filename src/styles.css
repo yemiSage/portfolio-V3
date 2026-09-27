@@ -4638,6 +4638,22 @@ a.contribution-item {
   }
 }
 
+/* Narrow phones: show the chat launcher as a compact icon button so it covers
+   less of the page. The bubble keeps its "Ask yemiLLM" aria-label. */
+@media (max-width: 380px) {
+  #root > #yemmy-notion-callout-wrapper .yemmy-notion-tag {
+    display: none;
+  }
+
+  #root > #yemmy-notion-callout-wrapper .yemmy-notion-bubble {
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 /* GitHub Activity:margin */
 .github-activity-margin {
   display: flex;
