@@ -244,8 +244,8 @@ function FinalScene({ clock, completed, onReplay }) {
     <motion.section className="yemi-reel-final" style={{ opacity }} aria-hidden={!completed}>
       <motion.div className="yemi-final-image" style={{ opacity: imageOpacity }}>
         <picture>
-          <source media="(max-width: 640px)" srcSet="/showreel-final%202.jpg" />
-          <img src="/showreel-final%201.jpg" alt="" aria-hidden="true" referrerPolicy="no-referrer" />
+          <source media="(max-width: 640px)" srcSet="/showreel-final-2.webp" />
+          <img src="/showreel-final-1.webp" alt="" aria-hidden="true" referrerPolicy="no-referrer" />
         </picture>
       </motion.div>
     </motion.section>

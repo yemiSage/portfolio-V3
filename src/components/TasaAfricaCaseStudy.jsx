@@ -1,17 +1,17 @@
 import CaseStudyShell, { BulletList, CaseStudySection } from "./CaseStudyShell";
-import hero from "../../assets/case-studies/tasafrica/hero.png";
-import initialExplorations from "../../assets/case-studies/tasafrica/initial-explorations.png";
-import revisedWireframes from "../../assets/case-studies/tasafrica/revised-wireframes.png";
-import roleSelection from "../../assets/case-studies/tasafrica/role-selection.png";
-import personalInformation from "../../assets/case-studies/tasafrica/personal-information.png";
-import otpVerification from "../../assets/case-studies/tasafrica/otp-verification.png";
-import success from "../../assets/case-studies/tasafrica/success.png";
-import homepage from "../../assets/case-studies/tasafrica/homepage.png";
-import talentCategories from "../../assets/case-studies/tasafrica/talent-categories.png";
-import communityFeed from "../../assets/case-studies/tasafrica/community-feed.png";
-import postDetail from "../../assets/case-studies/tasafrica/post-detail.png";
-import videoHighlights from "../../assets/case-studies/tasafrica/video-highlights.png";
-import engagementComments from "../../assets/case-studies/tasafrica/engagement-comments.png";
+import hero from "../../assets/case-studies/tasafrica/hero.webp";
+import initialExplorations from "../../assets/case-studies/tasafrica/initial-explorations.webp";
+import revisedWireframes from "../../assets/case-studies/tasafrica/revised-wireframes.webp";
+import roleSelection from "../../assets/case-studies/tasafrica/role-selection.webp";
+import personalInformation from "../../assets/case-studies/tasafrica/personal-information.webp";
+import otpVerification from "../../assets/case-studies/tasafrica/otp-verification.webp";
+import success from "../../assets/case-studies/tasafrica/success.webp";
+import homepage from "../../assets/case-studies/tasafrica/homepage.webp";
+import talentCategories from "../../assets/case-studies/tasafrica/talent-categories.webp";
+import communityFeed from "../../assets/case-studies/tasafrica/community-feed.webp";
+import postDetail from "../../assets/case-studies/tasafrica/post-detail.webp";
+import videoHighlights from "../../assets/case-studies/tasafrica/video-highlights.webp";
+import engagementComments from "../../assets/case-studies/tasafrica/engagement-comments.webp";
 
 const sections = [
   ["overview", "Overview"], ["role", "My role"], ["problem", "Problem statement"],
