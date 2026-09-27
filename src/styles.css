@@ -2169,7 +2169,7 @@ a.contribution-item {
   .identity-column {
     width: 100%;
     max-width: 100%;
-    padding-top: calc(68px + 8px);
+    padding-top: calc(68px + 28px);
     padding-bottom: 32px;
     padding-left: var(--page-padding);
     padding-right: var(--page-padding);

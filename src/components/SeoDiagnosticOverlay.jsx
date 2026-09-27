@@ -237,7 +237,7 @@ export default function SeoDiagnosticOverlay() {
 
     // Title Tag (Benchmark: 50 - 70 chars, contains role)
     const titleLen = metaTitle.length;
-    const hasRoleInTitle = /designer|product engineer|ui\/ux/i.test(metaTitle);
+    const hasRoleInTitle = /designer|design engineer|product engineer|ui\/ux/i.test(metaTitle);
     checks.push({
       id: "title-length",
       category: "Title Tag",
@@ -253,7 +253,7 @@ export default function SeoDiagnosticOverlay() {
       category: "Title Tag",
       label: "Contains Primary Design Roles",
       passed: hasRoleInTitle,
-      detail: 'Includes "Product Designer", "Product Engineer", and "UI/UX Designer".'
+      detail: 'Includes a primary role such as "Design Engineer", "Product Designer", or "UI/UX Designer".'
     });
 
     // Description Tag (Benchmark: 140 - 220 chars)
