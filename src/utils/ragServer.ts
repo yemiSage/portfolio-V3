@@ -84,6 +84,11 @@ export function retrieveRelevantContext(query: string): string {
     return `[RAG Retrieved Document: ${bestDoc.title}]\n\n${bestDoc.content}`;
   }
 
-  // Combined fallback: return outline of all files so the LLM can synthesize answers with comprehensive scope
+  // No clear match: send the general profile (resume) only. The system prompt already
+  // summarises every project, and sending all documents made each request slower.
+  const profile = docs.find((d) => d.id === "resume");
+  if (profile) {
+    return `[RAG Retrieved Document: ${profile.title}]\n\n${profile.content}`;
+  }
   return docs.map(d => `### ${d.title}\n${d.content}`).join("\n\n---\n\n");
 }

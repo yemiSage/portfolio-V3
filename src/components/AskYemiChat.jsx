@@ -380,6 +380,7 @@ export default function AskYemiChat({
         console.warn("Could not extract page context:", contextErr);
       }
 
+      const requestStartedAt = performance.now();
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -411,7 +412,11 @@ export default function AskYemiChat({
       }
 
       // Shows whether the reply came from Gemini or the built-in answers (useful when debugging)
-      console.info("[yemiLLM] reply source:", response.headers.get("X-YemiLLM-Source") || "unknown");
+      console.info(
+        "[yemiLLM] reply source:", response.headers.get("X-YemiLLM-Source") || "unknown",
+        "| server:", response.headers.get("X-YemiLLM-Timing") || "n/a",
+        `| browser waited ${Math.round(performance.now() - requestStartedAt)}ms for the first response`
+      );
 
       const contentType = response.headers.get("content-type") || "";
 
