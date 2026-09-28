@@ -243,7 +243,7 @@ function FormattedAssistantText({ text, onNavigate }) {
           return (
             <div key={lIdx} className="rachel-list-item">
               <span className="rachel-bullet">•</span>
-              <span>{formatInline(trimmed.slice(2))}</span>
+              <span className="rachel-list-text">{formatInline(trimmed.slice(2))}</span>
             </div>
           );
         }
@@ -289,6 +289,7 @@ export default function AskYemiChat({
   const [activePromptIndex, setActivePromptIndex] = useState(0);
   const [isNotionDismissed, setIsNotionDismissed] = useState(false);
   const messagesEndRef = useRef(null);
+  const chatBodyRef = useRef(null);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -307,16 +308,43 @@ export default function AskYemiChat({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // Scroll only the message list (scrollIntoView could also move the page behind the chat)
+  const scrollToBottom = (smooth = true) => {
+    const body = chatBodyRef.current;
+    if (body) body.scrollTo({ top: body.scrollHeight, behavior: smooth ? "smooth" : "auto" });
   };
 
   useEffect(() => {
-    if (isOpen) {
-      scrollToBottom();
-      setTimeout(() => inputRef.current?.focus(), 150);
+    if (isOpen) scrollToBottom(!isStreaming);
+  }, [isOpen, messages, isLoading, isStreaming]);
+
+  // Focus the input on desktop only; on phones this would pop the keyboard up on every update
+  useEffect(() => {
+    if (isOpen && !isLoading && window.matchMedia("(pointer: fine)").matches) {
+      const t = setTimeout(() => inputRef.current?.focus(), 150);
+      return () => clearTimeout(t);
     }
-  }, [isOpen, messages, isLoading]);
+    return undefined;
+  }, [isOpen, isLoading]);
+
+  // Lock the page behind the chat so only the conversation scrolls, then restore the position
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const scrollY = window.scrollY;
+    const { body, documentElement } = document;
+    const prev = { position: body.style.position, top: body.style.top, width: body.style.width, overflow: documentElement.style.overflow };
+    documentElement.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    return () => {
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      documentElement.style.overflow = prev.overflow;
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
 
   const handleSendMessage = async (textToSend) => {
     const text = (textToSend || inputValue).trim();
@@ -608,7 +636,7 @@ export default function AskYemiChat({
               </div>
 
               {/* Chat Messages Body */}
-              <div className="rachel-chat-body">
+              <div className="rachel-chat-body" ref={chatBodyRef}>
                 {messages.map((msg, index) => {
                   const isLastAssistant =
                     msg.role === "assistant" &&
