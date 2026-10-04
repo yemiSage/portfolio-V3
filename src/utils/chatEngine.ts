@@ -8,7 +8,7 @@ import { retrieveRelevantContext } from "./ragServer.js";
 // model, so it goes first. Override with a comma-separated GEMINI_MODELS env var.
 const DEFAULT_MODELS = ["gemini-flash-latest", "gemini-3.8-flash", "gemini-3.6-flash"];
 // How long to wait for a model to start answering before trying the next one.
-const FIRST_CHUNK_TIMEOUT_MS = 15000;
+const FIRST_CHUNK_TIMEOUT_MS = 8000;
 // How long a started answer may pause between chunks before we stop it.
 const CHUNK_IDLE_TIMEOUT_MS = 20000;
 const MAX_HISTORY_MESSAGES = 20;

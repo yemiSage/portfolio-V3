@@ -2,7 +2,7 @@
 // and the Vercel serverless functions in api/.
 
 const GITHUB_USERNAME = "yemiSage";
-const CACHE_TTL = 60 * 60 * 1000;
+const CACHE_TTL = 10 * 60 * 1000;
 
 // In-memory caches (TTL: 1 hour). On Vercel these only live as long as a
 // warm function instance, so the API routes also set CDN cache headers.
@@ -131,6 +131,9 @@ export async function getGithubStats() {
       "User-Agent": "yemi-portfolio",
       Accept: "application/vnd.github.v3+json",
     };
+    // Optional token: unauthenticated calls share a 60/hour limit that Vercel's shared IPs
+    // often exhaust, which silently drops the site back to the hardcoded defaults.
+    if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 
     const [userRes, reposRes] = await Promise.all([
       fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, { headers }),
