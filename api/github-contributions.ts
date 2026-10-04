@@ -8,7 +8,7 @@ export default async function handler(req: any, res: any) {
 
   const forceRefresh = req.query?.refresh === "true";
   const data = await getGithubContributions(forceRefresh);
-  // Let Vercel's CDN serve this for an hour so GitHub isn't hit on every visit.
-  res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
+  // Let Vercel's CDN serve this for ten minutes so GitHub isn't hit on every visit.
+  res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=3600");
   res.status(200).json(data);
 }
