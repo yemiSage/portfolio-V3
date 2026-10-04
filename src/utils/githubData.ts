@@ -135,9 +135,16 @@ export async function getGithubStats() {
     // often exhaust, which silently drops the site back to the hardcoded defaults.
     if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 
+    // With a token, use the authenticated /user/repos endpoint so private repos are
+    // counted too. Without one, fall back to the public endpoint (public repos only).
+    const hasToken = Boolean(process.env.GITHUB_TOKEN);
+    const reposUrl = hasToken
+      ? "https://api.github.com/user/repos?per_page=100&sort=updated&visibility=all&affiliation=owner"
+      : `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`;
+
     const [userRes, reposRes] = await Promise.all([
       fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, { headers }),
-      fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`, { headers }),
+      fetch(reposUrl, { headers }),
     ]);
 
     if (!userRes.ok || !reposRes.ok) {
@@ -214,22 +221,28 @@ export async function getGithubStats() {
       prs,
       commitsThisYear,
       contributions: totalContribs,
-      totalProjects: userData.public_repos || (Array.isArray(reposData) ? reposData.length : 5),
+      totalProjects: Array.isArray(reposData) ? reposData.length : userData.public_repos || 5,
       year: 2026,
       contributionCalendar: contribData,
       followers: userData.followers ?? 10,
       following: userData.following ?? 11,
       publicGists: userData.public_gists ?? 5,
       topLanguages: Array.from(languagesSet),
+      // This data reaches the browser on a public, unauthenticated endpoint, so only ever
+      // name, link to, or describe repos that are themselves public. Private repos still
+      // count toward the stats above, but never appear here by name.
       featuredRepos: Array.isArray(reposData)
-        ? reposData.slice(0, 3).map((r) => ({
-            name: r.name,
-            url: r.html_url,
-            demo: r.homepage || null,
-            description: r.description,
-            language: r.language,
-            isShipped: Boolean(r.homepage && r.homepage.trim().length > 0),
-          }))
+        ? reposData
+            .filter((r) => !r.private)
+            .slice(0, 3)
+            .map((r) => ({
+              name: r.name,
+              url: r.html_url,
+              demo: r.homepage || null,
+              description: r.description,
+              language: r.language,
+              isShipped: Boolean(r.homepage && r.homepage.trim().length > 0),
+            }))
         : DEFAULT_GITHUB_STATS.featuredRepos,
     };
 

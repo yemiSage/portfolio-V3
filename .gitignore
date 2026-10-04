@@ -2,3 +2,8 @@ node_modules/
 dist/
 .vite-portfolio.log
 *.log
+
+# Local secrets (GITHUB_TOKEN, GEMINI_API_KEY) — never commit real values.
+.env
+.env.local
+.env.*.local
