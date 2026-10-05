@@ -354,17 +354,6 @@ export default function PortfolioShowreel() {
         })}
         <FinalScene clock={clock} completed={completed} onReplay={replay} />
       </div>
-
-      <div className="yemi-reel-controls">
-        <button
-          type="button"
-          className="yemi-reel-control"
-          aria-label={completed ? "Replay portfolio showreel" : playing ? "Pause portfolio showreel" : "Resume portfolio showreel"}
-          onClick={(event) => { event.stopPropagation(); togglePlayback(); }}
-        >
-          <span className={playing ? "yemi-pause-icon" : "yemi-play-icon"} aria-hidden="true" />
-        </button>
-      </div>
     </div>
   );
 }

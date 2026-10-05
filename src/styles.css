@@ -867,36 +867,55 @@ body.is-preloading .ask-yemi-fab,
   padding-bottom: 40px;
 }
 
+.work-tabs-bar {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  background: var(--paper);
+  border-bottom: 1px solid #dfe2e6;
+}
+
 .work-toggle {
-  width: fit-content;
-  padding: 4px;
-  border: 1px solid #dfe2e6;
-  border-radius: 999px;
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  gap: 28px;
 }
 
 .work-toggle button {
-  min-width: 80px;
-  min-height: 36px;
-  padding: 0 22px;
+  position: relative;
+  min-height: 48px;
+  padding: 0;
   border: 0;
-  border-radius: 999px;
   color: var(--subtle-ink);
   background: transparent;
   font-family: "Inter", sans-serif;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+  transition: color 180ms ease;
+}
+
+.work-toggle button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: #1c1c1c;
+  transform: scaleX(0);
+  transition: transform 180ms ease;
 }
 
 .work-toggle button.is-selected {
   color: #1c1c1c;
-  background: transparent;
-  box-shadow: inset 0 0 0 2px #1c1c1c;
+}
+
+.work-toggle button.is-selected::after {
+  transform: scaleX(1);
 }
 
 .shots-grid {
@@ -2687,8 +2706,10 @@ a.contribution-item {
     min-height: 240px;
   }
 
-  .work-toggle {
-    padding: 2px;
+  .work-tabs-bar {
+    top: 68px;
+    margin-top: 24px;
+    margin-bottom: 24px;
   }
 
   .scroll-link {
@@ -4571,14 +4592,6 @@ a.contribution-item {
     transform: none !important;
   }
   
-  /* Disable portfolio showreel control opacity hover trigger */
-  .yemi-reel-control {
-    opacity: 0.62 !important;
-  }
-  .yemi-reel:hover .yemi-reel-control {
-    opacity: 0.62 !important;
-  }
-
   /* Reset SEO diagnostic button hover states */
   .seo-diag-pill-btn:hover,
   .seo-diag-mini-btn:hover,

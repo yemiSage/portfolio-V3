@@ -700,32 +700,33 @@ function App() {
                   <div className="hero-media">
                     <PortfolioShowreel />
                   </div>
-                  <div className="hero-caption">
-                    <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
-                      <button
-                        type="button"
-                        role="tab"
-                        aria-selected={activeWork === "projects"}
-                        className={activeWork === "projects" ? "is-selected" : ""}
-                        onClick={() => {
-                          setActiveWork("projects");
-                          closeLightbox();
-                        }}
-                      >
-                        Projects
-                      </button>
-                      <button
-                        type="button"
-                        role="tab"
-                        aria-selected={activeWork === "shots"}
-                        className={activeWork === "shots" ? "is-selected" : ""}
-                        onClick={() => setActiveWork("shots")}
-                      >
-                        Shots
-                      </button>
-                    </div>
-                  </div>
                 </section>
+
+                <div className="work-tabs-bar">
+                  <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={activeWork === "projects"}
+                      className={activeWork === "projects" ? "is-selected" : ""}
+                      onClick={() => {
+                        setActiveWork("projects");
+                        closeLightbox();
+                      }}
+                    >
+                      Projects
+                    </button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={activeWork === "shots"}
+                      className={activeWork === "shots" ? "is-selected" : ""}
+                      onClick={() => setActiveWork("shots")}
+                    >
+                      Shots
+                    </button>
+                  </div>
+                </div>
 
                 <section className="projects" id="work" aria-label="Selected projects">
                   {activeWork === "projects" ? (
