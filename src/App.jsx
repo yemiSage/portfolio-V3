@@ -8,7 +8,6 @@ import {
 } from "iconsax-reactjs";
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
-import PortfolioShowreel from "./components/PortfolioShowreel";
 import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
 import StreamingText from "./components/StreamingText";
 import AskYemiChat from "./components/AskYemiChat";
@@ -275,6 +274,19 @@ function App() {
   }, [path]);
 
   const [activeWork, setActiveWork] = useState("projects");
+  const [tabsStuck, setTabsStuck] = useState(false);
+  const tabsSentinelRef = useRef(null);
+  useEffect(() => {
+    const node = tabsSentinelRef.current;
+    if (!node) return undefined;
+    const topOffset = window.matchMedia("(max-width: 767px)").matches ? 68 : 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => setTabsStuck(!entry.isIntersecting && entry.boundingClientRect.top < topOffset),
+      { rootMargin: `-${topOffset}px 0px 0px 0px`, threshold: 0 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  });
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
@@ -696,13 +708,8 @@ function App() {
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full"
               >
-                <section className="hero-panel" aria-label="Portfolio showreel and work navigation">
-                  <div className="hero-media">
-                    <PortfolioShowreel />
-                  </div>
-                </section>
-
-                <div className="work-tabs-bar">
+                <div ref={tabsSentinelRef} className="work-tabs-sentinel" aria-hidden="true" />
+                <div className={`work-tabs-bar${tabsStuck ? " is-stuck" : ""}`}>
                   <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
                     <button
                       type="button"
