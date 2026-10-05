@@ -724,7 +724,10 @@ function App() {
                       role="tab"
                       aria-selected={activeWork === "shots"}
                       className={activeWork === "shots" ? "is-selected" : ""}
-                      onClick={() => setActiveWork("shots")}
+                      onClick={() => {
+                        setActiveWork("shots");
+                        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                      }}
                     >
                       Shots
                     </button>
