@@ -1,3 +1,4 @@
+import ScrambleText from "./ScrambleText";
 import CaseStudyShell, { BulletList, CaseStudySection } from "./CaseStudyShell";
 import hero from "../../assets/case-studies/tasafrica/hero.webp";
 import initialExplorations from "../../assets/case-studies/tasafrica/initial-explorations.webp";
@@ -40,7 +41,7 @@ export default function TasaAfricaCaseStudy({ onOpenAiChat }) {
       onOpenAiChat={onOpenAiChat}
     >
       <header className="case-study-intro">
-        <h1>Designed a mobile-first sports platform that helps athletes build visibility, connect with people in the sports ecosystem, and find better opportunities.</h1>
+        <h1><ScrambleText text="Designed a mobile-first sports platform that helps athletes build visibility, connect with people in the sports ecosystem, and find better opportunities." /></h1>
         <p className="case-study-lede">Designing a mobile-first sports platform that helps African athletes build visibility, connect with people in the sports ecosystem, and find better opportunities.</p>
         <div className="case-study-meta-grid" aria-label="Project details">
           <div><span>Client</span><strong>TASAfrica Sports</strong></div>

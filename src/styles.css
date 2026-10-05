@@ -308,6 +308,26 @@ h1 {
   font-weight: 400;
 }
 
+.scramble-caret {
+  display: inline-block;
+  width: 0.055em;
+  height: 0.7em;
+  margin-left: 0.09em;
+  border-radius: 1px;
+  vertical-align: baseline;
+  background: currentColor;
+  animation: scramble-caret-blink 1.15s step-end infinite;
+}
+
+@keyframes scramble-caret-blink {
+  0%, 44% { opacity: 1; }
+  50%, 94% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scramble-caret { animation: none; }
+}
+
 .scramble-head {
   display: inline-block;
   width: 0.055em;

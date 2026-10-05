@@ -1,3 +1,4 @@
+import ScrambleText from "./ScrambleText";
 import CaseStudyShell, { BulletList, CaseStudySection } from "./CaseStudyShell";
 
 const sections = [
@@ -30,7 +31,7 @@ export default function LimestoneCaseStudy({ onOpenAiChat }) {
       onOpenAiChat={onOpenAiChat}
     >
       <header className="case-study-intro">
-        <h1>Designed a smart community platform for safer, simpler, connected living.</h1>
+        <h1><ScrambleText text="Designed a smart community platform for safer, simpler, connected living." /></h1>
         <p className="case-study-lede">Lifestyle, real estate and community management in one dependable mobile experience.</p>
         <div className="case-study-meta-grid" aria-label="Project details">
           <div><span>Client</span><strong>Limestone Technologies</strong></div>
