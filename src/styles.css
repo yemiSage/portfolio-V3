@@ -861,14 +861,15 @@ body.is-preloading .ask-yemi-fab,
 
 @media (max-width: 767px) {
   .work-tabs-bar {
-    top: 68px;
+    /* overlap the header by 1px so the two blurred layers read as one */
+    top: 67px;
   }
 }
 
 .work-tabs-bar.is-stuck {
   background: rgba(255, 255, 255, 0.72);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  backdrop-filter: blur(24px) saturate(1.8);
   border-bottom-color: #dfe2e6;
   padding-bottom: 0;
 }
@@ -2009,19 +2010,19 @@ a.contribution-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(28, 28, 28, 0.08);
-    background: rgba(255, 255, 255, 0.6);
+    border-bottom: 0;
+    background: rgba(255, 255, 255, 0.72);
     box-shadow: none;
-    -webkit-backdrop-filter: blur(16px) saturate(1.4);
-    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
+    backdrop-filter: blur(24px) saturate(1.8);
     transition: background-color 180ms ease, backdrop-filter 180ms ease, box-shadow 180ms ease;
   }
 
   .portfolio.is-scrolling .mobile-header {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.72);
     box-shadow: none;
-    -webkit-backdrop-filter: blur(16px) saturate(1.4);
-    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
+    backdrop-filter: blur(24px) saturate(1.8);
   }
 
   .content-column-resume .resume-viewer {
