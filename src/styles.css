@@ -136,17 +136,6 @@ h6 {
   }
 }
 
-@keyframes title-line-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(110%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .identity-main,
 .project-card,
 .contributed-projects,
@@ -281,24 +270,6 @@ h1 {
   font-weight: 600;
 }
 
-.title-line {
-  display: block;
-  overflow: hidden;
-}
-
-.title-line > span {
-  display: block;
-  animation: title-line-reveal 800ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
-}
-
-.title-line + .title-line > span {
-  animation-delay: 100ms;
-}
-
-.title-line-mobile {
-  display: none;
-}
-
 .intro-description {
   width: 100%;
   max-width: none;
@@ -316,10 +287,6 @@ h1 {
   font-weight: 700;
 }
 
-.streaming-text {
-  min-height: 192px;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -332,62 +299,23 @@ h1 {
   border: 0;
 }
 
-.streaming-text-visual {
-  display: inline;
-}
-
-.streaming-text-chunk {
-  display: inline;
-  animation: streaming-text-in 180ms cubic-bezier(0.23, 1, 0.32, 1) both;
-}
-
-.streaming-text-caret {
-  width: 1px;
-  height: 1.1em;
-  margin-left: 2px;
-  display: inline-block;
-  vertical-align: -0.16em;
-  background: currentColor;
-  animation: streaming-caret 800ms step-end infinite;
-}
-
-.streaming-text-paragraph {
-  color: inherit;
-  font: inherit;
-  letter-spacing: inherit;
-}
-
-.streaming-text-paragraph + .streaming-text-paragraph {
-  margin-top: 0;
-}
-
-.streaming-text-paragraph:first-child {
+.intro-description p:first-child {
   padding-bottom: 12px;
 }
 
-.intro-followup {
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(6px);
-  pointer-events: none;
-  transition: opacity 180ms ease 80ms, transform 180ms ease 80ms, visibility 0s linear 260ms;
+.scramble-dim {
+  color: #b6bcc6;
+  font-weight: 400;
 }
 
-.intro-followup.is-revealed {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 80ms;
-}
-
-@keyframes streaming-text-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes streaming-caret {
-  50% { opacity: 0; }
+.scramble-head {
+  display: inline-block;
+  width: 0.055em;
+  height: 0.7em;
+  margin: 0 0.03em;
+  border-radius: 1px;
+  vertical-align: baseline;
+  background: #111827;
 }
 
 .button-row {
@@ -772,8 +700,7 @@ body.is-preloading .ask-yemi-fab,
     font-size: 44px;
   }
 
-  .intro-description.streaming-text {
-    min-height: 0;
+  .intro-description {
     padding-bottom: 0;
   }
 }
@@ -2198,18 +2125,6 @@ a.contribution-item {
     margin: 0;
   }
 
-  .title-line-desktop {
-    display: none;
-  }
-
-  .title-line-mobile {
-    display: block;
-  }
-
-  .identity-column .streaming-text {
-    min-height: 0 !important;
-  }
-
   .intro-description {
     max-width: 100%;
     font-size: clamp(12.5px, 3.4vw, 14.5px);
@@ -2703,13 +2618,9 @@ a.contribution-item {
     font-size: 15px;
   }
 
-  .streaming-text-paragraph:first-child {
+  .intro-description p:first-child {
     padding-bottom: 20px;
     line-height: 1.5;
-  }
-
-  .streaming-text {
-    min-height: 240px;
   }
 
   .work-tabs-bar {

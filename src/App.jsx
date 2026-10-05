@@ -9,7 +9,7 @@ import {
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
 import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
-import StreamingText from "./components/StreamingText";
+import ScrambleText from "./components/ScrambleText";
 import AskYemiChat from "./components/AskYemiChat";
 import GithubStats from "./components/GithubStats";
 
@@ -290,7 +290,6 @@ function App() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
-  const [hasIntroStreamed, setHasIntroStreamed] = useState(false);
   const [showPreloader, setShowPreloader] = useState(() => {
     return !isResumePage && sessionStorage.getItem("portfolio-preloader-seen") !== "true";
   });
@@ -322,7 +321,6 @@ function App() {
   const isSiteLoading = !isInitialReady || !isPreloaderDone || showPreloader || isTransitioning;
   const [isChatOpen, setIsChatOpen] = useState(false);
   const lightboxPointerStart = useRef(null);
-  const handleIntroStreamingComplete = useCallback(() => setHasIntroStreamed(true), []);
 
   // Reading Progress Indicator State & Effect
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -659,20 +657,18 @@ function App() {
                 <div className="intro-copy">
                   <div className="intro-heading">
                     <p className="greeting">Need a Professional</p>
-                    <h1 aria-label="Design Engineer, Product & AI">
-                      <span className="title-line title-line-desktop"><span>Design Engineer, Product & AI</span></span>
-                      <span className="title-line title-line-mobile"><span>Design Engineer, Product & AI</span></span>
+                    <h1>
+                      <ScrambleText text="Design Engineer, Product & AI" />
                     </h1>
                   </div>
-                  <StreamingText
-                    className="intro-description"
-                    complete={hasIntroStreamed}
-                    onComplete={handleIntroStreamingComplete}
-                    segments={introSegments}
-                  />
+                  <div className="intro-description">
+                    {introSegments.map((segment) => (
+                      <p key={segment.text}>{segment.text}</p>
+                    ))}
+                  </div>
                 </div>
 
-                <div className={`button-row intro-followup${hasIntroStreamed ? " is-revealed" : ""}`}>
+                <div className="button-row intro-followup">
                   <a className="button button-primary" href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">
                     Contact Me
                   </a>
