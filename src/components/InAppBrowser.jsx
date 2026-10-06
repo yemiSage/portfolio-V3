@@ -53,10 +53,12 @@ export default function InAppBrowser() {
     const onKeyDown = (event) => event.key === "Escape" && close();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.body.classList.add("iab-open");
     window.addEventListener("keydown", onKeyDown);
     closeRef.current?.focus();
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.body.classList.remove("iab-open");
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [target, close]);

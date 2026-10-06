@@ -462,10 +462,6 @@ body.is-preloading .ask-yemi-fab,
   gap: 8px;
 }
 
-.resume-link-mobile {
-  display: none;
-}
-
 .resume-page {
   min-height: 100vh;
   background: #ffffff;
@@ -1933,14 +1929,6 @@ a.contribution-item {
     --case-rail-width: 280px;
     display: block;
   }
-  .resume-link-desktop {
-    display: none !important;
-  }
-
-  .resume-link-mobile {
-    display: flex;
-  }
-
   .preloader-copy {
     font-size: 18px;
     letter-spacing: -0.36px;
@@ -5175,4 +5163,49 @@ a.contribution-item {
   .iab-backdrop,
   .iab-sheet,
   .iab-loading { animation: none; }
+}
+
+/* In-app browser: hide the yemiLLM launcher while it is open, fill small screens with a 14px inset */
+body.iab-open #yemmy-notion-callout-wrapper,
+body.iab-open .yemmy-notion-callout-wrapper,
+body.iab-open .ask-yemi-fab {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .iab-backdrop {
+    padding: 14px;
+  }
+
+  .iab-sheet {
+    border-radius: 14px;
+  }
+
+  /* Compact yemiLLM launcher on mobile */
+  #root > #yemmy-notion-callout-wrapper .yemmy-notion-bubble {
+    padding: 3px 12px 3px 6px;
+    gap: 0;
+    border-radius: 999px;
+  }
+
+  #root > #yemmy-notion-callout-wrapper .yemmy-notion-badge {
+    gap: 2px;
+  }
+
+  #root > #yemmy-notion-callout-wrapper .yemmy-notion-sparkle {
+    font-size: 17px;
+  }
+
+  #root > #yemmy-notion-callout-wrapper .yemmy-notion-tag {
+    font-size: 13px;
+    line-height: 22px;
+  }
+}
+
+@media (max-width: 380px) {
+  #root > #yemmy-notion-callout-wrapper .yemmy-notion-bubble {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+  }
 }

@@ -45,8 +45,7 @@ export default function LimestoneCaseStudy({ onOpenAiChat }) {
       <CaseStudySection id="overview" eyebrow="Overview" title="Empowering safer and more connected residential communities">
         <p>My Limestone is a community management platform designed for residential estates. It helps residents manage visitor access, utility payments, emergency alerts and communication with estate managers from one place.</p>
         <p>Bringing these services into a single mobile experience improves security coordination while making everyday community tasks easier for residents.</p>
-        <figure className="case-study-hero-image"><img src={media.hero} alt="My Limestone mobile application shown on a blue background" /></figure>
-        <video className="case-study-video" controls muted playsInline preload="metadata" poster={media.hero}><source src={media.video} type="video/mp4" /></video>
+        <video className="case-study-video" controls autoPlay loop muted playsInline preload="auto" poster={media.hero}><source src={media.video} type="video/mp4" /></video>
       </CaseStudySection>
 
       <CaseStudySection id="role" eyebrow="My Role" title="Working across the product from research to shipped flows"><BulletList><li>Redesigned key tenant and property-management flows to improve usability.</li><li>Designed and shipped Offline Check-in for communities with unreliable internet.</li><li>Worked with product managers and engineers to refine complex workflows.</li><li>Improved the information architecture and resident onboarding experience.</li></BulletList></CaseStudySection>

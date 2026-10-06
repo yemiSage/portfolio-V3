@@ -322,24 +322,6 @@ function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const lightboxPointerStart = useRef(null);
 
-  // Reading Progress Indicator State & Effect
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        const progress = (window.scrollY / totalHeight) * 100;
-        setScrollProgress(progress);
-      } else {
-        setScrollProgress(0);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   // Clipboard Copier with Custom Visual Toast
   const [toastMessage, setToastMessage] = useState("");
 
@@ -658,7 +640,7 @@ function App() {
                   <div className="intro-heading">
                     <p className="greeting">Need a Professional</p>
                     <h1>
-                      <ScrambleText text="Design Engineer, Product & AI" />
+                      <ScrambleText text="Design Engineer, Product & AI" active={!isSiteLoading} />
                     </h1>
                   </div>
                   <div className="intro-description">
@@ -726,7 +708,18 @@ function App() {
                       className={activeWork === "shots" ? "is-selected" : ""}
                       onClick={() => {
                         setActiveWork("shots");
-                        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                        requestAnimationFrame(() => {
+                          const grid = document.querySelector(".shots-grid");
+                          if (grid && window.matchMedia("(max-width: 767px)").matches) {
+                            // Land on the first shot, just below the fixed header and sticky tabs.
+                            const header = document.querySelector(".mobile-header")?.offsetHeight ?? 0;
+                            const tabs = 49; // height of the tab bar once stuck
+                            const top = grid.getBoundingClientRect().top + window.scrollY - header - tabs - 16;
+                            window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
+                          } else {
+                            window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                          }
+                        });
                       }}
                     >
                       Shots
@@ -865,23 +858,6 @@ function App() {
       <Suspense fallback={null}>
         <SeoDiagnosticOverlay />
       </Suspense>
-
-      {/* Reading Progress Indicator Bar */}
-      {(isLimestoneCaseStudy || isTasaAfricaCaseStudy || activePanel === "resume") && (
-        <div 
-          id="reading-progress-indicator"
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: `${scrollProgress}%`,
-            height: "4px",
-            backgroundColor: "#4f46e5",
-            zIndex: 100000,
-            transition: "width 0.08s ease-out"
-          }}
-        />
-      )}
 
       {/* Minimalist 'Copied!' Toast Notification */}
       <AnimatePresence>

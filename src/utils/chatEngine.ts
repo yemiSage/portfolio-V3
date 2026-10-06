@@ -36,6 +36,10 @@ export interface ChatRequestBody {
   history?: unknown;
   context?: { currentPath?: string; pageTitle?: string; extractedText?: string } | null;
   stream?: boolean;
+  // "suggest" asks for follow-up question chips instead of a chat reply.
+  mode?: string;
+  // The assistant reply the suggestions should follow (suggest mode only).
+  reply?: unknown;
 }
 
 // The model that answered last time (kept while the server/function instance is warm),
@@ -295,11 +299,150 @@ export function checkChatAccess(origin: string | null | undefined, ip: string, b
   return null;
 }
 
+
+// ---------------------------------------------------------------------------
+// Follow-up question suggestions
+// ---------------------------------------------------------------------------
+const SUGGEST_TIMEOUT_MS = 6000;
+const MAX_SUGGESTIONS = 4;
+const MAX_SUGGESTION_CHARS = 70;
+const SUGGEST_RATE_LIMIT_MAX = 40;
+
+const SUGGEST_INSTRUCTION = `You write the tappable follow-up question chips shown under each answer in a chat widget on the portfolio of Opeyemi Adegboye ("Yemi"), a Design Engineer (product designer who codes) with an AI focus.
+Write 4 short questions a recruiter, founder or hiring manager would naturally ask NEXT, given the conversation and the page they are viewing.
+Rules:
+- Each question is under 60 characters, starts with a capital letter, and ends with a question mark.
+- Refer to him as "Yemi" in the third person. Never use "I", "you" or "your".
+- Be specific to what was just discussed: go one level deeper or move to a closely related topic (a project, a skill, his process, results, availability, contact). Do not ask something already asked.
+- Only ask what the portfolio could answer. No dashes, no asterisks, no emojis.
+- Return only a JSON array of 4 strings.`;
+
+const normalizeQuestion = (q: string) => q.toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+
+function sanitizeSuggestions(raw: unknown, asked: string[]): string[] {
+  let list: unknown = raw;
+  if (typeof raw === "string") {
+    try {
+      list = JSON.parse(raw);
+    } catch {
+      const match = raw.match(/\[[\s\S]*\]/);
+      try {
+        list = match ? JSON.parse(match[0]) : [];
+      } catch {
+        list = [];
+      }
+    }
+  }
+  if (!Array.isArray(list)) return [];
+  const seen = new Set(asked.map(normalizeQuestion));
+  const out: string[] = [];
+  for (const item of list) {
+    if (typeof item !== "string") continue;
+    let q = item.replace(/[*\u2014\u2013]|--/g, " ").replace(/\s+/g, " ").trim();
+    if (!q || q.length > MAX_SUGGESTION_CHARS) continue;
+    q = q.replace(/\s+\?$/, "?");
+    if (!q.endsWith("?")) q += "?";
+    const key = normalizeQuestion(q);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(q);
+    if (out.length === MAX_SUGGESTIONS) break;
+  }
+  return out;
+}
+
+// Asks a model for follow-up questions tailored to the conversation. Returns an empty
+// list when no model is available, so the client keeps its built-in suggestions.
+export async function generateSuggestions(body: ChatRequestBody, client?: Pick<GoogleGenAI, "models">): Promise<string[]> {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!client && !apiKey) return [];
+  const ai = client || getClient(apiKey as string);
+
+  const message = typeof body.message === "string" ? body.message.trim() : "";
+  const reply = typeof body.reply === "string" ? body.reply.trim().slice(0, 1500) : "";
+  const history = Array.isArray(body.history) ? (body.history as any[]).slice(-8) : [];
+  const asked = history.filter((m) => m?.role === "user").map((m) => String(m.content || "")).concat(message);
+  const transcript = history
+    .map((m) => `${m?.role === "user" ? "Visitor" : "Assistant"}: ${String(m?.content || "").slice(0, 400)}`)
+    .join("\n");
+  const knowledge = retrieveRelevantContext(`${message} ${reply}`.slice(0, 1200));
+  const path = body.context?.currentPath || "/";
+
+  const prompt = `${transcript ? `Conversation so far:\n${transcript}\n\n` : ""}Visitor just asked: ${message}\nAssistant just answered: ${reply}\n\nPage the visitor is on: ${path}${knowledge ? `\n\nPortfolio facts you can draw on:\n${knowledge.slice(0, 2500)}` : ""}\n\nWrite the 4 follow-up questions now.`;
+
+  for (const model of getModels().slice(0, 2)) {
+    for (let mode: ThinkingMode | null = thinkingModes.get(model) || "level"; mode; ) {
+      try {
+        const response = await withTimeout(
+          ai.models.generateContent({
+            model,
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            config: {
+              systemInstruction: SUGGEST_INSTRUCTION,
+              temperature: 0.9,
+              maxOutputTokens: 300,
+              responseMimeType: "application/json",
+              ...thinkingConfigFor(mode),
+            },
+          }),
+          SUGGEST_TIMEOUT_MS,
+          model
+        );
+        thinkingModes.set(model, mode);
+        const suggestions = sanitizeSuggestions(response.text, asked);
+        if (suggestions.length >= 2) return suggestions;
+        break;
+      } catch (err: any) {
+        const reason = String(err?.message || err);
+        const next: ThinkingMode | null = /thinking/i.test(reason) ? NEXT_THINKING_MODE[mode] : null;
+        if (!next) {
+          console.warn(`[yemiLLM] suggestions: ${model} failed:`, reason);
+          break;
+        }
+        thinkingModes.set(model, next);
+        mode = next;
+      }
+    }
+  }
+  return [];
+}
+
+const suggestLog = new Map<string, number[]>();
+function isSuggestRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (suggestLog.get(ip) || []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  if (recent.length >= SUGGEST_RATE_LIMIT_MAX) {
+    suggestLog.set(ip, recent);
+    return true;
+  }
+  recent.push(now);
+  suggestLog.set(ip, recent);
+  if (suggestLog.size > 5000) suggestLog.clear();
+  return false;
+}
+
+// Suggestions are a nicety, so a refused or failed request simply returns no suggestions.
+async function suggestionsFor(origin: string | null | undefined, ip: string, body: ChatRequestBody): Promise<string[]> {
+  if (!isAllowedOrigin(origin) || !isValidBody(body) || (body.message as string).length > MAX_MESSAGE_CHARS) return [];
+  if (isSuggestRateLimited(ip || "unknown")) return [];
+  try {
+    return await generateSuggestions(body);
+  } catch (err: any) {
+    console.warn("[yemiLLM] suggestions failed:", err?.message || err);
+    return [];
+  }
+}
+
 const firstIp = (forwarded: string | null | undefined, fallback = "") => (forwarded || "").split(",")[0].trim() || fallback;
 
 // Express (server.ts): Node-style req/res.
 export async function handleChatRequest(req: any, res: any) {
   const body: ChatRequestBody = req.body || {};
+  if (body.mode === "suggest") {
+    const suggestions = await suggestionsFor(req.headers?.origin, firstIp(req.headers?.["x-forwarded-for"], req.socket?.remoteAddress), body);
+    res.status(200).json({ suggestions });
+    return;
+  }
   const denied = checkChatAccess(req.headers?.origin, firstIp(req.headers?.["x-forwarded-for"], req.socket?.remoteAddress), body);
   if (denied) {
     res.status(denied.status).json({ error: denied.error });
@@ -337,6 +480,10 @@ export async function handleChatWebRequest(request: Request, extraHeaders: Recor
     body = await request.json();
   } catch {
     // fall through to the validation error below
+  }
+  if (body.mode === "suggest") {
+    const suggestions = await suggestionsFor(request.headers.get("origin"), firstIp(request.headers.get("x-forwarded-for")), body);
+    return Response.json({ suggestions }, { headers: extraHeaders });
   }
   const denied = checkChatAccess(request.headers.get("origin"), firstIp(request.headers.get("x-forwarded-for")), body);
   if (denied) {

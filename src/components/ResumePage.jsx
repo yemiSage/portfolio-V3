@@ -72,6 +72,7 @@ function ResumePages() {
   );
 }
 
+// One Resume link for every screen size and page: always opens the in-site resume page.
 export function ResponsiveResumeLink({
   className = "",
   onDesktopClick,
@@ -81,24 +82,16 @@ export function ResponsiveResumeLink({
   const linkClassName = `${className}${isActive ? " is-active" : ""}`.trim();
 
   return (
-    <>
-      <a
-        className={`resume-link-desktop ${linkClassName}`.trim()}
-        href="/resume"
-        onClick={onDesktopClick}
-      >
-        Resume
-      </a>
-      <a
-        className={`resume-link-mobile ${linkClassName}`.trim()}
-        href={resumeViewUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={onMobileClick}
-      >
-        Resume
-      </a>
-    </>
+    <a
+      className={linkClassName || undefined}
+      href="/resume"
+      onClick={(event) => {
+        onDesktopClick?.(event);
+        onMobileClick?.(event);
+      }}
+    >
+      Resume
+    </a>
   );
 }
 

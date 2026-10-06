@@ -3,7 +3,6 @@ import { ArrowLeft2, CloseCircle, HamburgerMenu } from "iconsax-reactjs";
 import { motion } from "framer-motion";
 import AiAsteriskIcon from "./AiAsteriskIcon";
 
-const resumeUrl = "https://drive.google.com/file/d/1EQeSjevkPsXHZVUMtA8nd28qx604djE_/view?usp=sharing";
 
 export function BulletList({ children }) {
   return <ul className="case-study-list">{children}</ul>;
@@ -31,7 +30,7 @@ export function CaseStudyFooter({ onOpenAiChat }) {
           <div>
             <a href="/#top">Articles</a>
             <a href="/#work">Projects</a>
-            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">Resume</a>
+            <a href="/resume">Resume</a>
           </div>
           <div>
             <a href="https://github.com/yemiSage" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -153,7 +152,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
               <AiAsteriskIcon size={14} />
               <span>yemiLLM</span>
             </button>
-            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">Resume</a>
+            <a href="/resume">Resume</a>
           </nav>
           <button className="case-study-menu-toggle" type="button" aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen} aria-controls="case-study-mobile-menu" onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}>{mobileMenuOpen ? <CloseCircle size={26} color="currentColor" variant="Linear" aria-hidden="true" /> : <HamburgerMenu size={26} color="currentColor" variant="Linear" aria-hidden="true" />}</button>
         </div>
@@ -171,7 +170,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
               <AiAsteriskIcon size={20} />
               <span>About</span>
             </button>
-            <a href={resumeUrl} target="_blank" rel="noopener noreferrer">Resume</a>
+            <a href="/resume">Resume</a>
           </nav>
         )}
         <SectionNavigation sections={sections} activeSection={activeSection} jumpMenuOpen={jumpMenuOpen} onJumpMenuToggle={() => setJumpMenuOpen((isOpen) => !isOpen)} onSectionSelect={handleSectionSelect} />

@@ -2,84 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BorderBeam } from "border-beam";
 import { getSmartPortfolioReply, cleanChatOutput } from "../utils/chatKnowledge";
-
-const DEFAULT_SUGGESTIONS = [
-  "How can I work with Yemi?",
-  "What kind of projects does Yemi work on?",
-  "How can I contact Yemi?",
-  "What is Yemi's design process?",
-  "Tell me about TASAfrica",
-  "What problem does Limestone App solve?",
-  "What inspires Yemi?",
-  "What tools and tech does Yemi use?",
-];
-
-function getFollowUpSuggestions(lastQuery = "") {
-  const q = lastQuery.toLowerCase();
-  if (q.includes("work with") || q.includes("hire") || q.includes("collaborat")) {
-    return [
-      "What kind of projects does Yemi work on?",
-      "How can I contact Yemi?",
-      "What is Yemi's design process?",
-      "Tell me about TASAfrica",
-    ];
-  }
-  if (q.includes("project") || q.includes("work on")) {
-    return [
-      "How can I work with Yemi?",
-      "How can I contact Yemi?",
-      "What is Yemi's design process?",
-      "Tell me about TASAfrica",
-      "What problem does Limestone App solve?",
-    ];
-  }
-  if (
-    q.includes("contact") ||
-    q.includes("reach") ||
-    q.includes("phone") ||
-    q.includes("whatsapp") ||
-    q.includes("email") ||
-    q.includes("upwork")
-  ) {
-    return [
-      "How can I work with Yemi?",
-      "What kind of projects does Yemi work on?",
-      "What is Yemi's design process?",
-    ];
-  }
-  if (q.includes("process") || q.includes("approach") || q.includes("framework")) {
-    return [
-      "What kind of projects does Yemi work on?",
-      "How can I work with Yemi?",
-      "How can I contact Yemi?",
-      "What makes Yemi's design approach unique?",
-    ];
-  }
-  if (q.includes("tasafrica") || q.includes("sport")) {
-    return [
-      "What problem does Limestone App solve?",
-      "What kind of projects does Yemi work on?",
-      "How can I work with Yemi?",
-      "How can I contact Yemi?",
-    ];
-  }
-  if (q.includes("limestone") || q.includes("security")) {
-    return [
-      "Tell me about TASAfrica",
-      "What kind of projects does Yemi work on?",
-      "What is Yemi's design process?",
-      "How can I contact Yemi?",
-    ];
-  }
-  return [
-    "How can I work with Yemi?",
-    "What kind of projects does Yemi work on?",
-    "How can I contact Yemi?",
-    "What is Yemi's design process?",
-    "Tell me about TASAfrica",
-    "What problem does Limestone App solve?",
-  ];
-}
+import { getStarterSuggestions, getFollowUpSuggestions, fetchAiSuggestions } from "../utils/chatSuggestions";
 
 function InfoIcon({ size = 15 }) {
   return (
@@ -271,12 +194,7 @@ export default function AskYemiChat({
       role: "assistant",
       content:
         "Yemi finds inspiration in ambitious people who are highly intentional about what they do. Surrounding himself with that kind of energy pushes him to do better work. He also draws inspiration from the challenges around him and the desire to create meaningful experiences through design and technology.",
-      suggestions: [
-        "How can I work with Yemi?",
-        "What kind of projects does Yemi work on?",
-        "How can I contact Yemi?",
-        "What is Yemi's design process?",
-      ],
+      suggestions: getStarterSuggestions(typeof window !== "undefined" ? window.location.pathname : ""),
     },
   ]);
   const [inputValue, setInputValue] = useState("");
@@ -288,6 +206,28 @@ export default function AskYemiChat({
   );
   const [activePromptIndex, setActivePromptIndex] = useState(0);
   const [isNotionDismissed, setIsNotionDismissed] = useState(false);
+
+  // Shows instant, context-aware follow-ups, then swaps in model-written ones if they arrive.
+  const attachSuggestions = (assistantId, query, reply, history) => {
+    const path = window.location.pathname;
+    const withHistory = [...history, { role: "assistant", content: reply }];
+    const local = getFollowUpSuggestions({ query, reply, history, path });
+    setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, suggestions: local } : m)));
+    fetchAiSuggestions({ query, reply, history: withHistory, path, pageTitle: document.title }).then((ai) => {
+      if (ai.length < 2) return;
+      setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, suggestions: ai } : m)));
+    });
+  };
+
+  // Keep the opening suggestions relevant to the page when the chat is opened.
+  useEffect(() => {
+    if (!isOpen) return;
+    setMessages((prev) =>
+      prev.length === 1 && prev[0].id.startsWith("initial")
+        ? [{ ...prev[0], suggestions: getStarterSuggestions(window.location.pathname) }]
+        : prev
+    );
+  }, [isOpen]);
   const messagesEndRef = useRef(null);
   const chatBodyRef = useRef(null);
   const inputRef = useRef(null);
@@ -442,13 +382,9 @@ export default function AskYemiChat({
         if (!streamedText.trim()) {
           throw new Error("Empty streamed reply");
         }
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === assistantId
-              ? { ...m, content: cleanChatOutput(streamedText), suggestions: getFollowUpSuggestions(text) }
-              : m
-          )
-        );
+        const finalText = cleanChatOutput(streamedText);
+        setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, content: finalText } : m)));
+        attachSuggestions(assistantId, text, finalText, newHistory);
         return;
       }
 
@@ -462,41 +398,23 @@ export default function AskYemiChat({
         getSmartPortfolioReply(text)
       );
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: assistantId,
-          role: "assistant",
-          content: replyText,
-          suggestions: getFollowUpSuggestions(text),
-        },
-      ]);
+      setMessages((prev) => [...prev, { id: assistantId, role: "assistant", content: replyText }]);
+      attachSuggestions(assistantId, text, replyText, newHistory);
     } catch (error) {
       console.warn("Chat API unavailable or fallback used:", error);
 
       if (streamStarted && streamedText.trim()) {
         // Keep the part of the reply that already arrived
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === assistantId
-              ? { ...m, content: cleanChatOutput(streamedText), suggestions: getFollowUpSuggestions(text) }
-              : m
-          )
-        );
+        const partialText = cleanChatOutput(streamedText);
+        setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, content: partialText } : m)));
+        attachSuggestions(assistantId, text, partialText, newHistory);
         return;
       }
 
       const fallbackReply = cleanChatOutput(getSmartPortfolioReply(text));
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: assistantId,
-          role: "assistant",
-          content: fallbackReply,
-          suggestions: getFollowUpSuggestions(text),
-        },
-      ]);
+      setMessages((prev) => [...prev, { id: assistantId, role: "assistant", content: fallbackReply }]);
+      attachSuggestions(assistantId, text, fallbackReply, newHistory);
     } finally {
       setIsLoading(false);
       setIsStreaming(false);
@@ -510,12 +428,7 @@ export default function AskYemiChat({
         role: "assistant",
         content:
           "Yemi finds inspiration in ambitious people who are highly intentional about what they do. Surrounding himself with that kind of energy pushes him to do better work. He also draws inspiration from the challenges around him and the desire to create meaningful experiences through design and technology.",
-        suggestions: [
-          "How can I work with Yemi?",
-          "What kind of projects does Yemi work on?",
-          "How can I contact Yemi?",
-          "What is Yemi's design process?",
-        ],
+        suggestions: getStarterSuggestions(window.location.pathname),
       },
     ]);
   };
