@@ -4,6 +4,8 @@ const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
 const START_DELAY = 10; // frames before the first character resolves
 const MAX_FRAMES_PER_CHAR = 2; // frames between each character locking in
 const MAX_SWEEP_FRAMES = 60; // keep long titles from taking too long
+// Titles that have already played this page load, so the effect runs once and not on every remount.
+const PLAYED = new Set();
 const randomGlyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
 
 // Decrypt-style reveal: characters resolve left to right while the rest scramble.
@@ -12,7 +14,9 @@ export default function ScrambleText({ text, className = "", active = true }) {
   const rootRef = useRef(null);
   const glyphs = useRef([]);
   const [inView, setInView] = useState(false);
-  const [reduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const [reduced] = useState(
+    () => PLAYED.has(text) || window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
   const [frame, setFrame] = useState(0);
   const [locks] = useState(() => {
     const stride = Math.min(MAX_FRAMES_PER_CHAR, MAX_SWEEP_FRAMES / Math.max(text.length, 1));
@@ -47,10 +51,11 @@ export default function ScrambleText({ text, className = "", active = true }) {
       current += 1;
       setFrame(current);
       if (current < lastLock) id = requestAnimationFrame(tick);
+      else PLAYED.add(text);
     };
     id = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(id);
-  }, [started, reduced, lastLock]);
+  }, [started, reduced, lastLock, text]);
 
   const done = reduced || frame >= lastLock;
 
