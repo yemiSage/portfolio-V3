@@ -4,6 +4,9 @@ import { ArrowLeft2 } from "iconsax-reactjs";
 export const resumeViewUrl =
   "https://drive.google.com/file/d/1EQeSjevkPsXHZVUMtA8nd28qx604djE_/preview";
 
+export const openResumeInApp = () =>
+  window.dispatchEvent(new CustomEvent("open-in-app-browser", { detail: resumeViewUrl }));
+
 const resumeDownloadUrl =
   "/resume/opeyemi-adegboye-resume.pdf";
 

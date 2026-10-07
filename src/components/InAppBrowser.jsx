@@ -46,8 +46,22 @@ export default function InAppBrowser() {
       setLoading(true);
       setTarget(url);
     };
+    // Lets other code (e.g. the Resume link) open a URL in the sheet.
+    const onOpen = (event) => {
+      try {
+        const url = new URL(event.detail, window.location.href);
+        setLoading(true);
+        setTarget(url);
+      } catch {
+        // ignore malformed URLs
+      }
+    };
     document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    window.addEventListener("open-in-app-browser", onOpen);
+    return () => {
+      document.removeEventListener("click", onClick);
+      window.removeEventListener("open-in-app-browser", onOpen);
+    };
   }, []);
 
   useEffect(() => {

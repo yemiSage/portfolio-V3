@@ -9,13 +9,17 @@ export interface RagDocument {
 
 const PROJECTS_DIR = path.join(process.cwd(), "src", "data", "projects");
 
+let cachedDocs: RagDocument[] | null = null;
+
+// Read once per server instance instead of from disk on every message.
 export function loadRagDocuments(): RagDocument[] {
+  if (cachedDocs) return cachedDocs;
   try {
     if (!fs.existsSync(PROJECTS_DIR)) {
       return [];
     }
     const files = fs.readdirSync(PROJECTS_DIR);
-    return files
+    cachedDocs = files
       .filter((file) => file.endsWith(".md"))
       .map((file) => {
         const filePath = path.join(PROJECTS_DIR, file);
@@ -24,6 +28,7 @@ export function loadRagDocuments(): RagDocument[] {
         const title = content.split("\n")[0].replace("#", "").trim();
         return { id, title, content };
       });
+    return cachedDocs;
   } catch (err) {
     console.error("Error loading RAG documents:", err);
     return [];

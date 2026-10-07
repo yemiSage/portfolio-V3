@@ -8,7 +8,7 @@ import {
 } from "iconsax-reactjs";
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
-import ResumeContent, { ResponsiveResumeLink } from "./components/ResumePage";
+import ResumeContent, { ResponsiveResumeLink, openResumeInApp } from "./components/ResumePage";
 import ScrambleText from "./components/ScrambleText";
 import AskYemiChat from "./components/AskYemiChat";
 import GithubStats from "./components/GithubStats";
@@ -475,10 +475,12 @@ function App() {
         anchor.setAttribute("rel", "noopener noreferrer");
       } else {
         const cleanHref = href.split("#")[0];
-        if (
+        if (cleanHref === "/resume") {
+          event.preventDefault();
+          openResumeInApp();
+        } else if (
           cleanHref === "/projects/tasafrica" ||
           cleanHref === "/projects/limestone" ||
-          cleanHref === "/resume" ||
           cleanHref === "/" ||
           cleanHref === ""
         ) {
@@ -492,9 +494,9 @@ function App() {
     return () => document.removeEventListener("click", handleGlobalLinkClick, { capture: true });
   }, [navigateTo]);
 
+  // The global link handler opens the resume in the in-app browser; just stop the navigation here.
   const showResume = (event) => {
     event.preventDefault();
-    navigateTo("/resume");
   };
 
   const showHome = (event) => {
@@ -506,6 +508,10 @@ function App() {
   const homeAnchorHref = (anchor) => (activePanel === "resume" ? `/${anchor}` : anchor);
 
   const handleChatNavigate = (url) => {
+    if (url.split("#")[0] === "/resume") {
+      openResumeInApp();
+      return;
+    }
     navigateTo(url);
   };
 
