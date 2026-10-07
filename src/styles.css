@@ -5183,7 +5183,7 @@ body.iab-open .ask-yemi-fab {
 
   /* Compact yemiLLM launcher on mobile */
   #root > #yemmy-notion-callout-wrapper .yemmy-notion-bubble {
-    padding: 3px 12px 3px 6px;
+    padding: 7px 14px 7px 8px;
     gap: 0;
     border-radius: 999px;
   }
