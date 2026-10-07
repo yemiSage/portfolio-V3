@@ -449,6 +449,15 @@ function App() {
     return () => window.removeEventListener("popstate", syncPanelWithHistory);
   }, []);
 
+  // Visiting /resume directly shows the home page with the resume in the in-app browser.
+  useEffect(() => {
+    if (window.location.pathname.replace(/\/+$/, "") !== "/resume") return;
+    window.history.replaceState({}, "", "/");
+    setPath("/");
+    setActivePanel("home");
+    window.setTimeout(openResumeInApp, 150);
+  }, []);
+
   useEffect(() => {
     const handleOpenYemiLlm = () => setIsChatOpen(true);
     window.addEventListener("open-yemi-llm", handleOpenYemiLlm);
