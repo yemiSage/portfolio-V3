@@ -14,6 +14,8 @@ const FRAME_BLOCKED = [
 ];
 
 const isFrameBlocked = (url) => {
+  // Drive's /preview endpoint is embeddable, unlike /view.
+  if (url.hostname === "drive.google.com" && url.pathname.endsWith("/preview")) return false;
   const host = url.hostname.replace(/^www\./, "");
   return FRAME_BLOCKED.some((blocked) => host === blocked || host.endsWith(`.${blocked}`));
 };

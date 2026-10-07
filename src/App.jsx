@@ -68,6 +68,7 @@ const projects = [
   {
     name: "Xeruit Talent",
     image: xeruitImage,
+    href: "https://xeruit.com",
     tags: ["AI", "Hiring", "SAAS", "B2B"],
     description:
       "Shipped an AI hiring OS with verified talent and scalable recruiter discovery.",
@@ -98,7 +99,7 @@ const contributedProjects = [
       { name: "Norocio", status: "In development", isNew: true, logoDomain: "norocio.com", description: "A cross-border payments platform for global transfers, multi-currency accounts, and stablecoin." },
       { name: "Stayafrika", status: "www.stayafrika.com", href: "https://www.stayafrika.com", logoDomain: "stayafrika.com", description: "A travel marketplace for discovering stays, local experiences, and essential travel services across Africa." },
       { name: "Soludesks", status: "www.soludesks.com", href: "https://www.soludesks.com", logoDomain: "soludesks.com", description: "A B2B SaaS platform for managing team learning, support, attendance, and business operations." },
-      { name: "Feexeet", status: "www.feexeet.com", href: "https://www.feexeet.com", logoDomain: "feexeet.com", description: "A service marketplace connecting homeowners and businesses with verified service professionals." },
+      { name: "Feexeet", status: "feexeet.com", href: "https://feexeet.com/", logoDomain: "feexeet.com", description: "A service marketplace connecting homeowners and businesses with verified service professionals." },
     ],
   },
   {
@@ -207,7 +208,7 @@ function Project({ project }) {
     <Card
       className="project-card"
       href={project.href}
-      aria-label={project.href ? `View ${project.name} case study` : undefined}
+      aria-label={project.href ? (project.href.startsWith("http") ? `Open ${project.name} website` : `View ${project.name} case study`) : undefined}
       onPointerMove={handlePointerMove}
       onPointerLeave={resetTilt}
     >

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowLeft2 } from "iconsax-reactjs";
 
 export const resumeViewUrl =
-  "https://drive.google.com/file/d/1EQeSjevkPsXHZVUMtA8nd28qx604djE_/view?usp=sharing";
+  "https://drive.google.com/file/d/1EQeSjevkPsXHZVUMtA8nd28qx604djE_/preview";
 
 const resumeDownloadUrl =
   "/resume/opeyemi-adegboye-resume.pdf";
@@ -110,7 +110,7 @@ export default function ResumeContent({ onBack }) {
           >
             Download
           </a>
-          <a href={resumeViewUrl} target="_blank" rel="noopener noreferrer">Open in new tab</a>
+          <a href={resumeViewUrl}>View in Drive</a>
         </div>
       </header>
       <div className="resume-frame-shell">
