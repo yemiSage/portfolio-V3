@@ -4,18 +4,18 @@ import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { YEMI_SYSTEM_INSTRUCTION, cleanChatOutput, getSmartPortfolioReply } from "./chatKnowledge.js";
 import { retrieveRelevantContext } from "./ragServer.js";
 
-// Tried in order. "gemini-flash-latest" is Google's maintained alias for the current Flash
-// model, so it goes first. Override with a comma-separated GEMINI_MODELS env var.
-const DEFAULT_MODELS = ["gemini-flash-latest", "gemini-3.8-flash", "gemini-3.6-flash"];
+// Tried in order. The Flash-Lite alias goes first because it starts answering fastest, which
+// suits these short replies; the full Flash alias is the fallback. Override with a comma-separated GEMINI_MODELS env var.
+const DEFAULT_MODELS = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-3.8-flash"];
 // How long to wait for a model to start answering before trying the next one.
-const FIRST_CHUNK_TIMEOUT_MS = 8000;
+const FIRST_CHUNK_TIMEOUT_MS = 5000;
 // How long a started answer may pause between chunks before we stop it.
 const CHUNK_IDLE_TIMEOUT_MS = 20000;
-const MAX_HISTORY_MESSAGES = 20;
-const MAX_PAGE_CONTEXT_CHARS = 4000;
+const MAX_HISTORY_MESSAGES = 10;
+const MAX_PAGE_CONTEXT_CHARS = 2500;
 const MAX_MESSAGE_CHARS = 1000;
 // Safety cap on reply length (the prompt asks for short answers); also stops essay writing.
-const MAX_OUTPUT_TOKENS = 600;
+const MAX_OUTPUT_TOKENS = 400;
 // Per visitor (IP). Kept in memory, so on Vercel it applies per warm function instance.
 const RATE_LIMIT_MAX = 20;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;

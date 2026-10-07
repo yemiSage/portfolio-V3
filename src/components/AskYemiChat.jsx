@@ -314,7 +314,7 @@ export default function AskYemiChat({
           const clone = mainContentEl.cloneNode(true);
           clone.querySelectorAll(".yemmy-notion-callout-wrapper, .yemmy-notion-bubble, .rachel-chat-container, .rachel-chat-backdrop, .seo-diag-container, .seo-diag-overlay, script, style, svg").forEach(el => el.remove());
           extractedText = clone.innerText || clone.textContent || "";
-          extractedText = extractedText.replace(/\s+/g, " ").substring(0, 15000);
+          extractedText = extractedText.replace(/\s+/g, " ").substring(0, 2500);
         }
       } catch (contextErr) {
         console.warn("Could not extract page context:", contextErr);
