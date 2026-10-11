@@ -3,6 +3,7 @@
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { YEMI_SYSTEM_INSTRUCTION, cleanChatOutput, getSmartPortfolioReply } from "./chatKnowledge.js";
 import { retrieveRelevantContext } from "./ragServer.js";
+import { getGroqModels, groqJson, streamGroqChat, type GroqMessage } from "./groqClient.js";
 
 // Tried in order. "gemini-flash-latest" is Google's maintained alias for the current Flash
 // model, so it goes first. Flash is on the free tier; Pro models need a paid key.
@@ -164,17 +165,62 @@ export async function* streamChatReply(
   meta.attempts = [];
   const message = typeof body.message === "string" ? body.message.trim() : "";
   const apiKey = process.env.GEMINI_API_KEY;
+  const groqKey = client ? undefined : process.env.GROQ_API_KEY;
+  const contents = buildContents(message, body.history);
+  const systemInstruction = buildSystemInstruction(message, body.context);
+
+  // Groq first when its key is set; Gemini (below) is the fallback.
+  if (groqKey) {
+    const messages: GroqMessage[] = [
+      { role: "system", content: systemInstruction },
+      ...contents.map((turn): GroqMessage => ({
+        role: turn.role === "model" ? "assistant" : "user",
+        content: turn.parts.map((part) => part.text).join("\n"),
+      })),
+    ];
+    for (const model of getGroqModels()) {
+      const attemptStart = Date.now();
+      const controller = new AbortController();
+      let started = false;
+      try {
+        const iterator = streamGroqChat(groqKey, model, messages, {
+          temperature: 0.8,
+          maxTokens: MAX_OUTPUT_TOKENS,
+          signal: controller.signal,
+        })[Symbol.asyncIterator]();
+        while (true) {
+          const next = await withTimeout(iterator.next(), started ? CHUNK_IDLE_TIMEOUT_MS : FIRST_CHUNK_TIMEOUT_MS, model);
+          if (next.done) break;
+          if (!started) {
+            meta.source = `model: groq ${model}`;
+            meta.firstChunkMs = Date.now() - startedAt;
+            meta.attempts.push(`groq ${model} ok ${Date.now() - attemptStart}ms`);
+          }
+          started = true;
+          yield next.value;
+        }
+        if (started) return;
+        meta.attempts.push(`groq ${model} empty ${Date.now() - attemptStart}ms`);
+      } catch (err: any) {
+        controller.abort();
+        if (started) {
+          console.warn(`[yemiLLM] groq ${model} stopped mid-reply:`, err?.message || err);
+          return;
+        }
+        meta.attempts.push(`groq ${model} failed ${Date.now() - attemptStart}ms`);
+        console.warn(`[yemiLLM] groq ${model} failed:`, String(err?.message || err));
+      }
+    }
+  }
 
   if (!client && !apiKey) {
-    console.warn("[yemiLLM] GEMINI_API_KEY is not set; using built-in answers.");
-    meta.source = "fallback: no API key";
+    console.warn("[yemiLLM] No working model and GEMINI_API_KEY is not set; using built-in answers.");
+    meta.source = groqKey ? "fallback: groq failed, no Gemini key" : "fallback: no API key";
     yield getSmartPortfolioReply(message);
     return;
   }
 
   const ai = client || getClient(apiKey as string);
-  const contents = buildContents(message, body.history);
-  const systemInstruction = buildSystemInstruction(message, body.context);
 
   const models = getModels();
   for (let i = 0; i < models.length; i++) {
@@ -360,8 +406,8 @@ function sanitizeSuggestions(raw: unknown, asked: string[]): string[] {
 // list when no model is available, so the client keeps its built-in suggestions.
 export async function generateSuggestions(body: ChatRequestBody, client?: Pick<GoogleGenAI, "models">): Promise<string[]> {
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!client && !apiKey) return [];
-  const ai = client || getClient(apiKey as string);
+  const groqKey = client ? undefined : process.env.GROQ_API_KEY;
+  if (!client && !apiKey && !groqKey) return [];
 
   const message = typeof body.message === "string" ? body.message.trim() : "";
   const reply = typeof body.reply === "string" ? body.reply.trim().slice(0, 1500) : "";
@@ -375,6 +421,39 @@ export async function generateSuggestions(body: ChatRequestBody, client?: Pick<G
 
   const prompt = `${transcript ? `Conversation so far:\n${transcript}\n\n` : ""}Visitor just asked: ${message}\nAssistant just answered: ${reply}\n\nPage the visitor is on: ${path}${knowledge ? `\n\nPortfolio facts you can draw on:\n${knowledge.slice(0, 2500)}` : ""}\n\nWrite the 4 follow-up questions now.`;
 
+  if (groqKey) {
+    for (const model of getGroqModels()) {
+      try {
+        const raw = await withTimeout(
+          groqJson(
+            groqKey,
+            model,
+            [
+              // Groq's JSON mode only returns objects, so the list is wrapped in one.
+              { role: "system", content: `${SUGGEST_INSTRUCTION}\nWrap the array in a JSON object: {"questions": [...]}.` },
+              { role: "user", content: prompt },
+            ],
+            { temperature: 0.9, maxTokens: 600 }
+          ),
+          SUGGEST_TIMEOUT_MS,
+          model
+        );
+        let questions: unknown = [];
+        try {
+          questions = JSON.parse(raw)?.questions ?? [];
+        } catch {
+          questions = raw;
+        }
+        const suggestions = sanitizeSuggestions(questions, asked);
+        if (suggestions.length >= 2) return suggestions;
+      } catch (err: any) {
+        console.warn(`[yemiLLM] suggestions: groq ${model} failed:`, String(err?.message || err));
+      }
+    }
+  }
+
+  if (!client && !apiKey) return [];
+  const ai = client || getClient(apiKey as string);
   for (const model of getModels().slice(0, 2)) {
     for (let mode: ThinkingMode | null = thinkingModes.get(model) || "level"; mode; ) {
       try {
