@@ -38,6 +38,15 @@ import claudeLogo from "../assets/figma/claude.svg";
 import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
 import AiAsteriskIcon from "./components/AiAsteriskIcon";
+import stackNextjs from "../assets/stack/nextjs.svg";
+import stackTypescript from "../assets/stack/typescript.svg";
+import stackTailwind from "../assets/stack/tailwind.svg";
+import stackDrizzle from "../assets/stack/drizzle.svg";
+import stackCloudflare from "../assets/stack/cloudflare.svg";
+import stackGemini from "../assets/stack/gemini.svg";
+import stackVercel from "../assets/stack/vercel.svg";
+import stackAstro from "../assets/stack/astro.svg";
+import stackTurborepo from "../assets/stack/turborepo.svg";
 import HoverCursor from "./components/HoverCursor";
 import ProjectFolder from "./components/ProjectFolder";
 
@@ -90,25 +99,52 @@ const projects = [
   },
 ];
 
-// Projects tab folders. Each image is a phone-size screenshot (3:4) in public/folders.
+// Projects tab: shown like the case studies, with a folder of phone screenshots
+// (3:4, in public/folders) and the tech stack in place of the cover image.
 const projectFolders = [
   {
     name: "Toraflare",
-    summary: "Fashion e-commerce",
     href: "https://toraflare.com",
+    tags: ["Fashion", "E-commerce", "Payments"],
+    description:
+      "Designed and built an online fashion store for made-to-order pieces, with checkout, order emails and an admin for the team.",
     images: ["/folders/toraflare-1.webp", "/folders/toraflare-2.webp", "/folders/toraflare-3.webp"],
+    stack: [
+      { name: "Next.js", icon: stackNextjs },
+      { name: "TypeScript", icon: stackTypescript },
+      { name: "Tailwind CSS", icon: stackTailwind },
+      { name: "Drizzle", icon: stackDrizzle },
+      { name: "Cloudflare", icon: stackCloudflare },
+    ],
   },
   {
     name: "ProductHub Africa",
-    summary: "Tech education platform",
     href: "https://pha-pi.vercel.app",
+    tags: ["EdTech", "Community", "Web App"],
+    description:
+      "Designed and built the web app for a tech education community, from bootcamp sign-ups to course pages and facilitators.",
     images: ["/folders/producthub-1.webp", "/folders/producthub-2.webp", "/folders/producthub-3.webp"],
+    stack: [
+      { name: "Next.js", icon: stackNextjs },
+      { name: "TypeScript", icon: stackTypescript },
+      { name: "Google Gemini", icon: stackGemini },
+      { name: "Vercel", icon: stackVercel },
+    ],
   },
   {
     name: "Kilanra",
-    summary: "Local delivery marketplace",
     href: "https://kilanra.vercel.app",
+    tags: ["Marketplace", "Delivery", "Logistics"],
+    description:
+      "Designed and built a local commerce platform where customers order from nearby stores, vendors run their shops, and riders deliver.",
     images: ["/folders/kilanra-1.webp", "/folders/kilanra-2.webp", "/folders/kilanra-3.webp"],
+    stack: [
+      { name: "Astro", icon: stackAstro },
+      { name: "Next.js", icon: stackNextjs },
+      { name: "TypeScript", icon: stackTypescript },
+      { name: "Turborepo", icon: stackTurborepo },
+      { name: "Vercel", icon: stackVercel },
+    ],
   },
 ];
 
@@ -276,7 +312,7 @@ function ProjectVisual({ project }) {
   );
 }
 
-function Project({ project }) {
+function Project({ project, visual }) {
   const handlePointerMove = (event) => {
     const card = event.currentTarget;
     const bounds = card.getBoundingClientRect();
@@ -313,7 +349,7 @@ function Project({ project }) {
         </div>
         <p>{project.description}</p>
       </div>
-      <ProjectVisual project={project} />
+      {visual || <ProjectVisual project={project} />}
     </Card>
   );
 }
@@ -836,11 +872,9 @@ function App() {
                   {activeWork === "case-studies" ? (
                     projects.map((project) => <Project key={project.name} project={project} />)
                   ) : activeWork === "projects" ? (
-                    <div className="project-folders" role="tabpanel" aria-label="Projects">
-                      {projectFolders.map((project) => (
-                        <ProjectFolder key={project.name} project={project} />
-                      ))}
-                    </div>
+                    projectFolders.map((project) => (
+                      <Project key={project.name} project={project} visual={<ProjectFolder project={project} />} />
+                    ))
                   ) : (
                     <div className="shots-grid" role="tabpanel" aria-label="Design shots">
                       {shots.map((image, index) => (
