@@ -336,6 +336,7 @@ function Project({ project, visual, cursorLabel = "View case study" }) {
       className="project-card"
       data-cursor={cursorLabel}
       href={project.href}
+      {...(project.href?.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       aria-label={project.href ? (project.href.startsWith("http") ? `Open ${project.name} website` : `View ${project.name} case study`) : undefined}
       onPointerMove={handlePointerMove}
       onPointerLeave={resetTilt}

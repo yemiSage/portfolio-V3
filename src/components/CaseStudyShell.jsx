@@ -23,12 +23,11 @@ export function CaseStudyFooter({ onOpenAiChat }) {
 
   return (
     <footer className="case-study-footer">
-      <p className="footer-statement">Define purpose, <em>solve problems,</em> set scope and <em>achieve goals</em> - let&apos;s make magic together</p>
+      <p className="footer-statement">Define purpose, <em>solve problems,</em> set scope and <em>ship it</em> - let&apos;s build something together</p>
       <nav className="footer-nav" aria-label="Case study footer navigation">
         <h2>Explore</h2>
         <div className="footer-links">
           <div>
-            <a href="/#top">Articles</a>
             <a href="/#work">Projects</a>
             <a href="/resume">Resume</a>
           </div>
