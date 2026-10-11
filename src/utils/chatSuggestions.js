@@ -126,7 +126,7 @@ const STARTER_POOL = [
   "What inspires Yemi?",
 ];
 
-const normalize = (q) => q.toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+const normalize = (q) => q.toLowerCase().replace(/[^\p{L}\p{N} ]/gu, " ").replace(/\s+/g, " ").trim();
 
 // Treat near-identical wording as the same question so nothing is suggested twice.
 function sameQuestion(a, b) {

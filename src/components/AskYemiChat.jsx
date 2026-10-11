@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BorderBeam } from "border-beam";
 import { getSmartPortfolioReply, cleanChatOutput } from "../utils/chatKnowledge";
 import { getStarterSuggestions, getFollowUpSuggestions, fetchAiSuggestions } from "../utils/chatSuggestions";
+import { isVoiceInputSupported, useVoiceInput } from "./useVoiceInput";
 
 function InfoIcon({ size = 15 }) {
   return (
@@ -101,6 +102,34 @@ function ArrowUpIcon({ size = 16 }) {
     >
       <line x1="12" y1="19" x2="12" y2="5" />
       <polyline points="5 12 12 5 19 12" />
+    </svg>
+  );
+}
+
+function MicIcon({ size = 16 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M5 11a7 7 0 0 0 14 0" />
+      <line x1="12" y1="18" x2="12" y2="21" />
+    </svg>
+  );
+}
+
+function StopIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <rect x="7" y="7" width="10" height="10" rx="2" />
     </svg>
   );
 }
@@ -231,6 +260,22 @@ export default function AskYemiChat({
   const messagesEndRef = useRef(null);
   const chatBodyRef = useRef(null);
   const inputRef = useRef(null);
+  const [voiceSupported] = useState(isVoiceInputSupported);
+  const [voiceNotice, setVoiceNotice] = useState("");
+  const voice = useVoiceInput({
+    onText: (text) => {
+      setVoiceNotice("");
+      setInputValue((prev) => (prev.trim() ? `${prev.trim()} ${text}` : text).slice(0, 1000));
+      setTimeout(() => inputRef.current?.focus(), 0);
+    },
+    onError: (message) => setVoiceNotice(message),
+  });
+  const voicePlaceholder =
+    voice.status === "recording"
+      ? "Listening... tap stop when you're done"
+      : voice.status === "transcribing"
+        ? "Transcribing..."
+        : voiceNotice || "Ask about Yemi...";
 
   useEffect(() => {
     if (isOpen || isNotionDismissed) return;
@@ -643,12 +688,27 @@ export default function AskYemiChat({
                     type="text"
                     value={inputValue}
                     maxLength={1000}
-                    onChange={(e) => setInputValue(e.target.value)}
+                    onChange={(e) => {
+                      setInputValue(e.target.value);
+                      if (voiceNotice) setVoiceNotice("");
+                    }}
                     onKeyDown={handleKeyDown}
-                    placeholder="Ask about Yemi..."
-                    disabled={isLoading}
+                    placeholder={voicePlaceholder}
+                    disabled={isLoading || voice.status !== "idle"}
                     autoComplete="off"
                   />
+                  {voiceSupported && (
+                    <button
+                      type="button"
+                      className={`rachel-mic-btn${voice.status === "recording" ? " is-recording" : ""}`}
+                      onClick={voice.status === "recording" ? voice.stop : voice.start}
+                      disabled={isLoading || voice.status === "transcribing"}
+                      aria-label={voice.status === "recording" ? "Stop recording" : "Ask with your voice"}
+                      title={voice.status === "recording" ? "Stop recording" : "Ask with your voice"}
+                    >
+                      {voice.status === "recording" ? <StopIcon size={14} /> : <MicIcon size={16} />}
+                    </button>
+                  )}
                   <button
                     type="submit"
                     id="rachel-send-btn"

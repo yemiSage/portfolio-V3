@@ -3,6 +3,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { getGithubContributions, getGithubStats } from "./src/utils/githubData.js";
 import { handleChatRequest } from "./src/utils/chatEngine.js";
+import { handleTranscribeWebRequest } from "./src/utils/transcribe.js";
 
 const PORT = 3000;
 
@@ -31,6 +32,20 @@ async function startServer() {
 
   // Chat API endpoint (shared with the Vercel function in api/chat.ts)
   app.post("/api/chat", handleChatRequest);
+
+  // Voice input endpoint (shared with the Vercel function in api/transcribe.ts)
+  app.post("/api/transcribe", express.raw({ type: () => true, limit: "5mb" }), async (req, res) => {
+    const headers = new Headers();
+    for (const name of ["content-type", "origin", "x-forwarded-for"]) {
+      const value = req.headers[name];
+      if (typeof value === "string") headers.set(name, value);
+    }
+    if (!headers.has("x-forwarded-for") && req.socket.remoteAddress) headers.set("x-forwarded-for", req.socket.remoteAddress);
+    const response = await handleTranscribeWebRequest(
+      new Request("http://localhost/api/transcribe", { method: "POST", headers, body: req.body })
+    );
+    res.status(response.status).json(await response.json());
+  });
 
   // Vite development middleware or static serving
   if (process.env.NODE_ENV !== "production") {

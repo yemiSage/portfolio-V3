@@ -3801,6 +3801,50 @@ a.contribution-item {
   cursor: default;
 }
 
+.rachel-mic-btn {
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 140ms ease, background-color 140ms ease;
+}
+
+.rachel-mic-btn:hover:not(:disabled) {
+  color: #374151;
+}
+
+.rachel-mic-btn.is-recording {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+  animation: rachel-mic-pulse 1.2s ease-in-out infinite;
+}
+
+.rachel-mic-btn:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+@keyframes rachel-mic-pulse {
+  50% {
+    background: rgba(220, 38, 38, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rachel-mic-btn.is-recording {
+    animation: none;
+  }
+}
+
 /* Prevent automatic zoom-in on mobile device inputs */
 @media screen and (max-width: 768px) {
   input, textarea, select, .rachel-input-box input {
