@@ -1318,7 +1318,7 @@ a.contribution-item {
 
 .project-visual:hover,
 .project-card:focus-visible .project-visual {
-  transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateZ(2px) scale(1.008);
+  transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(1.004);
 }
 
 .tool-grid li:is(:hover, .is-active) {
@@ -5361,31 +5361,31 @@ body.iab-open .ask-yemi-fab {
   transform: rotate(8deg);
 }
 
-.project-folder:hover .folder-sheet-1,
+.project-card:hover .project-folder .folder-sheet-1,
 .project-card:focus-visible .project-folder .folder-sheet-1 {
-  transform: translate(-10%, -10%) rotate(-14deg);
+  transform: translate(-3%, -5%) rotate(-10deg);
 }
 
-.project-folder:hover .folder-sheet-2,
+.project-card:hover .project-folder .folder-sheet-2,
 .project-card:focus-visible .project-folder .folder-sheet-2 {
-  transform: translateY(-14%);
+  transform: translateY(-6%);
 }
 
-.project-folder:hover .folder-sheet-3,
+.project-card:hover .project-folder .folder-sheet-3,
 .project-card:focus-visible .project-folder .folder-sheet-3 {
-  transform: translate(10%, -10%) rotate(14deg);
+  transform: translate(3%, -5%) rotate(10deg);
 }
 
-.project-folder:hover .folder-front,
+.project-card:hover .project-folder .folder-front,
 .project-card:focus-visible .project-folder .folder-front {
-  transform: translateY(2%);
+  transform: translateY(1%);
 }
 
 .folder-stack {
   position: absolute;
   left: 6%;
   right: 24%;
-  bottom: 12%;
+  bottom: 8%;
   z-index: 2;
   margin: 0;
   padding: 0;
@@ -5412,9 +5412,9 @@ body.iab-open .ask-yemi-fab {
   display: block;
 }
 
-.project-folder:hover .folder-stack,
+.project-card:hover .project-folder .folder-stack,
 .project-card:focus-visible .project-folder .folder-stack {
-  transform: translateY(4px);
+  transform: translateY(2px);
 }
 
 .folder-arrow {
@@ -5436,13 +5436,13 @@ body.iab-open .ask-yemi-fab {
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.project-folder:hover .folder-arrow,
+.project-card:hover .project-folder .folder-arrow,
 .project-card:focus-visible .project-folder .folder-arrow {
   background: var(--accent);
-  transform: translateY(4px);
+  transform: translateY(2px);
 }
 
-.project-folder:hover .folder-arrow svg,
+.project-card:hover .project-folder .folder-arrow svg,
 .project-card:focus-visible .project-folder .folder-arrow svg {
   transform: translate(1px, -1px);
 }

@@ -330,8 +330,8 @@ function Project({ project, visual }) {
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
 
-    card.style.setProperty("--tilt-y", `${(x * 4).toFixed(2)}deg`);
-    card.style.setProperty("--tilt-x", `${(-y * 2.8).toFixed(2)}deg`);
+    card.style.setProperty("--tilt-y", `${(x * 1.6).toFixed(2)}deg`);
+    card.style.setProperty("--tilt-x", `${(-y * 1.1).toFixed(2)}deg`);
   };
 
   const Card = project.href ? "a" : "article";
