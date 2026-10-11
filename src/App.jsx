@@ -16,7 +16,7 @@ import GithubStats from "./components/GithubStats";
 const LimestoneCaseStudy = lazy(() => import("./components/LimestoneCaseStudy"));
 const TasaAfricaCaseStudy = lazy(() => import("./components/TasaAfricaCaseStudy"));
 const SeoDiagnosticOverlay = lazy(() => import("./components/SeoDiagnosticOverlay"));
-import tasafricaImage from "../assets/figma/tasafrica.webp";
+import tasafricaImage from "../assets/figma/tasafrica-poster.webp";
 import limestoneImage from "../assets/figma/limestone.webp";
 import xeruitImage from "../assets/figma/xeruit.webp";
 import figmaLogo from "../assets/figma/figma.svg";
@@ -77,6 +77,8 @@ const projects = [
     name: "TASAfrica",
     image: tasafricaImage,
     href: "/projects/tasafrica",
+    // Looping onboarding walkthrough; the poster image is its first frame.
+    video: "/videos/tasafrica.mp4",
     tags: ["AI", "Sport", "Social", "Analytics"],
     description:
       "Built a scalable design system and discovery flows that connect African talent with global scouts.",
@@ -301,14 +303,17 @@ function ProjectVisual({ project }) {
       <video
         ref={videoRef}
         className={isVideoReady ? "is-ready" : ""}
-        src={project.video}
         muted
         loop
         playsInline
         preload="metadata"
         onLoadedData={() => setIsVideoReady(true)}
         aria-hidden="true"
-      />
+      >
+        {/* MP4 plays almost everywhere; the WebM is for builds without H.264 */}
+        <source src={project.video} type="video/mp4" />
+        <source src={project.video.replace(/\.mp4$/, ".webm")} type="video/webm" />
+      </video>
     </div>
   );
 }
