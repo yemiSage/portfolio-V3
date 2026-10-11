@@ -313,19 +313,25 @@ function ProjectVisual({ project }) {
 }
 
 function Project({ project, visual }) {
+  const resetTilt = (event) => {
+    event.currentTarget.style.setProperty("--tilt-y", "0deg");
+    event.currentTarget.style.setProperty("--tilt-x", "0deg");
+  };
+
+  // Tilt only while the pointer is over the thumbnail or folder, not the text beside it.
   const handlePointerMove = (event) => {
     const card = event.currentTarget;
-    const bounds = card.getBoundingClientRect();
+    const visual = event.target instanceof Element ? event.target.closest("[data-cursor]") : null;
+    if (!visual || !card.contains(visual)) {
+      resetTilt(event);
+      return;
+    }
+    const bounds = visual.getBoundingClientRect();
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
 
     card.style.setProperty("--tilt-y", `${(x * 4).toFixed(2)}deg`);
     card.style.setProperty("--tilt-x", `${(-y * 2.8).toFixed(2)}deg`);
-  };
-
-  const resetTilt = (event) => {
-    event.currentTarget.style.setProperty("--tilt-y", "0deg");
-    event.currentTarget.style.setProperty("--tilt-x", "0deg");
   };
 
   const Card = project.href ? "a" : "article";
