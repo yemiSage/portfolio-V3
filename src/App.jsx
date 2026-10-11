@@ -38,6 +38,8 @@ import claudeLogo from "../assets/figma/claude.svg";
 import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
 import AiAsteriskIcon from "./components/AiAsteriskIcon";
+import HoverCursor from "./components/HoverCursor";
+import ProjectFolder from "./components/ProjectFolder";
 
 const portraitImage = "/avatar.webp";
 
@@ -85,6 +87,28 @@ const projects = [
     tags: ["AI", "Hiring", "SAAS", "B2B"],
     description:
       "Shipped an AI hiring OS with verified talent and scalable recruiter discovery.",
+  },
+];
+
+// Projects tab folders. Each image is a phone-size screenshot (3:4) in public/folders.
+const projectFolders = [
+  {
+    name: "Toraflare",
+    summary: "Fashion e-commerce",
+    href: "https://toraflare.com",
+    images: ["/folders/toraflare-1.webp", "/folders/toraflare-2.webp", "/folders/toraflare-3.webp"],
+  },
+  {
+    name: "ProductHub Africa",
+    summary: "Tech education platform",
+    href: "https://pha-pi.vercel.app",
+    images: ["/folders/producthub-1.webp", "/folders/producthub-2.webp", "/folders/producthub-3.webp"],
+  },
+  {
+    name: "Kilanra",
+    summary: "Local delivery marketplace",
+    href: "https://kilanra.vercel.app",
+    images: ["/folders/kilanra-1.webp", "/folders/kilanra-2.webp", "/folders/kilanra-3.webp"],
   },
 ];
 
@@ -232,10 +256,10 @@ function ProjectVisual({ project }) {
   }, [showVideo]);
 
   const alt = `${project.name} product interface`;
-  if (!showVideo) return <img className="project-visual" src={project.image} alt={alt} />;
+  if (!showVideo) return <img className="project-visual" src={project.image} alt={alt} data-cursor="View case study" />;
 
   return (
-    <div className="project-visual project-visual-video">
+    <div className="project-visual project-visual-video" data-cursor="View case study">
       <img src={project.image} alt={alt} />
       <video
         ref={videoRef}
@@ -648,6 +672,7 @@ function App() {
   return (
     <>
       {topProgressBar}
+      <HoverCursor />
       <AnimatePresence onExitComplete={() => setIsPreloaderDone(true)}>
         {showPreloader && (
           <FullScreenPreloader key="portfolio-preloader" onComplete={dismissPreloader} />
@@ -811,13 +836,17 @@ function App() {
                   {activeWork === "case-studies" ? (
                     projects.map((project) => <Project key={project.name} project={project} />)
                   ) : activeWork === "projects" ? (
-                    // Left blank for now; new projects will go here.
-                    <div className="projects-empty" role="tabpanel" aria-label="Projects" />
+                    <div className="project-folders" role="tabpanel" aria-label="Projects">
+                      {projectFolders.map((project) => (
+                        <ProjectFolder key={project.name} project={project} />
+                      ))}
+                    </div>
                   ) : (
                     <div className="shots-grid" role="tabpanel" aria-label="Design shots">
                       {shots.map((image, index) => (
                         <button
                           className="shot-card"
+                          data-cursor="View image"
                           key={image}
                           type="button"
                           aria-label={`Open portfolio design shot ${index + 1}`}
