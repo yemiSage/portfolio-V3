@@ -5323,9 +5323,9 @@ body.iab-open .ask-yemi-fab {
 
 .folder-sheet {
   position: absolute;
-  top: 5%;
-  width: 43%;
-  aspect-ratio: 1 / 1;
+  top: 12%;
+  width: 34%;
+  aspect-ratio: 3 / 4;
   padding: 3px;
   border-radius: 12px;
   background: #ffffff;
@@ -5345,13 +5345,13 @@ body.iab-open .ask-yemi-fab {
 }
 
 .folder-sheet-1 {
-  left: 3%;
+  left: 12%;
   transform: rotate(-8deg);
 }
 
 .folder-sheet-2 {
-  left: 28.5%;
-  top: 0%;
+  left: 33%;
+  top: 8%;
   z-index: 1;
   transform: rotate(0deg);
 }

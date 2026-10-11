@@ -99,8 +99,8 @@ const projects = [
   },
 ];
 
-// Projects tab: shown like the case studies, with a folder of presentation images
-// (square, in public/folders) and the tech stack in place of the cover image.
+// Projects tab: shown like the case studies, with a folder of phone screenshots
+// (3:4, in public/folders) and the tech stack in place of the cover image.
 const projectFolders = [
   {
     name: "Toraflare",
