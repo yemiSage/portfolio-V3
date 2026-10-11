@@ -5,17 +5,20 @@ import { YEMI_SYSTEM_INSTRUCTION, cleanChatOutput, getSmartPortfolioReply } from
 import { retrieveRelevantContext } from "./ragServer.js";
 
 // Tried in order. "gemini-flash-latest" is Google's maintained alias for the current Flash
-// model, so it goes first. Override with a comma-separated GEMINI_MODELS env var.
+// model, so it goes first. Flash is on the free tier; Pro models need a paid key.
+// Override with a comma-separated GEMINI_MODELS env var.
 const DEFAULT_MODELS = ["gemini-flash-latest", "gemini-3.8-flash", "gemini-3.6-flash"];
 // How long to wait for a model to start answering before trying the next one.
-const FIRST_CHUNK_TIMEOUT_MS = 8000;
+// Leaves room for the short thinking pass before the first words.
+const FIRST_CHUNK_TIMEOUT_MS = 10000;
 // How long a started answer may pause between chunks before we stop it.
 const CHUNK_IDLE_TIMEOUT_MS = 20000;
 const MAX_HISTORY_MESSAGES = 20;
 const MAX_PAGE_CONTEXT_CHARS = 4000;
 const MAX_MESSAGE_CHARS = 1000;
 // Safety cap on reply length (the prompt asks for short answers); also stops essay writing.
-const MAX_OUTPUT_TOKENS = 600;
+// Thinking tokens count toward this cap, so it leaves room for reasoning before the reply.
+const MAX_OUTPUT_TOKENS = 2048;
 // Per visitor (IP). Kept in memory, so on Vercel it applies per warm function instance.
 const RATE_LIMIT_MAX = 20;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
@@ -45,12 +48,14 @@ export interface ChatRequestBody {
 // The model that answered last time (kept while the server/function instance is warm),
 // so later requests skip model names that don't work for this API key.
 let lastWorkingModel: string | null = null;
-// How each model accepts "think as little as possible": the newer thinkingLevel setting,
-// the older thinkingBudget: 0, or neither. Learned per model when one is rejected.
-type ThinkingMode = "level" | "budget" | "off";
+// How much each model thinks before replying: a low thinkingLevel (a short reasoning pass,
+// for better answers), the minimal level, the older thinkingBudget: 0, or the model's
+// default. Learned per model when a setting is rejected.
+type ThinkingMode = "low" | "level" | "budget" | "off";
 const thinkingModes = new Map<string, ThinkingMode>();
-const NEXT_THINKING_MODE: Record<ThinkingMode, ThinkingMode | null> = { level: "budget", budget: "off", off: null };
+const NEXT_THINKING_MODE: Record<ThinkingMode, ThinkingMode | null> = { low: "level", level: "budget", budget: "off", off: null };
 function thinkingConfigFor(mode: ThinkingMode) {
+  if (mode === "low") return { thinkingConfig: { thinkingLevel: ThinkingLevel.LOW } };
   if (mode === "level") return { thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL } };
   if (mode === "budget") return { thinkingConfig: { thinkingBudget: 0 } };
   return {};
@@ -174,11 +179,11 @@ export async function* streamChatReply(
   const models = getModels();
   for (let i = 0; i < models.length; i++) {
     const model = models[i];
-    const mode = thinkingModes.get(model) || "level";
+    const mode = thinkingModes.get(model) || "low";
     const attemptStart = Date.now();
     let started = false;
     try {
-      // Ask the model to think as little as possible so the reply starts sooner.
+      // A short thinking pass gives noticeably better answers without a long wait.
       const stream = await withTimeout(
         ai.models.generateContentStream({
           model,

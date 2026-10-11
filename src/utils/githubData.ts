@@ -53,7 +53,89 @@ export const DEFAULT_GITHUB_STATS = {
   ],
 };
 
+const CONTRIBUTION_LEVELS: Record<string, number> = {
+  NONE: 0,
+  FIRST_QUARTILE: 1,
+  SECOND_QUARTILE: 2,
+  THIRD_QUARTILE: 3,
+  FOURTH_QUARTILE: 4,
+};
+
+function ordinalDay(day: number) {
+  const suffix = day % 10 === 1 && day !== 11 ? "st" : day % 10 === 2 && day !== 12 ? "nd" : day % 10 === 3 && day !== 13 ? "rd" : "th";
+  return `${day}${suffix}`;
+}
+
+function contributionTooltip(date: string, count: number) {
+  const [year, month, day] = date.split("-").map(Number);
+  const monthName = new Date(Date.UTC(year, month - 1, day)).toLocaleString("en-US", { month: "long", timeZone: "UTC" });
+  const label = count === 0 ? "No contributions" : `${count} contribution${count === 1 ? "" : "s"}`;
+  return `${label} on ${monthName} ${ordinalDay(day)}.`;
+}
+
+// The public contributions page hides private-repo activity from logged-out visitors.
+// With the owner's token, the GraphQL calendar includes private contributions too.
+async function fetchContributionsFromGraphQL(username: string) {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) return null;
+
+  try {
+    const res = await fetch("https://api.github.com/graphql", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "User-Agent": "yemi-portfolio",
+      },
+      body: JSON.stringify({
+        query: `query($login: String!) {
+          user(login: $login) {
+            contributionsCollection {
+              contributionCalendar {
+                totalContributions
+                months { name totalWeeks }
+                weeks { contributionDays { date weekday contributionCount contributionLevel } }
+              }
+            }
+          }
+        }`,
+        variables: { login: username },
+      }),
+    });
+    if (!res.ok) return null;
+
+    const json = (await res.json()) as any;
+    const calendar = json?.data?.user?.contributionsCollection?.contributionCalendar;
+    if (!calendar || !Array.isArray(calendar.weeks)) return null;
+
+    const weeks = calendar.weeks.map((week: any) => {
+      const days: any[] = Array(7).fill(null);
+      for (const day of week.contributionDays) {
+        days[day.weekday] = {
+          date: day.date,
+          level: CONTRIBUTION_LEVELS[day.contributionLevel] ?? 0,
+          tooltip: contributionTooltip(day.date, day.contributionCount),
+          dayOfWeek: day.weekday,
+        };
+      }
+      return days;
+    });
+
+    return {
+      totalContributions: calendar.totalContributions,
+      months: calendar.months.map((m: any) => ({ name: m.name.slice(0, 3), colspan: m.totalWeeks })),
+      weeks,
+    };
+  } catch (err) {
+    console.warn("[github-contributions] GraphQL calendar failed, falling back to public page:", err);
+    return null;
+  }
+}
+
 export async function fetchContributionsData(username = GITHUB_USERNAME) {
+  const fromGraphQL = await fetchContributionsFromGraphQL(username);
+  if (fromGraphQL) return fromGraphQL;
+
   try {
     const res = await fetch(`https://github.com/users/${username}/contributions`, {
       headers: { "User-Agent": "yemi-portfolio" },
