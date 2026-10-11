@@ -15,7 +15,7 @@ async function startServer() {
     res.json({
       status: "ok",
       assistant: "askYemi",
-      hasApiKey: Boolean(process.env.GEMINI_API_KEY),
+      hasApiKey: Boolean(process.env.GEMINI_API_KEY || process.env.GROQ_API_KEY),
     });
   });
 
