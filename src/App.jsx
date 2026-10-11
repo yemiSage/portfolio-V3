@@ -38,6 +38,8 @@ import claudeLogo from "../assets/figma/claude.svg";
 import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
 import AiAsteriskIcon from "./components/AiAsteriskIcon";
+import WorkCard from "./components/WorkCard";
+import WorkCursor from "./components/WorkCursor";
 
 const portraitImage = "/avatar.webp";
 
@@ -61,31 +63,49 @@ const introSegments = [
   },
 ];
 
-const projects = [
+// Case studies tab: projects with a full write-up on this site.
+const caseStudies = [
   {
     name: "TASAfrica",
+    meta: "Case study 2024",
     image: tasafricaImage,
+    coverColor: "#0f6b3a",
     href: "/projects/tasafrica",
-    tags: ["AI", "Sport", "Social", "Analytics"],
-    description:
-      "Built a scalable design system and discovery flows that connect African talent with global scouts.",
+    description: "A scalable design system and discovery flows that connect African talent with global scouts.",
   },
   {
     name: "Limestone App",
+    meta: "Case study 2024",
     image: limestoneImage,
+    coverColor: "#1e7bf0",
     href: "/projects/limestone",
-    tags: ["Community", "Security", "Real Estate", "B2B"],
-    description:
-      "Simplified community living with offline check-ins, panic alerts, and clearer security workflows.",
+    description: "Simplified community living with offline check-ins, panic alerts, and clearer security workflows.",
   },
+];
+
+// Projects tab: other products Yemi designed or contributed to. Add `image` (and
+// optionally a looping `video`) to replace the logo cover.
+const otherProjects = [
   {
     name: "Xeruit Talent",
+    meta: "Shipped",
     image: xeruitImage,
+    coverColor: "#eef0f5",
     href: "https://xeruit.com",
-    tags: ["AI", "Hiring", "SAAS", "B2B"],
-    description:
-      "Shipped an AI hiring OS with verified talent and scalable recruiter discovery.",
+    description: "An AI hiring OS with verified talent and scalable recruiter discovery.",
   },
+  { name: "Norocio", meta: "In development 2026", logoDomain: "norocio.com", coverColor: "#eef3f1", cursorLabel: "In development", description: "Cross-border payments, multi-currency accounts and stablecoin." },
+  { name: "Stayafrika", meta: "Shipped 2026", href: "https://www.stayafrika.com", logoDomain: "stayafrika.com", coverColor: "#f6efe6", description: "A travel marketplace for stays and local experiences across Africa." },
+  { name: "Soludesks", meta: "Shipped 2026", href: "https://www.soludesks.com", logoDomain: "soludesks.com", coverColor: "#eaf0fb", description: "B2B SaaS for team learning, support, attendance and operations." },
+  { name: "Feexeet", meta: "Shipped 2026", href: "https://feexeet.com/", logoDomain: "feexeet.com", coverColor: "#eef5ec", description: "A marketplace connecting homeowners with verified service pros." },
+  { name: "Flxfleet", meta: "Shipped 2025", href: "https://www.flxfleet.ca", logoDomain: "flxfleet.ca", coverColor: "#f1eef8", description: "Canadian logistics for moving, delivery, driver booking and tracking." },
+  { name: "AfternoonPrep", meta: "Shipped 2025", href: "https://www.afternoonprep.com", logoDomain: "afternoonprep.com", coverColor: "#fbf0ea", description: "A UK education platform for exam preparation and practice." },
+];
+
+const workTabs = [
+  { id: "case-studies", label: "Case studies" },
+  { id: "projects", label: "Projects" },
+  { id: "shots", label: "Shots" },
 ];
 
 const tools = [
@@ -107,28 +127,6 @@ const tools = [
   ["VS Code", vsCodeLogo],
 ];
 
-const contributedProjects = [
-  {
-    year: "2026",
-    projects: [
-      { name: "Norocio", status: "In development", isNew: true, logoDomain: "norocio.com", description: "A cross-border payments platform for global transfers, multi-currency accounts, and stablecoin." },
-      { name: "Stayafrika", status: "www.stayafrika.com", href: "https://www.stayafrika.com", logoDomain: "stayafrika.com", description: "A travel marketplace for discovering stays, local experiences, and essential travel services across Africa." },
-      { name: "Soludesks", status: "www.soludesks.com", href: "https://www.soludesks.com", logoDomain: "soludesks.com", description: "A B2B SaaS platform for managing team learning, support, attendance, and business operations." },
-      { name: "Feexeet", status: "feexeet.com", href: "https://feexeet.com/", logoDomain: "feexeet.com", description: "A service marketplace connecting homeowners and businesses with verified service professionals." },
-    ],
-  },
-  {
-    year: "2025",
-    projects: [
-      { name: "Flxfleet", status: "www.flxfleet.ca", href: "https://www.flxfleet.ca", logoDomain: "flxfleet.ca", description: "Canadian logistics platform for moving, delivery, driver booking, and real-time tracking." },
-      { name: "AfternoonPrep", status: "www.afternoonprep.com", href: "https://www.afternoonprep.com", logoDomain: "afternoonprep.com", description: "A UK-based education platform for exam preparation, learning, and student practice." },
-    ],
-  },
-];
-
-const contributedProjectDescription =
-  "A selection of products I’ve helped shape over the years, across different industries, teams, and business needs.";
-
 const shots = Array.from(
   { length: 36 },
   (_, index) => `/shots/shot-${String(index + 1).padStart(2, "0")}.webp`,
@@ -146,106 +144,6 @@ function Tool({ name, logo }) {
   );
 }
 
-function ContributedProjects() {
-  return (
-    <section className="contributed-projects" aria-labelledby="contributed-projects-heading">
-      <div className="section-intro">
-        <h2 id="contributed-projects-heading">Other projects I contributed to</h2>
-        <p>{contributedProjectDescription}</p>
-      </div>
-
-      <div className="contribution-groups">
-        {contributedProjects.map((group) => (
-          <div className="contribution-group" key={group.year}>
-            <p className="contribution-year">{group.year}</p>
-            <div className="contribution-list">
-              {group.projects.map((project) => {
-                const ContributionTag = project.href ? "a" : "article";
-                return (
-                <ContributionTag
-                  className="contribution-item"
-                  key={project.name}
-                  {...(project.href ? { href: project.href, target: "_blank", rel: "noopener noreferrer", "aria-label": `Open ${project.name} in a new tab` } : {})}
-                >
-                  <div className="contribution-thumbnail" aria-hidden="true">
-                    <span>{project.name.slice(0, 2)}</span>
-                    <img
-                      src={project.logo || `https://www.google.com/s2/favicons?domain=${project.logoDomain}&sz=128`}
-                      alt=""
-                      loading="lazy"
-                      onError={(event) => { event.currentTarget.style.display = "none"; }}
-                    />
-                  </div>
-                  <div className="contribution-item-heading">
-                    <div className="contribution-name-wrap">
-                      <h3>{project.name}</h3>
-                      {project.isNew && (
-                        <span className="new-badge" aria-label="New">
-                          <span>New</span>
-                          <img src={newBadgeLoop} alt="" />
-                          <img src={newBadgeStroke} alt="" />
-                        </span>
-                      )}
-                    </div>
-                    <span>{project.status}</span>
-                  </div>
-                  <p>{project.description ?? contributedProjectDescription}</p>
-                </ContributionTag>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Project({ project }) {
-  const handlePointerMove = (event) => {
-    const card = event.currentTarget;
-    const bounds = card.getBoundingClientRect();
-    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-
-    card.style.setProperty("--tilt-y", `${(x * 4).toFixed(2)}deg`);
-    card.style.setProperty("--tilt-x", `${(-y * 2.8).toFixed(2)}deg`);
-  };
-
-  const resetTilt = (event) => {
-    event.currentTarget.style.setProperty("--tilt-y", "0deg");
-    event.currentTarget.style.setProperty("--tilt-x", "0deg");
-  };
-
-  const Card = project.href ? "a" : "article";
-
-  return (
-    <Card
-      className="project-card"
-      href={project.href}
-      aria-label={project.href ? (project.href.startsWith("http") ? `Open ${project.name} website` : `View ${project.name} case study`) : undefined}
-      onPointerMove={handlePointerMove}
-      onPointerLeave={resetTilt}
-    >
-      <div className="project-copy">
-        <div>
-          <h3>{project.name}</h3>
-          <div className="project-tags" aria-label="Project categories">
-            {project.tags.map((tag) => (
-              <span key={tag}>{tag}</span>
-            ))}
-          </div>
-        </div>
-        <p>{project.description}</p>
-      </div>
-      <img
-        className="project-visual"
-        src={project.image}
-        alt={`${project.name} product interface`}
-      />
-    </Card>
-  );
-}
 
 function App() {
   const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, ""));
@@ -289,7 +187,7 @@ function App() {
     };
   }, [path]);
 
-  const [activeWork, setActiveWork] = useState("projects");
+  const [activeWork, setActiveWork] = useState("case-studies");
   const [tabsStuck, setTabsStuck] = useState(false);
   const tabsSentinelRef = useRef(null);
   useEffect(() => {
@@ -601,6 +499,7 @@ function App() {
   return (
     <>
       {topProgressBar}
+      <WorkCursor />
       <AnimatePresence onExitComplete={() => setIsPreloaderDone(true)}>
         {showPreloader && (
           <FullScreenPreloader key="portfolio-preloader" onComplete={dismissPreloader} />
@@ -729,49 +628,58 @@ function App() {
                 <div ref={tabsSentinelRef} className="work-tabs-sentinel" aria-hidden="true" />
                 <div className={`work-tabs-bar${tabsStuck ? " is-stuck" : ""}`}>
                   <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
-                    <button
-                      type="button"
-                      role="tab"
-                      aria-selected={activeWork === "projects"}
-                      className={activeWork === "projects" ? "is-selected" : ""}
-                      onClick={() => {
-                        setActiveWork("projects");
-                        closeLightbox();
-                      }}
-                    >
-                      Projects
-                    </button>
-                    <button
-                      type="button"
-                      role="tab"
-                      aria-selected={activeWork === "shots"}
-                      className={activeWork === "shots" ? "is-selected" : ""}
-                      onClick={() => {
-                        setActiveWork("shots");
-                        requestAnimationFrame(() => {
-                          const grid = document.querySelector(".shots-grid");
-                          if (grid && window.matchMedia("(max-width: 767px)").matches) {
-                            // Land on the first shot, just below the fixed header and sticky tabs.
-                            const header = document.querySelector(".mobile-header")?.offsetHeight ?? 0;
-                            const tabs = 49; // height of the tab bar once stuck
-                            const top = grid.getBoundingClientRect().top + window.scrollY - header - tabs - 16;
-                            window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
-                          } else {
-                            window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-                          }
-                        });
-                      }}
-                    >
-                      Shots
-                    </button>
+                    {workTabs.map((tab) => (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        role="tab"
+                        id={`work-tab-${tab.id}`}
+                        aria-controls="work"
+                        aria-selected={activeWork === tab.id}
+                        className={activeWork === tab.id ? "is-selected" : ""}
+                        onClick={() => {
+                          setActiveWork(tab.id);
+                          closeLightbox();
+                          requestAnimationFrame(() => {
+                            const panel = document.getElementById("work");
+                            if (panel && window.matchMedia("(max-width: 767px)").matches) {
+                              // Land on the first item, just below the fixed header and sticky tabs.
+                              const header = document.querySelector(".mobile-header")?.offsetHeight ?? 0;
+                              const tabs = 49; // height of the tab bar once stuck
+                              const top = panel.getBoundingClientRect().top + window.scrollY - header - tabs - 16;
+                              window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
+                            } else {
+                              window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                            }
+                          });
+                        }}
+                      >
+                        {tab.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                <section className="projects" id="work" aria-label="Selected projects">
-                  {activeWork === "projects" ? (
-                    projects.map((project) => <Project key={project.name} project={project} />)
+                <section
+                  className="projects"
+                  id="work"
+                  role="tabpanel"
+                  aria-labelledby={`work-tab-${activeWork}`}
+                >
+                  {activeWork === "case-studies" ? (
+                    <div className="work-grid" key="case-studies">
+                      {caseStudies.map((item) => (
+                        <WorkCard key={item.name} item={item} />
+                      ))}
+                    </div>
+                  ) : activeWork === "projects" ? (
+                    <div className="work-grid" key="projects">
+                      {otherProjects.map((item) => (
+                        <WorkCard key={item.name} item={item} />
+                      ))}
+                    </div>
                   ) : (
-                    <div className="shots-grid" role="tabpanel" aria-label="Design shots">
+                    <div className="shots-grid" aria-label="Design shots">
                       {shots.map((image, index) => (
                         <button
                           className="shot-card"
@@ -793,8 +701,6 @@ function App() {
                     </div>
                   )}
                 </section>
-
-                <ContributedProjects />
 
                 <section className="toolbox" aria-labelledby="toolbox-heading">
                   <div className="section-intro">
