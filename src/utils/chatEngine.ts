@@ -4,14 +4,13 @@ import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { YEMI_SYSTEM_INSTRUCTION, cleanChatOutput, getSmartPortfolioReply } from "./chatKnowledge.js";
 import { retrieveRelevantContext } from "./ragServer.js";
 
-// Tried in order. "gemini-pro-latest" is Google's maintained alias for its most capable
-// model, so it goes first; the Flash models are faster fallbacks if Pro is slow or
-// unavailable. Override with a comma-separated GEMINI_MODELS env var.
-const DEFAULT_MODELS = ["gemini-pro-latest", "gemini-flash-latest", "gemini-3.8-flash"];
+// Tried in order. "gemini-flash-latest" is Google's maintained alias for the current Flash
+// model, so it goes first. Flash is on the free tier; Pro models need a paid key.
+// Override with a comma-separated GEMINI_MODELS env var.
+const DEFAULT_MODELS = ["gemini-flash-latest", "gemini-3.8-flash", "gemini-3.6-flash"];
 // How long to wait for a model to start answering before trying the next one.
-// Pro models think before they answer, so they get longer to start.
+// Leaves room for the short thinking pass before the first words.
 const FIRST_CHUNK_TIMEOUT_MS = 10000;
-const PRO_FIRST_CHUNK_TIMEOUT_MS = 25000;
 // How long a started answer may pause between chunks before we stop it.
 const CHUNK_IDLE_TIMEOUT_MS = 20000;
 const MAX_HISTORY_MESSAGES = 20;
@@ -181,7 +180,6 @@ export async function* streamChatReply(
   for (let i = 0; i < models.length; i++) {
     const model = models[i];
     const mode = thinkingModes.get(model) || "low";
-    const firstChunkTimeout = /pro/i.test(model) ? PRO_FIRST_CHUNK_TIMEOUT_MS : FIRST_CHUNK_TIMEOUT_MS;
     const attemptStart = Date.now();
     let started = false;
     try {
@@ -192,12 +190,12 @@ export async function* streamChatReply(
           contents,
           config: { systemInstruction, temperature: 0.8, maxOutputTokens: MAX_OUTPUT_TOKENS, ...thinkingConfigFor(mode) },
         }),
-        firstChunkTimeout,
+        FIRST_CHUNK_TIMEOUT_MS,
         model
       );
       const iterator = stream[Symbol.asyncIterator]();
       while (true) {
-        const next = await withTimeout(iterator.next(), started ? CHUNK_IDLE_TIMEOUT_MS : firstChunkTimeout, model);
+        const next = await withTimeout(iterator.next(), started ? CHUNK_IDLE_TIMEOUT_MS : FIRST_CHUNK_TIMEOUT_MS, model);
         if (next.done) break;
         const text = next.value?.text;
         if (text) {
