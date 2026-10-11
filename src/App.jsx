@@ -99,8 +99,8 @@ const projects = [
   },
 ];
 
-// Projects tab: shown like the case studies, with a folder of phone screenshots
-// (3:4, in public/folders) and the tech stack in place of the cover image.
+// Projects tab: shown like the case studies, with a folder of presentation images
+// (square, in public/folders) and the tech stack in place of the cover image.
 const projectFolders = [
   {
     name: "Toraflare",
@@ -230,6 +230,7 @@ function ContributedProjects() {
                 return (
                 <ContributionTag
                   className="contribution-item"
+                  data-cursor={project.href ? "View project" : "In development"}
                   key={project.name}
                   {...(project.href ? { href: project.href, target: "_blank", rel: "noopener noreferrer", "aria-label": `Open ${project.name} in a new tab` } : {})}
                 >
@@ -292,10 +293,10 @@ function ProjectVisual({ project }) {
   }, [showVideo]);
 
   const alt = `${project.name} product interface`;
-  if (!showVideo) return <img className="project-visual" src={project.image} alt={alt} data-cursor="View case study" />;
+  if (!showVideo) return <img className="project-visual" src={project.image} alt={alt} />;
 
   return (
-    <div className="project-visual project-visual-video" data-cursor="View case study">
+    <div className="project-visual project-visual-video">
       <img src={project.image} alt={alt} />
       <video
         ref={videoRef}
@@ -312,21 +313,15 @@ function ProjectVisual({ project }) {
   );
 }
 
-function Project({ project, visual }) {
+function Project({ project, visual, cursorLabel = "View case study" }) {
   const resetTilt = (event) => {
     event.currentTarget.style.setProperty("--tilt-y", "0deg");
     event.currentTarget.style.setProperty("--tilt-x", "0deg");
   };
 
-  // Tilt only while the pointer is over the thumbnail or folder, not the text beside it.
   const handlePointerMove = (event) => {
     const card = event.currentTarget;
-    const visual = event.target instanceof Element ? event.target.closest("[data-cursor]") : null;
-    if (!visual || !card.contains(visual)) {
-      resetTilt(event);
-      return;
-    }
-    const bounds = visual.getBoundingClientRect();
+    const bounds = card.getBoundingClientRect();
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
 
@@ -339,6 +334,7 @@ function Project({ project, visual }) {
   return (
     <Card
       className="project-card"
+      data-cursor={cursorLabel}
       href={project.href}
       aria-label={project.href ? (project.href.startsWith("http") ? `Open ${project.name} website` : `View ${project.name} case study`) : undefined}
       onPointerMove={handlePointerMove}
@@ -879,7 +875,7 @@ function App() {
                     projects.map((project) => <Project key={project.name} project={project} />)
                   ) : activeWork === "projects" ? (
                     projectFolders.map((project) => (
-                      <Project key={project.name} project={project} visual={<ProjectFolder project={project} />} />
+                      <Project key={project.name} project={project} cursorLabel="View project" visual={<ProjectFolder project={project} />} />
                     ))
                   ) : (
                     <div className="shots-grid" role="tabpanel" aria-label="Design shots">

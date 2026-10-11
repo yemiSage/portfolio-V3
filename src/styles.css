@@ -1316,7 +1316,7 @@ a.contribution-item {
   transition: filter 180ms ease, opacity 180ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.project-visual:hover,
+.project-card:hover .project-visual,
 .project-card:focus-visible .project-visual {
   transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(1.004);
 }
@@ -4511,7 +4511,7 @@ a.contribution-item {
 /* Global Mobile Hover Reset */
 @media (max-width: 768px) {
   /* Disable scale/transform on cards */
-  .project-visual:hover {
+  .project-card:hover .project-visual {
     transform: none !important;
   }
   
@@ -5323,9 +5323,9 @@ body.iab-open .ask-yemi-fab {
 
 .folder-sheet {
   position: absolute;
-  top: 12%;
-  width: 34%;
-  aspect-ratio: 3 / 4;
+  top: 5%;
+  width: 43%;
+  aspect-ratio: 1 / 1;
   padding: 3px;
   border-radius: 12px;
   background: #ffffff;
@@ -5345,13 +5345,13 @@ body.iab-open .ask-yemi-fab {
 }
 
 .folder-sheet-1 {
-  left: 12%;
+  left: 3%;
   transform: rotate(-8deg);
 }
 
 .folder-sheet-2 {
-  left: 33%;
-  top: 8%;
+  left: 28.5%;
+  top: 0%;
   z-index: 1;
   transform: rotate(0deg);
 }

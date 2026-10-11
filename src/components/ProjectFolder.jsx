@@ -14,7 +14,7 @@ function ArrowIcon() {
 
 export default function ProjectFolder({ project }) {
   return (
-    <div className="project-folder" data-cursor="View project">
+    <div className="project-folder">
       <div className="folder-stage">
         <svg className="folder-back" viewBox="0 0 300 230" aria-hidden="true">
           <path d="M8 24 Q8 16 16 16 L96 16 Q104 16 109 22 L113 27 Q117 32 124 32 L284 32 Q292 32 292 40 L292 214 Q292 222 284 222 L16 222 Q8 222 8 214 Z" />
