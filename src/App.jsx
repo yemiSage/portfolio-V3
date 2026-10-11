@@ -22,9 +22,11 @@ import xeruitImage from "../assets/figma/xeruit.webp";
 import figmaLogo from "../assets/figma/figma.svg";
 import nextjsLogo from "../assets/figma/nextjs.svg";
 import typescriptLogo from "../assets/figma/typescript.svg";
-import fastapiLogo from "../assets/figma/fastapi.svg";
+import htmlCssLogo from "../assets/figma/html-css.svg";
+import wordpressLogo from "../assets/figma/wordpress.svg";
 import miroLogo from "../assets/figma/miro.svg";
 import illustratorLogo from "../assets/figma/adobe-illustrator.svg";
+import msSuiteLogo from "../assets/figma/ms-suite.svg";
 import photoshopLogo from "../assets/figma/photoshop.svg";
 import notionLogo from "../assets/figma/notion.svg";
 import trelloLogo from "../assets/figma/trello.svg";
@@ -52,10 +54,10 @@ function hasSeenPreloader() {
 
 const introSegments = [
   {
-    text: "Hi, I am Yemi. I design and build B2B SaaS, marketplace and AI products, from the first flow in Figma to production code.",
+    text: "Hi, I am Yemi. I design and build enterprise products, B2B SaaS, marketplaces and AI products, from the first flow in Figma to production code.",
   },
   {
-    text: "I ship with Next.js, TypeScript and Python/FastAPI, working alongside Claude Code and Codex, so the products I design reach users the way they were meant to work.",
+    text: "I ship with Next.js and TypeScript, working alongside Claude Code and Codex, so the products I design reach users the way they were meant to work.",
   },
 ];
 
@@ -94,9 +96,11 @@ const tools = [
   ["Claude", claudeLogo],
   ["Next.js", nextjsLogo],
   ["TypeScript", typescriptLogo],
-  ["Python / FastAPI", fastapiLogo],
+  ["HTML and CSS", htmlCssLogo],
+  ["Wordpress", wordpressLogo],
   ["Miro", miroLogo],
   ["Adobe Illustrator", illustratorLogo],
+  ["MS Suite", msSuiteLogo],
   ["Photoshop", photoshopLogo],
   ["Notion", notionLogo],
   ["Trello", trelloLogo],
@@ -674,7 +678,7 @@ function App() {
               <div className="intro-stack" id="about">
                 <div className="intro-copy">
                   <div className="intro-heading">
-                    <p className="greeting">Opeyemi Adegboye</p>
+                    <p className="greeting">Need a Professional</p>
                     <h1>
                       <ScrambleText text="Design Engineer, Product & AI" active={!isSiteLoading} />
                     </h1>

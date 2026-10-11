@@ -5,7 +5,7 @@
 ## Summary & Target Categories
 - **Primary Roles**: Product Designer, UI/UX Designer, Product Engineer, UI Developer, Design Engineer, UI/UX Tutor & Design Mentor.
 - **Core Disciplines**: Digital Product Design, User Experience (UX) Design, User Interface (UI) Design, Product Engineering, Design Systems, Rapid Prototyping, Design Thinking, User Research, Wireframing, Usability Testing, Interaction Design, Frontend UI Development.
-- **Key Tools**: Figma, Next.js, TypeScript, Python/FastAPI, React, Framer, Claude Code, Codex, Miro, Adobe Illustrator, Photoshop, VS Code, Google AI Studio, Claude, Notion, Trello.
+- **Key Tools**: Figma, Next.js, TypeScript, React, Framer, Claude Code, Codex, Miro, Adobe Illustrator, Photoshop, VS Code, Google AI Studio, Claude, Notion, Trello.
 - **Domains & Industry Experience**: B2B & B2C SaaS, FinTech (cross-border payments, stablecoins), EdTech & Exam Prep platforms, Real Estate & Community Living Security Systems, Sports & Scouting Analytics, Travel & Service Marketplaces, Logistics & Fleet Tracking.
 - **Background**: Degree background in Electrical and Electronics Engineering, bringing strong analytical systems thinking, engineering logic, and pixel-precise visual craft to product design and frontend collaboration.
 
