@@ -38,6 +38,17 @@ import claudeLogo from "../assets/figma/claude.svg";
 import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
 import AiAsteriskIcon from "./components/AiAsteriskIcon";
+import stackNextjs from "../assets/stack/nextjs.svg";
+import stackTypescript from "../assets/stack/typescript.svg";
+import stackTailwind from "../assets/stack/tailwind.svg";
+import stackDrizzle from "../assets/stack/drizzle.svg";
+import stackCloudflare from "../assets/stack/cloudflare.svg";
+import stackGemini from "../assets/stack/gemini.svg";
+import stackVercel from "../assets/stack/vercel.svg";
+import stackAstro from "../assets/stack/astro.svg";
+import stackTurborepo from "../assets/stack/turborepo.svg";
+import HoverCursor from "./components/HoverCursor";
+import ProjectFolder from "./components/ProjectFolder";
 
 const portraitImage = "/avatar.webp";
 
@@ -86,6 +97,61 @@ const projects = [
     description:
       "Shipped an AI hiring OS with verified talent and scalable recruiter discovery.",
   },
+];
+
+// Projects tab: shown like the case studies, with a folder of phone screenshots
+// (3:4, in public/folders) and the tech stack in place of the cover image.
+const projectFolders = [
+  {
+    name: "Toraflare",
+    href: "https://toraflare.com",
+    tags: ["Fashion", "E-commerce", "Payments"],
+    description:
+      "Designed and built an online fashion store for made-to-order pieces, with checkout, order emails and an admin for the team.",
+    images: ["/folders/toraflare-1.webp", "/folders/toraflare-2.webp", "/folders/toraflare-3.webp"],
+    stack: [
+      { name: "Next.js", icon: stackNextjs },
+      { name: "TypeScript", icon: stackTypescript },
+      { name: "Tailwind CSS", icon: stackTailwind },
+      { name: "Drizzle", icon: stackDrizzle },
+      { name: "Cloudflare", icon: stackCloudflare },
+    ],
+  },
+  {
+    name: "ProductHub Africa",
+    href: "https://pha-pi.vercel.app",
+    tags: ["EdTech", "Community", "Web App"],
+    description:
+      "Designed and built the web app for a tech education community, from bootcamp sign-ups to course pages and facilitators.",
+    images: ["/folders/producthub-1.webp", "/folders/producthub-2.webp", "/folders/producthub-3.webp"],
+    stack: [
+      { name: "Next.js", icon: stackNextjs },
+      { name: "TypeScript", icon: stackTypescript },
+      { name: "Google Gemini", icon: stackGemini },
+      { name: "Vercel", icon: stackVercel },
+    ],
+  },
+  {
+    name: "Kilanra",
+    href: "https://kilanra.vercel.app",
+    tags: ["Marketplace", "Delivery", "Logistics"],
+    description:
+      "Designed and built a local commerce platform where customers order from nearby stores, vendors run their shops, and riders deliver.",
+    images: ["/folders/kilanra-1.webp", "/folders/kilanra-2.webp", "/folders/kilanra-3.webp"],
+    stack: [
+      { name: "Astro", icon: stackAstro },
+      { name: "Next.js", icon: stackNextjs },
+      { name: "TypeScript", icon: stackTypescript },
+      { name: "Turborepo", icon: stackTurborepo },
+      { name: "Vercel", icon: stackVercel },
+    ],
+  },
+];
+
+const workTabs = [
+  { id: "case-studies", label: "Case studies" },
+  { id: "projects", label: "Projects" },
+  { id: "shots", label: "Shots" },
 ];
 
 const tools = [
@@ -164,6 +230,7 @@ function ContributedProjects() {
                 return (
                 <ContributionTag
                   className="contribution-item"
+                  data-cursor={project.href ? "View project" : "In development"}
                   key={project.name}
                   {...(project.href ? { href: project.href, target: "_blank", rel: "noopener noreferrer", "aria-label": `Open ${project.name} in a new tab` } : {})}
                 >
@@ -201,20 +268,65 @@ function ContributedProjects() {
   );
 }
 
-function Project({ project }) {
+// Project thumbnail: a muted, looping video when the project has one (played only while
+// on screen, fading in over the still image), otherwise the image.
+function ProjectVisual({ project }) {
+  const videoRef = useRef(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const [reduceMotion] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+  const showVideo = Boolean(project.video) && !reduceMotion;
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [showVideo]);
+
+  const alt = `${project.name} product interface`;
+  if (!showVideo) return <img className="project-visual" src={project.image} alt={alt} />;
+
+  return (
+    <div className="project-visual project-visual-video">
+      <img src={project.image} alt={alt} />
+      <video
+        ref={videoRef}
+        className={isVideoReady ? "is-ready" : ""}
+        src={project.video}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        onLoadedData={() => setIsVideoReady(true)}
+        aria-hidden="true"
+      />
+    </div>
+  );
+}
+
+function Project({ project, visual, cursorLabel = "View case study" }) {
+  const resetTilt = (event) => {
+    event.currentTarget.style.setProperty("--tilt-y", "0deg");
+    event.currentTarget.style.setProperty("--tilt-x", "0deg");
+  };
+
   const handlePointerMove = (event) => {
     const card = event.currentTarget;
     const bounds = card.getBoundingClientRect();
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
 
-    card.style.setProperty("--tilt-y", `${(x * 4).toFixed(2)}deg`);
-    card.style.setProperty("--tilt-x", `${(-y * 2.8).toFixed(2)}deg`);
-  };
-
-  const resetTilt = (event) => {
-    event.currentTarget.style.setProperty("--tilt-y", "0deg");
-    event.currentTarget.style.setProperty("--tilt-x", "0deg");
+    card.style.setProperty("--tilt-y", `${(x * 1.6).toFixed(2)}deg`);
+    card.style.setProperty("--tilt-x", `${(-y * 1.1).toFixed(2)}deg`);
   };
 
   const Card = project.href ? "a" : "article";
@@ -222,7 +334,9 @@ function Project({ project }) {
   return (
     <Card
       className="project-card"
+      data-cursor={cursorLabel}
       href={project.href}
+      {...(project.href?.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       aria-label={project.href ? (project.href.startsWith("http") ? `Open ${project.name} website` : `View ${project.name} case study`) : undefined}
       onPointerMove={handlePointerMove}
       onPointerLeave={resetTilt}
@@ -238,11 +352,7 @@ function Project({ project }) {
         </div>
         <p>{project.description}</p>
       </div>
-      <img
-        className="project-visual"
-        src={project.image}
-        alt={`${project.name} product interface`}
-      />
+      {visual || <ProjectVisual project={project} />}
     </Card>
   );
 }
@@ -289,7 +399,7 @@ function App() {
     };
   }, [path]);
 
-  const [activeWork, setActiveWork] = useState("projects");
+  const [activeWork, setActiveWork] = useState("case-studies");
   const [tabsStuck, setTabsStuck] = useState(false);
   const tabsSentinelRef = useRef(null);
   useEffect(() => {
@@ -601,6 +711,7 @@ function App() {
   return (
     <>
       {topProgressBar}
+      <HoverCursor />
       <AnimatePresence onExitComplete={() => setIsPreloaderDone(true)}>
         {showPreloader && (
           <FullScreenPreloader key="portfolio-preloader" onComplete={dismissPreloader} />
@@ -729,52 +840,50 @@ function App() {
                 <div ref={tabsSentinelRef} className="work-tabs-sentinel" aria-hidden="true" />
                 <div className={`work-tabs-bar${tabsStuck ? " is-stuck" : ""}`}>
                   <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
-                    <button
-                      type="button"
-                      role="tab"
-                      aria-selected={activeWork === "projects"}
-                      className={activeWork === "projects" ? "is-selected" : ""}
-                      onClick={() => {
-                        setActiveWork("projects");
-                        closeLightbox();
-                      }}
-                    >
-                      Projects
-                    </button>
-                    <button
-                      type="button"
-                      role="tab"
-                      aria-selected={activeWork === "shots"}
-                      className={activeWork === "shots" ? "is-selected" : ""}
-                      onClick={() => {
-                        setActiveWork("shots");
-                        requestAnimationFrame(() => {
-                          const grid = document.querySelector(".shots-grid");
-                          if (grid && window.matchMedia("(max-width: 767px)").matches) {
-                            // Land on the first shot, just below the fixed header and sticky tabs.
-                            const header = document.querySelector(".mobile-header")?.offsetHeight ?? 0;
-                            const tabs = 49; // height of the tab bar once stuck
-                            const top = grid.getBoundingClientRect().top + window.scrollY - header - tabs - 16;
-                            window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
-                          } else {
-                            window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-                          }
-                        });
-                      }}
-                    >
-                      Shots
-                    </button>
+                    {workTabs.map((tab) => (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={activeWork === tab.id}
+                        className={activeWork === tab.id ? "is-selected" : ""}
+                        onClick={() => {
+                          setActiveWork(tab.id);
+                          closeLightbox();
+                          if (tab.id !== "shots") return;
+                          requestAnimationFrame(() => {
+                            const grid = document.querySelector(".shots-grid");
+                            if (grid && window.matchMedia("(max-width: 767px)").matches) {
+                              // Land on the first shot, just below the fixed header and sticky tabs.
+                              const header = document.querySelector(".mobile-header")?.offsetHeight ?? 0;
+                              const tabs = 49; // height of the tab bar once stuck
+                              const top = grid.getBoundingClientRect().top + window.scrollY - header - tabs - 16;
+                              window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
+                            } else {
+                              window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+                            }
+                          });
+                        }}
+                      >
+                        {tab.label}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
                 <section className="projects" id="work" aria-label="Selected projects">
-                  {activeWork === "projects" ? (
+                  {activeWork === "case-studies" ? (
                     projects.map((project) => <Project key={project.name} project={project} />)
+                  ) : activeWork === "projects" ? (
+                    projectFolders.map((project) => (
+                      <Project key={project.name} project={project} cursorLabel="View project" visual={<ProjectFolder project={project} />} />
+                    ))
                   ) : (
                     <div className="shots-grid" role="tabpanel" aria-label="Design shots">
                       {shots.map((image, index) => (
                         <button
                           className="shot-card"
+                          data-cursor="View image"
                           key={image}
                           type="button"
                           aria-label={`Open portfolio design shot ${index + 1}`}
