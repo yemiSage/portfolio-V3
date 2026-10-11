@@ -60,7 +60,7 @@ export default function FullScreenPreloader({ onComplete, isInitial = true }) {
         window.clearInterval(typingInterval);
         setIsFinishedTyping(true);
       }
-    }, 45);
+    }, 22);
 
     return () => window.clearInterval(typingInterval);
   }, [activeQuote]);
@@ -68,9 +68,16 @@ export default function FullScreenPreloader({ onComplete, isInitial = true }) {
   useEffect(() => {
     if (!isFinishedTyping) return undefined;
 
-    const dismissalTimer = window.setTimeout(onComplete, 800);
+    const dismissalTimer = window.setTimeout(onComplete, 350);
     return () => window.clearTimeout(dismissalTimer);
   }, [isFinishedTyping, onComplete]);
+
+  // Let visitors skip the intro with any click, tap, key, or scroll.
+  useEffect(() => {
+    const skipEvents = ["pointerdown", "keydown", "wheel", "touchmove"];
+    skipEvents.forEach((eventName) => window.addEventListener(eventName, onComplete, { once: true, passive: true }));
+    return () => skipEvents.forEach((eventName) => window.removeEventListener(eventName, onComplete));
+  }, [onComplete]);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -95,7 +102,7 @@ export default function FullScreenPreloader({ onComplete, isInitial = true }) {
       className="preloader"
       initial={isInitial ? { y: 0 } : false}
       exit={{ y: "-100%" }}
-      transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+      transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
       aria-label="Opening portfolio"
     >
       <p className="preloader-accessible-copy" aria-live="polite">

@@ -20,11 +20,11 @@ import tasafricaImage from "../assets/figma/tasafrica.webp";
 import limestoneImage from "../assets/figma/limestone.webp";
 import xeruitImage from "../assets/figma/xeruit.webp";
 import figmaLogo from "../assets/figma/figma.svg";
-import htmlCssLogo from "../assets/figma/html-css.svg";
-import wordpressLogo from "../assets/figma/wordpress.svg";
+import nextjsLogo from "../assets/figma/nextjs.svg";
+import typescriptLogo from "../assets/figma/typescript.svg";
+import fastapiLogo from "../assets/figma/fastapi.svg";
 import miroLogo from "../assets/figma/miro.svg";
 import illustratorLogo from "../assets/figma/adobe-illustrator.svg";
-import msSuiteLogo from "../assets/figma/ms-suite.svg";
 import photoshopLogo from "../assets/figma/photoshop.svg";
 import notionLogo from "../assets/figma/notion.svg";
 import trelloLogo from "../assets/figma/trello.svg";
@@ -39,12 +39,23 @@ import AiAsteriskIcon from "./components/AiAsteriskIcon";
 
 const portraitImage = "/avatar.webp";
 
+// The intro quote only plays on a visitor's first visit.
+const PRELOADER_SEEN_KEY = "portfolio-preloader-seen";
+
+function hasSeenPreloader() {
+  try {
+    return localStorage.getItem(PRELOADER_SEEN_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
 const introSegments = [
   {
-    text: "Hi, I am Yemi, a product designer for business and enterprise products.",
+    text: "Hi, I am Yemi. I design and build B2B SaaS, marketplace and AI products, from the first flow in Figma to production code.",
   },
   {
-    text: "I design clear, intentional experiences for complex products, from B2B, B2C and SaaS platforms to marketplaces, AI-integrated systems, and operational products, balancing user needs with business goals.",
+    text: "I ship with Next.js, TypeScript and Python/FastAPI, working alongside Claude Code and Codex, so the products I design reach users the way they were meant to work.",
   },
 ];
 
@@ -81,11 +92,11 @@ const tools = [
   ["Antigravity", antigravityLogo],
   ["Codex", codexLogo],
   ["Claude", claudeLogo],
-  ["HTML and CSS", htmlCssLogo],
-  ["Wordpress", wordpressLogo],
+  ["Next.js", nextjsLogo],
+  ["TypeScript", typescriptLogo],
+  ["Python / FastAPI", fastapiLogo],
   ["Miro", miroLogo],
   ["Adobe Illustrator", illustratorLogo],
-  ["MS Suite", msSuiteLogo],
   ["Photoshop", photoshopLogo],
   ["Notion", notionLogo],
   ["Trello", trelloLogo],
@@ -135,7 +146,7 @@ function ContributedProjects() {
   return (
     <section className="contributed-projects" aria-labelledby="contributed-projects-heading">
       <div className="section-intro">
-        <h2 id="contributed-projects-heading">Other project I contributed to</h2>
+        <h2 id="contributed-projects-heading">Other projects I contributed to</h2>
         <p>{contributedProjectDescription}</p>
       </div>
 
@@ -292,10 +303,10 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
   const [showPreloader, setShowPreloader] = useState(() => {
-    return !isResumePage && sessionStorage.getItem("portfolio-preloader-seen") !== "true";
+    return !isResumePage && !hasSeenPreloader();
   });
   const [isPreloaderDone, setIsPreloaderDone] = useState(() => {
-    return isResumePage || sessionStorage.getItem("portfolio-preloader-seen") === "true";
+    return isResumePage || hasSeenPreloader();
   });
   const [isInitialReady, setIsInitialReady] = useState(false);
 
@@ -314,10 +325,19 @@ function App() {
 
   useEffect(() => {
     if (!showPreloader && !isPreloaderDone) {
-      const timer = setTimeout(() => setIsPreloaderDone(true), 1300);
+      const timer = setTimeout(() => setIsPreloaderDone(true), 900);
       return () => clearTimeout(timer);
     }
   }, [showPreloader, isPreloaderDone]);
+
+  const dismissPreloader = useCallback(() => {
+    try {
+      localStorage.setItem(PRELOADER_SEEN_KEY, "true");
+    } catch {
+      // Storage can be blocked; the intro then simply shows again next visit.
+    }
+    setShowPreloader(false);
+  }, []);
 
   const isSiteLoading = !isInitialReady || !isPreloaderDone || showPreloader || isTransitioning;
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -579,7 +599,7 @@ function App() {
       {topProgressBar}
       <AnimatePresence onExitComplete={() => setIsPreloaderDone(true)}>
         {showPreloader && (
-          <FullScreenPreloader key="portfolio-preloader" onComplete={() => { sessionStorage.setItem("portfolio-preloader-seen", "true"); setShowPreloader(false); }} />
+          <FullScreenPreloader key="portfolio-preloader" onComplete={dismissPreloader} />
         )}
       </AnimatePresence>
 
@@ -654,7 +674,7 @@ function App() {
               <div className="intro-stack" id="about">
                 <div className="intro-copy">
                   <div className="intro-heading">
-                    <p className="greeting">Need a Professional</p>
+                    <p className="greeting">Opeyemi Adegboye</p>
                     <h1>
                       <ScrambleText text="Design Engineer, Product & AI" active={!isSiteLoading} />
                     </h1>
@@ -776,8 +796,8 @@ function App() {
                   <div className="section-intro">
                     <h2 id="toolbox-heading">My Tool Box</h2>
                     <p>
-                      Over the course of four years now, i have found myself using these tools and making them
-                      part of my day to day activities.
+                      The tools I use every day to design, prototype and ship production code, refined over four
+                      years of product work.
                     </p>
                   </div>
                   <ul className="tool-grid">
@@ -789,14 +809,13 @@ function App() {
 
                 <footer className="footer">
                   <p className="footer-statement">
-                    Define purpose, <em>solve problems,</em> set scope and <em>achieve goals</em> - let&apos;s
-                    make magic together
+                    Define purpose, <em>solve problems,</em> set scope and <em>ship it</em> - let&apos;s
+                    build something together
                   </p>
                   <nav className="footer-nav" aria-label="Footer navigation">
                     <h2>Explore</h2>
                     <div className="footer-links">
                       <div>
-                        <a href={homeAnchorHref("#top")}>Articles</a>
                         <a href={homeAnchorHref("#work")}>Projects</a>
                         <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
                       </div>
