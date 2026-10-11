@@ -3,7 +3,7 @@
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { YEMI_SYSTEM_INSTRUCTION, cleanChatOutput, getSmartPortfolioReply } from "./chatKnowledge.js";
 import { retrieveRelevantContext } from "./ragServer.js";
-import { getGroqModels, groqJson, streamGroqChat, type GroqMessage } from "./groqClient.js";
+import { GROQ_MAX_COMPLETION_TOKENS, getGroqModels, groqJson, streamGroqChat, type GroqMessage } from "./groqClient.js";
 
 // Tried in order. "gemini-flash-latest" is Google's maintained alias for the current Flash
 // model, so it goes first. Flash is on the free tier; Pro models need a paid key.
@@ -185,7 +185,7 @@ export async function* streamChatReply(
       try {
         const iterator = streamGroqChat(groqKey, model, messages, {
           temperature: 0.8,
-          maxTokens: MAX_OUTPUT_TOKENS,
+          maxTokens: GROQ_MAX_COMPLETION_TOKENS,
           signal: controller.signal,
         })[Symbol.asyncIterator]();
         while (true) {
@@ -433,7 +433,7 @@ export async function generateSuggestions(body: ChatRequestBody, client?: Pick<G
               { role: "system", content: `${SUGGEST_INSTRUCTION}\nWrap the array in a JSON object: {"questions": [...]}.` },
               { role: "user", content: prompt },
             ],
-            { temperature: 0.9, maxTokens: 600 }
+            { temperature: 0.9, maxTokens: 512 }
           ),
           SUGGEST_TIMEOUT_MS,
           model

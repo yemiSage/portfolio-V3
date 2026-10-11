@@ -3,9 +3,14 @@
 
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
-// Tried in order. GPT-OSS 120B is the strongest model on Groq's free tier; Llama 3.3 70B
-// is the fallback. Override with a comma-separated GROQ_MODELS env var.
-const DEFAULT_GROQ_MODELS = ["openai/gpt-oss-120b", "llama-3.3-70b-versatile"];
+// Tried in order, from the chat models on this account's free tier (each has its own
+// limits: 30 requests/min, 1K/day, 8K tokens/min). Override with a comma-separated
+// GROQ_MODELS env var.
+const DEFAULT_GROQ_MODELS = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"];
+
+// Groq counts the prompt plus this reply allowance against the 8K tokens/min limit, and
+// the system prompt alone is about 5K tokens, so the allowance stays small.
+export const GROQ_MAX_COMPLETION_TOKENS = 1024;
 
 export type GroqMessage = { role: "system" | "user" | "assistant"; content: string };
 
@@ -17,10 +22,12 @@ export function getGroqModels(): string[] {
   return fromEnv.length ? fromEnv : DEFAULT_GROQ_MODELS;
 }
 
-// GPT-OSS models reason before answering; a low effort keeps replies quick. Other models
-// reject the setting, so it is only sent to GPT-OSS.
+// GPT-OSS models reason before answering; a low effort keeps replies quick. Qwen writes
+// its reasoning into the reply unless told to hide it.
 function reasoningFor(model: string) {
-  return /gpt-oss/i.test(model) ? { reasoning_effort: "low" } : {};
+  if (/gpt-oss/i.test(model)) return { reasoning_effort: "low" };
+  if (/qwen/i.test(model)) return { reasoning_format: "hidden" };
+  return {};
 }
 
 function requestInit(apiKey: string, payload: Record<string, unknown>, signal?: AbortSignal): RequestInit {
