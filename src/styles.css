@@ -811,6 +811,25 @@ body.is-preloading .ask-yemi-fab,
     /* overlap the header by 1px so the two blurred layers read as one */
     top: 67px;
   }
+
+  .work-tabs-bar:not(.is-stuck) .work-toggle {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .work-tabs-bar:not(.is-stuck) .work-toggle button {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 8px;
+  }
+
+  .project-card .project-copy {
+    row-gap: 12px;
+  }
+
+  .project-card--folder .project-folder {
+    order: -1;
+  }
 }
 
 .work-tabs-bar.is-stuck {
