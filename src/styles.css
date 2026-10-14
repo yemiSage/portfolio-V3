@@ -5288,6 +5288,19 @@ body.iab-open .ask-yemi-fab {
   align-self: center;
   width: 100%;
   min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-folder:focus-visible,
+.project-card--folder .project-copy h3 a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.project-card--folder .project-copy h3 a {
+  color: inherit;
+  text-decoration: none;
 }
 
 .folder-stage {
@@ -5307,7 +5320,7 @@ body.iab-open .ask-yemi-fab {
 }
 
 .folder-back path {
-  fill: #e3e6ea;
+  fill: #f7f7f7;
 }
 
 .folder-front {
@@ -5316,7 +5329,7 @@ body.iab-open .ask-yemi-fab {
 }
 
 .folder-front path {
-  fill: #f6f7f9;
+  fill: #f7f7f7;
   stroke: #dfe2e6;
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
@@ -5369,22 +5382,22 @@ body.iab-open .ask-yemi-fab {
 }
 
 .project-card:hover .project-folder .folder-sheet-1,
-.project-card:focus-visible .project-folder .folder-sheet-1 {
+.project-card:focus-within .project-folder .folder-sheet-1 {
   transform: translate(-3%, -5%) rotate(-10deg);
 }
 
 .project-card:hover .project-folder .folder-sheet-2,
-.project-card:focus-visible .project-folder .folder-sheet-2 {
+.project-card:focus-within .project-folder .folder-sheet-2 {
   transform: translateY(-6%);
 }
 
 .project-card:hover .project-folder .folder-sheet-3,
-.project-card:focus-visible .project-folder .folder-sheet-3 {
+.project-card:focus-within .project-folder .folder-sheet-3 {
   transform: translate(3%, -5%) rotate(10deg);
 }
 
 .project-card:hover .project-folder .folder-front,
-.project-card:focus-visible .project-folder .folder-front {
+.project-card:focus-within .project-folder .folder-front {
   transform: translateY(1%);
 }
 
@@ -5399,28 +5412,27 @@ body.iab-open .ask-yemi-fab {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
   transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .folder-stack li {
-  width: 34px;
-  height: 34px;
+  min-height: 28px;
+  padding: 5px 7px;
   border: 1px solid #dfe2e6;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #ffffff;
-  display: grid;
-  place-items: center;
-}
-
-.folder-stack img {
-  width: 18px;
-  height: 18px;
-  display: block;
+  display: flex;
+  align-items: center;
+  color: #333232;
+  font-size: clamp(9px, 0.8vw, 11px);
+  line-height: 1.2;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .project-card:hover .project-folder .folder-stack,
-.project-card:focus-visible .project-folder .folder-stack {
+.project-card:focus-within .project-folder .folder-stack {
   transform: translateY(2px);
 }
 
@@ -5444,13 +5456,13 @@ body.iab-open .ask-yemi-fab {
 }
 
 .project-card:hover .project-folder .folder-arrow,
-.project-card:focus-visible .project-folder .folder-arrow {
+.project-card:focus-within .project-folder .folder-arrow {
   background: var(--accent);
   transform: translateY(2px);
 }
 
 .project-card:hover .project-folder .folder-arrow svg,
-.project-card:focus-visible .project-folder .folder-arrow svg {
+.project-card:focus-within .project-folder .folder-arrow svg {
   transform: translate(1px, -1px);
 }
 

@@ -38,15 +38,6 @@ import claudeLogo from "../assets/figma/claude.svg";
 import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
 import AiAsteriskIcon from "./components/AiAsteriskIcon";
-import stackNextjs from "../assets/stack/nextjs.svg";
-import stackTypescript from "../assets/stack/typescript.svg";
-import stackTailwind from "../assets/stack/tailwind.svg";
-import stackDrizzle from "../assets/stack/drizzle.svg";
-import stackCloudflare from "../assets/stack/cloudflare.svg";
-import stackGemini from "../assets/stack/gemini.svg";
-import stackVercel from "../assets/stack/vercel.svg";
-import stackAstro from "../assets/stack/astro.svg";
-import stackTurborepo from "../assets/stack/turborepo.svg";
 import HoverCursor from "./components/HoverCursor";
 import ProjectFolder from "./components/ProjectFolder";
 
@@ -109,13 +100,7 @@ const projectFolders = [
     description:
       "Designed and built an online fashion store for made-to-order pieces, with checkout, order emails and an admin for the team.",
     images: ["/folders/toraflare-1.webp", "/folders/toraflare-2.webp", "/folders/toraflare-3.webp"],
-    stack: [
-      { name: "Next.js", icon: stackNextjs },
-      { name: "TypeScript", icon: stackTypescript },
-      { name: "Tailwind CSS", icon: stackTailwind },
-      { name: "Drizzle", icon: stackDrizzle },
-      { name: "Cloudflare", icon: stackCloudflare },
-    ],
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Drizzle", "Cloudflare"],
   },
   {
     name: "ProductHub Africa",
@@ -124,12 +109,7 @@ const projectFolders = [
     description:
       "Designed and built the web app for a tech education community, from bootcamp sign-ups to course pages and facilitators.",
     images: ["/folders/producthub-1.webp", "/folders/producthub-2.webp", "/folders/producthub-3.webp"],
-    stack: [
-      { name: "Next.js", icon: stackNextjs },
-      { name: "TypeScript", icon: stackTypescript },
-      { name: "Google Gemini", icon: stackGemini },
-      { name: "Vercel", icon: stackVercel },
-    ],
+    stack: ["Next.js", "TypeScript", "Google Gemini", "Vercel"],
   },
   {
     name: "Kilanra",
@@ -138,13 +118,7 @@ const projectFolders = [
     description:
       "Designed and built a local commerce platform where customers order from nearby stores, vendors run their shops, and riders deliver.",
     images: ["/folders/kilanra-1.webp", "/folders/kilanra-2.webp", "/folders/kilanra-3.webp"],
-    stack: [
-      { name: "Astro", icon: stackAstro },
-      { name: "Next.js", icon: stackNextjs },
-      { name: "TypeScript", icon: stackTypescript },
-      { name: "Turborepo", icon: stackTurborepo },
-      { name: "Vercel", icon: stackVercel },
-    ],
+    stack: ["Astro", "Next.js", "TypeScript", "Turborepo", "Vercel"],
   },
 ];
 
@@ -329,21 +303,26 @@ function Project({ project, visual, cursorLabel = "View case study" }) {
     card.style.setProperty("--tilt-x", `${(-y * 1.1).toFixed(2)}deg`);
   };
 
-  const Card = project.href ? "a" : "article";
+  const isFolderProject = Boolean(visual);
+  const Card = project.href && !isFolderProject ? "a" : "article";
 
   return (
     <Card
-      className="project-card"
-      data-cursor={cursorLabel}
-      href={project.href}
-      {...(project.href?.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      aria-label={project.href ? (project.href.startsWith("http") ? `Open ${project.name} website` : `View ${project.name} case study`) : undefined}
+      className={`project-card${isFolderProject ? " project-card--folder" : ""}`}
+      {...(!isFolderProject ? {
+        "data-cursor": cursorLabel,
+        href: project.href,
+        ...(project.href?.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {}),
+        "aria-label": project.href ? (project.href.startsWith("http") ? `Open ${project.name} website` : `View ${project.name} case study`) : undefined,
+      } : {})}
       onPointerMove={handlePointerMove}
       onPointerLeave={resetTilt}
     >
       <div className="project-copy">
         <div>
-          <h3>{project.name}</h3>
+          <h3>{isFolderProject ? (
+            <a href={project.href} target="_blank" rel="noopener noreferrer">{project.name}</a>
+          ) : project.name}</h3>
           <div className="project-tags" aria-label="Project categories">
             {project.tags.map((tag) => (
               <span key={tag}>{tag}</span>
