@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import initialContributions from "../data/githubContributionsInitial.json";
 
 // Standard GitHub 5-level green color palette matching GitHub profile
 const LEVEL_COLORS = {
@@ -11,29 +10,46 @@ const LEVEL_COLORS = {
 };
 
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const LOADING_WEEKS = Array.from({ length: 22 }, () => Array(7).fill(null));
+
+function hasCalendarData(data) {
+  return Boolean(data && Array.isArray(data.weeks) && data.weeks.some((week) => Array.isArray(week) && week.some(Boolean)));
+}
 
 export default function GithubContributionGraph({
   initialData,
   username = "yemiSage",
   profileUrl = "https://github.com/yemiSage",
 }) {
-  // Initialize with baked-in authentic GitHub data so there is zero flash or blank state on live site
-  const [calendar, setCalendar] = useState(() => initialData || initialContributions || null);
+  // Never paint a baked contribution snapshot as live data. A stale snapshot creates
+  // a convincing but incorrect first render while the current request is in flight.
+  const [calendar, setCalendar] = useState(() => (hasCalendarData(initialData) ? initialData : null));
+  const [syncStatus, setSyncStatus] = useState(() => (hasCalendarData(initialData) ? "ready" : "syncing"));
   const [activeTooltip, setActiveTooltip] = useState(null);
-  const [lastUpdated, setLastUpdated] = useState(() => new Date());
+  const [lastUpdated, setLastUpdated] = useState(() => (hasCalendarData(initialData) ? new Date() : null));
+
+  useEffect(() => {
+    if (!hasCalendarData(initialData)) return;
+    setCalendar((current) => current || initialData);
+    setSyncStatus("ready");
+    setLastUpdated((current) => current || new Date());
+  }, [initialData]);
 
   // Fetch live contributions with dual-tier fallback: backend endpoint + public CORS GitHub API
   const fetchCalendar = useCallback(async (force = false) => {
+    setSyncStatus((current) => (current === "ready" ? current : "syncing"));
+
     // Tier 1: Try local backend route
     try {
       const url = force ? "/api/github-contributions?refresh=true" : "/api/github-contributions";
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
-        if (data && Array.isArray(data.weeks) && data.weeks.length > 0) {
+        if (hasCalendarData(data)) {
           setCalendar(data);
+          setSyncStatus("ready");
           setLastUpdated(new Date());
-          return;
+          return true;
         }
       }
     } catch {
@@ -58,6 +74,7 @@ export default function GithubContributionGraph({
             }
             currentWeek.push({
               date: item.date,
+              count: item.count,
               level: item.level || 0,
               tooltip:
                 item.count === 0
@@ -71,16 +88,21 @@ export default function GithubContributionGraph({
           }
           if (weeks.length > 0) {
             setCalendar({
-              totalContributions: data.total?.lastYear || 80,
+              totalContributions: data.total?.lastYear ?? 0,
               weeks: weeks.slice(-22),
             });
+            setSyncStatus("ready");
             setLastUpdated(new Date());
+            return true;
           }
         }
       }
     } catch {
-      // Gracefully retain existing authentic calendar data
+      // Gracefully retain the most recent validated calendar data.
     }
+
+    setSyncStatus((current) => (current === "ready" ? current : "unavailable"));
+    return false;
   }, [username]);
 
   // Initial live check
@@ -114,22 +136,27 @@ export default function GithubContributionGraph({
     };
   }, [fetchCalendar, lastUpdated]);
 
-  const allWeeks = calendar?.weeks || initialContributions?.weeks || [];
+  const allWeeks = calendar?.weeks || [];
   // Slice to exactly the last 5 months (~22 weeks)
   const displayedWeeks = useMemo(() => {
-    if (!allWeeks || allWeeks.length === 0) return initialContributions?.weeks || [];
+    if (!allWeeks || allWeeks.length === 0) return [];
     return allWeeks.length > 22 ? allWeeks.slice(-22) : allWeeks;
   }, [allWeeks]);
+  const renderedWeeks = displayedWeeks.length > 0 ? displayedWeeks : LOADING_WEEKS;
 
   // Calculate contributions specifically in these last 5 months directly from GitHub's data
   const fiveMonthContributions = useMemo(() => {
-    if (!displayedWeeks || displayedWeeks.length === 0) return 80;
+    if (!displayedWeeks || displayedWeeks.length === 0) return null;
     let sum = 0;
     displayedWeeks.flat().filter(Boolean).forEach((day) => {
-      const match = day.tooltip?.match(/(\d+)\s+contribution/);
-      if (match) sum += parseInt(match[1], 10);
+      if (Number.isFinite(day.count)) {
+        sum += day.count;
+        return;
+      }
+      const match = day.tooltip?.match(/([\d,]+)\s+contribution/i);
+      if (match) sum += parseInt(match[1].replace(/,/g, ""), 10);
     });
-    return sum > 0 ? sum : 80;
+    return sum;
   }, [displayedWeeks]);
 
   // Compute 5 distinct month labels (May, Jun, Jul, Aug, Sep) across the 22 weeks
@@ -158,18 +185,10 @@ export default function GithubContributionGraph({
       }
     });
 
-    if (labels.length === 0) {
-      const fallbackMonths = ["May", "Jun", "Jul", "Aug", "Sep"];
-      return fallbackMonths.map((name, i) => ({
-        name,
-        x: 24 + i * 58,
-      }));
-    }
-
     return labels;
   }, [displayedWeeks]);
 
-  const totalCols = displayedWeeks.length;
+  const totalCols = renderedWeeks.length;
   // SVG dimensions for 22 weeks: 24px label spacer + 22 cols * 13px + 4px padding = 314px
   const svgWidth = 24 + totalCols * 13 + 4;
   const svgHeight = 108;
@@ -179,12 +198,16 @@ export default function GithubContributionGraph({
       {/* Top Header */}
       <div className="github-contrib-header">
         <h3 className="github-contrib-title">
-          <span className="github-contrib-count">{fiveMonthContributions}</span> contributions in the last 5 months
+          {fiveMonthContributions === null ? (
+            syncStatus === "unavailable" ? "GitHub contributions unavailable" : "Syncing GitHub contributions…"
+          ) : (
+            <><span className="github-contrib-count">{fiveMonthContributions}</span> contributions in the last 5 months</>
+          )}
         </h3>
       </div>
 
       {/* Main Card with Normal Vector Scaling (Last 5 Months) */}
-      <div className="github-contrib-card">
+      <div className="github-contrib-card" aria-busy={syncStatus === "syncing"}>
         <div className="github-contrib-svg-wrapper">
           <svg
             className="github-contrib-svg"
@@ -192,7 +215,9 @@ export default function GithubContributionGraph({
             width="100%"
             preserveAspectRatio="xMinYMin meet"
             role="img"
-            aria-label={`GitHub contribution calendar for ${username}: ${fiveMonthContributions} contributions in the last 5 months`}
+            aria-label={fiveMonthContributions === null
+              ? `GitHub contribution calendar for ${username} is ${syncStatus}`
+              : `GitHub contribution calendar for ${username}: ${fiveMonthContributions} contributions in the last 5 months`}
           >
             {/* Month Labels along top */}
             <g className="github-contrib-months">
@@ -243,13 +268,29 @@ export default function GithubContributionGraph({
 
             {/* Contribution Cells Grid: 22 weeks x 7 days */}
             <g className="github-contrib-cells">
-              {displayedWeeks.map((week, wIdx) => {
+              {renderedWeeks.map((week, wIdx) => {
                 const colX = 24 + wIdx * 13;
                 return (
                   <g key={`w-${wIdx}`} className="github-contrib-week-group">
                     {week.map((day, dIdx) => {
-                      if (!day) return null;
                       const rowY = 16 + dIdx * 13;
+                      if (!day) {
+                        if (displayedWeeks.length > 0) return null;
+                        return (
+                          <rect
+                            key={`loading-cell-${wIdx}-${dIdx}`}
+                            x={colX}
+                            y={rowY}
+                            width="10"
+                            height="10"
+                            rx="2"
+                            ry="2"
+                            fill={LEVEL_COLORS[0]}
+                            className="github-contrib-rect github-contrib-rect--loading"
+                            aria-hidden="true"
+                          />
+                        );
+                      }
                       const color = LEVEL_COLORS[day.level] || LEVEL_COLORS[0];
                       const tooltipText = day.tooltip || (day.date ? `${day.date}: Level ${day.level}` : "No contributions");
 

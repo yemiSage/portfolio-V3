@@ -113,6 +113,7 @@ async function fetchContributionsFromGraphQL(username: string) {
       for (const day of week.contributionDays) {
         days[day.weekday] = {
           date: day.date,
+          count: day.contributionCount,
           level: CONTRIBUTION_LEVELS[day.contributionLevel] ?? 0,
           tooltip: contributionTooltip(day.date, day.contributionCount),
           dayOfWeek: day.weekday,
@@ -176,7 +177,9 @@ export async function fetchContributionsData(username = GITHUB_USERNAME) {
         const idMatch = raw.match(/id="([^"]+)"/);
         const id = idMatch ? idMatch[1] : "";
         const tooltip = tooltipMap.get(id) || "";
-        days.push({ date, level, tooltip, dayOfWeek });
+        const countMatch = tooltip.match(/([\d,]+)\s+contribution/i);
+        const count = countMatch ? parseInt(countMatch[1].replace(/,/g, ""), 10) : 0;
+        days.push({ date, count, level, tooltip, dayOfWeek });
       }
       return days;
     });
@@ -372,9 +375,10 @@ export async function getGithubContributions(forceRefresh = false) {
   }
 
   return {
-    totalContributions: 78,
+    totalContributions: 0,
     months: [],
     weeks: [],
     isCached: false,
+    unavailable: true,
   };
 }
