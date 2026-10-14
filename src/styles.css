@@ -2273,6 +2273,10 @@ a.contribution-item {
     max-width: none;
   }
 
+  .section-intro {
+    row-gap: 8px;
+  }
+
   .contributed-projects {
     padding-top: 0;
     padding-bottom: 120px;
