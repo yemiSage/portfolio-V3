@@ -5480,7 +5480,7 @@ body.iab-open .ask-yemi-fab {
   gap: 4px;
   color: #333232;
   font-size: clamp(9px, 0.8vw, 11px);
-  line-height: 1.2;
+  line-height: 13px;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -5489,7 +5489,13 @@ body.iab-open .ask-yemi-fab {
   width: 13px;
   height: 13px;
   flex: none;
+  display: block;
   object-fit: contain;
+}
+
+.folder-stack li span {
+  display: block;
+  line-height: 13px;
 }
 
 .project-card:hover .project-folder .folder-stack,

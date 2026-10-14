@@ -65,7 +65,7 @@ export default function ProjectFolder({ project }) {
           {project.stack.map((tool) => (
             <li key={tool}>
               <img src={stackIcons[tool]} alt="" aria-hidden="true" />
-              {tool}
+              <span>{tool}</span>
             </li>
           ))}
         </ul>
