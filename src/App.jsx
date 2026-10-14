@@ -829,18 +829,14 @@ function App() {
                         onClick={() => {
                           setActiveWork(tab.id);
                           closeLightbox();
-                          if (tab.id !== "shots") return;
                           requestAnimationFrame(() => {
-                            const grid = document.querySelector(".shots-grid");
-                            if (grid && window.matchMedia("(max-width: 767px)").matches) {
-                              // Land on the first shot, just below the fixed header and sticky tabs.
-                              const header = document.querySelector(".mobile-header")?.offsetHeight ?? 0;
-                              const tabs = 49; // height of the tab bar once stuck
-                              const top = grid.getBoundingClientRect().top + window.scrollY - header - tabs - 16;
-                              window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
-                            } else {
-                              window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-                            }
+                            const sentinel = tabsSentinelRef.current;
+                            if (!sentinel) return;
+                            const mobile = window.matchMedia("(max-width: 767px)").matches;
+                            const headerHeight = mobile ? document.querySelector(".mobile-header")?.offsetHeight ?? 0 : 0;
+                            // Place the tabs directly below the mobile header, with the first item visible beneath them.
+                            const top = sentinel.getBoundingClientRect().top + window.scrollY - headerHeight + 1;
+                            window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
                           });
                         }}
                       >
