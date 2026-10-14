@@ -11,6 +11,8 @@ const FRAME_BLOCKED = [
   "x.com",
   "twitter.com",
   "facebook.com",
+  "toraflare.com",
+  "kilanra.vercel.app",
 ];
 
 const isFrameBlocked = (url) => {
@@ -25,9 +27,46 @@ export default function InAppBrowser() {
   const [target, setTarget] = useState(null);
   const [loading, setLoading] = useState(true);
   const [reloadKey, setReloadKey] = useState(0);
+  const [dragY, setDragY] = useState(0);
+  const [hasDragged, setHasDragged] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const closeRef = useRef(null);
+  const dragStartRef = useRef(null);
 
-  const close = useCallback(() => setTarget(null), []);
+  const close = useCallback(() => {
+    setTarget(null);
+    setDragY(0);
+    setHasDragged(false);
+    setIsDragging(false);
+    dragStartRef.current = null;
+  }, []);
+
+  const onGripPointerDown = (event) => {
+    dragStartRef.current = { pointerId: event.pointerId, y: event.clientY };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setHasDragged(true);
+    setIsDragging(true);
+  };
+
+  const onGripPointerMove = (event) => {
+    if (dragStartRef.current?.pointerId !== event.pointerId) return;
+    setDragY(Math.max(0, event.clientY - dragStartRef.current.y));
+  };
+
+  const onGripPointerUp = (event) => {
+    if (dragStartRef.current?.pointerId !== event.pointerId) return;
+    const distance = Math.max(0, event.clientY - dragStartRef.current.y);
+    dragStartRef.current = null;
+    setIsDragging(false);
+    if (distance > 90) close();
+    else setDragY(0);
+  };
+
+  const onGripPointerCancel = () => {
+    dragStartRef.current = null;
+    setIsDragging(false);
+    setDragY(0);
+  };
 
   useEffect(() => {
     const onClick = (event) => {
@@ -87,7 +126,24 @@ export default function InAppBrowser() {
 
   return (
     <div className="iab-backdrop" onClick={close}>
-      <div className="iab-sheet" role="dialog" aria-modal="true" aria-label={`Browsing ${host}`} onClick={(event) => event.stopPropagation()}>
+      <div
+        className={`iab-sheet${blocked ? " iab-sheet--blocked" : ""}${hasDragged ? " iab-sheet--touched" : ""}${isDragging ? " iab-sheet--dragging" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Browsing ${host}`}
+        onClick={(event) => event.stopPropagation()}
+        style={hasDragged ? { transform: `translateY(${dragY}px)` } : undefined}
+      >
+        <div
+          className="iab-grip-zone"
+          aria-hidden="true"
+          onPointerDown={onGripPointerDown}
+          onPointerMove={onGripPointerMove}
+          onPointerUp={onGripPointerUp}
+          onPointerCancel={onGripPointerCancel}
+        >
+          <span className="iab-grip" />
+        </div>
         <header className="iab-header">
           <button type="button" className="iab-icon-button" ref={closeRef} onClick={close} aria-label="Close">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
