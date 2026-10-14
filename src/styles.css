@@ -5250,7 +5250,7 @@ body.iab-open .ask-yemi-fab {
 
   .iab-sheet--blocked {
     height: auto;
-    min-height: min(340px, 65dvh);
+    min-height: min(500px, 72dvh);
   }
 
   .iab-sheet--touched {
