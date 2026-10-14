@@ -824,7 +824,7 @@ body.is-preloading .ask-yemi-fab,
   }
 
   .project-card .project-copy {
-    row-gap: 4px;
+    row-gap: 8px;
   }
 
   .project-card--folder .project-folder {
