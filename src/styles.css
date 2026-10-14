@@ -1153,7 +1153,6 @@ body.is-preloading .ask-yemi-fab,
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1), transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 a.contribution-item {
@@ -1164,17 +1163,6 @@ a.contribution-item {
 
 .contribution-thumbnail {
   display: none;
-}
-
-@media (hover: hover) {
-  .contribution-groups:hover .contribution-item {
-    opacity: 0.3;
-  }
-
-  .contribution-groups .contribution-item:hover {
-    opacity: 1;
-    transform: translateX(1px);
-  }
 }
 
 .contribution-item:last-child {
@@ -5254,7 +5242,7 @@ body.iab-open .ask-yemi-fab {
 
   /* Compact yemiLLM launcher on mobile */
   #root > #yemmy-notion-callout-wrapper .yemmy-notion-bubble {
-    padding: 7px 14px 7px 8px;
+    padding: 9px 14px 9px 8px;
     gap: 0;
     border-radius: 999px;
   }
@@ -5275,8 +5263,8 @@ body.iab-open .ask-yemi-fab {
 
 @media (max-width: 380px) {
   #root > #yemmy-notion-callout-wrapper .yemmy-notion-bubble {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     padding: 0;
   }
 }
