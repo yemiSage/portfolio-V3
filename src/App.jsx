@@ -870,6 +870,8 @@ function App() {
                         >
                           <img
                             src={`/thumbnails/shot-${String(index + 1).padStart(2, "0")}.webp`}
+                            srcSet={`/thumbnails/shot-${String(index + 1).padStart(2, "0")}.webp 720w, ${image} 1878w`}
+                            sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) 45vw, 25vw"
                             alt=""
                             width="720"
                             height="556"
