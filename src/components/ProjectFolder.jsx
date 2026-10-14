@@ -3,6 +3,27 @@
 // selected independently of the surrounding project row. On hover the screenshots lift
 // slightly out of the folder. The SVG shapes share the stage's fixed aspect ratio, so their corners
 // never distort.
+import stackAstro from "../../assets/stack/astro.svg";
+import stackCloudflare from "../../assets/stack/cloudflare.svg";
+import stackDrizzle from "../../assets/stack/drizzle.svg";
+import stackGemini from "../../assets/stack/gemini.svg";
+import stackNextjs from "../../assets/stack/nextjs.svg";
+import stackTailwind from "../../assets/stack/tailwind.svg";
+import stackTurborepo from "../../assets/stack/turborepo.svg";
+import stackTypescript from "../../assets/stack/typescript.svg";
+import stackVercel from "../../assets/stack/vercel.svg";
+
+const stackIcons = {
+  Astro: stackAstro,
+  Cloudflare: stackCloudflare,
+  Drizzle: stackDrizzle,
+  "Google Gemini": stackGemini,
+  "Next.js": stackNextjs,
+  "Tailwind CSS": stackTailwind,
+  Turborepo: stackTurborepo,
+  TypeScript: stackTypescript,
+  Vercel: stackVercel,
+};
 
 function ArrowIcon() {
   return (
@@ -42,7 +63,10 @@ export default function ProjectFolder({ project }) {
 
         <ul className="folder-stack" aria-label={`Built with ${project.stack.join(", ")}`}>
           {project.stack.map((tool) => (
-            <li key={tool}>{tool}</li>
+            <li key={tool}>
+              <img src={stackIcons[tool]} alt="" aria-hidden="true" />
+              {tool}
+            </li>
           ))}
         </ul>
         <span className="folder-arrow" aria-hidden="true">

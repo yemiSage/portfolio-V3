@@ -270,6 +270,10 @@ h1 {
   font-weight: 600;
 }
 
+.intro-heading h1 {
+  font-weight: 500;
+}
+
 .intro-description {
   width: 100%;
   max-width: none;
@@ -5412,11 +5416,19 @@ body.iab-open .ask-yemi-fab {
   background: #ffffff;
   display: flex;
   align-items: center;
+  gap: 4px;
   color: #333232;
   font-size: clamp(9px, 0.8vw, 11px);
   line-height: 1.2;
   font-weight: 600;
   white-space: nowrap;
+}
+
+.folder-stack li img {
+  width: 13px;
+  height: 13px;
+  flex: none;
+  object-fit: contain;
 }
 
 .project-card:hover .project-folder .folder-stack,
