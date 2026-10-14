@@ -5257,17 +5257,11 @@ body.iab-open .ask-yemi-fab {
   }
 
   .iab-sheet {
-    height: 90dvh;
-    max-height: calc(100dvh - 24px);
+    height: 95dvh;
     padding-bottom: env(safe-area-inset-bottom);
     box-sizing: border-box;
     border-radius: 20px 20px 0 0;
     animation-name: iab-sheet-rise;
-  }
-
-  .iab-sheet--blocked {
-    height: auto;
-    min-height: min(500px, 72dvh);
   }
 
   .iab-sheet--touched {
