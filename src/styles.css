@@ -5119,6 +5119,7 @@ a.contribution-item {
   font-family: "Inter", sans-serif;
   font-size: 13px;
   font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
 }
 
@@ -5161,7 +5162,7 @@ a.contribution-item {
   text-align: center;
 }
 
-.iab-hint button {
+.iab-hint a {
   padding: 0;
   border: 0;
   color: #1c1c1c;
@@ -5190,16 +5191,12 @@ a.contribution-item {
   font-weight: 600;
 }
 
-.iab-fallback-copy {
-  max-width: 320px;
-  color: #777;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
 .iab-fallback-button {
   margin-top: 8px;
   min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0 20px;
   border: 0;
   border-radius: 999px;
@@ -5208,6 +5205,7 @@ a.contribution-item {
   font-family: "Inter", sans-serif;
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
 }
 

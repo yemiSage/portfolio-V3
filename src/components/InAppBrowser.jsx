@@ -122,7 +122,7 @@ export default function InAppBrowser() {
 
   const blocked = isFrameBlocked(target);
   const host = target.hostname.replace(/^www\./, "");
-  const openExternal = () => window.open(target.href, "_blank", "noopener,noreferrer");
+  const externalLink = { href: target.href, target: "_blank", rel: "noopener noreferrer", "data-external": true };
 
   return (
     <div className="iab-backdrop" onClick={close}>
@@ -157,18 +157,17 @@ export default function InAppBrowser() {
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 12a8 8 0 11-2.34-5.66M20 4v4h-4" /></svg>
             </button>
           )}
-          <button type="button" className="iab-open" onClick={openExternal}>
+          <a className="iab-open" {...externalLink}>
             Open in browser
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5" /></svg>
-          </button>
+          </a>
         </header>
 
         <div className="iab-body">
           {blocked ? (
             <div className="iab-fallback">
               <p className="iab-fallback-title">{host} can't be shown inside this site</p>
-              <p className="iab-fallback-copy">This page blocks embedding, so it needs to open in your browser.</p>
-              <button type="button" className="iab-fallback-button" onClick={openExternal}>Open in browser</button>
+              <a className="iab-fallback-button" {...externalLink}>Open in browser</a>
             </div>
           ) : (
             <>
@@ -182,7 +181,7 @@ export default function InAppBrowser() {
                 referrerPolicy="no-referrer"
                 sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
               />
-              <p className="iab-hint">Page blank or not loading? <button type="button" onClick={openExternal}>Open in browser</button></p>
+              <p className="iab-hint">Page blank or not loading? <a {...externalLink}>Open in browser</a></p>
             </>
           )}
         </div>
