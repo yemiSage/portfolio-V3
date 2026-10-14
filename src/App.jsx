@@ -59,7 +59,7 @@ const introSegments = [
     text: "Hi, I am Yemi. I design and build enterprise products, B2B SaaS, marketplaces and AI products, from the first flow in Figma to production code.",
   },
   {
-    text: "I ship with Next.js and TypeScript, working alongside Claude Code and Codex, so the products I design reach users the way they were meant to work.",
+    text: "I love innovation. My work goes beyond UI and user experience: I design for growth and business outcomes, connecting what people need with what helps a product succeed.",
   },
 ];
 
