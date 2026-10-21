@@ -765,9 +765,8 @@ function App() {
                     </h1>
                   </div>
                   <div className="intro-description">
-                    <p>Hi, I am Yemi. I design and build enterprise products, B2B SaaS, marketplaces, and AI products, turning complex workflows into simple, usable experiences, from Figma to production code.</p>
-                    <p>I've always asked, <em>"Why does it work this way? How was it done? What if we made it better?"</em></p>
-                    <p>That curiosity led me to design, simplifying how people interact with technology, and building products that deliver measurable results.</p>
+                    <p>Hi, I am Yemi. I design and build B2B SaaS, enterprise, marketplace, and AI products, turning complex workflows into simple experiences.</p>
+                    <p>I've always asked, <em>"Why does it work this way? How was it done? What if we made it better?"</em> That curiosity led me to design products that deliver real results.</p>
                     <p className="intro-closing"><strong>Curiosity got me into design. Coffee, Semo, and results keep me going.</strong></p>
                   </div>
                 </div>
