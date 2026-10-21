@@ -291,6 +291,10 @@ h1 {
   font-weight: 700;
 }
 
+.intro-description .intro-closing {
+  margin-top: 12px;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

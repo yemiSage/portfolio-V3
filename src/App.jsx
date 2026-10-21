@@ -54,15 +54,6 @@ function hasSeenPreloader() {
   }
 }
 
-const introSegments = [
-  {
-    text: "Hi, I am Yemi. I design and build enterprise products, B2B SaaS, marketplaces and AI products, from the first flow in Figma to production code.",
-  },
-  {
-    text: "I love innovation. My work goes beyond UI and user experience: I design for growth and business outcomes, connecting what people need with what helps a product succeed.",
-  },
-];
-
 const projects = [
   {
     name: "TASAfrica",
@@ -774,9 +765,10 @@ function App() {
                     </h1>
                   </div>
                   <div className="intro-description">
-                    {introSegments.map((segment) => (
-                      <p key={segment.text}>{segment.text}</p>
-                    ))}
+                    <p>Hi, I am Yemi. I design and build enterprise products, B2B SaaS, marketplaces, and AI products, turning complex workflows into simple, usable experiences, from Figma to production code.</p>
+                    <p>I've always asked, <em>"Why does it work this way? How was it done? What if we made it better?"</em></p>
+                    <p>That curiosity led me to design, simplifying how people interact with technology, and building products that deliver measurable results.</p>
+                    <p className="intro-closing"><strong>Curiosity got me into design. Coffee, Semo, and results keep me going.</strong></p>
                   </div>
                 </div>
 
