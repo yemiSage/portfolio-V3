@@ -274,6 +274,7 @@ h1 {
 }
 
 .intro-heading h1 {
+  font-size: clamp(34px, 5.2vw, 40px);
   font-weight: 500;
 }
 
@@ -769,7 +770,7 @@ body.is-preloading .ask-yemi-fab,
 
   .intro-heading h1 {
     padding-bottom: 0;
-    font-size: 44px;
+    font-size: 40px;
   }
 
   .intro-description {
@@ -2099,6 +2100,17 @@ a.contribution-item {
 }
 
 @media (max-width: 767px) {
+  :root {
+    /* A shared mobile scale keeps related copy in step as the viewport grows. */
+    --page-padding: clamp(12px, 4vw, 24px);
+    --body-copy-size: clamp(0.8125rem, 0.6875rem + 0.556vw, 0.875rem);
+    --body-copy-line-height: clamp(1.375rem, 1.125rem + 1.11vw, 1.5rem);
+    --mobile-heading-size: clamp(1.125rem, 1rem + 0.556vw, 1.25rem);
+    --mobile-label-size: clamp(1rem, 0.875rem + 0.556vw, 1.125rem);
+    --mobile-lede-size: clamp(0.875rem, 0.75rem + 0.556vw, 0.9375rem);
+    --mobile-caption-size: clamp(0.75rem, 0.625rem + 0.556vw, 0.8125rem);
+  }
+
   .portfolio-grid {
     flex-direction: column;
     justify-content: flex-start;
@@ -2319,9 +2331,9 @@ a.contribution-item {
     padding-left: 0;
   }
 
-  h1 {
+  .intro-heading h1 {
     max-width: 100%;
-    font-size: clamp(23px, 5.8vw, 30px);
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
     line-height: 1.15;
     letter-spacing: -0.8px;
     margin: 0;
@@ -2329,8 +2341,8 @@ a.contribution-item {
 
   .intro-description {
     max-width: 100%;
-    font-size: 13px;
-    line-height: 1.4;
+    font-size: var(--body-copy-size);
+    line-height: 1.5;
     margin: 0;
     text-wrap: pretty;
   }
@@ -2494,7 +2506,7 @@ a.contribution-item {
   }
 
   .project-copy h3 {
-    font-size: 20px;
+    font-size: var(--mobile-heading-size);
   }
 
   .project-tags {
@@ -2503,7 +2515,7 @@ a.contribution-item {
 
   .project-copy > p,
   .section-intro p {
-    font-size: 14px;
+    font-size: var(--body-copy-size);
   }
 
   .footer {
@@ -2802,15 +2814,6 @@ a.contribution-item {
 }
 
 @media (max-width: 440px) {
-  :root {
-    --page-padding: 12px;
-  }
-
-  h1 {
-    font-size: 38px;
-    font-weight: 700;
-  }
-
   .intro-heading h1 {
     padding-bottom: 8px;
   }
@@ -2821,7 +2824,6 @@ a.contribution-item {
 
   .intro-description {
     padding-bottom: 20px;
-    font-size: 15px;
   }
 
   .intro-description p:first-child {
@@ -3256,18 +3258,19 @@ a.contribution-item {
   }
 
   .case-study-content {
-    padding: 40px 16px 0;
+    padding: 40px var(--page-padding) 0;
   }
 
   .case-study-intro h1 {
-    font-size: 20px;
-    line-height: 1.5;
+    font-size: clamp(1.25rem, 1rem + 1.11vw, 1.5rem);
+    line-height: 1.3;
     letter-spacing: -1px;
   }
 
   .case-study-lede {
     margin-top: 12px;
-    line-height: 22.5px;
+    font-size: var(--mobile-lede-size);
+    line-height: 1.5;
   }
 
   .case-study-meta-grid {
@@ -3282,13 +3285,53 @@ a.contribution-item {
   }
 
   .case-study-section {
-    padding-top: 64px;
+    padding-top: clamp(48px, 10vw, 64px);
   }
 
-  .case-study-section h2 {
-    font-size: 20px;
+  .case-study-section h2,
+  .case-study-subsection h3,
+  .case-study-flow-copy h3,
+  .stay-product-flow > h3,
+  .stay-design-decision h4,
+  .contributed-projects .section-intro h2,
+  .footer-statement {
+    font-size: var(--mobile-heading-size);
     line-height: 1.45;
-    letter-spacing: -0.4px;
+  }
+
+  .case-study-section-heading p,
+  .stay-product-flow > .stay-flow-label {
+    font-size: var(--mobile-label-size);
+    line-height: 1.5;
+  }
+
+  .case-study-section-body > p,
+  .case-study-list li,
+  .case-study-subsection > p,
+  .case-study-other-screens p,
+  .case-study-flow-copy p,
+  .case-study-goal-grid p,
+  .case-study-result-grid p,
+  .stay-product-flow > p:not(.stay-flow-label),
+  .stay-design-decision p,
+  .stay-contributions p,
+  .stay-csv-figure th,
+  .stay-csv-figure td,
+  .stay-live-link {
+    font-size: var(--body-copy-size);
+    line-height: var(--body-copy-line-height);
+  }
+
+  .case-study-meta-grid strong,
+  .case-study-meta-grid a {
+    font-size: var(--mobile-lede-size);
+    line-height: 1.5;
+  }
+
+  .case-study-flow-figure figcaption,
+  .stay-csv-figure figcaption {
+    font-size: var(--mobile-caption-size);
+    line-height: 1.5;
   }
 
   .tasafrica-case-study #takeaways {
@@ -3296,7 +3339,7 @@ a.contribution-item {
   }
 
   .case-study-section-body {
-    margin-top: 20px;
+    margin-top: clamp(16px, 4vw, 20px);
   }
 
   .case-study-media-grid-two {

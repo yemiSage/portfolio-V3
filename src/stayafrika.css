@@ -91,6 +91,9 @@
 }
 
 @media (max-width: 767px) {
+  .stayafrika-case-study .case-study-section,
+  .stayafrika-case-study .case-study-section#overview { padding-block: clamp(24px, 6vw, 30px); }
+  .stay-product-flow { padding-top: clamp(28px, 8vw, 40px); }
   .stay-product-figure { margin: 24px 0; }
   .stay-contributions { gap: 8px; }
   .stay-contributions > div { padding: 12px; }
