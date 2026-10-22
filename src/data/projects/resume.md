@@ -56,7 +56,7 @@ What sets Yemi apart is his **dual design and engineering mindset**. Because he 
 - **Description**: Led a cross-functional UX team, conducting comprehensive user research, mapping user flows, and collaborating directly with the visual UI team to design student-centered interfaces.
 
 ### 6. StayAfrika, FlxFleet, & Norocio
-- **StayAfrika**: Redesigned a travel and accommodation marketplace built to simplify travel, local tourism, and stay bookings across Africa.
+- **StayAfrika**: Designed a travel and accommodation marketplace built to simplify travel, local tourism, and stay bookings across Africa.
 - **FlxFleet**: Designed fleet logistics, tracking, and maintenance systems for commercial transport operators.
 - **Norocio**: Developed modern interfaces for cross-border stablecoin payments, making payments simple and frictionless.
 

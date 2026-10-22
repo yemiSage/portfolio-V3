@@ -78,7 +78,7 @@ const projects = [
     href: "https://www.stayafrika.com",
     tags: ["Travel", "Hospitality", "Marketplace"],
     description:
-      "Redesigned stay discovery and booking to connect travellers and hosts in Africa.",
+      "Designed stay discovery and booking to connect travellers and hosts across Africa.",
   },
 ];
 
