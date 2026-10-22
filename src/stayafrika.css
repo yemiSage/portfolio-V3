@@ -50,7 +50,7 @@
 }
 
 .stay-design-decision { margin-top: 24px; }
-.stay-design-decision h3 {
+.stay-design-decision h4 {
   color: #1c1c1c;
   font-family: "Inter", sans-serif;
   font-size: 20px;
@@ -63,6 +63,32 @@
   font-size: 14px;
   line-height: 24px;
 }
+
+.stay-product-flow {
+  padding-top: 40px;
+  scroll-margin-top: 96px;
+}
+.stay-product-flow > .stay-flow-label {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 500;
+}
+.stay-product-flow > h3 {
+  margin-top: 4px;
+  color: #1c1c1c;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  line-height: 29px;
+  letter-spacing: -0.4px;
+  font-weight: 600;
+}
+.stay-product-flow > p,
+.stayafrika-case-study .case-study-list li {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 24px;
+}
+.stayafrika-case-study .case-study-list { margin-top: 12px; }
 
 .stay-contributions {
   display: grid;
@@ -89,9 +115,12 @@
 
 @media (max-width: 767px) {
   .stayafrika-case-study .case-study-section > h2,
-  .stay-design-decision h3 { font-size: 18px; line-height: 26px; }
+  .stay-design-decision h4,
+  .stay-product-flow > h3 { font-size: 18px; line-height: 26px; }
   .stayafrika-case-study .case-study-section-body > p,
-  .stay-design-decision p { font-size: 13px; line-height: 22px; }
+  .stay-design-decision p,
+  .stay-product-flow > p,
+  .stayafrika-case-study .case-study-list li { font-size: 13px; line-height: 22px; }
   .stay-product-figure { margin: 24px 0; }
   .stay-contributions { gap: 8px; }
   .stay-contributions > div { padding: 12px; }
