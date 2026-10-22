@@ -5,18 +5,22 @@ import { getGithubContributions, getGithubStats } from "./src/utils/githubData.j
 import { handleChatRequest } from "./src/utils/chatEngine.js";
 import { handleTranscribeWebRequest } from "./src/utils/transcribe.js";
 
-const PORT = 3000;
+const PORT = Number(process.env.PORT || 3000);
 
 async function startServer() {
   const app = express();
   app.use(express.json());
 
+  app.use("/api", (_req, res, next) => {
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
+    next();
+  });
+
   // Health check
   app.get("/api/health", (_req, res) => {
     res.json({
       status: "ok",
-      assistant: "askYemi",
-      hasApiKey: Boolean(process.env.GEMINI_API_KEY || process.env.GROQ_API_KEY),
     });
   });
 
@@ -57,8 +61,15 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
-    app.get("*all", (_req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+    app.get("*all", (req, res) => {
+      const routePath = req.path.replace(/^\/+|\/+$/g, "");
+      const routeFile = routePath
+        ? path.join(distPath, ...routePath.split("/"), "index.html")
+        : path.join(distPath, "index.html");
+      res.sendFile(routeFile, (error) => {
+        if (!error) return;
+        res.status(404).sendFile(path.join(distPath, "404.html"));
+      });
     });
   }
 

@@ -1,42 +1,33 @@
-# robots.txt for Opeyemi Adegboye Portfolio
+# Opeyemi Adegboye portfolio crawler policy
+# robots.txt manages crawling; it is not an access-control mechanism.
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# Explicit permissions for Search Engines & AI Crawlers
+# Search and answer-engine discovery
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
 
 User-agent: Bingbot
 Allow: /
-
-User-agent: Applebot
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Claude-Web
-Allow: /
+Disallow: /api/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /api/
 
-User-agent: anthropic-ai
+# Model-training crawlers remain allowed under the portfolio's existing policy.
+User-agent: GPTBot
 Allow: /
+Disallow: /api/
 
 User-agent: Google-Extended
 Allow: /
-
-User-agent: CCBot
-Allow: /
+Disallow: /api/
 
 Sitemap: https://yemii.vercel.app/sitemap.xml
-# AI Model context file
-# See https://llmstxt.org
-# /llms.txt

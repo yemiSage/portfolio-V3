@@ -9,6 +9,7 @@ import {
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
 import ResumeContent, { ResponsiveResumeLink, openResumeInApp } from "./components/ResumePage";
+import { applyRouteMetadata } from "./utils/seo";
 import ScrambleText from "./components/ScrambleText";
 import AskYemiChat from "./components/AskYemiChat";
 import GithubStats from "./components/GithubStats";
@@ -354,6 +355,10 @@ function App() {
   const isStayafrikaCaseStudy = path === "/projects/stayafrika";
   const isResumePage = path === "/resume";
   const [activePanel, setActivePanel] = useState(isResumePage ? "resume" : "home");
+
+  useEffect(() => {
+    applyRouteMetadata(path || "/");
+  }, [path]);
 
   const navigateTo = useCallback((targetPath) => {
     const normalizedTarget = targetPath.replace(/\/+$/, "") || "/";

@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
-    "start": "node dist/server.cjs"
+    "build": "node scripts/generate-discoverability.mjs --public && vite build && node scripts/generate-discoverability.mjs --dist && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
+    "start": "node dist/server.cjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:discoverability": "node --test tests/discoverability.test.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.21.0",
