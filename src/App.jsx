@@ -761,7 +761,7 @@ function App() {
                   <div className="intro-heading">
                     <p className="greeting">Need a Professional</p>
                     <h1>
-                      <ScrambleText text="Design Engineer, Product & AI" active={!isSiteLoading} />
+                      <ScrambleText text={"Design Engineer,\nProduct & AI"} active={!isSiteLoading} />
                     </h1>
                   </div>
                   <div className="intro-description">

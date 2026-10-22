@@ -58,20 +58,44 @@ export default function ScrambleText({ text, className = "", active = true }) {
   }, [started, reduced, lastLock, text]);
 
   const done = reduced || frame >= lastLock;
+  const fixedLines = text.includes("\n");
 
   let headPlaced = false;
   const chars = Array.from(text).map((char, index) => {
+    if (char === "\n") return null;
     if (done || frame >= locks[index]) return <span key={index}>{char}</span>;
     if (!glyphs.current[index] || frame % 2 === 0) glyphs.current[index] = randomGlyph();
     const head = headPlaced ? null : <span key={`head-${index}`} className="scramble-head" />;
     headPlaced = true;
+    if (fixedLines) {
+      return (
+        <span key={index} className="scramble-slot">
+          <span className="scramble-slot-size">{char === " " ? "\u00a0" : char}</span>
+          <span className="scramble-slot-glyph">{head}<span className="scramble-dim">{glyphs.current[index]}</span></span>
+        </span>
+      );
+    }
     return [head, <span key={index} className="scramble-dim">{glyphs.current[index]}</span>];
   });
+
+  let lineOffset = 0;
+  const content = fixedLines ? text.split("\n").map((line, index, lines) => {
+    const lineChars = chars.slice(lineOffset, lineOffset + line.length);
+    lineOffset += line.length + 1;
+    return (
+      <span className="scramble-line" key={index}>
+        {started || reduced ? lineChars : line}
+        {done && index === lines.length - 1 && <span className="scramble-caret" />}
+      </span>
+    );
+  }) : null;
 
   return (
     <span className={className} ref={rootRef}>
       <span className="sr-only">{text}</span>
-      {started || reduced ? (
+      {fixedLines ? (
+        <span aria-hidden="true" style={!started && !reduced ? { opacity: 0 } : undefined}>{content}</span>
+      ) : started || reduced ? (
         <span aria-hidden="true">
           {chars}
           {done && <span className="scramble-caret" />}

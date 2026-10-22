@@ -316,6 +316,33 @@ h1 {
   font-weight: 400;
 }
 
+.scramble-line {
+  display: block;
+  white-space: nowrap;
+}
+
+/* Reserve each final letter's width while its random glyph changes. */
+.scramble-slot {
+  position: relative;
+  display: inline-block;
+}
+
+.scramble-slot-size {
+  visibility: hidden;
+}
+
+.scramble-slot-glyph {
+  position: absolute;
+  inset: 0;
+  text-align: center;
+}
+
+.scramble-slot .scramble-head {
+  position: absolute;
+  right: 100%;
+  bottom: 0.12em;
+}
+
 .scramble-caret {
   display: inline-block;
   width: 0.055em;
