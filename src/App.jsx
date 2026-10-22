@@ -765,8 +765,8 @@ function App() {
                     </h1>
                   </div>
                   <div className="intro-description">
-                    <p>Hi, I am Yemi. I design and build B2B SaaS, enterprise, marketplace, and AI products, turning complex workflows into simple experiences.</p>
-                    <p>The curiosity of knowing How it was done, why? and what if we make it better, led me to design.</p>
+                    <p>Hi, I am Yemi. It's been four (4) years now designing and building B2B SaaS, enterprise, marketplace, and AI products, turning complex workflows into simple experiences.</p>
+                    <p>The curiosity of knowing How it was done, why it was done, and what if we make it better, led me to design.</p>
                     <p className="intro-closing"><strong>coffee, semo and results keep me going</strong></p>
                   </div>
                 </div>

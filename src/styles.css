@@ -1207,6 +1207,17 @@ body.is-preloading .ask-yemi-fab,
   display: flex;
   flex-direction: column;
   gap: 12px;
+  transition: opacity 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contribution-groups:has(.contribution-item:hover) .contribution-item {
+    opacity: 0.3;
+  }
+
+  .contribution-groups .contribution-item:hover {
+    opacity: 1;
+  }
 }
 
 a.contribution-item {
@@ -1397,7 +1408,7 @@ a.contribution-item {
   font-size: 20px;
   line-height: 1.4;
   letter-spacing: 0;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .footer-statement em {
@@ -1426,6 +1437,7 @@ a.contribution-item {
   grid-template-columns: 80px 80px;
   justify-content: start;
   gap: 20px;
+  font-weight: 500;
 }
 
 .footer-links > div {
