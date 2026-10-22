@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { HOVER_MEDIA } from "../utils/hover";
 
 // Follow cursor for thumbnails: over any element with data-cursor, the pointer is replaced
 // by a small square and that element's label, pinned to the mouse. Mouse devices only;
@@ -9,7 +10,7 @@ export default function HoverCursor() {
   const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {
-    const query = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const query = window.matchMedia(HOVER_MEDIA);
     const update = () => setIsEnabled(query.matches);
     update();
     query.addEventListener("change", update);

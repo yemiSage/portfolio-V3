@@ -50,8 +50,11 @@ html {
   border-radius: 99px;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(156, 163, 175, 0.55);
+}
 }
 
 body {
@@ -469,8 +472,11 @@ body.is-preloading .ask-yemi-fab,
   border: 0;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .button-primary:hover {
   background: #454343;
+}
 }
 
 .button-secondary {
@@ -478,9 +484,12 @@ body.is-preloading .ask-yemi-fab,
   background: transparent;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .button-secondary:hover {
   color: #ffffff;
   background: var(--accent);
+}
 }
 
 .find-me {
@@ -581,9 +590,12 @@ body.is-preloading .ask-yemi-fab,
   transition: border-color 160ms ease, color 160ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .resume-actions a:hover {
   border-color: #e0733d;
   color: #e0733d;
+}
 }
 
 .resume-frame-shell {
@@ -641,8 +653,11 @@ body.is-preloading .ask-yemi-fab,
   transition: color 180ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .resume-back:hover {
   color: #333232;
+}
 }
 
 .content-column-resume .resume-frame-shell {
@@ -698,8 +713,11 @@ body.is-preloading .ask-yemi-fab,
   transition: color 180ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .identity-links a:hover {
   color: var(--ink);
+}
 }
 
 .social-link {
@@ -714,9 +732,12 @@ body.is-preloading .ask-yemi-fab,
   transition: background-color 200ms ease-out, color 200ms ease-out;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .social-link:hover {
   color: var(--accent);
   background: transparent;
+}
 }
 
 .social-link svg {
@@ -799,8 +820,11 @@ body.is-preloading .ask-yemi-fab,
   transition: color 180ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .scroll-link:hover {
   color: var(--ink);
+}
 }
 
 .projects {
@@ -1022,8 +1046,15 @@ body.is-preloading .ask-yemi-fab,
     right: 24px;
   }
 
+  @media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
   .lightbox-close:hover,
-  .lightbox-nav:hover,
+  .lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: scale(1.06);
+  }
+}
+
   .lightbox-close:focus-visible,
   .lightbox-nav:focus-visible {
     background: rgba(255, 255, 255, 0.22);
@@ -1237,12 +1268,17 @@ body.is-preloading .ask-yemi-fab,
 }
 
 @media (hover: hover) and (pointer: fine) {
+  @media (min-width: 769px) and (hover: hover) and (pointer: fine){
   .contribution-groups:has(.contribution-item:hover) .contribution-item:not(:hover) {
     opacity: 0.3;
   }
+  }
+
+  @media (min-width: 769px) and (hover: hover) and (pointer: fine){
 
   .contribution-groups .contribution-item:hover {
     opacity: 1;
+  }
   }
 }
 
@@ -1299,8 +1335,11 @@ a.contribution-item {
   transition: color 180ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .contribution-item-heading > a:hover {
   color: var(--accent);
+}
 }
 
 .contribution-item > p {
@@ -1395,19 +1434,31 @@ a.contribution-item {
   transition: filter 180ms ease, opacity 180ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.project-card:hover .project-visual,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.project-card:hover .project-visual {
+  transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(1.004);
+}
+}
+
 .project-card:focus-visible .project-visual {
   transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(1.004);
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .tool-grid li:is(:hover, .is-active) {
   color: #0a0b0d;
 }
+}
+
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
 
 .tool-grid li:is(:hover, .is-active) img {
   filter: none;
   opacity: 1;
   transform: scale(1.06);
+}
 }
 
 .button:focus-visible,
@@ -1482,8 +1533,11 @@ a.contribution-item {
   transition: color 180ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .footer-links a:hover {
   color: var(--accent);
+}
 }
 
 /* Limestone case study */
@@ -1541,8 +1595,11 @@ a.contribution-item {
   transition: color 180ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .case-study-back:hover {
   color: var(--accent);
+}
 }
 
 .case-study-index {
@@ -1572,8 +1629,11 @@ a.contribution-item {
   display: none;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .case-study-index-back:hover {
   color: var(--accent) !important;
+}
 }
 
 .case-study-jump,
@@ -1610,7 +1670,13 @@ a.contribution-item {
   transition: color 150ms ease, font-weight 150ms ease;
 }
 
-.case-study-index .case-study-index-link:hover,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.case-study-index .case-study-index-link:hover {
+  color: #1c1c1c;
+}
+}
+
 .case-study-index .case-study-index-link.is-active {
   color: #1c1c1c;
 }
@@ -1710,8 +1776,11 @@ a.contribution-item {
   gap: 4px;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .case-study-meta-grid a:hover {
   color: var(--accent);
+}
 }
 
 .case-study-tags {
@@ -1973,10 +2042,13 @@ a.contribution-item {
   transition: background-color 180ms ease, border-color 180ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .case-study-store-links a:hover,
 .case-study-next:hover {
   border-color: #494747;
   background: #494747;
+}
 }
 
 .case-study-next {
@@ -2131,7 +2203,13 @@ a.contribution-item {
     touch-action: manipulation;
   }
 
-  .mobile-menu-toggle:hover,
+  @media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+  .mobile-menu-toggle:hover {
+    background: #e9e9e9;
+  }
+  }
+
   .mobile-menu-toggle[aria-expanded="true"] {
     background: #e9e9e9;
   }
@@ -2167,8 +2245,11 @@ a.contribution-item {
     text-align: center;
   }
 
+  @media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
   .mobile-menu a:hover {
     background: var(--gray-5);
+  }
   }
 
   .identity-column {
@@ -2246,7 +2327,7 @@ a.contribution-item {
 
   .intro-description {
     max-width: 100%;
-    font-size: clamp(12.5px, 3.4vw, 14.5px);
+    font-size: 13px;
     line-height: 1.4;
     margin: 0;
     text-wrap: pretty;
@@ -2897,8 +2978,11 @@ a.contribution-item {
   transition: color 180ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .case-study-profile-links a:hover {
   color: var(--accent);
+}
 }
 
 .case-study-index {
@@ -2954,9 +3038,12 @@ a.contribution-item {
   transition: opacity 180ms ease, text-decoration 180ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .case-study-meta-grid a:hover {
   text-decoration: underline;
   opacity: 0.85;
+}
 }
 
 .case-study-section {
@@ -3245,8 +3332,11 @@ a.contribution-item {
   vertical-align: middle;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .nav-yemi-llm-btn:hover {
   color: var(--ink);
+}
 }
 
 .nav-yemi-llm-btn svg,
@@ -3277,8 +3367,11 @@ a.contribution-item {
   transition: background-color 150ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .mobile-menu .nav-yemi-llm-btn:hover {
   background: var(--gray-5);
+}
 }
 
 .mobile-menu .nav-yemi-llm-btn svg {
@@ -3295,8 +3388,11 @@ a.contribution-item {
   cursor: pointer;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .case-study-profile-links .nav-yemi-llm-btn:hover {
   color: var(--accent);
+}
 }
 
 .case-study-mobile-menu .nav-yemi-llm-btn {
@@ -3312,8 +3408,11 @@ a.contribution-item {
   cursor: pointer;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .case-study-mobile-menu .nav-yemi-llm-btn:hover {
   color: var(--accent);
+}
 }
 
 /* ==========================================================================
@@ -3347,9 +3446,12 @@ a.contribution-item {
   animation: yemmy-bubble-glow 3.2s infinite ease-in-out;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .yemmy-notion-bubble:hover {
   border-color: #cbd5e1;
   box-shadow: none;
+}
 }
 
 .yemmy-notion-badge {
@@ -3414,8 +3516,11 @@ a.contribution-item {
   transition: transform 0.2s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .yemmy-notion-bubble:hover .yemmy-notion-arrow {
   transform: translateX(2px) translateY(1px);
+}
 }
 
 .yemmy-notion-dismiss-btn {
@@ -3436,9 +3541,12 @@ a.contribution-item {
   transition: all 0.15s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .yemmy-notion-dismiss-btn:hover {
   background: #f3f4f6;
   color: #374151;
+}
 }
 
 /* FAB Container and clean white pill */
@@ -3466,12 +3574,15 @@ a.contribution-item {
   animation: yemmy-fab-pulse 3.2s infinite ease-in-out;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .ask-yemi-fab:hover {
   background: #f9fafb;
   border-color: #d1d5db;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
   color: #111827;
   animation-play-state: paused;
+}
 }
 
 .fab-text {
@@ -3594,8 +3705,11 @@ a.contribution-item {
   transition: color 150ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .rachel-info-button:hover {
   color: #4b5563;
+}
 }
 
 .rachel-info-popover {
@@ -3635,9 +3749,12 @@ a.contribution-item {
   padding: 0;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .rachel-icon-button:hover {
   color: #111827;
   background: rgba(0, 0, 0, 0.04);
+}
 }
 
 #rachel-reset-btn {
@@ -3678,8 +3795,11 @@ a.contribution-item {
   border-radius: 999px;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .rachel-chat-body::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.28);
+}
 }
 
 .rachel-message-wrap {
@@ -3764,11 +3884,14 @@ a.contribution-item {
   transition: opacity 140ms ease, text-decoration 140ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .rachel-chat-link:hover,
 .rachel-chat-window a:not(.button):not(.rachel-close-btn):not(.rachel-action-btn):not(.rachel-suggestion-item):hover,
 .rachel-text-body a:hover {
   text-decoration: underline;
   opacity: 0.85;
+}
 }
 
 /* Divider under assistant message */
@@ -3802,9 +3925,12 @@ a.contribution-item {
   line-height: 1.4;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .rachel-suggestion-item:hover {
   color: #111827;
   transform: translateX(2px);
+}
 }
 
 .rachel-suggestion-arrow {
@@ -3814,8 +3940,11 @@ a.contribution-item {
   line-height: 1;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .rachel-suggestion-item:hover .rachel-suggestion-arrow {
   color: #374151;
+}
 }
 
 /* Thinking Dots - ONLY pulsing dots, NO text */
@@ -3907,9 +4036,12 @@ a.contribution-item {
   color: #374151;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .rachel-send-icon.is-active:hover {
   color: #111827;
   transform: translateY(-1px);
+}
 }
 
 .rachel-send-icon:disabled {
@@ -3933,8 +4065,11 @@ a.contribution-item {
   transition: color 140ms ease, background-color 140ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .rachel-mic-btn:hover:not(:disabled) {
   color: #374151;
+}
 }
 
 .rachel-mic-btn.is-recording {
@@ -3982,6 +4117,8 @@ a.contribution-item {
   transition: opacity 160ms ease, text-decoration 160ms ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .case-study-section-body a:not(.button):hover,
 .case-study-content p a:not(.button):hover,
 .case-study-content li a:not(.button):hover,
@@ -3991,6 +4128,7 @@ a.contribution-item {
 .resume-body a:not(.button):hover {
   text-decoration: underline;
   opacity: 0.85;
+}
 }
 
 @media screen and (max-width: 768px) {
@@ -4043,11 +4181,14 @@ a.contribution-item {
   transition: all 0.18s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-pill-btn:hover {
   border-color: #9ca3af;
   color: #111827;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 }
 
 .seo-diag-sparkle {
@@ -4086,9 +4227,12 @@ a.contribution-item {
   transition: transform 0.18s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-mini-btn:hover {
   transform: scale(1.06);
   border-color: #9ca3af;
+}
 }
 
 .seo-diag-minimize-btn {
@@ -4105,9 +4249,12 @@ a.contribution-item {
   transition: all 0.15s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-minimize-btn:hover {
   color: #4b5563;
   border-color: #d1d5db;
+}
 }
 
 /* Modal Overlay Styles */
@@ -4208,9 +4355,12 @@ a.contribution-item {
   transition: all 0.15s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-close-btn:hover {
   background: #e5e7eb;
   color: #111827;
+}
 }
 
 /* Tabs Bar */
@@ -4239,8 +4389,11 @@ a.contribution-item {
   transition: all 0.15s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-tab:hover {
   color: #111827;
+}
 }
 
 .seo-diag-tab.is-active {
@@ -4310,8 +4463,11 @@ a.contribution-item {
   transition: background 0.15s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-add-btn:hover:not(:disabled) {
   background: #000000;
+}
 }
 
 .seo-diag-add-btn:disabled {
@@ -4334,8 +4490,11 @@ a.contribution-item {
   transition: color 0.15s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-text-action:hover {
   color: #111827;
+}
 }
 
 /* Active Chips */
@@ -4381,8 +4540,11 @@ a.contribution-item {
   transition: color 0.12s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-active-chip .chip-remove-btn:hover {
   color: #ef4444;
+}
 }
 
 /* Recommendations */
@@ -4419,10 +4581,13 @@ a.contribution-item {
   transition: all 0.14s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-rec-chip:hover:not(:disabled) {
   border-color: var(--accent);
   color: var(--accent);
   background: rgba(224, 115, 61, 0.04);
+}
 }
 
 .seo-diag-rec-chip.is-added {
@@ -4573,8 +4738,11 @@ a.contribution-item {
   transition: opacity 0.15s ease;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .seo-diag-save-btn:hover {
   opacity: 0.9;
+}
 }
 
 @media screen and (max-width: 640px) {
@@ -4598,84 +4766,6 @@ a.contribution-item {
     padding-left: 14px;
     padding-right: 14px;
     border-radius: 100px;
-  }
-}
-
-/* Global Mobile Hover Reset */
-@media (max-width: 768px) {
-  /* Disable scale/transform on cards */
-  .project-card:hover .project-visual {
-    transform: none !important;
-  }
-  
-  /* Disable button scaling and hover transitions */
-  .button-primary:hover,
-  .button-secondary:hover {
-    transform: none !important;
-    box-shadow: none !important;
-  }
-  
-  /* Reset social, scroll, and other anchor links opacity/transforms */
-  .social-link:hover,
-  .scroll-link:hover,
-  .identity-links a:hover,
-  .footer-links a:hover,
-  .resume-actions a:hover {
-    transform: none !important;
-    opacity: 1 !important;
-  }
-  
-  /* Reset tool-grid list hover states */
-  .tool-grid li:is(:hover, .is-active) {
-    border-color: #e2e8f0 !important;
-    background: transparent !important;
-  }
-  .tool-grid li:is(:hover, .is-active) img {
-    filter: grayscale(100%) !important;
-    opacity: 0.54 !important;
-  }
-  
-  /* Reset yemmy notion bubble and fab hover states */
-  .yemmy-notion-bubble:hover {
-    border-color: #7a7a7a !important;
-    transform: none !important;
-  }
-  .yemmy-notion-bubble:hover .yemmy-notion-arrow {
-    transform: none !important;
-  }
-  .yemmy-notion-dismiss-btn:hover {
-    opacity: 0.45 !important;
-    transform: none !important;
-  }
-  .ask-yemi-fab:hover {
-    transform: none !important;
-  }
-  
-  /* Reset Rachel chatbot hover elements */
-  .rachel-info-button:hover,
-  .rachel-icon-button:hover {
-    transform: none !important;
-  }
-  .rachel-suggestion-item:hover {
-    background-color: #f1f5f9 !important;
-    transform: none !important;
-  }
-  .rachel-suggestion-item:hover .rachel-suggestion-arrow {
-    transform: none !important;
-  }
-  
-  /* Reset SEO diagnostic button hover states */
-  .seo-diag-pill-btn:hover,
-  .seo-diag-mini-btn:hover,
-  .seo-diag-minimize-btn:hover,
-  .seo-diag-close-btn:hover,
-  .seo-diag-tab:hover,
-  .seo-diag-add-btn:hover,
-  .seo-diag-text-action:hover,
-  .seo-diag-rec-chip:hover,
-  .seo-diag-save-btn:hover {
-    transform: none !important;
-    opacity: 1 !important;
   }
 }
 
@@ -4824,8 +4914,11 @@ a.contribution-item {
   cursor: pointer;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .github-activity-user:hover {
   opacity: 0.75;
+}
 }
 
 /* Container */
@@ -5032,7 +5125,15 @@ a.contribution-item {
   outline: none;
 }
 
-.github-contrib-rect:hover,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.github-contrib-rect:hover {
+  stroke: #1f2328 !important;
+  stroke-width: 1.5 !important;
+  opacity: 0.92;
+}
+}
+
 .github-contrib-rect:focus-visible {
   stroke: #1f2328 !important;
   stroke-width: 1.5 !important;
@@ -5064,8 +5165,11 @@ a.contribution-item {
   cursor: pointer;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .github-contrib-user:hover {
   color: #0969da;
+}
 }
 
 .github-contrib-icon-container {
@@ -5173,7 +5277,13 @@ a.contribution-item {
   transition: background-color 150ms ease;
 }
 
-.iab-icon-button:hover,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.iab-icon-button:hover {
+  background: #f0f1f3;
+}
+}
+
 .iab-icon-button:focus-visible {
   background: #f0f1f3;
 }
@@ -5215,8 +5325,11 @@ a.contribution-item {
   cursor: pointer;
 }
 
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
 .iab-open:hover {
   background: #f0f1f3;
+}
 }
 
 .iab-body {
@@ -5507,22 +5620,46 @@ body.iab-open .ask-yemi-fab {
   transform: rotate(8deg);
 }
 
-.project-card:hover .project-folder .folder-sheet-1,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.project-card:hover .project-folder .folder-sheet-1 {
+  transform: translate(-3%, -5%) rotate(-10deg);
+}
+}
+
 .project-card:focus-within .project-folder .folder-sheet-1 {
   transform: translate(-3%, -5%) rotate(-10deg);
 }
 
-.project-card:hover .project-folder .folder-sheet-2,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.project-card:hover .project-folder .folder-sheet-2 {
+  transform: translateY(-6%);
+}
+}
+
 .project-card:focus-within .project-folder .folder-sheet-2 {
   transform: translateY(-6%);
 }
 
-.project-card:hover .project-folder .folder-sheet-3,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.project-card:hover .project-folder .folder-sheet-3 {
+  transform: translate(3%, -5%) rotate(10deg);
+}
+}
+
 .project-card:focus-within .project-folder .folder-sheet-3 {
   transform: translate(3%, -5%) rotate(10deg);
 }
 
-.project-card:hover .project-folder .folder-front,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.project-card:hover .project-folder .folder-front {
+  transform: translateY(1%);
+}
+}
+
 .project-card:focus-within .project-folder .folder-front {
   transform: translateY(1%);
 }
@@ -5571,7 +5708,13 @@ body.iab-open .ask-yemi-fab {
   line-height: 13px;
 }
 
-.project-card:hover .project-folder .folder-stack,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.project-card:hover .project-folder .folder-stack {
+  transform: translateY(2px);
+}
+}
+
 .project-card:focus-within .project-folder .folder-stack {
   transform: translateY(2px);
 }
@@ -5595,13 +5738,26 @@ body.iab-open .ask-yemi-fab {
   transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.project-card:hover .project-folder .folder-arrow,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.project-card:hover .project-folder .folder-arrow {
+  background: var(--accent);
+  transform: translateY(2px);
+}
+}
+
 .project-card:focus-within .project-folder .folder-arrow {
   background: var(--accent);
   transform: translateY(2px);
 }
 
-.project-card:hover .project-folder .folder-arrow svg,
+@media (min-width: 769px) and (hover: hover) and (pointer: fine){
+
+.project-card:hover .project-folder .folder-arrow svg {
+  transform: translate(1px, -1px);
+}
+}
+
 .project-card:focus-within .project-folder .folder-arrow svg {
   transform: translate(1px, -1px);
 }

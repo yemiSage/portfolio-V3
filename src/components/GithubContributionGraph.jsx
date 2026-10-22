@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { canHover } from "../utils/hover";
 
 // Standard GitHub 5-level green color palette matching GitHub profile
 const LEVEL_COLORS = {
@@ -311,6 +312,7 @@ export default function GithubContributionGraph({
                           role="gridcell"
                           aria-label={tooltipText}
                           onMouseEnter={(e) => {
+                            if (!canHover()) return;
                             const rect = e.currentTarget.getBoundingClientRect();
                             setActiveTooltip({
                               text: tooltipText,

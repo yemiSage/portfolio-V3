@@ -4,6 +4,7 @@ import { BorderBeam } from "border-beam";
 import { getSmartPortfolioReply, cleanChatOutput } from "../utils/chatKnowledge";
 import { getStarterSuggestions, getFollowUpSuggestions, fetchAiSuggestions } from "../utils/chatSuggestions";
 import { isVoiceInputSupported, useVoiceInput } from "./useVoiceInput";
+import { canHover } from "../utils/hover";
 
 function InfoIcon({ size = 15 }) {
   return (
@@ -561,7 +562,7 @@ export default function AskYemiChat({
                       className="rachel-info-button"
                       aria-label="About yemiLLM"
                       onClick={() => setShowInfoTooltip(!showInfoTooltip)}
-                      onMouseEnter={() => setShowInfoTooltip(true)}
+                      onMouseEnter={() => canHover() && setShowInfoTooltip(true)}
                       onMouseLeave={() => setShowInfoTooltip(false)}
                     >
                       <InfoIcon size={14} />

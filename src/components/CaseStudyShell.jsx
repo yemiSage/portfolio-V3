@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft2, CloseCircle, HamburgerMenu } from "iconsax-reactjs";
 import { motion } from "framer-motion";
 import AiAsteriskIcon from "./AiAsteriskIcon";
+import { canHover } from "../utils/hover";
 
 
 export function BulletList({ children }) {
@@ -68,7 +69,7 @@ function SectionNavigation({ sections, activeSection, jumpMenuOpen, onJumpMenuTo
         <button className="case-study-jump" type="button" aria-expanded={jumpMenuOpen} aria-controls="case-study-jump-menu" onClick={onJumpMenuToggle}><span className="case-study-jump-icon" aria-hidden="true">↵</span><span>Jump to</span></button>
       </div>
       <span aria-hidden="true" className="case-study-nav-highlight" style={{ top: `${highlight.top}px`, height: `${highlight.height}px`, opacity: highlight.visible ? 1 : 0 }} />
-      {sections.map(([id, label]) => <a key={id} className={`case-study-index-link${activeSection === id ? " is-active" : ""}`} data-section-id={id} href={`#${id}`} aria-current={activeSection === id ? "location" : undefined} onPointerEnter={(event) => event.pointerType !== "touch" && moveHighlight(id)} onClick={(event) => onSectionSelect(event, id)}><span>{label}</span></a>)}
+      {sections.map(([id, label]) => <a key={id} className={`case-study-index-link${activeSection === id ? " is-active" : ""}`} data-section-id={id} href={`#${id}`} aria-current={activeSection === id ? "location" : undefined} onPointerEnter={(event) => canHover() && event.pointerType !== "touch" && moveHighlight(id)} onClick={(event) => onSectionSelect(event, id)}><span>{label}</span></a>)}
       {jumpMenuOpen && <div className="case-study-jump-menu" id="case-study-jump-menu">{sections.map(([id, label]) => <a key={id} className={activeSection === id ? "is-active" : ""} href={`#${id}`} onClick={(event) => onSectionSelect(event, id, true)}>{label}</a>)}</div>}
     </nav>
   );

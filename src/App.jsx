@@ -38,6 +38,7 @@ import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
 import AiAsteriskIcon from "./components/AiAsteriskIcon";
 import HoverCursor from "./components/HoverCursor";
+import { canHover } from "./utils/hover";
 import ProjectFolder from "./components/ProjectFolder";
 
 const portraitImage = "/avatar.webp";
@@ -166,7 +167,9 @@ const shots = Array.from(
 );
 
 function Tool({ name, logo }) {
-  const showColor = (event) => event.currentTarget.classList.add("is-active");
+  const showColor = (event) => {
+    if (canHover() && event.pointerType !== "touch") event.currentTarget.classList.add("is-active");
+  };
   const hideColor = (event) => event.currentTarget.classList.remove("is-active");
 
   return (
@@ -294,6 +297,10 @@ function Project({ project, visual, cursorLabel = "View case study" }) {
   };
 
   const handlePointerMove = (event) => {
+    if (!canHover() || event.pointerType === "touch") {
+      resetTilt(event);
+      return;
+    }
     const card = event.currentTarget;
     const bounds = card.getBoundingClientRect();
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
