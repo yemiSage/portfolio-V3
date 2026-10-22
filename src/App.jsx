@@ -60,7 +60,7 @@ const projects = [
     href: "/projects/tasafrica",
     tags: ["AI", "Sport", "Social", "Analytics"],
     description:
-      "Built a scalable design system and discovery flows that connect African talent with global scouts.",
+      "Designed 690+ screens to help athletes get seen and scouts find verified talent.",
   },
   {
     name: "Limestone App",
@@ -68,15 +68,16 @@ const projects = [
     href: "/projects/limestone",
     tags: ["Community", "Security", "Real Estate", "B2B"],
     description:
-      "Simplified community living with offline check-ins, panic alerts, and clearer security workflows.",
+      "Designed offline check-ins and self-serve onboarding for safer estate access.",
   },
   {
     name: "Stayafrika",
     image: "/shots/shot-36.webp",
+    imageTreatment: "stayafrika",
     href: "https://www.stayafrika.com",
     tags: ["Travel", "Hospitality", "Marketplace"],
     description:
-      "A travel marketplace for discovering stays, local experiences, and essential travel services across Africa.",
+      "Redesigned stay discovery and booking to connect travellers and hosts in Africa.",
   },
 ];
 
@@ -257,6 +258,15 @@ function ProjectVisual({ project }) {
   }, [showVideo]);
 
   const alt = `${project.name} product interface`;
+  if (project.imageTreatment === "stayafrika") {
+    return (
+      <div className="project-visual project-visual-stayafrika">
+        <div className="stayafrika-preview-window">
+          <img src={project.image} alt={alt} />
+        </div>
+      </div>
+    );
+  }
   if (!showVideo) return <img className="project-visual" src={project.image} alt={alt} />;
 
   return (

@@ -1135,6 +1135,32 @@ body.is-preloading .ask-yemi-fab,
   position: relative;
 }
 
+.project-visual-stayafrika {
+  position: relative;
+  aspect-ratio: 547 / 474;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #b72b50;
+}
+
+.stayafrika-preview-window {
+  position: absolute;
+  top: 13%;
+  left: 13%;
+  width: 115%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.stayafrika-preview-window > img {
+  display: block;
+  width: 106%;
+  max-width: none;
+  height: auto;
+  margin: -6% 0 0 -3%;
+}
+
 .project-visual-video > img {
   width: 100%;
   height: auto;
@@ -1211,7 +1237,7 @@ body.is-preloading .ask-yemi-fab,
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .contribution-groups:has(.contribution-item:hover) .contribution-item {
+  .contribution-groups:has(.contribution-item:hover) .contribution-item:not(:hover) {
     opacity: 0.3;
   }
 
