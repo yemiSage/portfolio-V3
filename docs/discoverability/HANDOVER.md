@@ -33,10 +33,12 @@
 
 ## Verification summary
 
-- `npm test`: 7 passed, 0 failed.
+- `npm test`: 14 passed, 0 failed, including the inspector regression suite.
 - `npm run build`: passed.
 - Headless Chromium: 8 mobile/desktop route checks passed with no page errors, failed images or horizontal overflow.
 - Preview image: verified 1200×630 JPEG.
+- Inspector: live 11-condition score, response verification and failure/recovery browser checks passed at desktop/mobile sizes. This score does not measure indexing or AI citations.
+- Footer: all seven links use the shared 14px style across responsive breakpoints.
 - Production: not deployed in this work.
 - Search/provider indexing: not claimed.
 

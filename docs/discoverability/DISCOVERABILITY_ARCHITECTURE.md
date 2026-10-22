@@ -13,6 +13,7 @@ Keep the React/Vite product architecture and add a small framework-neutral disco
 5. `vercel.json` routes only known client routes to their generated HTML files. Unknown routes are no longer rewritten to the home shell.
 6. `server.ts` serves the same generated route files in production mode and returns `404.html` for unknown paths.
 7. `tests/discoverability.test.mjs` enforces the route registry, output metadata, sitemap exclusions, robots policy, AI file scope, preview dimensions and Vercel routing.
+8. `src/discoverability/diagnostics.js` reads live document metadata and assesses current-origin discovery responses for the optional inspector. The score measures only its listed technical checks; pending requests have no numeric score. `tests/diagnostics.test.mjs` covers failures as well as passing routes.
 
 ## Rendering sequence
 

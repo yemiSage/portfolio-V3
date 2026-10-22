@@ -1526,7 +1526,7 @@ a.contribution-item {
 
 .footer-links a {
   width: fit-content;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
   font-weight: 500;
   letter-spacing: 0;
@@ -4395,6 +4395,93 @@ a.contribution-item {
   font-size: 11px;
   color: #166534;
   font-weight: 500;
+}
+
+.seo-diag-score-badge.needs-review {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.seo-diag-score-badge.needs-review .score-num,
+.seo-diag-score-badge.needs-review .score-status {
+  color: #92400e;
+}
+
+.seo-diag-modal-header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.seo-diag-header-icon,
+.seo-diag-close-btn {
+  flex-shrink: 0;
+}
+
+.seo-diag-modal-body {
+  min-height: 0;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.seo-diag-modal-body p {
+  margin: 6px 0 12px;
+}
+
+.seo-diag-modal-body form {
+  display: flex;
+  gap: 8px;
+}
+
+.seo-diag-input {
+  min-width: 0;
+}
+
+.seo-diag-check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.seo-diag-check-row > span {
+  flex-shrink: 0;
+}
+
+.seo-diag-check-row[data-status="failed"] {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.seo-diag-check-row[data-status="passed"] > span {
+  color: #15803d;
+}
+
+.seo-diag-modal-footer,
+.seo-diag-modal-header {
+  flex-wrap: wrap;
+}
+
+.seo-diag-modal-header,
+.seo-diag-tabs-bar,
+.seo-diag-modal-footer {
+  flex-shrink: 0;
+}
+
+.seo-diag-benchmark-card,
+.seo-diag-checklist-card {
+  margin-bottom: 12px;
+}
+
+.seo-diag-modal-footer > div:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 11px;
 }
 
 .seo-diag-close-btn {

@@ -6,7 +6,7 @@ Date: 2026-10-22
 
 Command: `npm test`
 
-Result: **7 passed, 0 failed**.
+Result after the inspector correction: **14 passed, 0 failed** (7 original discoverability tests plus 7 diagnostic regression tests).
 
 Coverage:
 
@@ -42,7 +42,15 @@ Verified locally:
 
 Headless Chromium loaded the home page and all three case studies at 375×812 and 1440×900. All eight checks returned HTTP 200 with the expected runtime title and canonical URL. No JavaScript page errors, failed images or horizontal document overflow were detected. This is a responsive smoke check, not a field Core Web Vitals measurement or a complete WCAG conformance audit.
 
-## Not verified in this report
+## Inspector regression verification
+
+`tests/diagnostics.test.mjs` checks all maintained routes without meta keywords, deliberate noindex, pending/failed requests, missing social tags, broken JSON-LD, wrong or duplicate canonical URLs, stale route data, HTTP errors, HTML fallbacks, incorrect MIME types, stale/malformed/private sitemap entries, network failures and cancellation. The normal `npm test` command includes these checks in CI.
+
+`scripts/check-diagnostic-browser.mjs` is an optional Playwright smoke test requiring an available Playwright installation and Chrome. Configure `PLAYWRIGHT_MODULE_PATH` with the absolute path to `playwright/index.mjs` when Playwright is supplied externally; `DIAGNOSTIC_TEST_ORIGIN` defaults to `http://localhost:3000`.
+
+Verified at 1304×884 and 375×812 against development at localhost:3000 and the local production build at localhost:3001: 11/11 live checks pass, the displayed technical score is 100/100, missing Open Graph and invalid JSON-LD lower the score, restoration recovers it, an HTML discovery fallback fails, local keyword notes never change metadata or score, navigation/back refreshes metadata, Escape closes the dialog, and there are no JavaScript page errors or horizontal overflow. All seven footer links compute to 14px at both viewport sizes; the shared footer rule applies across breakpoints and case-study footers.
+
+## External checks still pending
 
 - Production deployment or production logs.
 - Search Console/Bing index coverage or sitemap submission.
