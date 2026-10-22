@@ -1820,7 +1820,9 @@ a.contribution-item {
   gap: 12px;
 }
 
-.case-study-section h2 {
+.case-study-section h2,
+.stay-product-flow > h3,
+.stay-design-decision h4 {
   max-width: 820px;
   color: #1c1c1c;
   text-wrap: balance;
@@ -3062,7 +3064,8 @@ a.contribution-item {
   max-width: 804px;
 }
 
-.case-study-section-heading p {
+.case-study-section-heading p,
+.stay-product-flow > .stay-flow-label {
   color: var(--accent);
   font-family: "DM Sans", sans-serif;
   font-size: 18px;
@@ -3073,7 +3076,13 @@ a.contribution-item {
 }
 
 .case-study-section-body > p,
-.case-study-list li {
+.case-study-list li,
+.stay-product-flow > p:not(.stay-flow-label),
+.stay-design-decision p,
+.stay-contributions p,
+.stay-csv-figure th,
+.stay-csv-figure td,
+.stay-live-link {
   font-size: 14px;
   line-height: 24px;
   letter-spacing: 0;
@@ -3119,7 +3128,8 @@ a.contribution-item {
   object-fit: contain;
 }
 
-.case-study-flow-figure figcaption {
+.case-study-flow-figure figcaption,
+.stay-csv-figure figcaption {
   margin-top: 12px;
   color: #2e2a2c;
   font-size: 13px;
@@ -3227,7 +3237,10 @@ a.contribution-item {
 .case-study-result-grid p,
 .case-study-flow-copy p,
 .case-study-subsection > p,
-.case-study-other-screens p {
+.case-study-other-screens p,
+.stay-product-flow > p:not(.stay-flow-label),
+.stay-design-decision p,
+.stay-contributions p {
   color: var(--body-copy);
 }
 
