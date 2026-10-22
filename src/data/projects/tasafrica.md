@@ -67,6 +67,7 @@ Yemi and the Product Manager conducted comprehensive qualitative research to gro
 ---
 
 ## Results & Impact
+- Led 690+ screens across 8 core features, collaborating with 3 engineers and a product manager to launch a sports talent platform serving athletes and coaches, with over 3 clubs using it.
 - Shipped a beautifully cohesive **690+ screen design** covering every edge case across the ecosystem.
 - Simplified registration, significantly reducing onboarding drop-offs.
 - Empowered scouts with the exact physical metrics and video contexts needed to initiate direct trials and contract conversations.

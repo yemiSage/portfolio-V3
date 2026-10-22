@@ -1,0 +1,101 @@
+.stayafrika-case-study .case-study-section,
+.stayafrika-case-study .case-study-section#overview {
+  padding: 30px 0;
+}
+
+.stayafrika-case-study .case-study-section > h2 {
+  max-width: none;
+  margin-top: 4px;
+  font-size: 20px;
+  line-height: 29px;
+  letter-spacing: -0.4px;
+}
+
+.stayafrika-case-study .case-study-section-body > p {
+  max-width: none;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.stayafrika-case-study .case-study-section-body {
+  margin-top: 4px;
+}
+
+.stayafrika-case-study .case-study-section-body > p + p {
+  margin-top: 12px;
+}
+
+.stayafrika-case-study .case-study-meta-grid {
+  grid-template-columns: auto auto auto auto;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+.stay-product-figure {
+  width: 100%;
+  margin: 32px 0;
+}
+
+.stay-figure-viewport {
+  position: relative;
+  overflow: hidden;
+}
+
+.sf-native {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+}
+
+.stay-design-decision { margin-top: 24px; }
+.stay-design-decision h3 {
+  color: #1c1c1c;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 29px;
+  letter-spacing: -0.4px;
+}
+.stay-design-decision p {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.stay-contributions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.stay-contributions > div { padding: 16px; border-radius: 8px; background: #f6f6f6; }
+.stay-contributions span { color: #2e2a2c; font-size: 12px; font-weight: 800; }
+.stay-contributions p { margin-top: 8px; color: #32404f; font-size: 14px; line-height: 21px; }
+
+.stay-csv-figure { margin: 32px 0 0; padding: 40px; background: #f1f4f0; }
+.stay-csv-scroll { padding: 24px; overflow-x: auto; border-radius: 8px; background: #fff; }
+.stay-csv-figure table { width: 100%; border-collapse: collapse; text-align: left; }
+.stay-csv-figure th { padding: 0 16px 12px 0; color: #68776d; font-size: 14px; font-weight: 700; border-bottom: 1px solid #e6e5e2; }
+.stay-csv-figure td { padding: 12px 16px 0 0; color: #252a2e; font-size: 16px; white-space: nowrap; }
+.stay-csv-figure figcaption { margin-top: 20px; color: #676c70; font-size: 14px; line-height: 21px; }
+.stay-live-link { display: inline-block; margin-top: 24px; color: var(--accent); font-size: 14px; }
+
+@media (max-width: 1023px) {
+  .stayafrika-case-study .case-study-meta-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stay-contributions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 767px) {
+  .stayafrika-case-study .case-study-section > h2,
+  .stay-design-decision h3 { font-size: 18px; line-height: 26px; }
+  .stayafrika-case-study .case-study-section-body > p,
+  .stay-design-decision p { font-size: 13px; line-height: 22px; }
+  .stay-product-figure { margin: 24px 0; }
+  .stay-contributions { gap: 8px; }
+  .stay-contributions > div { padding: 12px; }
+  .stay-contributions p { font-size: 12px; }
+  .stay-csv-figure { padding: 16px; }
+  .stay-csv-scroll { padding: 16px; }
+}

@@ -15,6 +15,7 @@ import GithubStats from "./components/GithubStats";
 
 const LimestoneCaseStudy = lazy(() => import("./components/LimestoneCaseStudy"));
 const TasaAfricaCaseStudy = lazy(() => import("./components/TasaAfricaCaseStudy"));
+const StayafrikaCaseStudy = lazy(() => import("./components/StayafrikaCaseStudy"));
 const SeoDiagnosticOverlay = lazy(() => import("./components/SeoDiagnosticOverlay"));
 import tasafricaImage from "../assets/figma/tasafrica.webp";
 import limestoneImage from "../assets/figma/limestone.webp";
@@ -61,7 +62,7 @@ const projects = [
     href: "/projects/tasafrica",
     tags: ["AI", "Sport", "Social", "Analytics"],
     description:
-      "Designed 690+ screens to help athletes get seen and scouts find verified talent.",
+      "Led design of 690+ screens across 8 features for a platform used by over 3 clubs.",
   },
   {
     name: "Limestone App",
@@ -69,16 +70,16 @@ const projects = [
     href: "/projects/limestone",
     tags: ["Community", "Security", "Real Estate", "B2B"],
     description:
-      "Designed offline check-ins and self-serve onboarding for safer estate access.",
+      "Shipped offline check-ins so tenants could check in without internet access.",
   },
   {
     name: "Stayafrika",
     image: "/shots/shot-36.webp",
     imageTreatment: "stayafrika",
-    href: "https://www.stayafrika.com",
+    href: "/projects/stayafrika",
     tags: ["Travel", "Hospitality", "Marketplace"],
     description:
-      "Designed stay discovery and booking to connect travellers and hosts across Africa.",
+      "Designed Stayafrika from flows to launch; 36 businesses joined in around 2 months.",
   },
 ];
 
@@ -350,6 +351,7 @@ function App() {
 
   const isLimestoneCaseStudy = path === "/projects/limestone";
   const isTasaAfricaCaseStudy = path === "/projects/tasafrica";
+  const isStayafrikaCaseStudy = path === "/projects/stayafrika";
   const isResumePage = path === "/resume";
   const [activePanel, setActivePanel] = useState(isResumePage ? "resume" : "home");
 
@@ -590,6 +592,8 @@ function App() {
       if (!anchor) return;
       const href = anchor.getAttribute("href");
       if (!href) return;
+      // Case-study sections handle their own scrolling and active navigation.
+      if (href.startsWith("#")) return;
 
       const isExternal =
         href.startsWith("http://") ||
@@ -610,6 +614,7 @@ function App() {
         } else if (
           cleanHref === "/projects/tasafrica" ||
           cleanHref === "/projects/limestone" ||
+          cleanHref === "/projects/stayafrika" ||
           cleanHref === "/" ||
           cleanHref === ""
         ) {
@@ -660,11 +665,13 @@ function App() {
     </AnimatePresence>
   );
 
-  if (isLimestoneCaseStudy) {
+  if (isLimestoneCaseStudy || isStayafrikaCaseStudy) {
     return (
       <Suspense fallback={null}>
         {topProgressBar}
-        <LimestoneCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
+        {isStayafrikaCaseStudy
+          ? <StayafrikaCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
+          : <LimestoneCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />}
         <AskYemiChat
           isOpen={isChatOpen}
           onOpen={() => setIsChatOpen(true)}

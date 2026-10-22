@@ -67,6 +67,7 @@ Yemi utilized a meticulous five-phase process:
 ---
 
 ## Results & Business Impact
+- Designed and shipped the offline check-in feature, enabling tenant check-ins when internet connectivity was unavailable.
 - Shipped a bulletproof smart community mobile app that continues to secure estates during total network outages.
 - Drastically reduced administrative onboarding overhead by transitioning to a self-serve resident verification model.
 - Received outstanding feedback from estate residents and property managers for its reliability, clean visual structure, and ease of use.

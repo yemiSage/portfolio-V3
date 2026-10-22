@@ -20,7 +20,7 @@
 - [Limestone App](/projects/limestone): Estate security and residential community access management platform. Designed offline visitor check-ins, instant panic triggers, and estate administrator portals.
 - **Xeruit Talent**: AI-powered hiring operating system designed for verified tech talent discovery and candidate assessment.
 - **Norocio**: Cross-border fintech platform supporting multi-currency accounts, stablecoin payments, and global remittances.
-- **Stayafrika**: Travel accommodation marketplace for discovering authentic stays, local experiences, and services across Africa.
+- **Stayafrika**: Original product design from flows to launch, with 36 businesses around 2 months after launch, including 22 active within the past month. Case study: https://yemii.vercel.app/projects/stayafrika
 - **Soludesks**: B2B SaaS platform for corporate team training, employee attendance, and enterprise operations.
 - **AfternoonPrep**: UK-based online learning and exam preparation platform for structured student revision.
 - **Flxfleet**: Canadian fleet logistics, delivery dispatch, driver booking, and real-time shipment tracking.
