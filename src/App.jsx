@@ -18,7 +18,6 @@ const TasaAfricaCaseStudy = lazy(() => import("./components/TasaAfricaCaseStudy"
 const SeoDiagnosticOverlay = lazy(() => import("./components/SeoDiagnosticOverlay"));
 import tasafricaImage from "../assets/figma/tasafrica.webp";
 import limestoneImage from "../assets/figma/limestone.webp";
-import xeruitImage from "../assets/figma/xeruit.webp";
 import figmaLogo from "../assets/figma/figma.svg";
 import nextjsLogo from "../assets/figma/nextjs.svg";
 import typescriptLogo from "../assets/figma/typescript.svg";
@@ -72,12 +71,12 @@ const projects = [
       "Simplified community living with offline check-ins, panic alerts, and clearer security workflows.",
   },
   {
-    name: "Xeruit Talent",
-    image: xeruitImage,
-    href: "https://xeruit.com",
-    tags: ["AI", "Hiring", "SAAS", "B2B"],
+    name: "Stayafrika",
+    image: "/shots/shot-36.webp",
+    href: "https://www.stayafrika.com",
+    tags: ["Travel", "Hospitality", "Marketplace"],
     description:
-      "Shipped an AI hiring OS with verified talent and scalable recruiter discovery.",
+      "A travel marketplace for discovering stays, local experiences, and essential travel services across Africa.",
   },
 ];
 
@@ -143,7 +142,7 @@ const contributedProjects = [
     year: "2026",
     projects: [
       { name: "Norocio", status: "In development", isNew: true, logoDomain: "norocio.com", description: "A cross-border payments platform for global transfers, multi-currency accounts, and stablecoin." },
-      { name: "Stayafrika", status: "www.stayafrika.com", href: "https://www.stayafrika.com", logoDomain: "stayafrika.com", description: "A travel marketplace for discovering stays, local experiences, and essential travel services across Africa." },
+      { name: "Xeruit Talent", status: "xeruit.com", href: "https://xeruit.com", logoDomain: "xeruit.com", description: "Shipped an AI hiring OS with verified talent and scalable recruiter discovery." },
       { name: "Soludesks", status: "www.soludesks.com", href: "https://www.soludesks.com", logoDomain: "soludesks.com", description: "A B2B SaaS platform for managing team learning, support, attendance, and business operations." },
       { name: "Feexeet", status: "feexeet.com", href: "https://feexeet.com/", logoDomain: "feexeet.com", description: "A service marketplace connecting homeowners and businesses with verified service professionals." },
     ],
