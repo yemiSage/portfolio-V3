@@ -11,6 +11,61 @@ export default function GuestbookPage({ onOpenAiChat }) {
   const drag = useRef(null);
   const boardRef = useRef(null);
   const [zoom, setZoom] = useState(1);
+  const zoomRef = useRef(1);
+  const pinchRef = useRef(null);
+  zoomRef.current = zoom;
+  const zoomBoard = (value, clientX, clientY) => {
+    const board = boardRef.current;
+    if (!board) return;
+    const rect = board.getBoundingClientRect();
+    const x = clientX == null ? board.clientWidth / 2 : clientX - rect.left;
+    const y = clientY == null ? board.clientHeight / 2 : clientY - rect.top;
+    const next = Math.max(.3, Math.min(2.5, value));
+    const left = (board.scrollLeft + x) / zoomRef.current * next - x;
+    const top = (board.scrollTop + y) / zoomRef.current * next - y;
+    zoomRef.current = next;
+    setZoom(next);
+    requestAnimationFrame(() => { board.scrollLeft = left; board.scrollTop = top; });
+  };
+  useEffect(() => {
+    const board = boardRef.current;
+    const wheel = event => {
+      event.preventDefault();
+      if (event.ctrlKey || event.metaKey) zoomBoard(zoomRef.current * Math.exp(-event.deltaY * .008), event.clientX, event.clientY);
+      else { board.scrollLeft += event.deltaX; board.scrollTop += event.deltaY; }
+    };
+    const pair = touches => {
+      const [a,b] = touches;
+      return { distance: Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY), x: (a.clientX+b.clientX)/2, y: (a.clientY+b.clientY)/2 };
+    };
+    const start = event => {
+      if (event.touches.length !== 2) return;
+      event.preventDefault();
+      pinDrag.current = null; drag.current = null; suppressPinClick.current = true;
+      const point = pair(event.touches), rect = board.getBoundingClientRect();
+      pinchRef.current = { ...point, zoom: zoomRef.current, worldX: (board.scrollLeft + point.x - rect.left) / zoomRef.current, worldY: (board.scrollTop + point.y - rect.top) / zoomRef.current };
+    };
+    const move = event => {
+      if (event.touches.length !== 2 || !pinchRef.current) return;
+      event.preventDefault();
+      const next = pair(event.touches), previous = pinchRef.current;
+      zoomBoard(previous.zoom * next.distance / Math.max(1, previous.distance), next.x, next.y);
+      const rect = board.getBoundingClientRect();
+      requestAnimationFrame(() => { board.scrollLeft = previous.worldX * zoomRef.current - (next.x - rect.left); board.scrollTop = previous.worldY * zoomRef.current - (next.y - rect.top); });
+    };
+    const end = () => { pinchRef.current = null; };
+    board.addEventListener("wheel", wheel, { passive: false });
+    board.addEventListener("touchstart", start, { passive: false, capture: true });
+    board.addEventListener("touchmove", move, { passive: false, capture: true });
+    board.addEventListener("touchend", end);
+    board.addEventListener("touchcancel", end);
+    return () => {
+      board.removeEventListener("wheel", wheel);
+      board.removeEventListener("touchstart", start, true);
+      board.removeEventListener("touchmove", move, true);
+      board.removeEventListener("touchend", end); board.removeEventListener("touchcancel", end);
+    };
+  }, []);
   const composer = useRef(null);
   const avatarInput = useRef(null);
   const pinDrag = useRef(null);
@@ -48,8 +103,8 @@ export default function GuestbookPage({ onOpenAiChat }) {
     return () => clearTimeout(timer);
   }, [result]);
   const allNotes = [{ id: "host", name: "Yemi, your host", message: "The internet is a big place. I’m glad our paths crossed here.", color: "peach" }, ...notes];
-  const boardWidth = Math.max(800, ...allNotes.map((note, index) => (positions[note.id] || defaultNotePosition(index)).x + 300));
-  const boardHeight = Math.max(540, ...allNotes.map((note, index) => (positions[note.id] || defaultNotePosition(index)).y + 250));
+  const boardWidth = Math.max(1600, ...allNotes.map((note, index) => (positions[note.id] || defaultNotePosition(index)).x + 300));
+  const boardHeight = Math.max(1000, ...allNotes.map((note, index) => (positions[note.id] || defaultNotePosition(index)).y + 250));
   const selectAvatar = async event => {
     const file = event.target.files?.[0];
     event.target.value = "";
@@ -96,10 +151,10 @@ export default function GuestbookPage({ onOpenAiChat }) {
   return <PersonalPageShell page="guestbook" sections={SECTIONS} onOpenAiChat={onOpenAiChat}>
     <div className="guest-wall-header"><h1>Postal my wall</h1><span>{status === "loading" ? "Opening the book…" : `${notes.length} ${notes.length === 1 ? "published note" : "published notes"}`}</span></div>
     <section id="the-wall" className="guest-wall personal-section">
-      <div className="guest-zoom" aria-label="Board zoom controls"><button type="button" aria-label="Zoom out" disabled={zoom <= .5} onClick={() => setZoom(value => Math.max(.5, +(value - .1).toFixed(1)))}>−</button><button type="button" aria-label="Reset zoom" onClick={() => setZoom(1)}>{Math.round(zoom * 100)}%</button><button type="button" aria-label="Zoom in" disabled={zoom >= 1.6} onClick={() => setZoom(value => Math.min(1.6, +(value + .1).toFixed(1)))}>+</button></div>
+      <div className="guest-zoom" aria-label="Board zoom controls"><button type="button" aria-label="Zoom out" disabled={zoom <= .3} onClick={() => zoomBoard(zoomRef.current - .1)}>−</button><button type="button" aria-label="Reset zoom" onClick={() => zoomBoard(1)}>{Math.round(zoom * 100)}%</button><button type="button" aria-label="Zoom in" disabled={zoom >= 2.5} onClick={() => zoomBoard(zoomRef.current + .1)}>+</button></div>
       <div ref={boardRef} className="guest-wall-grid" role="region" aria-label="Guestbook notes. Drag or use arrow keys to explore." tabIndex={0}
         onPointerDown={event => {
-          if (event.target.closest("button") || event.pointerType !== "mouse" || event.button !== 0) return;
+          if (event.target.closest("button") || event.button !== 0 || pinchRef.current) return;
           const board = event.currentTarget;
           drag.current = { x: event.clientX, y: event.clientY, left: board.scrollLeft, top: board.scrollTop };
           board.setPointerCapture(event.pointerId);
@@ -119,7 +174,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
         }}>
         <div className="guest-comment-space" style={{ width: boardWidth * zoom, height: boardHeight * zoom }}><div className="guest-comment-canvas" style={{ width: boardWidth, height: boardHeight, transform: `scale(${zoom})`, transformOrigin: "top left" }}>
         {allNotes.map((note, index) => <div className="guest-comment" key={note.id} style={{ "--pin-color": ["#8c42e8", "#317adf", "#d86536", "#2e956f"][index % 4], left: positions[note.id]?.x ?? defaultNotePosition(index).x, top: positions[note.id]?.y ?? defaultNotePosition(index).y }} onPointerDown={event => {
-            if (event.button !== 0 || event.target.closest(".guest-comment-panel button")) return;
+            if (pinchRef.current || event.button !== 0 || event.target.closest(".guest-comment-panel button")) return;
             event.stopPropagation();
             const card = event.currentTarget;
             pinDrag.current = { id: note.id, x: event.clientX, y: event.clientY, left: card.offsetLeft, top: card.offsetTop };
