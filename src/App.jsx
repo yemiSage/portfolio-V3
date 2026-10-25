@@ -56,13 +56,13 @@ const projects = [
     company: "Stayafrika",
     logo: "/brands/stayafrika.svg",
     role: "Contract UI/UX Designer",
-    year: "2025 – 2026",
+    year: "2026",
     image: "/shots/shot-36.webp",
     imageTreatment: "stayafrika",
     href: "/projects/stayafrika",
     tags: ["Travel", "Hospitality", "Marketplace"],
     description:
-      "Designed Stayafrika from flows to launch, connecting property managers, landlords, event hosts, and everyday services like bakeries and barbers.",
+      "Designed Stayafrika from flows to launch, connecting property managers, landlords, event hosts, and everyday services all in one app.",
   },
   {
     name: "TASAfrica",

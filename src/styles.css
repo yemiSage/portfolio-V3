@@ -6116,7 +6116,8 @@ svg.case-card-logo {
 
 @media (max-width: 640px) {
   .case-card-media { padding: 20px 6%; }
-  .case-card-body { padding: 20px 16px; }
+  .case-card-body { padding: 12px; }
+  .case-card-body h3 { font-size: 16px; }
 }
 
 .project-card-list > .project-card {
