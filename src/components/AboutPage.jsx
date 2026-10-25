@@ -5,17 +5,18 @@ import PersonalPageShell from "./PersonalPageShell";
 import { ABOUT_JOURNEY, ABOUT_SECTIONS } from "../data/about";
 export default function AboutPage({ onOpenAiChat }) {
   const dialog = useRef(null);
+  const [showPortraitPhoto, setShowPortraitPhoto] = useState(false);
   const [photo, setPhoto] = useState(null);
   const viewPhoto = (src, alt) => { setPhoto({ src, alt }); dialog.current?.showModal(); };
   const capsule = (src, label, className = "") => <button className={`word-photo ${className}`} type="button" onClick={() => viewPhoto(src, label)} aria-label={`View photo: ${label}`}><img src={src} alt="" width="120" height="80" /><span aria-hidden="true">↗</span></button>;
   return <PersonalPageShell page="about" sections={ABOUT_SECTIONS} onOpenAiChat={onOpenAiChat}>
-    <div className="about-pinned-intro">
-      <h1>An engineer’s mind.<br />A designer’s {capsule("/shots/shot-36.webp", "A glimpse of the Stayafrika interface")} eye.</h1>
+    <div className="about-intro">
+      <h1>An engineer’s mind.<br />A designer’s <span className="about-tool-icons" aria-label="Figma, Codex, Claude and VS Code">{[["figma", "Figma"], ["codex", "Codex"], ["claude", "Claude"], ["vscode", "VS Code"]].map(([icon, label]) => <img key={icon} src={`/icons/${icon}.svg`} alt={label} width="22" height="22" />)}</span> eye.</h1>
       <div className="about-intro-line"><span>DESIGN ENGINEER, PRODUCT & AI</span><span>LAGOS, NIGERIA ↗</span></div>
     </div>
     <section id="hello" className="about-hero personal-section">
       <p className="about-lede">I like knowing how things work. I care even more about how they feel to the person using them.</p>
-      <div className="about-prose"><div><p>I’m Adboye Opeyemi. I started in electrical and electronics engineering, found my way into product design, and kept following that curiosity into code. These days, I design and build digital products across SaaS, marketplaces, and AI. The part I enjoy most? Turning a complicated system into something that makes sense. Something useful. Something a real person can pick up and get on with their day.</p></div><button type="button" className="about-ascii-portrait" onClick={() => viewPhoto("/avatar.webp", "Black-and-white portrait of Yemi")} aria-label="View black-and-white portrait of Yemi"><AsciiPortrait src="/avatar.webp" alt="ASCII portrait of Yemi" hoverRadius={12} /></button></div>
+      <div className="about-prose"><div><p>I’m Adboye Opeyemi. I started in electrical and electronics engineering, found my way into product design, and kept following that curiosity into code. These days, I design and build digital products across SaaS, marketplaces, and AI. The part I enjoy most? Turning a complicated system into something that makes sense. Something useful. Something a real person can pick up and get on with their day.</p></div><button type="button" className="about-ascii-portrait" onClick={() => setShowPortraitPhoto(value => !value)} aria-pressed={showPortraitPhoto} aria-label={showPortraitPhoto ? "Show ASCII portrait" : "Show black-and-white portrait"}>{showPortraitPhoto ? <img className="portrait-monochrome" src="/avatar.webp" alt="Black-and-white portrait of Yemi" width="320" height="320" /> : <AsciiPortrait src="/avatar.webp" alt="ASCII portrait of Yemi" hoverRadius={5} monochrome />}</button></div>
     </section>
     <section id="the-journey" className="personal-section about-journey">
       <div className="case-study-section-heading"><p>The journey</p></div>

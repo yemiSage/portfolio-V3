@@ -69,7 +69,7 @@ function buildParticles(img) {
   return particles;
 }
 
-export default function AsciiPortrait({ src, alt, className = "", hoverRadius = RADIUS }) {
+export default function AsciiPortrait({ src, alt, className = "", hoverRadius = RADIUS, monochrome = false }) {
   const canvasRef = useRef(null);
   const particlesRef = useRef([]);
   const pointerRef = useRef({ x: -9999, y: -9999 });
@@ -125,7 +125,7 @@ export default function AsciiPortrait({ src, alt, className = "", hoverRadius = 
           p.y = Math.abs(oy) < 0.5 ? p.baseY : p.y - oy / ease;
         }
         const displaced = (p.x - p.baseX) ** 2 + (p.y - p.baseY) ** 2 > 1;
-        ctx.fillStyle = displaced ? "#E0733D" : p.color;
+        ctx.fillStyle = monochrome ? "#000000" : displaced ? "#E0733D" : p.color;
         ctx.fillText(p.char, p.x, p.y);
       }
       frame = requestAnimationFrame(draw);
@@ -133,7 +133,7 @@ export default function AsciiPortrait({ src, alt, className = "", hoverRadius = 
 
     frame = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(frame);
-  }, [hoverRadius]);
+  }, [hoverRadius, monochrome]);
 
   const setPointer = useCallback((clientX, clientY) => {
     const canvas = canvasRef.current;
