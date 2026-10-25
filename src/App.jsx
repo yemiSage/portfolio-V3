@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import {
   ArrowLeft2,
   ArrowRight2,
+  Briefcase,
+  Building,
+  Calendar,
   CloseCircle,
   HamburgerMenu,
 } from "iconsax-reactjs";
@@ -50,6 +54,9 @@ const portraitImage = "/avatar.webp";
 const projects = [
   {
     name: "TASAfrica",
+    company: "TASAfrica Sports",
+    role: "Lead Product Designer",
+    year: "2024",
     image: tasafricaImage,
     href: "/projects/tasafrica",
     tags: ["AI", "Sport", "Social", "Analytics"],
@@ -58,6 +65,9 @@ const projects = [
   },
   {
     name: "Limestone App",
+    company: "Limestone Technologies",
+    role: "Lead UX/UI Designer",
+    year: "2024",
     image: limestoneImage,
     href: "/projects/limestone",
     tags: ["Community", "Security", "Real Estate", "B2B"],
@@ -66,6 +76,9 @@ const projects = [
   },
   {
     name: "Stayafrika",
+    company: "Private LLTDC",
+    role: "UI/UX Designer",
+    year: "2025 – 2026",
     image: "/shots/shot-36.webp",
     imageTreatment: "stayafrika",
     href: "/projects/stayafrika",
@@ -333,6 +346,41 @@ function Project({ project, visual, cursorLabel = "View case study" }) {
       </div>
       {visual || <ProjectVisual project={project} />}
     </Card>
+  );
+}
+
+// Case studies: cover on a soft panel, then client, title, role and year, and a full-width link.
+function CaseStudyCard({ project }) {
+  return (
+    <a className="case-card" href={project.href} data-cursor="Read case study" aria-label={`Read the ${project.name} case study`}>
+      <div className="case-card-media">
+        <ProjectVisual project={project} />
+      </div>
+      <div className="case-card-body">
+        <p className="case-card-client">
+          <span className="case-card-client-icon" aria-hidden="true">
+            <Building size={14} color="currentColor" variant="Bold" />
+          </span>
+          {project.company}
+        </p>
+        <h3>{project.name}</h3>
+        <p className="case-card-summary">{project.description}</p>
+        <ul className="case-card-meta" aria-label="Role and year">
+          <li>
+            <Briefcase size={18} color="currentColor" variant="Linear" aria-hidden="true" />
+            {project.role}
+          </li>
+          <li>
+            <Calendar size={18} color="currentColor" variant="Linear" aria-hidden="true" />
+            {project.year}
+          </li>
+        </ul>
+        <span className="case-card-cta">
+          Read Case Study
+          <ArrowUpRight size={18} aria-hidden="true" />
+        </span>
+      </div>
+    </a>
   );
 }
 
@@ -853,7 +901,9 @@ function App() {
 
                 <section className="projects" id="work" aria-label="Selected projects">
                   {activeWork === "case-studies" ? (
-                    projects.map((project) => <Project key={project.name} project={project} />)
+                    <div className="case-card-list">
+                      {projects.map((project) => <CaseStudyCard key={project.name} project={project} />)}
+                    </div>
                   ) : activeWork === "projects" ? (
                     projectFolders.map((project) => (
                       <Project key={project.name} project={project} cursorLabel="View project" visual={<ProjectFolder project={project} />} />

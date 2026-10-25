@@ -29,7 +29,10 @@ function buildParticles(img) {
   canvas.width = SIZE;
   canvas.height = SIZE;
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  // A light blur evens out specular highlights (nose, forehead) before sampling.
+  ctx.filter = "blur(1.2px)";
   ctx.drawImage(img, 0, 0, SIZE, SIZE);
+  ctx.filter = "none";
   const { data } = ctx.getImageData(0, 0, SIZE, SIZE);
   const cx = SIZE / 2;
   const cy = SIZE / 2;
@@ -42,8 +45,10 @@ function buildParticles(img) {
       if (isBackground(r, g, b, a)) continue;
       const luma = 0.299 * r + 0.587 * g + 0.114 * b;
       // v is ink depth: stretched so skin midtones stay dense and only highlights thin out.
-      const v = Math.pow(Math.min(1, Math.max(0, (235 - luma) / 190)), 0.7);
-      if (v < 0.12) continue;
+      // Roll off highlights so bright skin keeps soft glyphs instead of punching holes.
+      const tone = luma > 140 ? 140 + (luma - 140) * 0.35 : luma;
+      const v = Math.pow(Math.min(1, Math.max(0, (235 - tone) / 190)), 0.7);
+      if (v < 0.08) continue;
       const char = RAMP[Math.min(RAMP.length - 1, Math.floor(v * RAMP.length))];
       if (char === " ") continue;
 
