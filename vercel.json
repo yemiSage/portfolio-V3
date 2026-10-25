@@ -7,6 +7,8 @@
     }
   },
   "rewrites": [
+    { "source": "/about", "destination": "/about/index.html" },
+    { "source": "/guestbook", "destination": "/guestbook/index.html" },
     {
       "source": "/projects/tasafrica",
       "destination": "/projects/tasafrica/index.html"

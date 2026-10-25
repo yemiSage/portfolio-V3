@@ -129,6 +129,8 @@ export function renderLlms() {
 ## Canonical site
 
 - [Portfolio home](${SITE.origin}/): Profile, capabilities, selected work and contact links.
+- [About Yemi](${SITE.origin}/about): Engineering background, design journey, community and interests.
+- [Guestbook](${SITE.origin}/guestbook): Visitor notes, reviewed before publication.
 
 ## Public case studies
 

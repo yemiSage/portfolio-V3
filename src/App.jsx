@@ -7,7 +7,6 @@ import {
   Briefcase,
   Calendar,
   CloseCircle,
-  HamburgerMenu,
 } from "iconsax-reactjs";
 
 import FullScreenPreloader from "./components/FullScreenPreloader";
@@ -20,6 +19,8 @@ import GithubStats from "./components/GithubStats";
 const LimestoneCaseStudy = lazy(() => import("./components/LimestoneCaseStudy"));
 const TasaAfricaCaseStudy = lazy(() => import("./components/TasaAfricaCaseStudy"));
 const StayafrikaCaseStudy = lazy(() => import("./components/StayafrikaCaseStudy"));
+const AboutPage = lazy(() => import("./components/AboutPage"));
+const GuestbookPage = lazy(() => import("./components/GuestbookPage"));
 const SeoDiagnosticOverlay = lazy(() => import("./components/SeoDiagnosticOverlay"));
 import tasafricaImage from "../assets/figma/tasafrica.webp";
 import limestoneImage from "../assets/figma/limestone.webp";
@@ -41,11 +42,11 @@ import vsCodeLogo from "../assets/figma/vs-code.svg";
 import claudeLogo from "../assets/figma/claude.svg";
 import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
-import AiAsteriskIcon from "./components/AiAsteriskIcon";
 import HoverCursor from "./components/HoverCursor";
 import { canHover } from "./utils/hover";
 import ProjectFolder from "./components/ProjectFolder";
 import AsciiPortrait from "./components/AsciiPortrait";
+import SiteHeader, { ProfileLinks } from "./components/SiteHeader";
 
 
 const portraitImage = "/avatar.webp";
@@ -397,10 +398,16 @@ function App() {
   const isTasaAfricaCaseStudy = path === "/projects/tasafrica";
   const isStayafrikaCaseStudy = path === "/projects/stayafrika";
   const isResumePage = path === "/resume";
+  const isPersonalPage = path === "/about" || path === "/guestbook";
   const [activePanel, setActivePanel] = useState(isResumePage ? "resume" : "home");
 
   useEffect(() => {
     applyRouteMetadata(path || "/");
+    const frame = requestAnimationFrame(() => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      if (id) document.getElementById(id)?.scrollIntoView({ block: "start" });
+    });
+    return () => cancelAnimationFrame(frame);
   }, [path]);
 
   const navigateTo = useCallback((targetPath) => {
@@ -416,7 +423,7 @@ function App() {
 
     const timerComplete = setTimeout(() => {
       window.history.pushState({}, "", normalizedTarget);
-      setPath(normalizedTarget);
+      setPath(new URL(normalizedTarget, window.location.origin).pathname.replace(/\/+$/, "") || "/");
       setActivePanel(normalizedTarget === "/resume" ? "resume" : "home");
       setTransitionProgress(100);
       window.scrollTo(0, 0);
@@ -453,10 +460,10 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
   const [showPreloader, setShowPreloader] = useState(() => {
-    return !isResumePage;
+    return !isResumePage && !isPersonalPage;
   });
   const [isPreloaderDone, setIsPreloaderDone] = useState(() => {
-    return isResumePage;
+    return isResumePage || isPersonalPage;
   });
   const [isInitialReady, setIsInitialReady] = useState(false);
 
@@ -573,22 +580,6 @@ function App() {
   }, [lightboxIndex]);
 
   useEffect(() => {
-    if (!mobileMenuOpen) return undefined;
-
-    const closeOnEscape = (event) => {
-      if (event.key === "Escape") setMobileMenuOpen(false);
-    };
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
     let scrollEndTimer;
     const updateScrollState = () => {
       setIsPageScrolling(true);
@@ -658,6 +649,8 @@ function App() {
           cleanHref === "/projects/tasafrica" ||
           cleanHref === "/projects/limestone" ||
           cleanHref === "/projects/stayafrika" ||
+          cleanHref === "/about" ||
+          cleanHref === "/guestbook" ||
           cleanHref === "/" ||
           cleanHref === ""
         ) {
@@ -707,6 +700,14 @@ function App() {
       )}
     </AnimatePresence>
   );
+
+  if (isPersonalPage) {
+    return <Suspense fallback={<p className="personal-loading" role="status">Opening the page…</p>}>
+      {topProgressBar}
+      {path === "/about" ? <AboutPage onOpenAiChat={() => setIsChatOpen(true)} /> : <GuestbookPage onOpenAiChat={() => setIsChatOpen(true)} />}
+      <AskYemiChat isOpen={isChatOpen} onOpen={() => setIsChatOpen(true)} onClose={() => setIsChatOpen(false)} onNavigate={handleChatNavigate} mobileMenuOpen={false} isSiteLoading={isTransitioning} />
+    </Suspense>;
+  }
 
   if (isLimestoneCaseStudy || isStayafrikaCaseStudy) {
     return (
@@ -759,49 +760,7 @@ function App() {
         id="top"
         data-node-id="3549:1194"
       >
-      <header className="mobile-header">
-        <a className="portrait portrait-ascii mobile-brand" href={homeAnchorHref("#top")} aria-label="Back to the top">
-          <AsciiPortrait src={portraitImage} alt="Opeyemi Adegboye" />
-        </a>
-        <div className="mobile-header-actions">
-          <a className="mobile-contact-button" href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">Contact Me</a>
-          <button
-            className="mobile-menu-toggle"
-            type="button"
-            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-menu"
-            onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}
-          >
-            {mobileMenuOpen ? (
-              <CloseCircle size={24} color="currentColor" variant="Linear" aria-hidden="true" />
-            ) : (
-              <HamburgerMenu size={24} color="currentColor" variant="Linear" aria-hidden="true" />
-            )}
-          </button>
-        </div>
-        {mobileMenuOpen && (
-          <nav className="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
-            <button
-              type="button"
-              className="nav-yemi-llm-btn"
-              onClick={() => {
-                setIsChatOpen(true);
-                setMobileMenuOpen(false);
-              }}
-              aria-label="Open yemiLLM"
-            >
-              <AiAsteriskIcon size={14} />
-              <span>yemiLLM</span>
-            </button>
-            <a href={homeAnchorHref("#about")} onClick={(event) => {
-              setMobileMenuOpen(false);
-              showHome(event);
-            }}>About</a>
-            <ResponsiveResumeLink onMobileClick={() => setMobileMenuOpen(false)} />
-          </nav>
-        )}
-      </header>
+      <SiteHeader onOpenAiChat={() => setIsChatOpen(true)} menuOpen={mobileMenuOpen} onMenuChange={setMobileMenuOpen} />
 
       <div className="portfolio-grid">
         <aside className="identity-column" aria-label="Introduction">
@@ -811,20 +770,7 @@ function App() {
                 <a className="portrait portrait-ascii" href={homeAnchorHref("#top")} aria-label="Back to the top">
                   <AsciiPortrait src={portraitImage} alt="Opeyemi Adegboye" />
                 </a>
-                <nav className="identity-links" aria-label="Profile links">
-                  <button
-                    type="button"
-                    id="yemi-llm-nav-btn"
-                    className="nav-yemi-llm-btn"
-                    onClick={() => setIsChatOpen(true)}
-                    aria-label="Open yemiLLM"
-                  >
-                    <AiAsteriskIcon size={14} />
-                    <span>yemiLLM</span>
-                  </button>
-                  <a href={homeAnchorHref("#about")} onClick={showHome}>About</a>
-                  <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
-                </nav>
+                <ProfileLinks onOpenAiChat={() => setIsChatOpen(true)} />
               </div>
 
               <div className="intro-stack" id="about">
@@ -972,6 +918,8 @@ function App() {
                     <div className="footer-links">
                       <div>
                         <a href={homeAnchorHref("#work")}>Projects</a>
+                        <a href="/about">About</a>
+                        <a href="/guestbook">Guestbook</a>
                         <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
                       </div>
                       <div>

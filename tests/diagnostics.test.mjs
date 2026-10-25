@@ -70,7 +70,7 @@ test("discovery checks reject HTTP errors, HTML fallbacks, wrong MIME and stale 
   assert.equal(assessDiscoveryDocument("llms.txt", response("# Portfolio\nNo maintained links")).passed, false);
   assert.equal(assessDiscoveryDocument("robots.txt", response("User-agent: *\nAllow: /\n")).passed, false);
   assert.equal(files()["robots.txt"].agentCount, 7);
-  assert.equal(files()["sitemap.xml"].urlCount, 4);
+  assert.equal(files()["sitemap.xml"].urlCount, ROUTES.filter(route => route.indexable).length);
 });
 
 test("sitemap validation rejects malformed, duplicate, missing and private URLs", () => {

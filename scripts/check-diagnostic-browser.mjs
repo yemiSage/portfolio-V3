@@ -26,7 +26,7 @@ try {
     assert.equal(await modal.locator('[data-status="failed"]').count(), 0);
     const footerLinks = await page.locator("nav.footer-nav .footer-links a").evaluateAll((links) =>
       links.map((link) => ({ label: link.textContent.trim(), size: getComputedStyle(link).fontSize })));
-    assert.equal(footerLinks.length, 7);
+    assert.equal(footerLinks.length, 9);
     assert.ok(footerLinks.every((link) => link.size === "14px"), JSON.stringify(footerLinks));
     assert.ok(await modal.evaluate((element) => element.scrollWidth <= element.clientWidth));
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
@@ -51,7 +51,7 @@ try {
     await modal.locator('[data-check="jsonld"][data-status="passed"]').waitFor();
 
     await modal.getByRole("button", { name: "AI & Schema.org", exact: true }).click();
-    assert.ok((await modal.innerText()).includes("4 URLs listed"));
+    assert.ok((await modal.innerText()).includes("6 URLs listed"));
     assert.ok((await modal.innerText()).includes("7 agent declarations"));
     assert.ok((await modal.innerText()).includes("7 topics"));
     assert.ok(!(await modal.innerText()).includes("9 Featured Projects"));

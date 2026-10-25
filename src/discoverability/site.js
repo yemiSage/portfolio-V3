@@ -1,3 +1,5 @@
+import { ABOUT_JOURNEY } from "../data/about.js";
+
 export const SITE = {
   origin: "https://yemii.vercel.app",
   name: "Opeyemi Adegboye Portfolio",
@@ -210,6 +212,32 @@ export const ROUTES = [
       "/projects/stayafrika",
       "An original product design case study for a travel marketplace serving African stays, experiences and services.",
     ),
+  },
+  {
+    path: "/about",
+    indexable: true,
+    title: "About Yemi | Opeyemi Adegboye",
+    description: "Meet Opeyemi Adegboye, a Lagos-based design engineer. From electrical engineering to product design, frontend development, teaching and community.",
+    type: "profile",
+    heading: "I’m Yemi. An engineer’s mind. A designer’s eye. A builder’s hands.",
+    summary: "I’m Adegboye Opeyemi. I started in electrical and electronics engineering, found my way into product design, and kept following that curiosity into code.",
+    sections: [
+      ...ABOUT_JOURNEY.map(item => ({ heading: `${item.year}: ${item.title}`, body: item.body })),
+      { heading: "How I think", body: "Purpose before polish. Design and build belong together. Stay a student and share what you learn." },
+      { heading: "Off the clock", body: "Tech meetups, FIFA, singing, poetry and good conversations. Coffee, semo and results keep me going.", links: [["Leave a note in my guestbook", "/guestbook"]] },
+    ],
+    schema: { "@context": "https://schema.org", "@graph": [{ "@type": "AboutPage", "@id": `${SITE.origin}/about#page`, url: `${SITE.origin}/about`, name: "About Opeyemi Adegboye", about: { "@id": personId }, isPartOf: { "@id": websiteId } }, breadcrumb("About Yemi", "/about")] },
+  },
+  {
+    path: "/guestbook",
+    indexable: true,
+    title: "Guestbook | Opeyemi Adegboye",
+    description: "A little corner of Opeyemi Adegboye’s portfolio for visitor notes, kind words and hellos. Leave a short message for Yemi to review before it joins the wall.",
+    type: "website",
+    heading: "You were here. Leave a little hello.",
+    summary: "A thought, a tiny story, a word of encouragement. A few words from you make this place feel a little more human.",
+    sections: [{ heading: "Leave a note", body: "Share your name and a short note. Every submission is reviewed by Yemi before publication. Do not include links, ads or private details." }, { heading: "Say hello", body: "Want to talk about a project instead? Start a conversation by email.", links: [["Email Yemi", `mailto:${SITE.email}`], ["Get to know Yemi", "/about"]] }],
+    schema: { "@context": "https://schema.org", "@graph": [{ "@type": "WebPage", "@id": `${SITE.origin}/guestbook#page`, url: `${SITE.origin}/guestbook`, name: "Yemi’s guestbook", isPartOf: { "@id": websiteId } }, breadcrumb("Guestbook", "/guestbook")] },
   },
   {
     path: "/resume",

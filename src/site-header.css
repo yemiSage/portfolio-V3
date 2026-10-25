@@ -1,0 +1,12 @@
+.shared-site-header.shared-site-header--desktop { position: sticky; top: 0; z-index: 40; height: 88px; padding: 16px var(--page-padding); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.shared-site-header--desktop > .mobile-header-actions { display: none; }
+.shared-site-header .shared-desktop-links { display: block; }
+@media (max-width: 767px) {
+  .shared-site-header, .shared-site-header.shared-site-header--desktop { display: flex; position: fixed; inset: 0 0 auto; min-height: 72px; height: 72px; padding: 12px var(--page-padding); justify-content: space-between; z-index: 40; border-bottom: 0; }
+  .shared-site-header .shared-desktop-links { display: none; }
+  .shared-site-header > .mobile-header-actions { display: flex; }
+  .shared-site-header .mobile-brand { width: 48px; height: 48px; flex-basis: 48px; }
+  .case-study-page { padding-top: 72px; }
+  .case-study-page .case-study-rail { top: 72px; }
+  .case-study-page .case-study-rail-top { display: none; }
+}

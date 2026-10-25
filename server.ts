@@ -4,6 +4,7 @@ import { createServer as createViteServer } from "vite";
 import { getGithubContributions, getGithubStats } from "./src/utils/githubData.js";
 import { handleChatRequest } from "./src/utils/chatEngine.js";
 import { handleTranscribeWebRequest } from "./src/utils/transcribe.js";
+import { handleGuestbookRequest } from "./src/utils/guestbook.mjs";
 
 const PORT = Number(process.env.PORT || 3000);
 
@@ -15,6 +16,21 @@ async function startServer() {
     res.setHeader("Cache-Control", "no-store");
     res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
     next();
+  });
+
+  // Guestbook UI endpoint, shared with the serverless handler.
+  app.all("/api/guestbook", async (req, res) => {
+    const headers = new Headers();
+    for (const name of ["origin", "content-type", "content-length"]) {
+      if (typeof req.headers[name] === "string") headers.set(name, req.headers[name]);
+    }
+    headers.set("x-forwarded-for", req.socket.remoteAddress || "local");
+    const response = await handleGuestbookRequest(new Request("http://localhost/api/guestbook", {
+      method: req.method, headers,
+      ...(!["GET", "HEAD"].includes(req.method) ? { body: JSON.stringify(req.body) } : {}),
+    }));
+    response.headers.forEach((value, name) => res.setHeader(name, value));
+    res.status(response.status).send(await response.text());
   });
 
   // Health check

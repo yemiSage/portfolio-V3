@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ArrowLeft2, CloseCircle, HamburgerMenu } from "iconsax-reactjs";
+import { ArrowLeft2 } from "iconsax-reactjs";
 import { motion } from "framer-motion";
-import AiAsteriskIcon from "./AiAsteriskIcon";
+import SiteHeader, { ProfileLinks } from "./SiteHeader";
 import { canHover } from "../utils/hover";
 
 
@@ -30,6 +30,8 @@ export function CaseStudyFooter({ onOpenAiChat }) {
         <div className="footer-links">
           <div>
             <a href="/#work">Projects</a>
+            <a href="/about">About</a>
+            <a href="/guestbook">Guestbook</a>
             <a href="/resume">Resume</a>
           </div>
           <div>
@@ -45,7 +47,7 @@ export function CaseStudyFooter({ onOpenAiChat }) {
   );
 }
 
-function SectionNavigation({ sections, activeSection, jumpMenuOpen, onJumpMenuToggle, onSectionSelect }) {
+export function SectionNavigation({ sections, activeSection, jumpMenuOpen, onJumpMenuToggle, onSectionSelect }) {
   const navigationRef = useRef(null);
   const [highlight, setHighlight] = useState({ top: 0, height: 0, visible: false });
   const moveHighlight = useCallback((sectionId) => {
@@ -78,7 +80,6 @@ function SectionNavigation({ sections, activeSection, jumpMenuOpen, onJumpMenuTo
 export default function CaseStudyShell({ sections, projectName, date, children, className = "", onOpenAiChat }) {
   const [activeSection, setActiveSection] = useState(sections[0][0]);
   const [jumpMenuOpen, setJumpMenuOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const triggerAiChat = onOpenAiChat || (() => window.dispatchEvent(new CustomEvent("open-yemi-llm")));
 
@@ -128,7 +129,6 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
   const handleSectionSelect = (event, id, closeJumpMenu = false) => {
     event.preventDefault();
     if (closeJumpMenu) setJumpMenuOpen(false);
-    setMobileMenuOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.replaceState(null, "", `#${id}`);
   };
@@ -140,39 +140,11 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
     >
-      <aside className={`case-study-rail${mobileMenuOpen ? " is-menu-open" : ""}`} aria-label={`${projectName} case study navigation`}>
+      <SiteHeader onOpenAiChat={triggerAiChat} />
+      <aside className="case-study-rail" aria-label={`${projectName} case study navigation`}>
         <div className="case-study-rail-top">
-          <nav className="case-study-profile-links" aria-label="Profile links">
-            <button
-              type="button"
-              className="nav-yemi-llm-btn case-study-yemi-llm-btn"
-              onClick={triggerAiChat}
-              aria-label="Open yemiLLM"
-            >
-              <AiAsteriskIcon size={14} />
-              <span>yemiLLM</span>
-            </button>
-            <a href="/resume">Resume</a>
-          </nav>
-          <button className="case-study-menu-toggle" type="button" aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen} aria-controls="case-study-mobile-menu" onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}>{mobileMenuOpen ? <CloseCircle size={26} color="currentColor" variant="Linear" aria-hidden="true" /> : <HamburgerMenu size={26} color="currentColor" variant="Linear" aria-hidden="true" />}</button>
+          <ProfileLinks className="case-study-profile-links" onOpenAiChat={triggerAiChat} />
         </div>
-        {mobileMenuOpen && (
-          <nav className="case-study-mobile-menu" id="case-study-mobile-menu" aria-label="Mobile navigation">
-            <button
-              type="button"
-              className="nav-yemi-llm-btn case-study-mobile-yemi-btn"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                triggerAiChat();
-              }}
-              aria-label="About"
-            >
-              <AiAsteriskIcon size={20} />
-              <span>About</span>
-            </button>
-            <a href="/resume">Resume</a>
-          </nav>
-        )}
         <SectionNavigation sections={sections} activeSection={activeSection} jumpMenuOpen={jumpMenuOpen} onJumpMenuToggle={() => setJumpMenuOpen((isOpen) => !isOpen)} onSectionSelect={handleSectionSelect} />
         <div className="case-study-rail-meta"><p>Product design case study</p><span>{date}</span></div>
       </aside>

@@ -5,6 +5,8 @@
 ## Canonical site
 
 - [Portfolio home](https://yemii.vercel.app/): Profile, capabilities, selected work and contact links.
+- [About Yemi](https://yemii.vercel.app/about): Engineering background, design journey, community and interests.
+- [Guestbook](https://yemii.vercel.app/guestbook): Visitor notes, reviewed before publication.
 
 ## Public case studies
 

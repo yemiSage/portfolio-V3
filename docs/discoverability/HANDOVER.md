@@ -1,5 +1,9 @@
 # Discoverability handover
 
+## About and Guestbook extension (2026-10-25)
+
+`/about` and `/guestbook` use the maintained route metadata, prerender generator, sitemap, llms.txt, and explicit Vercel routing. See [About and Guestbook](../ABOUT_AND_GUESTBOOK.md) for the design/content sources, moderation commands, security boundaries, validation, and production storage dependency. `/api/guestbook` is an internal portfolio UI endpoint; pending visitor submissions are excluded from discovery outputs. No public moderation endpoint exists.
+
 ## Applicable phases completed locally
 
 - Repository and route audit.
