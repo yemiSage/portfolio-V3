@@ -6044,8 +6044,8 @@ body.iab-open .ask-yemi-fab {
   align-items: center;
   gap: 8px;
   font-size: 16px;
-  font-weight: 600;
-  color: var(--ink);
+  font-weight: 500;
+  color: var(--body-copy);
 }
 
 .case-card-logo {
@@ -6221,19 +6221,21 @@ svg.case-card-logo {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   isolation: isolate;
+  border-bottom-color: transparent;
 }
 .work-tabs-bar::before {
   content: "";
   position: absolute;
   inset: 0 calc(-1 * var(--content-edge-right)) -12px calc(-1 * var(--page-padding));
   z-index: -1;
-  border: 1px solid #dfe2e6;
+  border: 1px solid transparent;
   background: rgba(255, 255, 255, .3);
   -webkit-backdrop-filter: blur(16px) saturate(1.25);
   backdrop-filter: blur(16px) saturate(1.25);
   pointer-events: none;
 }
-.work-tabs-bar.is-stuck::before { left: 0; right: 0; }
+.work-tabs-bar.is-stuck::before { left: 0; right: 0; border-color: #dfe2e6; }
+.work-tabs-bar.is-stuck .work-toggle button::after { bottom: -17px; }
 @media (min-width: 768px) {
   .work-tabs-bar::before { top: calc(-1 * var(--page-padding)); }
 }
