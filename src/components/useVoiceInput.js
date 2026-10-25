@@ -13,13 +13,18 @@ export const isVoiceInputSupported = () =>
 // status: "idle" | "recording" | "transcribing"
 export function useVoiceInput({ onText, onError }) {
   const [status, setStatus] = useState("idle");
+  const [levels, setLevels] = useState(Array(18).fill(0));
+  const analyserCleanup = useRef(null);
   const recorderRef = useRef(null);
   const chunksRef = useRef([]);
   const stopTimerRef = useRef(null);
   const handlersRef = useRef({ onText, onError });
   handlersRef.current = { onText, onError };
 
-  const releaseMic = (recorder) => recorder?.stream?.getTracks().forEach((track) => track.stop());
+  const releaseMic = (recorder) => {
+    analyserCleanup.current?.(); analyserCleanup.current = null;
+    recorder?.stream?.getTracks().forEach(track => track.stop());
+  };
 
   const transcribe = async (blob) => {
     setStatus("transcribing");
@@ -50,6 +55,19 @@ export function useVoiceInput({ onText, onError }) {
     if (!isVoiceInputSupported()) return;
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const context = new AudioContext();
+        const source = context.createMediaStreamSource(stream);
+        const analyser = context.createAnalyser(); analyser.fftSize = 128;
+        source.connect(analyser);
+        const samples = new Uint8Array(analyser.frequencyBinCount);
+        const timer = setInterval(() => {
+          analyser.getByteFrequencyData(samples);
+          setLevels(Array.from({ length: 18 }, (_, i) => samples[i * 2] / 255));
+        }, 70);
+        analyserCleanup.current = () => { clearInterval(timer); source.disconnect(); void context.close(); };
+      } catch { /* Recording remains available without the visual analyser. */ }
       const mimeType = PREFERRED_TYPES.find((type) => MediaRecorder.isTypeSupported?.(type));
       const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
       chunksRef.current = [];
@@ -87,5 +105,5 @@ export function useVoiceInput({ onText, onError }) {
     []
   );
 
-  return { status, start, stop };
+  return { status, start, stop, levels };
 }

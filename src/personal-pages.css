@@ -265,3 +265,7 @@
 
 .guest-comment-panel { cursor: grab; touch-action: none; user-select: none; }
 .guest-comment-panel:active { cursor: grabbing; }
+
+.guest-comment-canvas .guest-comment { width: 260px; }
+.guest-voice-wave { display: flex; align-items: center; gap: 2px; height: 26px; }
+.guest-voice-wave i { display: block; width: 2px; border-radius: 2px; background: #b5d8ff; transition: height 60ms linear; }

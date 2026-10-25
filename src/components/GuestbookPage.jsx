@@ -92,7 +92,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
             if (Math.hypot(dx, dy) < 4 && !suppressPinClick.current) return;
             suppressPinClick.current = true;
             const canvas = event.currentTarget.parentElement;
-            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(canvas.clientWidth - 328, start.left + dx)), y: Math.max(8, Math.min(200, start.top + dy)) } }));
+            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(canvas.clientWidth - 268, start.left + dx)), y: Math.max(8, Math.min(200, start.top + dy)) } }));
           }}
           onPointerUp={() => { pinDrag.current = null; }}
           onPointerCancel={() => { pinDrag.current = null; }}
@@ -104,7 +104,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
             const card = event.currentTarget.parentElement;
             const x = card.offsetLeft + (event.key === "ArrowRight" ? 20 : event.key === "ArrowLeft" ? -20 : 0);
             const y = card.offsetTop + (event.key === "ArrowDown" ? 20 : event.key === "ArrowUp" ? -20 : 0);
-            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(card.parentElement.clientWidth - 328, x)), y: Math.max(8, Math.min(200, y)) } }));
+            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(card.parentElement.clientWidth - 268, x)), y: Math.max(8, Math.min(200, y)) } }));
           }}
           onClick={() => { if (suppressPinClick.current) { suppressPinClick.current = false; return; } setActiveNote(activeNote === note.id ? null : note.id); }}>{note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
           {activeNote === note.id && <article className="guest-comment-panel" id={`comment-${note.id}`}>
@@ -128,6 +128,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
         <label className="guest-honeypot" aria-hidden="true">Leave this empty<input name="website" tabIndex={-1} autoComplete="off" /></label>
         <div className="guest-compose-toolbar">
           {voiceSupported && <button type="button" className="guest-mic" aria-label={voice.status === "recording" ? "Stop recording" : "Dictate note"} aria-pressed={voice.status === "recording"} disabled={sending || voice.status === "transcribing"} onClick={() => voice.status === "recording" ? voice.stop() : voice.start()}>{voice.status === "recording" ? <Square size={17} fill="currentColor" strokeWidth={0} /> : <Mic size={17} />}</button>}
+          {voice.status === "recording" && <span className="guest-voice-wave" aria-hidden="true">{voice.levels.map((level, index) => <i key={index} style={{ height: `${3 + level * 22}px` }} />)}</span>}
           <span className="guest-compose-count">{voice.status === "recording" ? "Recording…" : voice.status === "transcribing" ? "Transcribing…" : `${message.length}/180`}</span>
           <button className="guest-send" type="submit" aria-label="Send note" disabled={sending || !canSubmit || voice.status !== "idle" || !name.trim() || message.trim().length < 2}><ArrowUp size={19} /></button>
         </div>
