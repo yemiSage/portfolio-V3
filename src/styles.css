@@ -5965,6 +5965,7 @@ body.iab-open .ask-yemi-fab {
 /* Case study cards: stacked, separated by a striped divider. */
 .case-card-list,
 .project-card-list {
+  --card-divider-size: 56px;
   width: 100%;
   max-width: 800px;
   margin-inline: auto;
@@ -5974,7 +5975,7 @@ body.iab-open .ask-yemi-fab {
 
 .case-card-list > .case-card + .case-card,
 .project-card-list > .project-card + .project-card {
-  margin-top: 56px;
+  margin-top: var(--card-divider-size);
   position: relative;
 }
 
@@ -5984,8 +5985,8 @@ body.iab-open .ask-yemi-fab {
   position: absolute;
   left: 0;
   right: 0;
-  top: -56px;
-  height: 56px;
+  top: calc(-1 * var(--card-divider-size));
+  height: var(--card-divider-size);
   background: repeating-linear-gradient(-45deg, var(--gray-5) 0 14px, transparent 14px 28px);
 }
 
@@ -6118,6 +6119,10 @@ svg.case-card-logo {
   .case-card-media { padding: 20px 6%; }
   .case-card-body { padding: 12px; }
   .case-card-body h3 { font-size: 16px; }
+}
+
+@media (max-width: 767px) {
+  .case-card-list { --card-divider-size: 24px; }
 }
 
 .project-card-list > .project-card {
