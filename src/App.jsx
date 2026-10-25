@@ -359,15 +359,7 @@ function CaseStudyCard({ project }) {
         <ProjectVisual project={project} />
       </div>
       <div className="case-card-body">
-        <p className="case-card-client">
-          {project.logo === "tasafrica" ? (
-            <svg className="case-card-logo" viewBox="94 77 94 22" role="img" aria-label="TASAfrica">
-              <image href={tasafricaImage} width="547" height="474" />
-            </svg>
-          ) : (
-            <img className={`case-card-logo${project.name === "Limestone App" ? " case-card-logo--icon" : ""}`} src={project.logo} alt={project.company} />
-          )}
-        </p>
+        <p className="case-card-client">{project.name}</p>
         <h3>{project.description}</h3>
         <ul className="case-card-meta" aria-label="Role and year">
           <li>
