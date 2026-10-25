@@ -6160,6 +6160,17 @@ svg.case-card-logo {
   padding-inline: var(--page-padding) var(--content-edge-right);
 }
 
+@media (max-width: 767px) {
+  .content-column > .w-full > .footer {
+    width: 100%;
+    margin-inline: 0;
+    padding-top: 20px;
+    padding-inline: 12px;
+  }
+
+  .content-column .footer-statement { font-size: 16px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .work-tabs-bar,
   .work-toggle,
