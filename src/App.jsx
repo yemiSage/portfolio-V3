@@ -789,11 +789,15 @@ function App() {
                 setIsChatOpen(true);
                 setMobileMenuOpen(false);
               }}
-              aria-label="About"
+              aria-label="Open yemiLLM"
             >
               <AiAsteriskIcon size={14} />
-              <span>About</span>
+              <span>yemiLLM</span>
             </button>
+            <a href={homeAnchorHref("#about")} onClick={(event) => {
+              setMobileMenuOpen(false);
+              showHome(event);
+            }}>About</a>
             <ResponsiveResumeLink onMobileClick={() => setMobileMenuOpen(false)} />
           </nav>
         )}
