@@ -215,3 +215,6 @@
 .guest-composer-dialog .guest-composer { margin: 0; padding: 28px; }
 .guest-composer-close { display: inline-flex; padding: 8px; border: 0; border-radius: 50%; background: var(--gray-5); cursor: pointer; }
 @media (max-width: 479px) { .guest-composer-dialog .guest-composer { padding: 20px 16px; } }
+
+.personal-page--guestbook .case-study-content { padding-top: 32px; }
+.personal-page--guestbook .guest-guidelines { padding-top: 20px; }

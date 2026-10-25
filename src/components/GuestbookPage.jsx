@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, X } from "lucide-react";
 import PersonalPageShell from "./PersonalPageShell";
 
-const SECTIONS = [["the-wall", "The wall"], ["welcome", "The guestbook"], ["leave-a-note", "Leave a note"], ["a-small-note", "A small note"]];
+const SECTIONS = [["the-wall", "The wall"], ["leave-a-note", "Leave a note"], ["a-small-note", "A small note"]];
 const COLORS = { peach: "#fff0e5", lavender: "#f0edff", sage: "#ecf3ed", butter: "#fff8d9", paper: "#f3f3f5" };
 const formatDate = value => new Date(value).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 export default function GuestbookPage({ onOpenAiChat }) {
@@ -67,7 +67,6 @@ export default function GuestbookPage({ onOpenAiChat }) {
         {notes.map((note,index) => <article className="guest-note" key={note.id} style={{ "--note-color": COLORS[note.color] || COLORS.paper, "--note-tilt": `${[1.5,-1,2,-2][index%4]}deg` }}><p>{note.message}</p><footer><span>{note.name}</span><time dateTime={note.createdAt}>{formatDate(note.createdAt)}</time></footer></article>)}
       </div>
     </section>
-    <section className="personal-section guest-hero" id="welcome"><h1>You were here<span className="personal-accent">.</span><br />Leave a little <em>hello</em> <span className="guest-stamp" aria-hidden="true">✳</span></h1><p>A thought, a tiny story, a word of encouragement. A few words from you make this place feel a little more beautiful.</p></section>
     <section id="leave-a-note" className="personal-section guest-open-composer">
       <button type="button" className="button button-primary" onClick={() => { setResult(null); composer.current?.showModal(); }}>Leave your note <ArrowUpRight size={17} aria-hidden="true" /></button>
       {result && !result.error && <p role="status" className="guest-result">{result.text}</p>}
