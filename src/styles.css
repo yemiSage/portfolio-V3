@@ -5975,7 +5975,7 @@ body.iab-open .ask-yemi-fab {
   touch-action: none;
 }
 
-/* Case study cards: stacked, separated by a striped divider. */
+/* Stacked work cards with consistent spacing. */
 .case-card-list,
 .project-card-list {
   --card-divider-size: 56px;
@@ -5992,7 +5992,6 @@ body.iab-open .ask-yemi-fab {
   position: relative;
 }
 
-.case-card-list > .case-card + .case-card::before,
 .project-card-list > .project-card + .project-card::before {
   content: "";
   position: absolute;
