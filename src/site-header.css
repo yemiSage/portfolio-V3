@@ -1,4 +1,4 @@
-.shared-site-header.shared-site-header--desktop { position: sticky; top: 0; z-index: 40; height: 88px; padding: 16px var(--page-padding); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; background: rgba(255,255,255,.96); backdrop-filter: blur(16px); }
+.shared-site-header.shared-site-header--desktop { position: sticky; top: 0; z-index: 40; height: 88px; padding: 16px var(--page-padding); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; background: var(--header-surface); -webkit-backdrop-filter: var(--header-backdrop); backdrop-filter: var(--header-backdrop); }
 .shared-site-header--desktop > .mobile-header-actions { display: none; }
 .shared-site-header .shared-desktop-links { display: block; }
 @media (max-width: 767px) {

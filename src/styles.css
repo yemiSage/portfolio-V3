@@ -15,6 +15,8 @@
   --body-copy-line-height: 24px;
   --body-copy-tracking: -0.28px;
   --paper: #ffffff;
+  --header-surface: rgba(255, 255, 255, 0.82);
+  --header-backdrop: blur(8px) saturate(1.1);
   --gray-5: #eef0f3;
   --accent: #e0733d;
   --rail-width: 30%;
@@ -6190,13 +6192,24 @@ svg.case-card-logo {
   .case-study-rail .case-study-profile-links { margin-left: auto; }
 }
 
-/* Keep the pinned work navigation transparent and at its original inset. */
-.work-tabs-bar.is-stuck {
-  background: transparent;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  border-bottom-color: #dfe2e6;
+/* Shared subtle glass treatment for headers and sticky navigation. */
+.work-tabs-bar.is-stuck,
+.resume-toolbar,
+.mobile-header,
+.portfolio.is-scrolling .mobile-header,
+.shared-site-header.shared-site-header--desktop {
+  background: var(--header-surface);
+  -webkit-backdrop-filter: var(--header-backdrop);
+  backdrop-filter: var(--header-backdrop);
 }
+.work-tabs-bar.is-stuck { border-bottom-color: #dfe2e6; }
 @media (min-width: 768px) {
   .work-tabs-bar { top: var(--page-padding); }
+}
+@media (max-width: 767px) {
+  .case-study-page .case-study-rail {
+    background: var(--header-surface);
+    -webkit-backdrop-filter: var(--header-backdrop);
+    backdrop-filter: var(--header-backdrop);
+  }
 }
