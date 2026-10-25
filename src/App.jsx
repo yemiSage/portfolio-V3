@@ -47,17 +47,6 @@ import AsciiPortrait from "./components/AsciiPortrait";
 
 const portraitImage = "/avatar.webp";
 
-// The intro quote only plays on a visitor's first visit.
-const PRELOADER_SEEN_KEY = "portfolio-preloader-seen";
-
-function hasSeenPreloader() {
-  try {
-    return localStorage.getItem(PRELOADER_SEEN_KEY) === "true";
-  } catch {
-    return false;
-  }
-}
-
 const projects = [
   {
     name: "TASAfrica",
@@ -412,10 +401,10 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
   const [showPreloader, setShowPreloader] = useState(() => {
-    return !isResumePage && !hasSeenPreloader();
+    return !isResumePage;
   });
   const [isPreloaderDone, setIsPreloaderDone] = useState(() => {
-    return isResumePage || hasSeenPreloader();
+    return isResumePage;
   });
   const [isInitialReady, setIsInitialReady] = useState(false);
 
@@ -440,11 +429,6 @@ function App() {
   }, [showPreloader, isPreloaderDone]);
 
   const dismissPreloader = useCallback(() => {
-    try {
-      localStorage.setItem(PRELOADER_SEEN_KEY, "true");
-    } catch {
-      // Storage can be blocked; the intro then simply shows again next visit.
-    }
     setShowPreloader(false);
   }, []);
 
