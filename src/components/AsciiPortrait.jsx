@@ -24,29 +24,32 @@ function toneColor(v) {
   return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
 }
 
-function buildParticles(img) {
+function buildParticles(img, detailed) {
+  const size = detailed ? 400 : SIZE;
+  const cellW = detailed ? 3 : CELL_W;
+  const cellH = detailed ? 4 : CELL_H;
   const canvas = document.createElement("canvas");
-  canvas.width = SIZE;
-  canvas.height = SIZE;
+  canvas.width = size;
+  canvas.height = size;
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   // A light blur evens out specular highlights (nose, forehead) before sampling.
-  ctx.filter = "blur(1.2px)";
-  ctx.drawImage(img, 0, 0, SIZE, SIZE);
+  ctx.filter = detailed ? "none" : "blur(1.2px)";
+  ctx.drawImage(img, 0, 0, size, size);
   ctx.filter = "none";
-  const { data } = ctx.getImageData(0, 0, SIZE, SIZE);
-  const cx = SIZE / 2;
-  const cy = SIZE / 2;
+  const { data } = ctx.getImageData(0, 0, size, size);
+  const cx = size / 2;
+  const cy = size / 2;
   const particles = [];
 
-  for (let y = CELL_H; y < SIZE; y += CELL_H) {
-    for (let x = 0; x < SIZE; x += CELL_W) {
-      const i = ((y - Math.ceil(CELL_H / 2)) * SIZE + x + Math.floor(CELL_W / 2)) * 4;
+  for (let y = cellH; y < size; y += cellH) {
+    for (let x = 0; x < size; x += cellW) {
+      const i = ((y - Math.ceil(cellH / 2)) * size + x + Math.floor(cellW / 2)) * 4;
       const [r, g, b, a] = [data[i], data[i + 1], data[i + 2], data[i + 3]];
       if (isBackground(r, g, b, a)) continue;
       const luma = 0.299 * r + 0.587 * g + 0.114 * b;
       // v is ink depth: stretched so skin midtones stay dense and only highlights thin out.
       // Roll off highlights so bright skin keeps soft glyphs instead of punching holes.
-      const tone = luma > 140 ? 140 + (luma - 140) * 0.35 : luma;
+      const tone = !detailed && luma > 140 ? 140 + (luma - 140) * 0.35 : luma;
       const v = Math.pow(Math.min(1, Math.max(0, (235 - tone) / 190)), 0.7);
       if (v < 0.08) continue;
       const char = RAMP[Math.min(RAMP.length - 1, Math.floor(v * RAMP.length))];
@@ -69,7 +72,8 @@ function buildParticles(img) {
   return particles;
 }
 
-export default function AsciiPortrait({ src, alt, className = "", hoverRadius = RADIUS, monochrome = false }) {
+export default function AsciiPortrait({ src, alt, className = "", hoverRadius = RADIUS, monochrome = false, detailed = false }) {
+  const size = detailed ? 400 : SIZE;
   const canvasRef = useRef(null);
   const particlesRef = useRef([]);
   const pointerRef = useRef({ x: -9999, y: -9999 });
@@ -79,13 +83,13 @@ export default function AsciiPortrait({ src, alt, className = "", hoverRadius = 
     const img = new Image();
     img.decoding = "async";
     img.onload = () => {
-      if (!cancelled) particlesRef.current = buildParticles(img);
+      if (!cancelled) particlesRef.current = buildParticles(img, detailed);
     };
     img.src = src;
     return () => {
       cancelled = true;
     };
-  }, [src]);
+  }, [src, detailed]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -95,10 +99,10 @@ export default function AsciiPortrait({ src, alt, className = "", hoverRadius = 
     let frame;
 
     const draw = () => {
-      ctx.clearRect(0, 0, SIZE, SIZE);
-      ctx.font = "bold 5px monospace";
+      ctx.clearRect(0, 0, size, size);
+      ctx.font = detailed ? "bold 5px monospace" : "bold 5px monospace";
       const { x: px, y: py } = pointerRef.current;
-      const radius = hoverRadius;
+      const radius = hoverRadius * (size / SIZE);
       const radiusSq = radius * radius;
 
       for (const p of particlesRef.current) {
@@ -133,7 +137,7 @@ export default function AsciiPortrait({ src, alt, className = "", hoverRadius = 
 
     frame = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(frame);
-  }, [hoverRadius, monochrome]);
+  }, [hoverRadius, monochrome, detailed, size]);
 
   const setPointer = useCallback((clientX, clientY) => {
     const canvas = canvasRef.current;
@@ -153,8 +157,8 @@ export default function AsciiPortrait({ src, alt, className = "", hoverRadius = 
     <canvas
       ref={canvasRef}
       className={`ascii-portrait ${className}`.trim()}
-      width={SIZE}
-      height={SIZE}
+      width={size}
+      height={size}
       role="img"
       aria-label={alt}
       onMouseMove={(e) => setPointer(e.clientX, e.clientY)}
