@@ -147,3 +147,33 @@
 .personal-page .about-bio-title { font-size: 24px; margin-bottom: 16px; }
 .personal-page .case-study-section-heading + h2 { margin-top: 8px; }
 .personal-page .case-study-rail-meta .github-activity-margin { margin: 0; }
+
+.personal-page--about .case-study-content { padding-top: 24px; }
+.about-pinned-intro {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  padding-top: 24px;
+  margin-top: -24px;
+  background: rgba(255, 255, 255, .72);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  backdrop-filter: blur(24px) saturate(1.8);
+}
+.about-pinned-intro h1 { font: 500 40px/1.2 'Bricolage Grotesque', sans-serif; letter-spacing: -1.2px; color: var(--ink); }
+.about-pinned-intro .about-intro-line { margin-bottom: 0; }
+.about-hero .about-lede { padding-top: 30px; }
+.about-prose { margin-bottom: 0; }
+.about-ascii-portrait { padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+.portrait-monochrome { filter: grayscale(1); }
+.about-invitation { text-align: center; }
+.about-invitation > h2, .about-invitation > p { margin-inline: auto; }
+@media (max-width: 767px) {
+  .about-pinned-intro { top: 157px; }
+  .about-pinned-intro h1 { font-size: 32px; letter-spacing: -.96px; }
+}
+
+.personal-page--about .about-hero { padding-top: 0; }
+.personal-page--about .personal-section { scroll-margin-top: 200px; }
+@media (max-width: 767px) {
+  .personal-page--about .personal-section { scroll-margin-top: 350px; }
+}

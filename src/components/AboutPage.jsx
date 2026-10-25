@@ -9,12 +9,13 @@ export default function AboutPage({ onOpenAiChat }) {
   const viewPhoto = (src, alt) => { setPhoto({ src, alt }); dialog.current?.showModal(); };
   const capsule = (src, label, className = "") => <button className={`word-photo ${className}`} type="button" onClick={() => viewPhoto(src, label)} aria-label={`View photo: ${label}`}><img src={src} alt="" width="120" height="80" /><span aria-hidden="true">↗</span></button>;
   return <PersonalPageShell page="about" sections={ABOUT_SECTIONS} onOpenAiChat={onOpenAiChat}>
-    <section id="hello" className="about-hero personal-section">
+    <div className="about-pinned-intro">
       <h1>An engineer’s mind.<br />A designer’s {capsule("/shots/shot-36.webp", "A glimpse of the Stayafrika interface")} eye.</h1>
       <div className="about-intro-line"><span>DESIGN ENGINEER, PRODUCT & AI</span><span>LAGOS, NIGERIA ↗</span></div>
+    </div>
+    <section id="hello" className="about-hero personal-section">
       <p className="about-lede">I like knowing how things work. I care even more about how they feel to the person using them.</p>
-      <div className="about-prose"><div><h2 className="about-bio-title">I’m Yemi.</h2><p>I’m Adboye Opeyemi. I started in electrical and electronics engineering, found my way into product design, and kept following that curiosity into code. These days, I design and build digital products across SaaS, marketplaces, and AI. The part I enjoy most? Turning a complicated system into something that makes sense. Something useful. Something a real person can pick up and get on with their day.</p></div><div className="about-ascii-portrait"><AsciiPortrait src="/avatar.webp" alt="ASCII portrait of Yemi" /></div></div>
-      <a href="#the-journey" className="personal-text-link">A little of the backstory <span aria-hidden="true">↓</span></a>
+      <div className="about-prose"><div><p>I’m Adboye Opeyemi. I started in electrical and electronics engineering, found my way into product design, and kept following that curiosity into code. These days, I design and build digital products across SaaS, marketplaces, and AI. The part I enjoy most? Turning a complicated system into something that makes sense. Something useful. Something a real person can pick up and get on with their day.</p></div><button type="button" className="about-ascii-portrait" onClick={() => viewPhoto("/avatar.webp", "Black-and-white portrait of Yemi")} aria-label="View black-and-white portrait of Yemi"><AsciiPortrait src="/avatar.webp" alt="ASCII portrait of Yemi" hoverRadius={12} /></button></div>
     </section>
     <section id="the-journey" className="personal-section about-journey">
       <div className="case-study-section-heading"><p>The journey</p></div>
@@ -39,9 +40,9 @@ export default function AboutPage({ onOpenAiChat }) {
       <p className="about-word-story">Away from the pixels, you’ll find me at a tech meetup {capsule("/about/collaboration.png", "ProductHub Africa friends", "word-photo--wide")}, playing a little FIFA, singing, or putting a few words into a poem. I like good conversations, people who are curious, and figuring out what to make next<span className="personal-accent">.</span></p>
     </section>
     <section id="say-hello" className="personal-section about-invitation">
-      <p className="personal-eyebrow">THANKS FOR GETTING TO KNOW ME</p><h2>Now, a little<br />about you<span className="personal-accent">?</span></h2><p>Leave a thought, a kind word, or just your name. I’d love to know you stopped by.</p>
+      <h2>Now, a little<br />about you<span className="personal-accent">?</span></h2><p>Leave a thought, a kind word, or just your name. I’d love to know you stopped by.</p>
       <div className="about-contact-actions"><a className="button button-primary about-guestbook-button" href="/guestbook">Leave a note in my guestbook <ArrowUpRight size={17} aria-hidden="true" /></a><a className="personal-text-link" href="mailto:adegboyeopeyemi065@gmail.com">Or start a conversation <ArrowRight size={15} aria-hidden="true" /></a></div>
     </section>
-    <dialog className="personal-photo-dialog" aria-label="Photo viewer" ref={dialog} onClick={e => { if (e.target === dialog.current) dialog.current.close(); }}><button type="button" onClick={() => dialog.current.close()} aria-label="Close photo"><X size={22} /></button>{photo && <figure><img src={photo.src} alt={photo.alt} /><figcaption>{photo.alt}</figcaption></figure>}</dialog>
+    <dialog className="personal-photo-dialog" aria-label="Photo viewer" ref={dialog} onClick={e => { if (e.target === dialog.current) dialog.current.close(); }}><button type="button" onClick={() => dialog.current.close()} aria-label="Close photo"><X size={22} /></button>{photo && <figure><img src={photo.src} alt={photo.alt} className={photo.src === "/avatar.webp" ? "portrait-monochrome" : undefined} /><figcaption>{photo.alt}</figcaption></figure>}</dialog>
   </PersonalPageShell>;
 }
