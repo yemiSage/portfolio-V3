@@ -760,8 +760,8 @@ function App() {
         data-node-id="3549:1194"
       >
       <header className="mobile-header">
-        <a className="portrait mobile-brand" href={homeAnchorHref("#top")} aria-label="Back to the top">
-          <img src={portraitImage} alt="Opeyemi Adegboye" />
+        <a className="portrait portrait-ascii mobile-brand" href={homeAnchorHref("#top")} aria-label="Back to the top">
+          <AsciiPortrait src={portraitImage} alt="Opeyemi Adegboye" />
         </a>
         <div className="mobile-header-actions">
           <a className="mobile-contact-button" href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">Contact Me</a>
