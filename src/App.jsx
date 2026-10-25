@@ -868,7 +868,7 @@ function App() {
                   )}
                 </section>
 
-                <ContributedProjects />
+                {activeWork !== "shots" && <ContributedProjects />}
 
                 <section className="toolbox" aria-labelledby="toolbox-heading">
                   <div className="section-intro">
