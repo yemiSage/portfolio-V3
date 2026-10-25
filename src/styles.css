@@ -6227,6 +6227,7 @@ svg.case-card-logo {
   position: absolute;
   inset: 0 calc(-1 * var(--content-edge-right)) -12px calc(-1 * var(--page-padding));
   z-index: -1;
+  border: 1px solid #dfe2e6;
   background: rgba(255, 255, 255, .3);
   -webkit-backdrop-filter: blur(16px) saturate(1.25);
   backdrop-filter: blur(16px) saturate(1.25);
