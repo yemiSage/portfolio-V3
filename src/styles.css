@@ -747,6 +747,7 @@ body.is-preloading .ask-yemi-fab,
 }
 
 .content-column {
+  --content-edge-right: var(--page-padding);
   width: 70%;
   max-width: 70%;
   min-width: 0;
@@ -761,6 +762,7 @@ body.is-preloading .ask-yemi-fab,
 
 @media (min-width: 1024px) {
   .content-column {
+    --content-edge-right: 36px;
     padding-right: 36px;
   }
 
@@ -841,25 +843,16 @@ body.is-preloading .ask-yemi-fab,
 }
 
 .work-tabs-bar {
-  --tabs-pad-left: var(--page-padding);
-  --tabs-pad-right: var(--page-padding);
   position: sticky;
   top: 0;
   z-index: 15;
-  /* bleed to both edges of the column while keeping the content padding */
   width: auto;
   align-self: stretch;
-  margin: 0 calc(-1 * var(--tabs-pad-right)) 32px calc(-1 * var(--tabs-pad-left));
-  padding: 12px var(--tabs-pad-right) 12px var(--tabs-pad-left);
+  margin: 0 0 32px;
+  padding: 0;
   background: transparent;
   border-bottom: 1px solid transparent;
   transition: background-color 180ms ease, border-color 180ms ease;
-}
-
-@media (min-width: 1024px) {
-  .work-tabs-bar {
-    --tabs-pad-right: 36px;
-  }
 }
 
 @media (max-width: 767px) {
@@ -868,12 +861,12 @@ body.is-preloading .ask-yemi-fab,
     top: 67px;
   }
 
-  .work-tabs-bar:not(.is-stuck) .work-toggle {
+  .work-tabs-bar .work-toggle {
     width: 100%;
     box-sizing: border-box;
   }
 
-  .work-tabs-bar:not(.is-stuck) .work-toggle button {
+  .work-tabs-bar .work-toggle button {
     flex: 1 1 0;
     min-width: 0;
     padding-inline: 8px;
@@ -889,6 +882,10 @@ body.is-preloading .ask-yemi-fab,
 }
 
 .work-tabs-bar.is-stuck {
+  width: calc(100% + var(--page-padding) + var(--content-edge-right));
+  margin-left: calc(-1 * var(--page-padding));
+  margin-right: calc(-1 * var(--content-edge-right));
+  padding-inline: var(--page-padding) var(--content-edge-right);
   background: rgba(255, 255, 255, 0.72);
   -webkit-backdrop-filter: blur(24px) saturate(1.8);
   backdrop-filter: blur(24px) saturate(1.8);
@@ -905,7 +902,7 @@ body.is-preloading .ask-yemi-fab,
   display: flex;
   align-items: center;
   gap: 2px;
-  transition: gap 180ms ease, padding 180ms ease, border-color 180ms ease, border-radius 180ms ease;
+  transition: border-color 280ms cubic-bezier(0.22, 1, 0.36, 1), border-radius 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .work-toggle button {
@@ -921,7 +918,7 @@ body.is-preloading .ask-yemi-fab,
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: color 180ms ease, box-shadow 180ms ease, min-height 180ms ease, padding 180ms ease, border-radius 180ms ease;
+  transition: color 280ms ease, box-shadow 280ms ease, border-radius 280ms ease;
 }
 
 .work-toggle button.is-selected {
@@ -931,17 +928,11 @@ body.is-preloading .ask-yemi-fab,
 
 /* Stuck state: pill becomes an underlined tab bar */
 .work-tabs-bar.is-stuck .work-toggle {
-  width: 100%;
-  padding: 0;
   border-color: transparent;
   border-radius: 0;
-  gap: 28px;
 }
 
 .work-tabs-bar.is-stuck .work-toggle button {
-  min-width: 0;
-  min-height: 48px;
-  padding: 0;
   border-radius: 0;
 }
 
@@ -949,16 +940,18 @@ body.is-preloading .ask-yemi-fab,
   box-shadow: none;
 }
 
-.work-tabs-bar.is-stuck .work-toggle button::after {
+.work-toggle button::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -1px;
+  /* Cross the toggle's 4px padding and 1px border to meet the bar border. */
+  bottom: -6px;
   height: 2px;
   background: #1c1c1c;
   transform: scaleX(0);
-  transition: transform 180ms ease;
+  transform-origin: center;
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .work-tabs-bar.is-stuck .work-toggle button.is-selected::after {
@@ -5970,18 +5963,23 @@ body.iab-open .ask-yemi-fab {
 }
 
 /* Case study cards: stacked, separated by a striped divider. */
-.case-card-list {
+.case-card-list,
+.project-card-list {
   width: 100%;
+  max-width: 800px;
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
 }
 
-.case-card-list > .case-card + .case-card {
+.case-card-list > .case-card + .case-card,
+.project-card-list > .project-card + .project-card {
   margin-top: 56px;
   position: relative;
 }
 
-.case-card-list > .case-card + .case-card::before {
+.case-card-list > .case-card + .case-card::before,
+.project-card-list > .project-card + .project-card::before {
   content: "";
   position: absolute;
   left: 0;
@@ -6036,19 +6034,28 @@ body.iab-open .ask-yemi-fab {
   color: var(--ink);
 }
 
-.case-card-client-icon {
-  width: 24px;
+.case-card-logo {
+  display: block;
+  width: auto;
   height: 24px;
-  display: inline-grid;
-  place-items: center;
-  border: 1.5px solid var(--accent);
-  border-radius: 50%;
-  color: var(--accent);
+  max-width: 140px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+svg.case-card-logo {
+  width: 103px;
+}
+
+.case-card-logo--icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
 }
 
 .case-card-body h3 {
   color: var(--ink);
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.2;
   letter-spacing: -0.72px;
   font-weight: 600;
@@ -6110,5 +6117,39 @@ body.iab-open .ask-yemi-fab {
 @media (max-width: 640px) {
   .case-card-media { padding: 20px 6%; }
   .case-card-body { padding: 20px 16px; }
-  .case-card-body h3 { font-size: 20px; }
+}
+
+.project-card-list > .project-card {
+  padding: 24px;
+  border: 1px solid var(--gray-5);
+  background: var(--paper);
+}
+
+/* Let the tab bar and footer fill the column while centering the content sections. */
+.content-column > .w-full {
+  width: 100%;
+  min-width: 0;
+}
+
+.content-column > .w-full > :is(.projects, .contributed-projects, .toolbox) {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.content-column > .w-full > .footer {
+  width: calc(100% + var(--page-padding) + var(--content-edge-right));
+  margin-left: calc(-1 * var(--page-padding));
+  margin-right: calc(-1 * var(--content-edge-right));
+  padding-inline: var(--page-padding) var(--content-edge-right);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-tabs-bar,
+  .work-toggle,
+  .work-toggle button,
+  .work-toggle button::after { transition: none; }
+}
+
+@media (max-width: 640px) {
+  .project-card-list > .project-card { padding: 20px 16px; }
 }

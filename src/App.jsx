@@ -5,7 +5,6 @@ import {
   ArrowLeft2,
   ArrowRight2,
   Briefcase,
-  Building,
   Calendar,
   CloseCircle,
   HamburgerMenu,
@@ -53,9 +52,23 @@ const portraitImage = "/avatar.webp";
 
 const projects = [
   {
+    name: "Stayafrika",
+    company: "Stayafrika",
+    logo: "/brands/stayafrika.svg",
+    role: "Contract",
+    year: "2025 – 2026",
+    image: "/shots/shot-36.webp",
+    imageTreatment: "stayafrika",
+    href: "/projects/stayafrika",
+    tags: ["Travel", "Hospitality", "Marketplace"],
+    description:
+      "Designed Stayafrika from flows to launch, connecting property managers, landlords, event hosts, and everyday services like bakeries and barbers.",
+  },
+  {
     name: "TASAfrica",
     company: "TASAfrica Sports",
-    role: "Lead Product Designer",
+    logo: "tasafrica",
+    role: "UI/UX Designer (Solo)",
     year: "2024",
     image: tasafricaImage,
     href: "/projects/tasafrica",
@@ -66,25 +79,14 @@ const projects = [
   {
     name: "Limestone App",
     company: "Limestone Technologies",
-    role: "Lead UX/UI Designer",
+    logo: "/brands/limestone.png",
+    role: "Junior UI/UX Designer",
     year: "2024",
     image: limestoneImage,
     href: "/projects/limestone",
     tags: ["Community", "Security", "Real Estate", "B2B"],
     description:
       "Shipped offline check-ins so tenants could check in without internet access.",
-  },
-  {
-    name: "Stayafrika",
-    company: "Private LLTDC",
-    role: "UI/UX Designer",
-    year: "2025 – 2026",
-    image: "/shots/shot-36.webp",
-    imageTreatment: "stayafrika",
-    href: "/projects/stayafrika",
-    tags: ["Travel", "Hospitality", "Marketplace"],
-    description:
-      "Designed Stayafrika from flows to launch; 36 businesses joined in around 2 months.",
   },
 ];
 
@@ -352,19 +354,21 @@ function Project({ project, visual, cursorLabel = "View case study" }) {
 // Case studies: cover on a soft panel, then client, title, role and year, and a full-width link.
 function CaseStudyCard({ project }) {
   return (
-    <a className="case-card" href={project.href} data-cursor="Read case study" aria-label={`Read the ${project.name} case study`}>
+    <a className="case-card" href={project.href} aria-label={`Read the ${project.name} case study`}>
       <div className="case-card-media">
         <ProjectVisual project={project} />
       </div>
       <div className="case-card-body">
         <p className="case-card-client">
-          <span className="case-card-client-icon" aria-hidden="true">
-            <Building size={14} color="currentColor" variant="Bold" />
-          </span>
-          {project.company}
+          {project.logo === "tasafrica" ? (
+            <svg className="case-card-logo" viewBox="94 77 94 22" role="img" aria-label="TASAfrica">
+              <image href={tasafricaImage} width="547" height="474" />
+            </svg>
+          ) : (
+            <img className={`case-card-logo${project.name === "Limestone App" ? " case-card-logo--icon" : ""}`} src={project.logo} alt={project.company} />
+          )}
         </p>
-        <h3>{project.name}</h3>
-        <p className="case-card-summary">{project.description}</p>
+        <h3>{project.description}</h3>
         <ul className="case-card-meta" aria-label="Role and year">
           <li>
             <Briefcase size={18} color="currentColor" variant="Linear" aria-hidden="true" />
@@ -814,6 +818,7 @@ function App() {
                     <AiAsteriskIcon size={14} />
                     <span>yemiLLM</span>
                   </button>
+                  <a href={homeAnchorHref("#about")} onClick={showHome}>About</a>
                   <ResponsiveResumeLink onDesktopClick={showResume} isActive={activePanel === "resume"} />
                 </nav>
               </div>
@@ -828,8 +833,7 @@ function App() {
                   </div>
                   <div className="intro-description">
                     <p>Hi, I am Yemi. It's been four (4) years now designing and building B2B SaaS, enterprise, marketplace, and AI products, turning complex workflows into simple experiences.</p>
-                    <p>The curiosity of knowing How it was done, why it was done, and what if we make it better, led me to design.</p>
-                    <p className="intro-closing"><strong>coffee, semo and results keep me going</strong></p>
+                    <p>The curiosity of knowing How it was done, why it was done, and what it's done in a certain, led me to design. <strong>Coffee, semo and results keep me going</strong></p>
                   </div>
                 </div>
 
@@ -905,9 +909,11 @@ function App() {
                       {projects.map((project) => <CaseStudyCard key={project.name} project={project} />)}
                     </div>
                   ) : activeWork === "projects" ? (
-                    projectFolders.map((project) => (
+                    <div className="project-card-list">
+                    {projectFolders.map((project) => (
                       <Project key={project.name} project={project} cursorLabel="View project" visual={<ProjectFolder project={project} />} />
-                    ))
+                    ))}
+                    </div>
                   ) : (
                     <div className="shots-grid" role="tabpanel" aria-label="Design shots">
                       {shots.map((image, index) => (
