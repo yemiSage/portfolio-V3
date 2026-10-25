@@ -58,6 +58,6 @@ export default function GuestbookPage({ onOpenAiChat }) {
         {status === "ready" && notes.length === 0 && <p className="guest-empty-hint">A fresh page. Your note could be the first.</p>}
       </div>
     </section>
-    <section id="a-small-note" className="personal-section guest-guidelines"><p className="personal-eyebrow">A SMALL NOTE ABOUT THE NOTES</p><h2>Kind words live here.</h2><p>Every note is read before it reaches the wall. No ads, links, or private details, please. Just a little of you.</p><p>Want to talk about a project instead? <a className="personal-text-link" href="mailto:adegboyeopeyemi065@gmail.com">Let’s talk <ArrowUpRight size={14} aria-hidden="true" /></a></p></section>
+    <section id="a-small-note" className="personal-section guest-guidelines"><p>Every note is read before it reaches the wall. No ads, links, or private details, please. Just a little of you.</p><p>Want to talk about a project instead? <a className="personal-text-link" href="mailto:adegboyeopeyemi065@gmail.com">Let’s talk <ArrowUpRight size={14} aria-hidden="true" /></a></p></section>
   </PersonalPageShell>;
 }
