@@ -42,7 +42,8 @@ export default function GuestbookPage({ onOpenAiChat }) {
     finally { setSending(false); }
   };
   return <PersonalPageShell page="guestbook" sections={SECTIONS} onOpenAiChat={onOpenAiChat}>
-    <section id="the-wall" className="guest-wall personal-section"><div className="guest-wall-header"><h2>Good company.</h2><span>{status === "loading" ? "Opening the book…" : `${notes.length} ${notes.length === 1 ? "published note" : "published notes"}`}</span></div>
+    <div className="guest-wall-header"><h1>Postal my wall</h1><span>{status === "loading" ? "Opening the book…" : `${notes.length} ${notes.length === 1 ? "published note" : "published notes"}`}</span></div>
+    <section id="the-wall" className="guest-wall personal-section">
       <div className="guest-wall-grid" role="region" aria-label="Guestbook notes. Drag or use arrow keys to explore." tabIndex={0}
         onPointerDown={event => {
           if (event.pointerType !== "mouse" || event.button !== 0) return;

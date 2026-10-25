@@ -218,3 +218,13 @@
 
 .personal-page--guestbook .case-study-content { padding-top: 32px; }
 .personal-page--guestbook .guest-guidelines { padding-top: 20px; }
+
+.guest-wall-header { position: sticky; top: 32px; z-index: 8; isolation: isolate; }
+.guest-wall-header h1 { font: 500 22px/1.2 'Bricolage Grotesque', sans-serif; letter-spacing: -.6px; margin: 0; color: var(--ink); }
+.guest-wall-header::before { content: ""; position: absolute; inset: -32px -32px 0; z-index: -1; background: rgba(255,255,255,.3); -webkit-backdrop-filter: blur(16px) saturate(1.25); backdrop-filter: blur(16px) saturate(1.25); pointer-events: none; }
+.personal-page--guestbook #the-wall { padding-top: 0; }
+@media (max-width: 767px) {
+  .guest-wall-header { top: 157px; }
+  .guest-wall-header::before { inset: -1px calc(-1 * var(--page-padding)) 0; }
+  .guest-wall-header h1 { font-size: 20px; }
+}
