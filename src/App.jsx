@@ -42,6 +42,8 @@ import AiAsteriskIcon from "./components/AiAsteriskIcon";
 import HoverCursor from "./components/HoverCursor";
 import { canHover } from "./utils/hover";
 import ProjectFolder from "./components/ProjectFolder";
+import AsciiPortrait from "./components/AsciiPortrait";
+
 
 const portraitImage = "/avatar.webp";
 
@@ -766,8 +768,8 @@ function App() {
           <div className="identity-main">
             <div className="identity-content-top">
               <div className="identity-top">
-                <a className="portrait" href={homeAnchorHref("#top")} aria-label="Back to the top">
-                  <img src={portraitImage} alt="Opeyemi Adegboye" />
+                <a className="portrait portrait-ascii" href={homeAnchorHref("#top")} aria-label="Back to the top">
+                  <AsciiPortrait src={portraitImage} alt="Opeyemi Adegboye" />
                 </a>
                 <nav className="identity-links" aria-label="Profile links">
                   <button

@@ -5960,3 +5960,17 @@ body.iab-open .ask-yemi-fab {
     transition: none;
   }
 }
+
+.portrait.portrait-ascii {
+  width: 160px;
+  height: 160px;
+  flex: 0 0 160px;
+  overflow: visible;
+}
+
+.ascii-portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
