@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 
-// Sparse to dense glyphs. Light on dark: bright areas of the photo get the densest glyphs.
+// Sparse to dense glyphs: darker areas of the photo get the densest glyphs.
 const RAMP = " .:-=+*#%@".split("");
 const SIZE = 200;
 const CELL_W = 2;
@@ -15,12 +15,12 @@ function isBackground(r, g, b, a) {
   return r > 180 && r - b > 110 && max - min > 110 && g < 170;
 }
 
-// Warm cream ink on a dark tile, dimmer in the shadows, like a lit terminal portrait.
-const INK_DIM = [112, 98, 74];
-const INK_BRIGHT = [244, 230, 196];
+// Rich espresso ink on the light page: deepest in the shadows, warm tan in the highlights.
+const INK_LIGHT = [150, 112, 78];
+const INK_DEEP = [22, 15, 10];
 
 function toneColor(v) {
-  const c = INK_DIM.map((d, i) => Math.round(d + (INK_BRIGHT[i] - d) * v));
+  const c = INK_LIGHT.map((l, i) => Math.round(l + (INK_DEEP[i] - l) * v));
   return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
 }
 
@@ -41,9 +41,9 @@ function buildParticles(img) {
       const [r, g, b, a] = [data[i], data[i + 1], data[i + 2], data[i + 3]];
       if (isBackground(r, g, b, a)) continue;
       const luma = 0.299 * r + 0.587 * g + 0.114 * b;
-      // Stretch contrast so the face lifts off the dark hair and clothes.
-      const v = Math.pow(Math.min(1, Math.max(0, (luma - 18) / 125)), 0.78);
-      if (v < 0.18) continue;
+      // v is ink depth: stretched so skin midtones stay dense and only highlights thin out.
+      const v = Math.pow(Math.min(1, Math.max(0, (235 - luma) / 190)), 0.7);
+      if (v < 0.12) continue;
       const char = RAMP[Math.min(RAMP.length - 1, Math.floor(v * RAMP.length))];
       if (char === " ") continue;
 
@@ -91,7 +91,7 @@ export default function AsciiPortrait({ src, alt, className = "" }) {
 
     const draw = () => {
       ctx.clearRect(0, 0, SIZE, SIZE);
-      ctx.font = "bold 4.6px monospace";
+      ctx.font = "bold 5px monospace";
       const { x: px, y: py } = pointerRef.current;
       const radius = RADIUS;
       const radiusSq = radius * radius;
