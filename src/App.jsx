@@ -447,7 +447,7 @@ function App() {
   useEffect(() => {
     const node = tabsSentinelRef.current;
     if (!node) return undefined;
-    const topOffset = window.matchMedia("(max-width: 767px)").matches ? 68 : 0;
+    const topOffset = window.matchMedia("(max-width: 767px)").matches ? 68 : parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--page-padding")) || 32;
     const observer = new IntersectionObserver(
       ([entry]) => setTabsStuck(!entry.isIntersecting && entry.boundingClientRect.top < topOffset),
       { rootMargin: `-${topOffset}px 0px 0px 0px`, threshold: 0 },
