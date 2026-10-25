@@ -228,3 +228,32 @@
   .guest-wall-header::before { inset: -1px calc(-1 * var(--page-padding)) 0; }
   .guest-wall-header h1 { font-size: 20px; }
 }
+
+/* Comment pins and compact draft composer. */
+.guest-wall-grid { min-height: 420px; background-image: radial-gradient(#dddde3 1px, transparent 1px); background-size: 20px 20px; border-radius: 12px; align-items: flex-start; }
+.guest-comment { flex: 0 0 320px; padding: 4px; }
+.guest-comment-pin { width: 42px; height: 42px; border-radius: 50% 50% 50% 4px; border: 3px solid #a8c8ff; color: white; background: var(--pin-color); font: 600 16px Inter,sans-serif; cursor: pointer; box-shadow: 0 2px 8px #0002; }
+.guest-comment-panel { margin-top: 10px; border: 1px solid #454545; border-radius: 14px; color: #f5f5f5; background: #292a2b; box-shadow: 0 8px 24px #0002; overflow: hidden; }
+.guest-comment-panel header { padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; font: 600 13px Inter,sans-serif; }
+.guest-comment-panel header button { border: 0; color: #eee; background: transparent; cursor: pointer; }
+.guest-comment-author { padding: 14px 14px 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font: 12px Inter,sans-serif; }
+.guest-comment-author time { color: #b5b5b5; font-size: 10px; }
+.guest-comment-avatar { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--pin-color, #8c42e8); color: white; flex-shrink: 0; }
+.guest-comment-panel > p { padding: 14px 16px 18px; margin: 0; font: 14px/1.6 Inter,sans-serif; white-space: pre-wrap; overflow-wrap: anywhere; }
+.guest-composer-dialog { width: min(380px, calc(100vw - 32px)); background: #292a2b; color: #f5f5f5; box-shadow: 0 12px 40px #0004; }
+.guest-composer-dialog .guest-composer { background: transparent; padding: 14px; }
+.guest-composer-title { margin-bottom: 12px; }
+.guest-composer-dialog .guest-composer-title h2 { color: #eee; font: 600 13px Inter,sans-serif; margin: 0; }
+.guest-composer-close { background: transparent; color: #ccc; padding: 0; }
+.guest-composer-dialog .guest-form { gap: 0; }
+.guest-form .guest-name-field { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.guest-composer-dialog .guest-form input { color: #f5f5f5; background: transparent; border: 0; padding: 6px 0; font-size: 13px; }
+.guest-composer-dialog .guest-form textarea { color: #f5f5f5; background: transparent; border: 0; border-radius: 0; padding: 4px 0 12px; min-height: 145px; resize: vertical; font: 14px/1.7 Inter,sans-serif; }
+.guest-compose-toolbar { border-top: 1px solid #484848; padding-top: 8px; display: flex; align-items: center; gap: 10px; }
+.guest-mic { border: 0; background: transparent; color: #ddd; cursor: pointer; padding: 4px; }
+.guest-mic[aria-pressed=true] { color: #ff8c80; }
+.guest-compose-count { font: 11px Inter,sans-serif; color: #aaa; }
+.guest-send { margin-left: auto; border: 0; border-radius: 50%; width: 28px; height: 28px; display: grid; place-items: center; color: white; background: #338cf5; cursor: pointer; }
+.guest-send:disabled { opacity: .4; cursor: default; }
+.guest-voice-notice { font: 12px/1.5 Inter,sans-serif; color: #c6dfff; margin-top: 10px; }
+@media (max-width: 479px) { .guest-comment { flex-basis: 280px; } }
