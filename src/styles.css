@@ -15,7 +15,7 @@
   --body-copy-line-height: 24px;
   --body-copy-tracking: -0.28px;
   --paper: #ffffff;
-  --header-surface: rgba(255, 255, 255, 0.82);
+  --header-surface: transparent;
   --header-backdrop: blur(8px) saturate(1.1);
   --gray-5: #eef0f3;
   --accent: #e0733d;
@@ -6211,5 +6211,17 @@ svg.case-card-logo {
     background: var(--header-surface);
     -webkit-backdrop-filter: var(--header-backdrop);
     backdrop-filter: var(--header-backdrop);
+  }
+}
+
+/* Extend the untinted blur through the space above the desktop tab row. */
+@media (min-width: 768px) {
+  .work-tabs-bar.is-stuck::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--page-padding)) 0 100%;
+    -webkit-backdrop-filter: var(--header-backdrop);
+    backdrop-filter: var(--header-backdrop);
+    pointer-events: none;
   }
 }
