@@ -176,4 +176,8 @@
 .about-prose > div > p + p { margin-top: 16px; }
 
 .about-journey { container-type: inline-size; }
-.personal-page .about-journey > h2 { white-space: nowrap; font-size: clamp(12px, 5cqi, 32px); }
+.personal-page .about-journey > h2 { white-space: nowrap; font-size: clamp(12px, 5cqi, 28px); }
+
+.personal-page--about .personal-section > h2 { font-size: 28px; }
+#how-i-think { container-type: inline-size; }
+.personal-page--about :is(.about-journey, #how-i-think) > h2 { white-space: nowrap; font-size: clamp(12px, 5cqi, 28px); }

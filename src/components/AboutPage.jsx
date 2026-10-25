@@ -29,7 +29,7 @@ export default function AboutPage({ onOpenAiChat }) {
     </section>
     <section id="how-i-think" className="personal-section">
       <div className="case-study-section-heading"><p>How I think</p></div>
-      <h2>Make it work.<br />Make it make sense.</h2>
+      <h2>Make it work. Make it make sense.</h2>
       <div className="about-beliefs">{[
         ["01", "Purpose before polish.", "I start with the person, the problem, and the reason it matters. The beautiful interface comes from getting those things right."],
         ["02", "Design and build belong together.", "Engineering taught me to think in systems. Design taught me to look for the human in them. I bring both to the same conversation."],
