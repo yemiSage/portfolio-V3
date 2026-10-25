@@ -181,3 +181,17 @@
 .personal-page--about .personal-section > h2 { font-size: 28px; }
 #how-i-think { container-type: inline-size; }
 .personal-page--about :is(.about-journey, #how-i-think) > h2 { white-space: nowrap; font-size: clamp(12px, 5cqi, 28px); }
+
+.guest-guidelines { text-align: center; }
+.guest-form-actions { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.guest-form-actions .guest-colors { gap: 10px; flex: 0 1 auto; }
+.guest-form-actions .guest-submit { flex-shrink: 0; }
+.guest-wall-grid { display: flex; gap: 28px; overflow-x: auto; padding: 20px 12px 28px; cursor: grab; overscroll-behavior-x: contain; scrollbar-width: thin; }
+.guest-wall-grid[data-dragging] { cursor: grabbing; user-select: none; }
+.guest-wall-grid > .guest-note { flex: 0 0 min(340px, 85%); margin: 0; max-width: none; min-height: 220px; }
+@media (max-width: 479px) {
+  .guest-form-actions { gap: 8px; }
+  .guest-form-actions .guest-colors { gap: 6px; }
+  .guest-form-actions .guest-color-chip { width: 22px; height: 22px; }
+  .guest-form-actions .guest-submit { padding-inline: 10px; gap: 5px; font-size: 11px; }
+}
