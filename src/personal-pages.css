@@ -239,7 +239,7 @@
 .guest-comment-author { padding: 14px 14px 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font: 12px Inter,sans-serif; }
 .guest-comment-author time { color: #b5b5b5; font-size: 10px; }
 .guest-comment-avatar { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--pin-color, #8c42e8); color: white; flex-shrink: 0; }
-.guest-comment-panel > p { padding: 14px 16px 18px; margin: 0; font: 14px/1.6 Inter,sans-serif; white-space: pre-wrap; overflow-wrap: anywhere; }
+.guest-comment-panel > p { padding: 14px 16px 18px; margin: 0; font: 12px/1.6 Inter,sans-serif; white-space: pre-wrap; overflow-wrap: anywhere; }
 .guest-composer-dialog { width: min(380px, calc(100vw - 32px)); background: #292a2b; color: #f5f5f5; box-shadow: 0 12px 40px #0004; }
 .guest-composer-dialog .guest-composer { background: transparent; padding: 14px; }
 .guest-composer-title { margin-bottom: 12px; }
@@ -262,3 +262,6 @@
 .guest-comment-canvas .guest-comment { position: absolute; width: 320px; margin: 0; }
 .guest-comment-pin { touch-action: none; cursor: grab; }
 .guest-comment-pin:active { cursor: grabbing; }
+
+.guest-comment-panel { cursor: grab; touch-action: none; user-select: none; }
+.guest-comment-panel:active { cursor: grabbing; }
