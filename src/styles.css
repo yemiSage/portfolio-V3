@@ -5992,15 +5992,7 @@ body.iab-open .ask-yemi-fab {
   position: relative;
 }
 
-.project-card-list > .project-card + .project-card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(-1 * var(--card-divider-size));
-  height: var(--card-divider-size);
-  background: repeating-linear-gradient(-45deg, var(--gray-5) 0 14px, transparent 14px 28px);
-}
+
 
 .case-card {
   width: 100%;
