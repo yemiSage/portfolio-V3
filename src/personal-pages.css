@@ -4,21 +4,13 @@
 .personal-skip { position: fixed; top: -80px; left: 20px; padding: 12px 20px; background: var(--ink); color: white; z-index: 101; }
 .personal-skip:focus { top: 8px; }
 .personal-accent { color: var(--accent); }
-.personal-layout { width: min(1220px,100%); margin-inline: auto; display: grid; grid-template-columns: minmax(0,800px) 170px; justify-content: space-between; column-gap: clamp(36px,6vw,100px); padding: 0 clamp(24px,4vw,64px); }
-.personal-main { min-width: 0; }
-.personal-rail { align-self: start; position: sticky; top: 140px; padding-top: 100px; font-size: 12px; }
-.personal-rail-label { color: #777780; font-size: 10px; letter-spacing: 1.3px; margin: 0 0 20px 12px; }
-.personal-rail .case-study-index { width: 100%; }
-.personal-rail .case-study-index-back { font-size: 12px; }
-.personal-rail-signoff { color: #85858b; margin: 55px 0 0 12px; font-size: 12px; line-height: 1.7; }
-.personal-rail-signoff span { display: block; color: var(--accent); font-size: 32px; margin-top: 12px; }
 .personal-section { scroll-margin-top: 120px; padding: 80px 0; border-bottom: 1px solid var(--personal-line); }
 .personal-section-label { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 10px; letter-spacing: 1px; color: #76767d; margin-bottom: 28px; }
 .personal-section-label > span:first-child { color: var(--ink); }
 .personal-eyebrow { display: flex; align-items: center; gap: 10px; font-size: 10px; letter-spacing: 1.5px; color: #707078; margin-bottom: 30px; }
 .personal-tiny-star { font-size: 22px; color: var(--accent); }
 .personal-section h2 { font-family: 'Bricolage Grotesque',sans-serif; font-size: 32px; line-height: 1.2; font-weight: 500; letter-spacing: -.96px; margin-bottom: 32px; text-wrap: initial; }
-.about-hero { padding-top: 76px; }
+.about-hero { padding-top: 0; }
 .about-hero h1 { font-family: 'Bricolage Grotesque',sans-serif; font-size: 40px; line-height: 1.2; font-weight: 500; letter-spacing: -1.2px; text-wrap: initial; }
 .word-photo { display: inline-flex; position: relative; width: 94px; height: .9em; border: none; border-radius: 99px; overflow: hidden; padding: 0; background: var(--gray-5); vertical-align: -.09em; cursor: zoom-in; transform: rotate(-4deg); transition: transform 250ms cubic-bezier(.22,1,.36,1); }
 .word-photo:nth-of-type(2) { transform: rotate(4deg); }
@@ -54,8 +46,6 @@
 .guest-submit:disabled { opacity: .55; cursor: not-allowed; }
 .about-contact-actions { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; width: 100%; }
 .about-contact-actions .personal-text-link { margin: 0; }
-.personal-page .case-study-footer { margin-top: 0; padding: 36px 0 45px; border-top: 1px solid var(--personal-line); }
-.personal-page .footer-statement { font-size: 16px; }
 .personal-photo-dialog { padding: 16px; max-width: min(900px,92vw); max-height: 92dvh; border: 1px solid var(--personal-line); border-radius: 12px; color: var(--ink); }
 .personal-photo-dialog::backdrop { background: rgba(20,20,24,.75); backdrop-filter: blur(8px); }
 .personal-photo-dialog > button { position: sticky; margin-left: auto; top: 0; display: flex; background: white; border: 1px solid var(--personal-line); padding: 8px; border-radius: 99px; cursor: pointer; }
@@ -109,23 +99,15 @@
   .personal-text-link:hover { color: var(--accent); }
 }
 @media (max-width: 1023px) {
-  .personal-layout { grid-template-columns: minmax(0,1fr) 150px; gap: 30px; padding-inline: 28px; }
   .about-hero h1 { font-size: 40px; }
   .word-photo { width: 70px; }
   .about-chapter { grid-template-columns: 1fr; gap: 12px; }
   .about-prose { grid-template-columns: 1fr; gap: 14px; }
 }
 @media (max-width: 767px) {
-  .personal-page { padding-top: 72px; }
-  .personal-layout { display: flex; flex-direction: column; padding-inline: 20px; row-gap: 0; }
-  .personal-rail { order: -1; width: calc(100% + 40px); margin-left: -20px; padding: 10px 20px; top: 72px; z-index: 20; background: white; border-bottom: 1px solid var(--personal-line); }
-  .personal-rail-label, .personal-rail-signoff, .personal-rail .case-study-nav-highlight { display: none; }
-  .personal-rail .case-study-index { width: 100%; margin-top: 0; }
-  .personal-rail .case-study-index-top { display: flex; }
-  .personal-rail .case-study-index-back { margin-bottom: 0; font-size: 12px; }
   .personal-section { padding-block: 48px; scroll-margin-top: 140px; }
   .personal-eyebrow { font-size: 10px; letter-spacing: 1px; gap: 8px; margin-bottom: 22px; }
-  .about-hero { padding-top: 38px; }
+  .about-hero { padding-top: 0; }
   .about-hero h1 { font-size: 32px; letter-spacing: -.96px; }
   .word-photo { width: 61px; }
   .word-photo--portrait { width: 52px; }
@@ -137,7 +119,6 @@
   .about-chapter-content { padding-bottom: 24px; }
   .about-word-story { font-size: 20px; letter-spacing: -.6px; }
   .about-invitation h2 { font-size: 32px; }
-  .personal-page .case-study-footer { display: flex; flex-direction: column; gap: 28px; padding-block: 24px 50px; }
   .guest-hero h1 { font-size: 40px; letter-spacing: -1.2px; }
   .guest-composer { padding: 20px 16px; }
   .guest-form-bottom { flex-direction: column; align-items: stretch; gap: 16px; }
@@ -150,4 +131,14 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .personal-page *, .personal-page *::before, .personal-page *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* Inherit the case study rail, article spacing and footer. */
+.personal-page .personal-section { padding-block: 80px 0; border-bottom: 0; }
+.personal-page .personal-section:first-child { padding-top: 0; }
+.personal-page .guest-composer { margin-top: 48px; padding: 28px; }
+.personal-page .guest-wall { margin-top: 0; }
+@media (max-width: 767px) {
+  .personal-page .personal-section { padding-top: 48px; }
+  .personal-page .guest-composer { padding: 20px 16px; }
 }
