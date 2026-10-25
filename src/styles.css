@@ -6214,14 +6214,25 @@ svg.case-card-logo {
   }
 }
 
-/* Extend the untinted blur through the space above the desktop tab row. */
+/* A single glass surface covers the complete work navigation row. */
+.work-tabs-bar,
+.work-tabs-bar.is-stuck {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  isolation: isolate;
+}
+.work-tabs-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(-1 * var(--content-edge-right)) -12px calc(-1 * var(--page-padding));
+  z-index: -1;
+  background: rgba(255, 255, 255, .3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  backdrop-filter: blur(16px) saturate(1.25);
+  pointer-events: none;
+}
+.work-tabs-bar.is-stuck::before { left: 0; right: 0; }
 @media (min-width: 768px) {
-  .work-tabs-bar.is-stuck::before {
-    content: "";
-    position: absolute;
-    inset: calc(-1 * var(--page-padding)) 0 100%;
-    -webkit-backdrop-filter: var(--header-backdrop);
-    backdrop-filter: var(--header-backdrop);
-    pointer-events: none;
-  }
+  .work-tabs-bar::before { top: calc(-1 * var(--page-padding)); }
 }
