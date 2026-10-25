@@ -144,8 +144,8 @@ export default function GuestbookPage({ onOpenAiChat }) {
     <section className="guest-composer" aria-labelledby="guest-composer-heading">
       <div className="guest-composer-title"><h2 id="guest-composer-heading">Leave a note</h2><button type="button" className="guest-composer-close" aria-label="Close note form" onClick={() => composer.current.close()}><X size={18} /></button></div>
       <form className="guest-form" onSubmit={submit}>
-        <div className="guest-name-field"><button type="button" className="guest-comment-avatar guest-avatar-button" aria-label="Add or change your photo or logo" onClick={() => avatarInput.current?.click()} disabled={avatarBusy || sending}>{avatar ? <img src={avatar} alt="Your avatar" /> : <Plus size={18} />}</button><input aria-label="Your name" name="name" autoComplete="nickname" value={name} onChange={e => setName(e.target.value)} maxLength={40} required placeholder="Your name (required)" /></div>
-        <textarea aria-label="Your note" name="message" value={message} onChange={e => setMessage(e.target.value)} maxLength={180} minLength={2} required placeholder="I worked with Yemi and…" />
+        <div className="guest-name-field"><button type="button" className="guest-comment-avatar guest-avatar-button" aria-label="Add or change your photo or logo" onClick={() => avatarInput.current?.click()} disabled={avatarBusy || sending}>{avatar ? <img src={avatar} alt="Your avatar" /> : <Plus size={18} />}</button><input aria-label="Your name" name="name" autoComplete="nickname" value={name} onChange={e => setName(e.target.value)} maxLength={40} placeholder="Your name (optional)" /></div>
+        <textarea aria-label="Your note" name="message" value={message} onChange={e => setMessage(e.target.value)} maxLength={180} minLength={1} required placeholder="I worked with Yemi and…" />
         <label className="guest-honeypot" aria-hidden="true">Leave this empty<input name="website" tabIndex={-1} autoComplete="off" /></label>
         <div className="guest-compose-toolbar">
           <label className="guest-avatar-upload" title="Add your photo or logo"><ImagePlus size={17} /><input ref={avatarInput} type="file" accept="image/jpeg,image/png,image/webp" aria-label="Upload optional avatar" onChange={selectAvatar} disabled={avatarBusy || sending} /></label>
@@ -153,9 +153,8 @@ export default function GuestbookPage({ onOpenAiChat }) {
           {voiceSupported && <button type="button" className="guest-mic" aria-label={voice.status === "recording" ? "Stop recording" : "Dictate note"} aria-pressed={voice.status === "recording"} disabled={sending || voice.status === "transcribing"} onClick={() => voice.status === "recording" ? voice.stop() : voice.start()}>{voice.status === "recording" ? <Square size={17} fill="currentColor" strokeWidth={0} /> : <Mic size={17} />}</button>}
           {voice.status === "recording" && <span className="guest-voice-wave" aria-hidden="true">{voice.levels.map((level, index) => <i key={index} style={{ height: `${3 + level * 22}px` }} />)}</span>}
           <span className="guest-compose-count">{voice.status === "recording" ? "Recording…" : voice.status === "transcribing" ? "Transcribing…" : `${message.length}/180`}</span>
-          <button className="guest-send" type="submit" aria-label="Send note" disabled={sending || avatarBusy || !canSubmit || voice.status !== "idle" || !name.trim() || message.trim().length < 2}><ArrowUp size={19} /></button>
+          <button className="guest-send" type="submit" aria-label="Send note" disabled={sending || avatarBusy || !canSubmit || voice.status !== "idle" || !message.trim()}><ArrowUp size={19} /></button>
         </div>
-        {!name.trim() && message.trim().length >= 2 && <p className="guest-voice-notice" role="status">Add your name above to enable Send.</p>}
         {voiceNotice && <p className="guest-voice-notice" role="status">{voiceNotice}</p>}
         {status === "ready" && !canSubmit && <p className="guest-result">The book isn’t accepting notes just yet. <a href="mailto:adegboyeopeyemi065@gmail.com">Send me a hello by email</a> in the meantime.</p>}
         {status === "error" && <p className="guest-result" data-error="true">The book couldn’t load. <button type="button" onClick={() => load()}>Try again</button></p>}

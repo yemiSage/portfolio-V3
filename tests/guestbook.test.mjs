@@ -45,7 +45,7 @@ test("cross-site writes, missing origins, spam fields and malformed bodies are d
   assert.deepEqual(await store.list("pending"), []);
 }));
 test("validation rejects links, private email addresses, oversized text and unknown colors", () => {
-  for (const changed of [{ name: "" }, { name: "a".repeat(41) }, { message: "x" }, { message: "https://spam.example" }, { message: "mail me at person@example.com" }, { color: "url(evil)" }]) assert.throws(() => validateNote({ ...input, ...changed }));
+  for (const changed of [{ name: "a".repeat(41) }, { message: " " }, { message: "https://spam.example" }, { message: "mail me at person@example.com" }, { color: "url(evil)" }]) assert.throws(() => validateNote({ ...input, ...changed }));
   assert.equal(validateNote({ ...input, name: "  Ada   Lovelace  " }).name, "Ada Lovelace");
 });
 test("absent production storage fails closed without claiming to save notes", async () => {
@@ -87,3 +87,12 @@ test("avatar validation accepts bounded JPEG data only and preserves initials fa
   assert.throws(() => validateNote({ ...input, avatar: "data:image/svg+xml;base64,PHN2Zz4=" }));
   assert.throws(() => validateNote({ ...input, avatar: "data:image/jpeg;base64,YWJj" }));
 });
+
+test("blank or omitted names publish as Anonymous and one-character notes are accepted", () => withStore(async store => {
+  const response = await handleGuestbookRequest(request({ message: "Hi", color: "sage" }), store);
+  assert.equal(response.status, 201);
+  assert.equal((await response.json()).note.name, "Anonymous");
+  assert.equal((await store.list("published"))[0].name, "Anonymous");
+  assert.equal(validateNote({ ...input, name: "   ", message: "!" }).name, "Anonymous");
+  assert.throws(() => validateNote({ ...input, message: "   " }));
+}));

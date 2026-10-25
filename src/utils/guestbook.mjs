@@ -8,9 +8,9 @@ const MAX_PENDING = 500;
 export function validateNote(input) {
   if (!input || typeof input !== "object" || Array.isArray(input)) throw new Error("Please enter your name and a short note.");
   const clean = value => typeof value === "string" ? value.normalize("NFKC").replace(/[\u0000-\u0008\u000b-\u001f\u007f\u202a-\u202e\u2066-\u2069]/g, "").trim() : "";
-  const name = clean(input.name).replace(/\s+/g, " ");
+  const name = clean(input.name).replace(/\s+/g, " ") || "Anonymous";
   const message = clean(input.message);
-  if (!name || name.length > 40 || message.length < 2 || message.length > 180) throw new Error("Use a name up to 40 characters and a note between 2 and 180 characters.");
+  if (name.length > 40 || message.length < 1 || message.length > 180) throw new Error("Use a name up to 40 characters and a note between 1 and 180 characters.");
   if (/(?:https?:\/\/|www\.|[\w.+-]+@[\w.-]+\.[a-z]{2,})/i.test(`${name} ${message}`)) throw new Error("Please leave links and email addresses out of your note.");
   if (!COLORS.has(input.color)) throw new Error("Please choose one of the paper colors.");
   let avatar;
