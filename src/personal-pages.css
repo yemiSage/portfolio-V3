@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap");
+
 .personal-page { --personal-line: #e9e9ed; color: var(--ink); background: var(--paper); min-height: 100vh; }
 .personal-page a, .personal-page button { -webkit-tap-highlight-color: transparent; }
 .personal-page :is(a, button, input, textarea):focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
@@ -200,3 +202,6 @@
 @media (prefers-reduced-motion: no-preference) {
   .guest-stamp { animation: guest-stamp-roll 12s linear infinite; }
 }
+
+.guest-note > p { font-family: 'Caveat', 'Segoe Print', cursive; font-size: 26px; font-weight: 600; line-height: 1.35; letter-spacing: 0; }
+.guest-owner-note { padding: 12px 12px 20px; }
