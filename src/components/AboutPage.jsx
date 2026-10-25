@@ -19,7 +19,7 @@ export default function AboutPage({ onOpenAiChat }) {
     </section>
     <section id="the-journey" className="personal-section about-journey">
       <div className="case-study-section-heading"><p>The journey</p></div>
-      <h2>Different tools.<br />The same curiosity.</h2>
+      <h2>Different tools. The same curiosity.</h2>
       {ABOUT_JOURNEY.map(item => <article className="about-chapter" key={item.year}>
         <div className="about-chapter-year"><span className="about-timeline-dot" />{item.year}</div>
         <div className="about-chapter-content"><h3>{item.title}</h3><p>{item.body}</p>

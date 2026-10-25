@@ -37,7 +37,7 @@
 .about-beliefs article > span { font-size: 11px; color: var(--accent); }
 .about-beliefs h3 { font-size: 20px; font-weight: 500; letter-spacing: -.5px; margin-bottom: 10px; }
 .about-beliefs p { color: var(--body-copy); font-size: 14px; line-height: 1.8; }
-.about-word-story { font-family: 'Bricolage Grotesque',sans-serif; font-size: 32px; line-height: 1.5; letter-spacing: -.96px; }
+.about-word-story { font-family: 'Bricolage Grotesque',sans-serif; font-size: 20px; line-height: 1.5; letter-spacing: -.6px; text-align: center; }
 .about-small-note { color: var(--body-copy); margin-top: 24px; font-size: 13px; }
 .about-invitation { padding-bottom: 72px; border-bottom: 0; }
 .about-invitation h2 { font-size: 40px; margin-bottom: 20px; }
@@ -174,3 +174,6 @@
 .personal-page .about-invitation h2 { font-weight: 600; }
 
 .about-prose > div > p + p { margin-top: 16px; }
+
+.about-journey { container-type: inline-size; }
+.personal-page .about-journey > h2 { white-space: nowrap; font-size: clamp(12px, 5cqi, 32px); }
