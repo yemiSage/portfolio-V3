@@ -33,7 +33,7 @@ function buildParticles(img, detailed) {
   canvas.height = size;
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   // A light blur evens out specular highlights (nose, forehead) before sampling.
-  ctx.filter = detailed ? "none" : "blur(1.2px)";
+  ctx.filter = detailed ? "blur(0.6px)" : "blur(1.2px)";
   ctx.drawImage(img, 0, 0, size, size);
   ctx.filter = "none";
   const { data } = ctx.getImageData(0, 0, size, size);
@@ -49,7 +49,7 @@ function buildParticles(img, detailed) {
       const luma = 0.299 * r + 0.587 * g + 0.114 * b;
       // v is ink depth: stretched so skin midtones stay dense and only highlights thin out.
       // Roll off highlights so bright skin keeps soft glyphs instead of punching holes.
-      const tone = !detailed && luma > 140 ? 140 + (luma - 140) * 0.35 : luma;
+      const tone = luma > 140 ? 140 + (luma - 140) * (detailed ? 0.65 : 0.35) : luma;
       const v = Math.pow(Math.min(1, Math.max(0, (235 - tone) / 190)), 0.7);
       if (v < 0.08) continue;
       const char = RAMP[Math.min(RAMP.length - 1, Math.floor(v * RAMP.length))];
@@ -100,7 +100,7 @@ export default function AsciiPortrait({ src, alt, className = "", hoverRadius = 
 
     const draw = () => {
       ctx.clearRect(0, 0, size, size);
-      ctx.font = detailed ? "bold 5px monospace" : "bold 5px monospace";
+      ctx.font = detailed ? "bold 5.6px monospace" : "bold 5px monospace";
       const { x: px, y: py } = pointerRef.current;
       const radius = hoverRadius * (size / SIZE);
       const radiusSq = radius * radius;
