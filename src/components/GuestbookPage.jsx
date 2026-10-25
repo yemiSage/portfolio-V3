@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, ArrowUp, Mic, Square, X } from "lucide-react";
+import { ArrowUpRight, ArrowUp, ImagePlus, Mic, Square, X } from "lucide-react";
 import { isVoiceInputSupported, useVoiceInput } from "./useVoiceInput";
 import PersonalPageShell from "./PersonalPageShell";
 
@@ -22,6 +22,8 @@ export default function GuestbookPage({ onOpenAiChat }) {
   const [notes, setNotes] = useState([]);
   const [status, setStatus] = useState("loading");
   const [canSubmit, setCanSubmit] = useState(false);
+  const [avatar, setAvatar] = useState(null);
+  const [avatarBusy, setAvatarBusy] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [color, setColor] = useState("peach");
@@ -36,18 +38,36 @@ export default function GuestbookPage({ onOpenAiChat }) {
     } catch (e) { if (e.name !== "AbortError") setStatus("error"); }
   };
   useEffect(() => { const controller = new AbortController(); load(controller.signal); return () => controller.abort(); }, []);
+  const selectAvatar = async event => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 5 * 1024 * 1024) { setVoiceNotice("Choose a JPEG, PNG or WebP image under 5MB."); return; }
+    setAvatarBusy(true);
+    const url = URL.createObjectURL(file);
+    try {
+      const image = new Image(); image.src = url; await image.decode();
+      const canvas = document.createElement("canvas"); canvas.width = canvas.height = 96;
+      const context = canvas.getContext("2d");
+      context.fillStyle = "#ffffff"; context.fillRect(0, 0, 96, 96);
+      const side = Math.min(image.naturalWidth, image.naturalHeight);
+      context.drawImage(image, (image.naturalWidth - side) / 2, (image.naturalHeight - side) / 2, side, side, 0, 0, 96, 96);
+      setAvatar(canvas.toDataURL("image/jpeg", .75)); setVoiceNotice("");
+    } catch { setVoiceNotice("That image could not be opened. Try another file."); }
+    finally { URL.revokeObjectURL(url); setAvatarBusy(false); }
+  };
   const submit = async event => {
     event.preventDefault();
-    if (sending || voice.status !== "idle") return;
+    if (sending || avatarBusy || voice.status !== "idle") return;
     setSending(true); setResult(null);
     try {
-      const response = await fetch("/api/guestbook", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, message, color, website: new FormData(event.currentTarget).get("website") }) });
+      const response = await fetch("/api/guestbook", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, message, color, avatar, website: new FormData(event.currentTarget).get("website") }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "That note could not be sent. Please try again.");
       setActiveNote(data.note.id);
       setNotes(current => [data.note, ...current.filter(note => note.id !== data.note.id)].slice(0, 100));
       setResult({ text: "Your note is on the wall. Thanks for stopping by!", error: false });
-      setName(""); setMessage("");
+      setName(""); setMessage(""); setAvatar(null);
       composer.current?.close();
       document.getElementById("the-wall")?.scrollIntoView({ block: "start" });
     } catch (e) { setResult({ text: e.message || "Could not connect. Please try again.", error: true }); }
@@ -106,9 +126,9 @@ export default function GuestbookPage({ onOpenAiChat }) {
             const y = card.offsetTop + (event.key === "ArrowDown" ? 20 : event.key === "ArrowUp" ? -20 : 0);
             setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(card.parentElement.clientWidth - 268, x)), y: Math.max(8, Math.min(200, y)) } }));
           }}
-          onClick={() => { if (suppressPinClick.current) { suppressPinClick.current = false; return; } setActiveNote(activeNote === note.id ? null : note.id); }}>{note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
+          onClick={() => { if (suppressPinClick.current) { suppressPinClick.current = false; return; } setActiveNote(activeNote === note.id ? null : note.id); }}>{note.avatar ? <img src={note.avatar} alt="" /> : note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
           {activeNote === note.id && <article className="guest-comment-panel" id={`comment-${note.id}`}>
-            <div className="guest-comment-author"><span className="guest-comment-avatar">{note.name[0].toUpperCase()}</span><strong>{note.name}</strong>{note.createdAt && <time dateTime={note.createdAt}>{formatDate(note.createdAt)}</time>}</div>
+            <div className="guest-comment-author"><span className="guest-comment-avatar">{note.avatar ? <img src={note.avatar} alt="" /> : note.name[0].toUpperCase()}</span><strong>{note.name}</strong>{note.createdAt && <time dateTime={note.createdAt}>{formatDate(note.createdAt)}</time>}</div>
             <p>{note.message}</p>
           </article>}
         </div>)}
@@ -123,14 +143,16 @@ export default function GuestbookPage({ onOpenAiChat }) {
     <section className="guest-composer" aria-labelledby="guest-composer-heading">
       <div className="guest-composer-title"><h2 id="guest-composer-heading">Leave a note</h2><button type="button" className="guest-composer-close" aria-label="Close note form" onClick={() => composer.current.close()}><X size={18} /></button></div>
       <form className="guest-form" onSubmit={submit}>
-        <label className="guest-name-field"><span className="guest-comment-avatar" aria-hidden="true">{name.trim()[0]?.toUpperCase() || "?"}</span><input aria-label="Your name" name="name" autoComplete="nickname" value={name} onChange={e => setName(e.target.value)} maxLength={40} required placeholder="Your name" /></label>
+        <label className="guest-name-field"><span className="guest-comment-avatar" aria-hidden="true">{avatar ? <img src={avatar} alt="" /> : name.trim()[0]?.toUpperCase() || "?"}</span><input aria-label="Your name" name="name" autoComplete="nickname" value={name} onChange={e => setName(e.target.value)} maxLength={40} required placeholder="Your name" /></label>
         <textarea aria-label="Your note" name="message" value={message} onChange={e => setMessage(e.target.value)} maxLength={180} minLength={2} required placeholder="I worked with Yemi and…" />
         <label className="guest-honeypot" aria-hidden="true">Leave this empty<input name="website" tabIndex={-1} autoComplete="off" /></label>
         <div className="guest-compose-toolbar">
+          <label className="guest-avatar-upload" title="Add your photo or logo"><ImagePlus size={17} /><input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Upload optional avatar" onChange={selectAvatar} disabled={avatarBusy || sending} /></label>
+          {avatar && <button type="button" className="guest-mic" aria-label="Remove avatar" onClick={() => setAvatar(null)}><X size={14} /></button>}
           {voiceSupported && <button type="button" className="guest-mic" aria-label={voice.status === "recording" ? "Stop recording" : "Dictate note"} aria-pressed={voice.status === "recording"} disabled={sending || voice.status === "transcribing"} onClick={() => voice.status === "recording" ? voice.stop() : voice.start()}>{voice.status === "recording" ? <Square size={17} fill="currentColor" strokeWidth={0} /> : <Mic size={17} />}</button>}
           {voice.status === "recording" && <span className="guest-voice-wave" aria-hidden="true">{voice.levels.map((level, index) => <i key={index} style={{ height: `${3 + level * 22}px` }} />)}</span>}
           <span className="guest-compose-count">{voice.status === "recording" ? "Recording…" : voice.status === "transcribing" ? "Transcribing…" : `${message.length}/180`}</span>
-          <button className="guest-send" type="submit" aria-label="Send note" disabled={sending || !canSubmit || voice.status !== "idle" || !name.trim() || message.trim().length < 2}><ArrowUp size={19} /></button>
+          <button className="guest-send" type="submit" aria-label="Send note" disabled={sending || avatarBusy || !canSubmit || voice.status !== "idle" || !name.trim() || message.trim().length < 2}><ArrowUp size={19} /></button>
         </div>
         {voiceNotice && <p className="guest-voice-notice" role="status">{voiceNotice}</p>}
         {status === "ready" && !canSubmit && <p className="guest-result">The book isn’t accepting notes just yet. <a href="mailto:adegboyeopeyemi065@gmail.com">Send me a hello by email</a> in the meantime.</p>}

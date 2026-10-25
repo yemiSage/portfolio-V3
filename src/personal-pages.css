@@ -269,3 +269,8 @@
 .guest-comment-canvas .guest-comment { width: 260px; }
 .guest-voice-wave { display: flex; align-items: center; gap: 2px; height: 26px; }
 .guest-voice-wave i { display: block; width: 2px; border-radius: 2px; background: #b5d8ff; transition: height 60ms linear; }
+
+.guest-comment-pin img, .guest-comment-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.guest-avatar-upload { position: relative; cursor: pointer; color: #ddd !important; display: inline-flex !important; }
+.guest-avatar-upload input { position: absolute; width: 24px !important; height: 24px; opacity: 0; cursor: pointer; }
+.guest-avatar-upload:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }

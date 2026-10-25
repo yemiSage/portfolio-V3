@@ -80,3 +80,10 @@ test("Redis submissions target the published list with atomic cooldown and reten
   assert.match(command[1], /NX.*EX.*60/);
   assert.match(command[1], /LTRIM/);
 });
+
+test("avatar validation accepts bounded JPEG data only and preserves initials fallback", () => {
+  assert.equal(validateNote(input).avatar, undefined);
+  assert.throws(() => validateNote({ ...input, avatar: "https://example.com/photo.jpg" }));
+  assert.throws(() => validateNote({ ...input, avatar: "data:image/svg+xml;base64,PHN2Zz4=" }));
+  assert.throws(() => validateNote({ ...input, avatar: "data:image/jpeg;base64,YWJj" }));
+});

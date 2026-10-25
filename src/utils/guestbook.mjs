@@ -13,7 +13,14 @@ export function validateNote(input) {
   if (!name || name.length > 40 || message.length < 2 || message.length > 180) throw new Error("Use a name up to 40 characters and a note between 2 and 180 characters.");
   if (/(?:https?:\/\/|www\.|[\w.+-]+@[\w.-]+\.[a-z]{2,})/i.test(`${name} ${message}`)) throw new Error("Please leave links and email addresses out of your note.");
   if (!COLORS.has(input.color)) throw new Error("Please choose one of the paper colors.");
-  return { name, message, color: input.color };
+  let avatar;
+  if (input.avatar) {
+    if (typeof input.avatar !== "string" || input.avatar.length > 24000 || !/^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(input.avatar)) throw new Error("Please choose a small JPEG avatar.");
+    const bytes = Buffer.from(input.avatar.split(",")[1], "base64");
+    if (bytes[0] !== 255 || bytes[1] !== 216 || bytes[2] !== 255 || bytes.at(-2) !== 255 || bytes.at(-1) !== 217) throw new Error("Invalid avatar image.");
+    avatar = input.avatar;
+  }
+  return { name, message, color: input.color, ...(avatar ? { avatar } : {}) };
 }
 
 export function createFileStore(file) {
@@ -119,12 +126,13 @@ export async function handleGuestbookRequest(request, store = getGuestbookStore(
   if (!allowedOrigin(request.headers.get("origin"))) return json({ error: "Please send your note from Yemi’s portfolio." }, 403);
   if (!store) return json({ error: "The book isn’t accepting notes just yet. Please say hello by email." }, 503);
   if (!request.headers.get("content-type")?.startsWith("application/json")) return json({ error: "Expected a JSON note." }, 415);
-  if (Number(request.headers.get("content-length") || 0) > 4096) return json({ error: "That note is too large." }, 413);
+  if (Number(request.headers.get("content-length") || 0) > 32768) return json({ error: "That note is too large." }, 413);
   let input;
   try {
     const text = await request.text();
-    if (Buffer.byteLength(text) > 4096) return json({ error: "That note is too large." }, 413);
+    if (Buffer.byteLength(text) > 32768) return json({ error: "That note is too large." }, 413);
     input = JSON.parse(text);
+    if (!input?.avatar && Buffer.byteLength(text) > 4096) return json({ error: "That note is too large." }, 413);
   } catch { return json({ error: "Please enter a valid note." }, 400); }
   if (input?.website) return json({ error: "That note could not be accepted." }, 400);
   let content;
