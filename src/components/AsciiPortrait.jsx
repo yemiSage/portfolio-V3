@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 
-// Brightness ramp from dense to sparse glyphs.
-const RAMP = "@@%#*+=-:. ".split("");
+// Sparse to dense glyphs. Light on dark: bright areas of the photo get the densest glyphs.
+const RAMP = " .:-=+*#%@".split("");
 const SIZE = 200;
 const CELL_W = 2;
 const CELL_H = 3;
@@ -15,12 +15,13 @@ function isBackground(r, g, b, a) {
   return r > 180 && r - b > 110 && max - min > 110 && g < 170;
 }
 
-// Dense glyphs get near-black ink so the face reads clearly at small sizes.
-function toneColor(depth) {
-  if (depth > 0.5) return "#0d0c0b";
-  if (depth > 0.32) return "#26231f";
-  if (depth > 0.18) return "#4a4540";
-  return "#7a736a";
+// Warm cream ink on a dark tile, dimmer in the shadows, like a lit terminal portrait.
+const INK_DIM = [112, 98, 74];
+const INK_BRIGHT = [244, 230, 196];
+
+function toneColor(v) {
+  const c = INK_DIM.map((d, i) => Math.round(d + (INK_BRIGHT[i] - d) * v));
+  return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
 }
 
 function buildParticles(img) {
@@ -40,9 +41,10 @@ function buildParticles(img) {
       const [r, g, b, a] = [data[i], data[i + 1], data[i + 2], data[i + 3]];
       if (isBackground(r, g, b, a)) continue;
       const luma = 0.299 * r + 0.587 * g + 0.114 * b;
-      // Gamma below 1 pushes midtones (skin) towards denser, darker glyphs.
-      const depth = 1 - Math.min(1, Math.pow(luma / 255, 0.42));
-      const char = RAMP[Math.min(RAMP.length - 1, Math.floor((1 - depth) * RAMP.length))];
+      // Stretch contrast so the face lifts off the dark hair and clothes.
+      const v = Math.pow(Math.min(1, Math.max(0, (luma - 18) / 125)), 0.78);
+      if (v < 0.18) continue;
+      const char = RAMP[Math.min(RAMP.length - 1, Math.floor(v * RAMP.length))];
       if (char === " ") continue;
 
       // Start scattered outward from the centre so the face assembles on load.
@@ -55,7 +57,7 @@ function buildParticles(img) {
         baseX: x,
         baseY: y,
         density: Math.random() * 12 + 4,
-        color: toneColor(depth),
+        color: toneColor(v),
       });
     }
   }
