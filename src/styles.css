@@ -5961,16 +5961,10 @@ body.iab-open .ask-yemi-fab {
   }
 }
 
-.portrait.portrait-ascii {
-  width: 160px;
-  height: 160px;
-  flex: 0 0 160px;
-  overflow: visible;
-}
-
 .ascii-portrait {
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: 8px;
   touch-action: none;
 }

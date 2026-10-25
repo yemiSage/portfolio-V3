@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef } from "react";
 
 // Brightness ramp from dense to sparse glyphs.
-const RAMP = "@%#*+=-:. ".split("");
-const SIZE = 480;
-const CELL_W = 5;
-const CELL_H = 8;
+const RAMP = "@@%#*+=-:. ".split("");
+const SIZE = 200;
+const CELL_W = 2;
+const CELL_H = 3;
+const RADIUS = 36;
 
 // The avatar sits on an orange hexagon; skip those pixels so only the person is drawn.
 function isBackground(r, g, b, a) {
@@ -14,11 +15,12 @@ function isBackground(r, g, b, a) {
   return r > 180 && r - b > 110 && max - min > 110 && g < 170;
 }
 
-function toneColor(luma) {
-  if (luma < 70) return "#1f1d1a";
-  if (luma < 140) return "#4a4540";
-  if (luma < 200) return "#8a8178";
-  return "#c9bfb3";
+// Dense glyphs get near-black ink so the face reads clearly at small sizes.
+function toneColor(depth) {
+  if (depth > 0.5) return "#0d0c0b";
+  if (depth > 0.32) return "#26231f";
+  if (depth > 0.18) return "#4a4540";
+  return "#7a736a";
 }
 
 function buildParticles(img) {
@@ -34,24 +36,26 @@ function buildParticles(img) {
 
   for (let y = CELL_H; y < SIZE; y += CELL_H) {
     for (let x = 0; x < SIZE; x += CELL_W) {
-      const i = ((y - CELL_H / 2) * SIZE + x + Math.floor(CELL_W / 2)) * 4;
+      const i = ((y - Math.ceil(CELL_H / 2)) * SIZE + x + Math.floor(CELL_W / 2)) * 4;
       const [r, g, b, a] = [data[i], data[i + 1], data[i + 2], data[i + 3]];
       if (isBackground(r, g, b, a)) continue;
       const luma = 0.299 * r + 0.587 * g + 0.114 * b;
-      const char = RAMP[Math.min(RAMP.length - 1, Math.floor((luma / 256) * RAMP.length))];
+      // Gamma below 1 pushes midtones (skin) towards denser, darker glyphs.
+      const depth = 1 - Math.min(1, Math.pow(luma / 255, 0.42));
+      const char = RAMP[Math.min(RAMP.length - 1, Math.floor((1 - depth) * RAMP.length))];
       if (char === " ") continue;
 
       // Start scattered outward from the centre so the face assembles on load.
       const angle = Math.atan2(y - cy, x - cx) + Math.random() * 2;
-      const dist = Math.hypot(x - cx, y - cy) + Math.random() * 350 + 150;
+      const dist = Math.hypot(x - cx, y - cy) + Math.random() * 150 + 60;
       particles.push({
         char,
         x: cx + Math.cos(angle) * dist,
         y: cy + Math.sin(angle) * dist,
         baseX: x,
         baseY: y,
-        density: Math.random() * 15 + 5,
-        color: toneColor(luma),
+        density: Math.random() * 12 + 4,
+        color: toneColor(depth),
       });
     }
   }
@@ -85,9 +89,9 @@ export default function AsciiPortrait({ src, alt, className = "" }) {
 
     const draw = () => {
       ctx.clearRect(0, 0, SIZE, SIZE);
-      ctx.font = "8px monospace";
+      ctx.font = "bold 4.6px monospace";
       const { x: px, y: py } = pointerRef.current;
-      const radius = window.innerWidth > 768 ? 55 : 75;
+      const radius = RADIUS;
       const radiusSq = radius * radius;
 
       for (const p of particlesRef.current) {
@@ -113,7 +117,7 @@ export default function AsciiPortrait({ src, alt, className = "" }) {
           p.x = Math.abs(ox) < 0.5 ? p.baseX : p.x - ox / ease;
           p.y = Math.abs(oy) < 0.5 ? p.baseY : p.y - oy / ease;
         }
-        const displaced = (p.x - p.baseX) ** 2 + (p.y - p.baseY) ** 2 > 2;
+        const displaced = (p.x - p.baseX) ** 2 + (p.y - p.baseY) ** 2 > 1;
         ctx.fillStyle = displaced ? "#E0733D" : p.color;
         ctx.fillText(p.char, p.x, p.y);
       }
