@@ -6181,3 +6181,11 @@ svg.case-card-logo {
 @media (max-width: 640px) {
   .project-card-list > .project-card { padding: 20px 16px; }
 }
+
+/* Keep detail-page navigation in the homepage identity row. */
+@media (min-width: 768px) {
+  .case-study-rail-top.identity-top { flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; min-height: 50px; }
+  .case-study-rail-back { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-size: 14px; white-space: nowrap; }
+  .case-study-rail .case-study-index-back { display: none !important; }
+  .case-study-rail .case-study-profile-links { margin-left: auto; }
+}
