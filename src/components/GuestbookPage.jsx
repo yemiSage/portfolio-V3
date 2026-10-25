@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ArrowUp, Plus, ImagePlus, Mic, Square, X } from "lucide-react";
 import { isVoiceInputSupported, useVoiceInput } from "./useVoiceInput";
+import { defaultNotePosition, nearestNoteSpace } from "../utils/guestbookLayout.mjs";
 import PersonalPageShell from "./PersonalPageShell";
 
 const SECTIONS = [["the-wall", "The wall"], ["leave-a-note", "Leave a note"], ["a-small-note", "A small note"]];
@@ -8,6 +9,8 @@ const COLORS = { peach: "#fff0e5", lavender: "#f0edff", sage: "#ecf3ed", butter:
 const formatDate = value => new Date(value).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 export default function GuestbookPage({ onOpenAiChat }) {
   const drag = useRef(null);
+  const boardRef = useRef(null);
+  const [zoom, setZoom] = useState(1);
   const composer = useRef(null);
   const avatarInput = useRef(null);
   const pinDrag = useRef(null);
@@ -35,10 +38,18 @@ export default function GuestbookPage({ onOpenAiChat }) {
       const response = await fetch("/api/guestbook", { signal });
       if (!response.ok) throw new Error();
       const data = await response.json();
-      setNotes(data.notes); setCanSubmit(data.canSubmit); setStatus("ready");
+      setNotes(data.notes); setActiveNote(data.notes[0]?.id || "host"); setCanSubmit(data.canSubmit); setStatus("ready");
     } catch (e) { if (e.name !== "AbortError") setStatus("error"); }
   };
   useEffect(() => { const controller = new AbortController(); load(controller.signal); return () => controller.abort(); }, []);
+  useEffect(() => {
+    if (!result) return;
+    const timer = setTimeout(() => setResult(null), 5000);
+    return () => clearTimeout(timer);
+  }, [result]);
+  const allNotes = [{ id: "host", name: "Yemi, your host", message: "The internet is a big place. I’m glad our paths crossed here.", color: "peach" }, ...notes];
+  const boardWidth = Math.max(800, ...allNotes.map((note, index) => (positions[note.id] || defaultNotePosition(index)).x + 300));
+  const boardHeight = Math.max(540, ...allNotes.map((note, index) => (positions[note.id] || defaultNotePosition(index)).y + 250));
   const selectAvatar = async event => {
     const file = event.target.files?.[0];
     event.target.value = "";
@@ -65,28 +76,37 @@ export default function GuestbookPage({ onOpenAiChat }) {
       const response = await fetch("/api/guestbook", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, message, color, avatar, website: new FormData(event.currentTarget).get("website") }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "That note could not be sent. Please try again.");
+      const currentPositions = Object.fromEntries(allNotes.map((note, index) => [note.id, positions[note.id] || defaultNotePosition(index)]));
+      const board = boardRef.current;
+      const location = nearestNoteSpace(Object.values(currentPositions), { x: (board?.scrollLeft || 0) / zoom + 20, y: (board?.scrollTop || 0) / zoom + 20 });
+      setPositions({ ...currentPositions, [data.note.id]: location });
       setActiveNote(data.note.id);
       setNotes(current => [data.note, ...current.filter(note => note.id !== data.note.id)].slice(0, 100));
       setResult({ text: "Your note is on the wall. Thanks for stopping by!", error: false });
       setName(""); setMessage(""); setAvatar(null);
       composer.current?.close();
-      document.getElementById("the-wall")?.scrollIntoView({ block: "start" });
+      requestAnimationFrame(() => {
+        document.getElementById("the-wall")?.scrollIntoView({ block: "start" });
+        boardRef.current?.scrollTo({ left: Math.max(0, location.x * zoom - 30), top: Math.max(0, location.y * zoom - 30), behavior: "auto" });
+        requestAnimationFrame(() => document.getElementById(`pin-${data.note.id}`)?.focus({ preventScroll: true }));
+      });
     } catch (e) { setResult({ text: e.message || "Could not connect. Please try again.", error: true }); }
     finally { setSending(false); }
   };
   return <PersonalPageShell page="guestbook" sections={SECTIONS} onOpenAiChat={onOpenAiChat}>
     <div className="guest-wall-header"><h1>Postal my wall</h1><span>{status === "loading" ? "Opening the book…" : `${notes.length} ${notes.length === 1 ? "published note" : "published notes"}`}</span></div>
     <section id="the-wall" className="guest-wall personal-section">
-      <div className="guest-wall-grid" role="region" aria-label="Guestbook notes. Drag or use arrow keys to explore." tabIndex={0}
+      <div className="guest-zoom" aria-label="Board zoom controls"><button type="button" aria-label="Zoom out" disabled={zoom <= .5} onClick={() => setZoom(value => Math.max(.5, +(value - .1).toFixed(1)))}>−</button><button type="button" aria-label="Reset zoom" onClick={() => setZoom(1)}>{Math.round(zoom * 100)}%</button><button type="button" aria-label="Zoom in" disabled={zoom >= 1.6} onClick={() => setZoom(value => Math.min(1.6, +(value + .1).toFixed(1)))}>+</button></div>
+      <div ref={boardRef} className="guest-wall-grid" role="region" aria-label="Guestbook notes. Drag or use arrow keys to explore." tabIndex={0}
         onPointerDown={event => {
           if (event.target.closest("button") || event.pointerType !== "mouse" || event.button !== 0) return;
           const board = event.currentTarget;
-          drag.current = { x: event.clientX, left: board.scrollLeft };
+          drag.current = { x: event.clientX, y: event.clientY, left: board.scrollLeft, top: board.scrollTop };
           board.setPointerCapture(event.pointerId);
           board.dataset.dragging = "true";
         }}
         onPointerMove={event => {
-          if (drag.current) event.currentTarget.scrollLeft = drag.current.left - (event.clientX - drag.current.x);
+          if (drag.current) { event.currentTarget.scrollLeft = drag.current.left - (event.clientX - drag.current.x); event.currentTarget.scrollTop = drag.current.top - (event.clientY - drag.current.y); }
         }}
         onPointerUp={event => { drag.current = null; delete event.currentTarget.dataset.dragging; }}
         onPointerCancel={event => { drag.current = null; delete event.currentTarget.dataset.dragging; }}
@@ -97,8 +117,8 @@ export default function GuestbookPage({ onOpenAiChat }) {
           const board = event.currentTarget;
           board.scrollLeft = event.key === "Home" ? 0 : event.key === "End" ? board.scrollWidth : board.scrollLeft + (event.key === "ArrowRight" ? 300 : -300);
         }}>
-        <div className="guest-comment-canvas" style={{ width: `${Math.max(800, (notes.length + 1) * 350)}px` }}>
-        {[{ id: "host", name: "Yemi, your host", message: "The internet is a big place. I’m glad our paths crossed here.", color: "peach" }, ...notes].map((note, index) => <div className="guest-comment" key={note.id} style={{ "--pin-color": ["#8c42e8", "#317adf", "#d86536", "#2e956f"][index % 4], left: positions[note.id]?.x ?? index * 350 + 16, top: positions[note.id]?.y ?? [20, 110, 45, 150][index % 4] }} onPointerDown={event => {
+        <div className="guest-comment-space" style={{ width: boardWidth * zoom, height: boardHeight * zoom }}><div className="guest-comment-canvas" style={{ width: boardWidth, height: boardHeight, transform: `scale(${zoom})`, transformOrigin: "top left" }}>
+        {allNotes.map((note, index) => <div className="guest-comment" key={note.id} style={{ "--pin-color": ["#8c42e8", "#317adf", "#d86536", "#2e956f"][index % 4], left: positions[note.id]?.x ?? defaultNotePosition(index).x, top: positions[note.id]?.y ?? defaultNotePosition(index).y }} onPointerDown={event => {
             if (event.button !== 0 || event.target.closest(".guest-comment-panel button")) return;
             event.stopPropagation();
             const card = event.currentTarget;
@@ -109,23 +129,23 @@ export default function GuestbookPage({ onOpenAiChat }) {
           onPointerMove={event => {
             const start = pinDrag.current;
             if (!start || start.id !== note.id) return;
-            const dx = event.clientX - start.x, dy = event.clientY - start.y;
+            const dx = (event.clientX - start.x) / zoom, dy = (event.clientY - start.y) / zoom;
             if (Math.hypot(dx, dy) < 4 && !suppressPinClick.current) return;
             suppressPinClick.current = true;
             const canvas = event.currentTarget.parentElement;
-            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(canvas.clientWidth - 268, start.left + dx)), y: Math.max(8, Math.min(200, start.top + dy)) } }));
+            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(canvas.clientWidth - 268, start.left + dx)), y: Math.max(8, Math.min(boardHeight - 240, start.top + dy)) } }));
           }}
           onPointerUp={() => { pinDrag.current = null; }}
           onPointerCancel={() => { pinDrag.current = null; }}
           onLostPointerCapture={() => { pinDrag.current = null; }}
 >
-          <button type="button" className="guest-comment-pin" aria-label={`Read note from ${note.name}`} aria-expanded={activeNote === note.id} aria-controls={`comment-${note.id}`}          onKeyDown={event => {
+          <button type="button" className="guest-comment-pin" id={`pin-${note.id}`} aria-label={`Read note from ${note.name}`} aria-expanded={activeNote === note.id} aria-controls={`comment-${note.id}`}          onKeyDown={event => {
             if (!event.key.startsWith("Arrow")) return;
             event.preventDefault(); event.stopPropagation();
             const card = event.currentTarget.parentElement;
             const x = card.offsetLeft + (event.key === "ArrowRight" ? 20 : event.key === "ArrowLeft" ? -20 : 0);
             const y = card.offsetTop + (event.key === "ArrowDown" ? 20 : event.key === "ArrowUp" ? -20 : 0);
-            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(card.parentElement.clientWidth - 268, x)), y: Math.max(8, Math.min(200, y)) } }));
+            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(card.parentElement.clientWidth - 268, x)), y: Math.max(8, Math.min(boardHeight - 240, y)) } }));
           }}
           onClick={() => { if (suppressPinClick.current) { suppressPinClick.current = false; return; } setActiveNote(activeNote === note.id ? null : note.id); }}>{note.avatar ? <img src={note.avatar} alt="" /> : note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
           {activeNote === note.id && <article className="guest-comment-panel" id={`comment-${note.id}`}>
@@ -133,12 +153,12 @@ export default function GuestbookPage({ onOpenAiChat }) {
             <p>{note.message}</p>
           </article>}
         </div>)}
-        </div>
+        </div></div>
       </div>
     </section>
     <section id="leave-a-note" className="personal-section guest-open-composer">
       <button type="button" className="button button-primary" onClick={() => { setResult(null); composer.current?.showModal(); }}>Leave a note <ArrowUpRight size={17} aria-hidden="true" /></button>
-      {result && !result.error && <p role="status" className="guest-result">{result.text}</p>}
+      {result && !result.error && <div role="status" className="guest-toast">{result.text}<button type="button" aria-label="Dismiss notification" onClick={() => setResult(null)}><X size={16} /></button></div>}
     </section>
     <dialog className="guest-composer-dialog" ref={composer} aria-labelledby="guest-composer-heading" onClose={() => { if (voice.status === "recording") voice.stop(); }} onClick={event => { if (event.target === composer.current) composer.current.close(); }}>
     <section className="guest-composer" aria-labelledby="guest-composer-heading">
@@ -158,7 +178,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
         {voiceNotice && <p className="guest-voice-notice" role="status">{voiceNotice}</p>}
         {status === "ready" && !canSubmit && <p className="guest-result">The book isn’t accepting notes just yet. <a href="mailto:adegboyeopeyemi065@gmail.com">Send me a hello by email</a> in the meantime.</p>}
         {status === "error" && <p className="guest-result" data-error="true">The book couldn’t load. <button type="button" onClick={() => load()}>Try again</button></p>}
-        {result?.error && <p className="guest-result" data-error={result.error} role={result.error ? "alert" : "status"}>{result.text}</p>}
+        {result?.error && <div className="guest-toast" data-error="true" role="alert">{result.text}<button type="button" aria-label="Dismiss notification" onClick={() => setResult(null)}><X size={16} /></button></div>}
       </form>
     </section>
     </dialog>

@@ -277,3 +277,13 @@
 
 .guest-form .guest-name-field { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .guest-avatar-button { border: 0; padding: 0; cursor: pointer; }
+
+.guest-wall-grid { height: 540px; min-height: 0; overflow: auto; display: block; padding: 0; }
+.guest-comment-space { position: relative; }
+.guest-zoom { display: flex; justify-content: flex-end; gap: 4px; margin-bottom: 12px; }
+.guest-zoom button { border: 1px solid var(--personal-line); border-radius: 6px; background: white; color: var(--ink); min-width: 36px; min-height: 32px; cursor: pointer; }
+.guest-zoom button:disabled { opacity: .4; }
+.guest-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 200; width: max-content; max-width: calc(100vw - 40px); padding: 14px 16px; display: flex; align-items: center; gap: 16px; border: 1px solid #444; border-radius: 12px; background: #292a2b; color: white; box-shadow: 0 8px 32px #0003; font: 13px/1.5 Inter,sans-serif; text-align: left; }
+.guest-toast button { border: 0; background: transparent; color: inherit; cursor: pointer; display: flex; }
+.guest-composer-dialog .guest-toast { position: sticky; bottom: 0; left: auto; transform: none; width: 100%; margin-top: 12px; }
+.guest-composer-dialog :is(input,textarea):focus-visible { outline: none; box-shadow: inset 0 -1px #888; }
