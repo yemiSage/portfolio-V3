@@ -9,7 +9,6 @@ import {
   CloseCircle,
 } from "iconsax-reactjs";
 
-import FullScreenPreloader from "./components/FullScreenPreloader";
 import ResumeContent, { ResponsiveResumeLink, openResumeInApp } from "./components/ResumePage";
 import { applyRouteMetadata } from "./utils/seo";
 import ScrambleText from "./components/ScrambleText";
@@ -459,12 +458,6 @@ function App() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
-  const [showPreloader, setShowPreloader] = useState(() => {
-    return !isResumePage && !isPersonalPage;
-  });
-  const [isPreloaderDone, setIsPreloaderDone] = useState(() => {
-    return isResumePage || isPersonalPage;
-  });
   const [isInitialReady, setIsInitialReady] = useState(false);
 
   useEffect(() => {
@@ -480,18 +473,7 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (!showPreloader && !isPreloaderDone) {
-      const timer = setTimeout(() => setIsPreloaderDone(true), 900);
-      return () => clearTimeout(timer);
-    }
-  }, [showPreloader, isPreloaderDone]);
-
-  const dismissPreloader = useCallback(() => {
-    setShowPreloader(false);
-  }, []);
-
-  const isSiteLoading = !isInitialReady || !isPreloaderDone || showPreloader || isTransitioning;
+  const isSiteLoading = !isInitialReady || isTransitioning;
   const [isChatOpen, setIsChatOpen] = useState(false);
   const lightboxPointerStart = useRef(null);
 
@@ -702,7 +684,7 @@ function App() {
   );
 
   if (isPersonalPage) {
-    return <Suspense fallback={<p className="personal-loading" role="status">Opening the page…</p>}>
+    return <Suspense fallback={null}>
       {topProgressBar}
       {path === "/about" ? <AboutPage onOpenAiChat={() => setIsChatOpen(true)} /> : <GuestbookPage onOpenAiChat={() => setIsChatOpen(true)} />}
       <AskYemiChat isOpen={isChatOpen} onOpen={() => setIsChatOpen(true)} onClose={() => setIsChatOpen(false)} onNavigate={handleChatNavigate} mobileMenuOpen={false} isSiteLoading={isTransitioning} />
@@ -749,11 +731,6 @@ function App() {
     <>
       {topProgressBar}
       <HoverCursor />
-      <AnimatePresence onExitComplete={() => setIsPreloaderDone(true)}>
-        {showPreloader && (
-          <FullScreenPreloader key="portfolio-preloader" onComplete={dismissPreloader} />
-        )}
-      </AnimatePresence>
 
       <main
         className={`portfolio${isPageScrolling ? " is-scrolling" : ""}`}
