@@ -63,7 +63,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
         {notes.map((note,index) => <article className="guest-note" key={note.id} style={{ "--note-color": COLORS[note.color] || COLORS.paper, "--note-tilt": `${[1.5,-1,2,-2][index%4]}deg` }}><p>{note.message}</p><footer><span>{note.name}</span><time dateTime={note.createdAt}>{formatDate(note.createdAt)}</time></footer></article>)}
       </div>
     </section>
-    <section className="personal-section guest-hero" id="welcome"><p className="personal-eyebrow">A SMALL CORNER OF THE INTERNET, WITH YOU IN IT</p><h1>You were here<span className="personal-accent">.</span><br />Leave a little <em>hello</em> <span className="guest-stamp" aria-hidden="true">✳</span></h1><p>A thought, a tiny story, a word of encouragement. A few words from you make this place feel a little more human.</p></section>
+    <section className="personal-section guest-hero" id="welcome"><h1>You were here<span className="personal-accent">.</span><br />Leave a little <em>hello</em> <span className="guest-stamp" aria-hidden="true">✳</span></h1><p>A thought, a tiny story, a word of encouragement. A few words from you make this place feel a little more beautiful.</p></section>
     <section className="guest-composer personal-section" id="leave-a-note" aria-labelledby="guest-composer-heading">
       <div className="guest-composer-title"><h2 id="guest-composer-heading">A page in the book. Yours.</h2><span aria-hidden="true">↙</span></div>
       <form className="guest-form" onSubmit={submit}>
