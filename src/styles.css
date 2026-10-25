@@ -6034,7 +6034,7 @@ body.iab-open .ask-yemi-fab {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--body-copy);
 }
@@ -6060,7 +6060,7 @@ svg.case-card-logo {
 
 .case-card-body h3 {
   color: var(--ink);
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.2;
   letter-spacing: -0.72px;
   font-weight: 500;

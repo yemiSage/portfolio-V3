@@ -359,8 +359,8 @@ function CaseStudyCard({ project }) {
         <ProjectVisual project={project} />
       </div>
       <div className="case-card-body">
-        <p className="case-card-client">{project.name}</p>
         <h3>{project.description}</h3>
+        <p className="case-card-client">{project.name}</p>
         <ul className="case-card-meta" aria-label="Role and year">
           <li>
             <Briefcase size={18} color="currentColor" variant="Linear" aria-hidden="true" />
