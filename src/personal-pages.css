@@ -257,3 +257,8 @@
 .guest-send:disabled { opacity: .4; cursor: default; }
 .guest-voice-notice { font: 12px/1.5 Inter,sans-serif; color: #c6dfff; margin-top: 10px; }
 @media (max-width: 479px) { .guest-comment { flex-basis: 280px; } }
+
+.guest-comment-canvas { position: relative; height: 480px; flex: 0 0 auto; }
+.guest-comment-canvas .guest-comment { position: absolute; width: 320px; margin: 0; }
+.guest-comment-pin { touch-action: none; cursor: grab; }
+.guest-comment-pin:active { cursor: grabbing; }

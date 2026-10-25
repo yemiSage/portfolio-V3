@@ -9,6 +9,9 @@ const formatDate = value => new Date(value).toLocaleDateString("en", { month: "s
 export default function GuestbookPage({ onOpenAiChat }) {
   const drag = useRef(null);
   const composer = useRef(null);
+  const pinDrag = useRef(null);
+  const suppressPinClick = useRef(false);
+  const [positions, setPositions] = useState({});
   const [activeNote, setActiveNote] = useState("host");
   const [voiceNotice, setVoiceNotice] = useState("");
   const [voiceSupported] = useState(isVoiceInputSupported);
@@ -73,14 +76,44 @@ export default function GuestbookPage({ onOpenAiChat }) {
           const board = event.currentTarget;
           board.scrollLeft = event.key === "Home" ? 0 : event.key === "End" ? board.scrollWidth : board.scrollLeft + (event.key === "ArrowRight" ? 300 : -300);
         }}>
-        {[{ id: "host", name: "Yemi, your host", message: "The internet is a big place. I’m glad our paths crossed here.", color: "peach" }, ...notes].map((note, index) => <div className="guest-comment" key={note.id} style={{ "--pin-color": ["#8c42e8", "#317adf", "#d86536", "#2e956f"][index % 4], marginTop: `${[12, 110, 45, 160][index % 4]}px` }}>
-          <button type="button" className="guest-comment-pin" aria-label={`Read note from ${note.name}`} aria-expanded={activeNote === note.id} aria-controls={`comment-${note.id}`} onClick={() => setActiveNote(activeNote === note.id ? null : note.id)}>{note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
+        <div className="guest-comment-canvas" style={{ width: `${Math.max(800, (notes.length + 1) * 350)}px` }}>
+        {[{ id: "host", name: "Yemi, your host", message: "The internet is a big place. I’m glad our paths crossed here.", color: "peach" }, ...notes].map((note, index) => <div className="guest-comment" key={note.id} style={{ "--pin-color": ["#8c42e8", "#317adf", "#d86536", "#2e956f"][index % 4], left: positions[note.id]?.x ?? index * 350 + 16, top: positions[note.id]?.y ?? [20, 110, 45, 150][index % 4] }}>
+          <button type="button" className="guest-comment-pin" aria-label={`Read note from ${note.name}`} aria-expanded={activeNote === note.id} aria-controls={`comment-${note.id}`} onPointerDown={event => {
+            if (event.button !== 0) return;
+            event.stopPropagation();
+            const card = event.currentTarget.parentElement;
+            pinDrag.current = { id: note.id, x: event.clientX, y: event.clientY, left: card.offsetLeft, top: card.offsetTop };
+            suppressPinClick.current = false;
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }}
+          onPointerMove={event => {
+            const start = pinDrag.current;
+            if (!start || start.id !== note.id) return;
+            const dx = event.clientX - start.x, dy = event.clientY - start.y;
+            if (Math.hypot(dx, dy) < 4 && !suppressPinClick.current) return;
+            suppressPinClick.current = true;
+            const canvas = event.currentTarget.parentElement.parentElement;
+            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(canvas.clientWidth - 328, start.left + dx)), y: Math.max(8, Math.min(200, start.top + dy)) } }));
+          }}
+          onPointerUp={() => { pinDrag.current = null; }}
+          onPointerCancel={() => { pinDrag.current = null; }}
+          onLostPointerCapture={() => { pinDrag.current = null; }}
+          onKeyDown={event => {
+            if (!event.key.startsWith("Arrow")) return;
+            event.preventDefault(); event.stopPropagation();
+            const card = event.currentTarget.parentElement;
+            const x = card.offsetLeft + (event.key === "ArrowRight" ? 20 : event.key === "ArrowLeft" ? -20 : 0);
+            const y = card.offsetTop + (event.key === "ArrowDown" ? 20 : event.key === "ArrowUp" ? -20 : 0);
+            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(card.parentElement.clientWidth - 328, x)), y: Math.max(8, Math.min(200, y)) } }));
+          }}
+          onClick={() => { if (suppressPinClick.current) { suppressPinClick.current = false; return; } setActiveNote(activeNote === note.id ? null : note.id); }}>{note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
           {activeNote === note.id && <article className="guest-comment-panel" id={`comment-${note.id}`}>
             <header><span>Comment</span><button type="button" aria-label="Close comment" onClick={() => setActiveNote(null)}><X size={18} /></button></header>
             <div className="guest-comment-author"><span className="guest-comment-avatar">{note.name[0].toUpperCase()}</span><strong>{note.name}</strong>{note.createdAt && <time dateTime={note.createdAt}>{formatDate(note.createdAt)}</time>}</div>
             <p>{note.message}</p>
           </article>}
         </div>)}
+        </div>
       </div>
     </section>
     <section id="leave-a-note" className="personal-section guest-open-composer">
