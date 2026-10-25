@@ -60,3 +60,5 @@ Run `npm run build` for static page and server compilation. Browser verification
 Comment UI update: The wall uses initial-based comment pins and expandable dark panels. The compact name/message modal reuses useVoiceInput and /api/transcribe. Transcription only updates the draft; Send remains an explicit action and is disabled while recording/transcribing. Image upload is not implemented; initials are used. Browser checks cover desktop/mobile pin toggles, composer input, Send eligibility and overflow; real microphone/provider transcription was not exercised in this run.
 
 Avatar update: Optional JPEG/PNG/WebP uploads under 5MB are cropped and resized in the browser to a 96px JPEG. The API accepts only bounded inline JPEG data (24KB maximum encoded avatar; 32KB request ceiling), rejects external URLs and SVG, and stores the avatar with the note. Both comment markers and author badges use the avatar, with initials as fallback. This adds no separate paid media service.
+
+Vercel Marketplace environment aliases: KV_REST_API_URL and KV_REST_API_TOKEN are accepted as alternatives to the UPSTASH_REDIS_REST variables. The read-only token is not used for writes.

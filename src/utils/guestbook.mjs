@@ -97,8 +97,8 @@ return 0`;
 let defaultStore;
 export function getGuestbookStore() {
   if (defaultStore) return defaultStore;
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
   if (url && token) {
     if (!url.startsWith("https://")) throw new Error("Guestbook storage requires HTTPS");
     return defaultStore = createRedisStore(url, token);
@@ -138,7 +138,7 @@ export async function handleGuestbookRequest(request, store = getGuestbookStore(
   let content;
   try { content = validateNote(input); } catch (e) { return json({ error: e.message }, 400); }
   const client = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
-  const identity = createHash("sha256").update(`${process.env.UPSTASH_REDIS_REST_TOKEN || "local"}:${client}`).digest("hex");
+  const identity = createHash("sha256").update(`${process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN || "local"}:${client}`).digest("hex");
   try {
     const note = { ...content, id: randomUUID(), createdAt: new Date().toISOString() };
     const result = await store.add(note, identity);
