@@ -1,3 +1,5 @@
+> Updated 2026-10-25: New valid submissions now publish immediately (HTTP 201) and are inserted into the visible wall after a successful save. The form is in a native modal opened above the guidelines. Existing pending notes remain private until an explicit owner decision; no automatic migration publishes them. Previous review-before-publication descriptions below are historical. Both storage adapters retain the latest 100 published notes, with existing origin, validation, honeypot and cooldown controls preserved.
+
 # About and Guestbook
 
 ## Pages and visual direction

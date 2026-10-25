@@ -3,7 +3,7 @@ import test from "node:test";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { createFileStore, handleGuestbookRequest, validateNote } from "../src/utils/guestbook.mjs";
+import { createFileStore, createRedisStore, handleGuestbookRequest, validateNote } from "../src/utils/guestbook.mjs";
 
 const input = { name: "Ada", message: "Thanks for sharing your work!", color: "sage" };
 const request = (body = input, origin = "https://yemii.vercel.app") => new Request("https://yemii.vercel.app/api/guestbook", { method: "POST", headers: { "Content-Type": "application/json", Origin: origin, "x-forwarded-for": "192.0.2.1" }, body: JSON.stringify(body) });
@@ -14,29 +14,27 @@ async function withStore(fn) {
   finally { await rm(dir, { recursive: true, force: true }); }
 }
 
-test("submitted notes stay private until owner approval, persist, and can be rejected", () => withStore(async (store, dir) => {
-  assert.equal((await handleGuestbookRequest(request(), store)).status, 202);
-  assert.deepEqual((await (await handleGuestbookRequest(get(), store)).json()).notes, []);
-  const [note] = await store.list("pending");
-  assert.equal(note.name, input.name);
-  const reopened = createFileStore(path.join(dir, "notes.json"));
-  assert.equal((await reopened.list("pending")).length, 1);
-  assert.equal(await store.moderate(note.id, "approve"), true);
+test("submitted notes publish immediately, persist and can be removed by the owner", () => withStore(async (store, dir) => {
+  const response = await handleGuestbookRequest(request(), store);
+  assert.equal(response.status, 201);
+  const result = await response.json();
+  assert.equal(result.status, "published");
+  assert.equal(result.note.message, input.message);
   const visible = await (await handleGuestbookRequest(get(), store)).json();
-  assert.equal(visible.notes[0].message, input.message);
+  assert.equal(visible.notes[0].id, result.note.id);
   assert.equal((await store.list("pending")).length, 0);
-  assert.equal(await store.moderate(note.id, "approve"), false);
-  await store.add({ ...input, id: "reject-me", createdAt: new Date().toISOString() }, "another-visitor");
-  assert.equal(await store.moderate("reject-me", "reject"), true);
-  assert.equal((await store.list("pending")).length, 0);
-  assert.equal((await store.list("published")).length, 1);
+  const reopened = createFileStore(path.join(dir, "notes.json"));
+  assert.equal((await reopened.list("published")).length, 1);
+  assert.equal(await store.moderate(result.note.id, "reject"), true);
+  assert.equal((await store.list("published")).length, 0);
 }));
+
 test("same visitor cannot send repeated notes inside the cooldown", () => withStore(async store => {
-  assert.equal((await handleGuestbookRequest(request(), store)).status, 202);
+  assert.equal((await handleGuestbookRequest(request(), store)).status, 201);
   const limited = await handleGuestbookRequest(request(), store);
   assert.equal(limited.status, 429);
   assert.equal(limited.headers.get("retry-after"), "60");
-  assert.equal((await store.list("pending")).length, 1);
+  assert.equal((await store.list("published")).length, 1);
 }));
 test("cross-site writes, missing origins, spam fields and malformed bodies are denied", () => withStore(async store => {
   assert.equal((await handleGuestbookRequest(request(input, "https://attacker.example"), store)).status, 403);
@@ -66,4 +64,19 @@ test("storage failures return safe errors and method restrictions remain explici
   const denied = await handleGuestbookRequest(new Request("https://yemii.vercel.app/api/guestbook", { method: "DELETE" }), store);
   assert.equal(denied.status, 405);
   assert.equal(denied.headers.get("allow"), "GET, POST");
+});
+
+test("Redis submissions target the published list with atomic cooldown and retention", async t => {
+  const calls = [];
+  t.mock.method(globalThis, "fetch", async (_url, options) => {
+    calls.push(JSON.parse(options.body));
+    return Response.json({ result: "saved" });
+  });
+  const store = createRedisStore("https://storage.example", "test-token");
+  assert.equal(await store.add({ ...input, id: "test-note" }, "visitor"), "saved");
+  const [command] = calls;
+  assert.equal(command[0], "EVAL");
+  assert.equal(command[3], "portfolio:guestbook:published");
+  assert.match(command[1], /NX.*EX.*60/);
+  assert.match(command[1], /LTRIM/);
 });

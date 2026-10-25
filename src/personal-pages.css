@@ -205,3 +205,13 @@
 
 .guest-note > p { font-family: 'Caveat', 'Segoe Print', cursive; font-size: 26px; font-weight: 600; line-height: 1.35; letter-spacing: 0; }
 .guest-owner-note { padding: 12px 12px 20px; }
+
+.guest-wall-grid > .guest-owner-note { flex-basis: min(280px, 85%); }
+
+.guest-open-composer { text-align: center; }
+.guest-open-composer > .button { display: inline-flex; width: auto; gap: 10px; padding-inline: 22px; cursor: pointer; }
+.guest-composer-dialog { width: min(640px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); padding: 0; border: 0; border-radius: 16px; color: var(--ink); background: var(--paper); }
+.guest-composer-dialog::backdrop { background: rgba(20,20,24,.28); backdrop-filter: blur(8px); }
+.guest-composer-dialog .guest-composer { margin: 0; padding: 28px; }
+.guest-composer-close { display: inline-flex; padding: 8px; border: 0; border-radius: 50%; background: var(--gray-5); cursor: pointer; }
+@media (max-width: 479px) { .guest-composer-dialog .guest-composer { padding: 20px 16px; } }

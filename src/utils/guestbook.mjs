@@ -38,13 +38,14 @@ export function createFileStore(file) {
       const now = Date.now();
       data.limits = Object.fromEntries(Object.entries(data.limits).filter(([,expiry]) => expiry > now));
       if (data.limits[identity]) return "limited";
-      if (data.notes.filter(n => n.status === "pending").length >= MAX_PENDING) return "full";
       data.limits[identity] = now + 60000;
-      data.notes.push({ ...note, status: "pending" });
+      data.notes.push({ ...note, status: "published" });
+      const published = data.notes.filter(n => n.status === "published").slice(-100);
+      data.notes = [...data.notes.filter(n => n.status !== "published"), ...published];
       return "saved";
     }),
     moderate: (id, decision) => mutate(data => {
-      const note = data.notes.find(n => n.id === id && n.status === "pending");
+      const note = data.notes.find(n => n.id === id && (n.status === "pending" || decision === "reject"));
       if (!note) return false;
       if (decision === "approve") note.status = "published";
       else data.notes = data.notes.filter(n => n.id !== id);
@@ -66,10 +67,9 @@ export function createRedisStore(url, token) {
   return {
     list: async status => (await command(["LRANGE", status === "published" ? published : pending, 0, status === "published" ? 99 : MAX_PENDING - 1])).map(value => JSON.parse(value)),
     add: async (note, identity) => {
-      const script = `if redis.call('LLEN',KEYS[1]) >= ${MAX_PENDING} then return 'full' end
-if not redis.call('SET',KEYS[2],'1','NX','EX',60) then return 'limited' end
-redis.call('LPUSH',KEYS[1],ARGV[1]) return 'saved'`;
-      return command(["EVAL", script, 2, pending, `portfolio:guestbook:limit:${identity}`, JSON.stringify(note)]);
+      const script = `if not redis.call('SET',KEYS[2],'1','NX','EX',60) then return 'limited' end
+redis.call('LPUSH',KEYS[1],ARGV[1]) redis.call('LTRIM',KEYS[1],0,99) return 'saved'`;
+      return command(["EVAL", script, 2, published, `portfolio:guestbook:limit:${identity}`, JSON.stringify(note)]);
     },
     moderate: async (id, decision) => {
       const script = `local entries = redis.call('LRANGE',KEYS[1],0,-1)
@@ -132,9 +132,10 @@ export async function handleGuestbookRequest(request, store = getGuestbookStore(
   const client = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
   const identity = createHash("sha256").update(`${process.env.UPSTASH_REDIS_REST_TOKEN || "local"}:${client}`).digest("hex");
   try {
-    const result = await store.add({ ...content, id: randomUUID(), createdAt: new Date().toISOString() }, identity);
+    const note = { ...content, id: randomUUID(), createdAt: new Date().toISOString() };
+    const result = await store.add(note, identity);
     if (result === "limited") return json({ error: "One note at a time. Please wait a minute before sending another." }, 429, { "Retry-After": "60" });
     if (result === "full") return json({ error: "The book is taking a little break. Please try again later." }, 503);
-    return json({ status: "pending" }, 202);
+    return json({ status: "published", note }, 201);
   } catch { return json({ error: "Your note could not be saved. Please try again." }, 503); }
 }
