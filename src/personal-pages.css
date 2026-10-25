@@ -19,7 +19,7 @@
 .word-photo--portrait img { object-position: center 32%; }
 .word-photo--wide { width: 110px; height: 1.1em; }
 .word-photo span { position: absolute; bottom: 2px; right: 6px; font: 12px Inter,sans-serif; color: white; text-shadow: 0 1px 3px #000; }
-.about-intro-line { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: #76767d; font-size: 9px; letter-spacing: .7px; padding: 24px 0; border-bottom: 1px solid var(--personal-line); margin-bottom: 30px; }
+.about-intro-line { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: #76767d; font-size: 9px; letter-spacing: .7px; padding: 12px 0; font-family: "Inter", sans-serif; border-bottom: 1px solid var(--personal-line); margin-bottom: 30px; }
 .about-lede { font-family: 'Bricolage Grotesque',sans-serif; font-size: 20px; line-height: 1.45; letter-spacing: -.6px; color: var(--ink); margin-bottom: 20px; max-width: 580px; }
 .about-prose { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; color: var(--body-copy); font-size: 14px; line-height: 1.8; margin-bottom: 28px; }
 .personal-page :is(.about-prose, .about-chapter-content > p, .about-beliefs p, .guest-guidelines p) { font-size: var(--body-copy-size); line-height: var(--body-copy-line-height); letter-spacing: var(--body-copy-tracking); }
@@ -33,7 +33,7 @@
 .about-photo-card { width: 100%; padding: 0; background: transparent; border: 0; text-align: left; margin-top: 24px; cursor: zoom-in; }
 .about-photo-card > img { width: 100%; height: auto; max-height: 370px; object-fit: contain; object-position: left; border-radius: 6px; }
 .about-photo-card > span { display: flex; justify-content: space-between; gap: 15px; font: 11px/1.6 Inter,sans-serif; color: #777780; margin-top: 12px; }
-.about-beliefs article { display: grid; grid-template-columns: 38px minmax(0,1fr); gap: 15px; padding-block: 24px; border-top: 1px solid var(--personal-line); }
+.about-beliefs article { display: grid; grid-template-columns: minmax(0,1fr); gap: 15px; padding-block: 24px; border-top: 1px solid var(--personal-line); }
 .about-beliefs article > span { font-size: 11px; color: var(--accent); }
 .about-beliefs h3 { font-size: 20px; font-weight: 500; letter-spacing: -.5px; margin-bottom: 10px; }
 .about-beliefs p { color: var(--body-copy); font-size: 14px; line-height: 1.8; }
@@ -142,3 +142,8 @@
   .personal-page .personal-section { padding-top: 48px; }
   .personal-page .guest-composer { padding: 20px 16px; }
 }
+
+.about-ascii-portrait { width: min(100%, 320px); aspect-ratio: 1; justify-self: center; align-self: center; }
+.personal-page .about-bio-title { font-size: 24px; margin-bottom: 16px; }
+.personal-page .case-study-section-heading + h2 { margin-top: 8px; }
+.personal-page .case-study-rail-meta .github-activity-margin { margin: 0; }

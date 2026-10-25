@@ -77,7 +77,7 @@ export function SectionNavigation({ sections, activeSection, jumpMenuOpen, onJum
   );
 }
 
-export default function CaseStudyShell({ sections, projectName, date, children, className = "", onOpenAiChat, pageLabel = "Product design case study", contentId }) {
+export default function CaseStudyShell({ sections, projectName, date, children, className = "", onOpenAiChat, pageLabel = "Product design case study", contentId, railFooter }) {
   const [activeSection, setActiveSection] = useState(sections[0][0]);
   const [jumpMenuOpen, setJumpMenuOpen] = useState(false);
 
@@ -146,7 +146,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
           <ProfileLinks className="case-study-profile-links" onOpenAiChat={triggerAiChat} />
         </div>
         <SectionNavigation sections={sections} activeSection={activeSection} jumpMenuOpen={jumpMenuOpen} onJumpMenuToggle={() => setJumpMenuOpen((isOpen) => !isOpen)} onSectionSelect={handleSectionSelect} />
-        <div className="case-study-rail-meta"><p>{pageLabel}</p>{date && <span>{date}</span>}</div>
+        <div className="case-study-rail-meta">{railFooter || <><p>{pageLabel}</p>{date && <span>{date}</span>}</>}</div>
       </aside>
       <article id={contentId} className="case-study-content">{children}<CaseStudyFooter onOpenAiChat={triggerAiChat} /></article>
     </motion.main>
