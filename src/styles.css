@@ -6238,3 +6238,7 @@ svg.case-card-logo {
 @media (min-width: 768px) {
   .work-tabs-bar::before { top: calc(-1 * var(--page-padding)); }
 }
+
+.case-card-list > .case-card,
+.project-card-list > .project-card { border-radius: 20px; }
+.case-card-list > .case-card { overflow: hidden; }
