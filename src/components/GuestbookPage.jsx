@@ -69,7 +69,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
       </div>
     </section>
     <section id="leave-a-note" className="personal-section guest-open-composer">
-      <button type="button" className="button button-primary" onClick={() => { setResult(null); composer.current?.showModal(); }}>Leave your note <ArrowUpRight size={17} aria-hidden="true" /></button>
+      <button type="button" className="button button-primary" onClick={() => { setResult(null); composer.current?.showModal(); }}>Leave a note <ArrowUpRight size={17} aria-hidden="true" /></button>
       {result && !result.error && <p role="status" className="guest-result">{result.text}</p>}
     </section>
     <dialog className="guest-composer-dialog" ref={composer} aria-labelledby="guest-composer-heading" onClick={event => { if (event.target === composer.current) composer.current.close(); }}>
