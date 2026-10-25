@@ -55,7 +55,7 @@ const projects = [
     name: "Stayafrika",
     company: "Stayafrika",
     logo: "/brands/stayafrika.svg",
-    role: "Contract",
+    role: "Contract UI/UX Designer",
     year: "2025 – 2026",
     image: "/shots/shot-36.webp",
     imageTreatment: "stayafrika",
