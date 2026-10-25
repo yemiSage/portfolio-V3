@@ -128,7 +128,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
         <textarea aria-label="Your note" name="message" value={message} onChange={e => setMessage(e.target.value)} maxLength={180} minLength={2} required placeholder="I worked with Yemi and…" />
         <label className="guest-honeypot" aria-hidden="true">Leave this empty<input name="website" tabIndex={-1} autoComplete="off" /></label>
         <div className="guest-compose-toolbar">
-          {voiceSupported && <button type="button" className="guest-mic" aria-label={voice.status === "recording" ? "Stop recording" : "Dictate note"} aria-pressed={voice.status === "recording"} disabled={sending || voice.status === "transcribing"} onClick={() => voice.status === "recording" ? voice.stop() : voice.start()}>{voice.status === "recording" ? <Square size={17} /> : <Mic size={17} />}</button>}
+          {voiceSupported && <button type="button" className="guest-mic" aria-label={voice.status === "recording" ? "Stop recording" : "Dictate note"} aria-pressed={voice.status === "recording"} disabled={sending || voice.status === "transcribing"} onClick={() => voice.status === "recording" ? voice.stop() : voice.start()}>{voice.status === "recording" ? <Square size={17} fill="currentColor" strokeWidth={0} /> : <Mic size={17} />}</button>}
           <span className="guest-compose-count">{voice.status === "recording" ? "Recording…" : voice.status === "transcribing" ? "Transcribing…" : `${message.length}/180`}</span>
           <button className="guest-send" type="submit" aria-label="Send note" disabled={sending || !canSubmit || voice.status !== "idle" || !name.trim() || message.trim().length < 2}><ArrowUp size={19} /></button>
         </div>
