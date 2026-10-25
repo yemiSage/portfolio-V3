@@ -289,3 +289,10 @@
 .guest-composer-dialog :is(input,textarea):focus-visible { outline: none; box-shadow: inset 0 -1px #888; }
 
 .guest-wall-grid { touch-action: none; overscroll-behavior: contain; }
+
+/* Fine board scrollbars in both directions. */
+.guest-wall-grid { scrollbar-width: auto; scrollbar-color: auto; }
+.guest-wall-grid::-webkit-scrollbar { width: 4px; height: 4px; }
+.guest-wall-grid::-webkit-scrollbar-track, .guest-wall-grid::-webkit-scrollbar-corner { background: transparent; }
+.guest-wall-grid::-webkit-scrollbar-thumb { background: #b8b8c2; border: 0; border-radius: 8px; }
+@supports not selector(::-webkit-scrollbar) { .guest-wall-grid { scrollbar-width: thin; scrollbar-color: #b8b8c2 transparent; } }
