@@ -6363,3 +6363,10 @@ body::after {
 @media (max-width: 767px) {
   .portfolio .intro-heading h1 { line-height: 1.5; }
 }
+
+/* Keep spare viewport height above the footer, never below it. */
+.case-study-page { display: flex; flex-direction: column; min-height: 100dvh; }
+.case-study-page .case-study-content { display: flex; flex-direction: column; flex: 1; padding-bottom: 0; }
+.case-study-content > * { flex-shrink: 0; }
+.case-study-content > .case-study-footer-space { flex: 1 0 120px; }
+.case-study-content > .case-study-footer { margin-top: 0; }

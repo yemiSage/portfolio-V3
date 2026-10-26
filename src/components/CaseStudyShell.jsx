@@ -153,7 +153,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
         <div className="case-study-rail-meta">{railFooter || <><p>{pageLabel}</p>{date && <span>{date}</span>}</>}</div>
       </aside>
       </div>
-      <article id={contentId} className="case-study-content">{children}<CaseStudyFooter onOpenAiChat={triggerAiChat} /></article>
+      <article id={contentId} className="case-study-content">{children}<div className="case-study-footer-space" aria-hidden="true" /><CaseStudyFooter onOpenAiChat={triggerAiChat} /></article>
     </motion.main>
   );
 }
