@@ -182,7 +182,7 @@
 
 .personal-page--about .personal-section > h2 { font-size: 28px; }
 #how-i-think { container-type: inline-size; }
-.personal-page--about :is(.about-journey, #how-i-think) > h2 { white-space: nowrap; font-size: clamp(12px, 5cqi, 28px); }
+.personal-page--about :is(.about-journey, #how-i-think) > h2 { white-space: normal; font-size: 20px; font-weight: 600; }
 
 .guest-guidelines { text-align: center; }
 .guest-form-actions { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
@@ -319,3 +319,15 @@
 .guest-notes-grid { min-height: 400px; align-content: start; }
 .guest-notes-grid .guest-comment-pin { touch-action: auto; cursor: pointer; }
 .guest-notes-grid .guest-comment-panel { margin-top: 10px; cursor: auto; touch-action: auto; user-select: text; }
+
+/* Consistent About section hierarchy across viewport sizes. */
+.personal-page--about .personal-section > h2 {
+ font-size: 20px;
+ font-weight: 600;
+ white-space: normal;
+}
+.personal-page--about .case-study-section-heading,
+.personal-page--about .case-study-section-heading > p { font-size: 13px; }
+
+/* Compact inline meetup photo across screen sizes. */
+.personal-page--about #off-the-clock .word-photo--wide { width: 24px; }

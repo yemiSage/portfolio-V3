@@ -144,7 +144,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
       <aside className="case-study-rail" aria-label={`${projectName} navigation`}>
         <div className="case-study-rail-top identity-top">
           <a className="case-study-rail-back" href="/#work"><ArrowLeft2 size={18} color="currentColor" variant="Linear" aria-hidden="true" /><span>Back</span></a>
-          <ProfileLinks className="case-study-profile-links" onOpenAiChat={triggerAiChat} />
+          <ProfileLinks onOpenAiChat={triggerAiChat} />
         </div>
         <SectionNavigation sections={sections} activeSection={activeSection} jumpMenuOpen={jumpMenuOpen} onJumpMenuToggle={() => setJumpMenuOpen((isOpen) => !isOpen)} onSectionSelect={handleSectionSelect} />
         <div className="case-study-rail-meta">{railFooter || <><p>{pageLabel}</p>{date && <span>{date}</span>}</>}</div>

@@ -2,15 +2,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Funnel+Display:wght@500;600;700&display=swap");
 
 :root {
-  color: #0a0b0d;
+  color: var(--ink);
   background: #ffffff;
   font-family: "Inter", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --ink: #0a0b0d;
-  --muted-ink: #545456;
-  --subtle-ink: #68696a;
-  --body-copy: #666481;
+  --ink: #2e2e33;
+  --muted-ink: #71717a;
+  --subtle-ink: #71717a;
+  --body-copy: #71717a;
   --body-copy-size: 14px;
   --body-copy-line-height: 24px;
   --body-copy-tracking: -0.28px;
@@ -18,7 +18,7 @@
   --header-surface: transparent;
   --header-backdrop: blur(8px) saturate(1.1);
   --gray-5: #eef0f3;
-  --accent: #e0733d;
+  --accent: #c8402a;
   --rail-width: 30%;
   --page-padding: 32px;
   --shell-gap: 0px;
@@ -257,7 +257,7 @@ h6 {
 
 .greeting {
   padding-left: 4px;
-  color: #777777;
+  color: var(--muted-ink);
   font-family: "DM Sans", sans-serif;
   font-size: 16px;
   line-height: 1.55;
@@ -268,7 +268,7 @@ h6 {
 h1 {
   font-family: "DM Sans", sans-serif;
   max-width: none;
-  color: #1c1c1c;
+  color: var(--ink);
   font-size: clamp(34px, 2.7vw, 44px);
   line-height: 1.18;
   letter-spacing: -2px;
@@ -293,7 +293,7 @@ h1 {
 }
 
 .intro-description strong {
-  color: #333232;
+  color: var(--ink);
   font-weight: 700;
 }
 
@@ -410,7 +410,7 @@ h1 {
 
 .button-primary {
   color: #f4f4f4;
-  border-color: #333232;
+  border-color: var(--ink);
   background: #333232;
 }
 
@@ -422,7 +422,7 @@ h1 {
   padding: 32px;
   display: grid;
   place-items: center;
-  color: #0a0b0d;
+  color: var(--ink);
   background: #ffffff;
   overscroll-behavior: contain;
 }
@@ -444,7 +444,7 @@ body.is-preloading .ask-yemi-fab,
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0a0b0d;
+  color: var(--ink);
   font-family: "DM Sans", sans-serif;
   font-size: 24px;
   line-height: 1.4;
@@ -533,7 +533,7 @@ body.is-preloading .ask-yemi-fab,
 
 .resume-identity-copy h1 {
   margin: 8px 0 24px;
-  color: #1c1c1c;
+  color: var(--ink);
   font-family: "DM Sans", sans-serif;
   font-size: 40px;
   line-height: 1.2;
@@ -570,7 +570,7 @@ body.is-preloading .ask-yemi-fab,
 }
 
 .resume-toolbar h2 {
-  color: #1c1c1c;
+  color: var(--ink);
   font-family: "DM Sans", sans-serif;
   font-size: 24px;
   line-height: 1.25;
@@ -588,7 +588,7 @@ body.is-preloading .ask-yemi-fab,
   border-radius: 8px;
   display: inline-flex;
   align-items: center;
-  color: #333232;
+  color: var(--ink);
   text-decoration: none;
   transition: border-color 160ms ease, color 160ms ease;
 }
@@ -596,8 +596,8 @@ body.is-preloading .ask-yemi-fab,
 @media (min-width: 769px) and (hover: hover) and (pointer: fine){
 
 .resume-actions a:hover {
-  border-color: #e0733d;
-  color: #e0733d;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 }
 
@@ -634,7 +634,7 @@ body.is-preloading .ask-yemi-fab,
 
 .content-column-resume .resume-toolbar p {
   margin: 0;
-  color: #1c1c1c;
+  color: var(--ink);
   font-family: "DM Sans", sans-serif;
   font-size: 24px;
   line-height: 1.25;
@@ -646,7 +646,7 @@ body.is-preloading .ask-yemi-fab,
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #777777;
+  color: var(--muted-ink);
   font-family: "Inter", "Inter Placeholder", sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -659,7 +659,7 @@ body.is-preloading .ask-yemi-fab,
 @media (min-width: 769px) and (hover: hover) and (pointer: fine){
 
 .resume-back:hover {
-  color: #333232;
+  color: var(--ink);
 }
 }
 
@@ -698,7 +698,7 @@ body.is-preloading .ask-yemi-fab,
   margin: 0;
   display: grid;
   place-items: center;
-  color: #777777;
+  color: var(--muted-ink);
 }
 
 .identity-links {
@@ -728,7 +728,7 @@ body.is-preloading .ask-yemi-fab,
   height: 32px;
   border: 0;
   border-radius: 0;
-  color: #333232;
+  color: var(--ink);
   background: transparent;
   display: grid;
   place-items: center;
@@ -924,7 +924,7 @@ body.is-preloading .ask-yemi-fab,
 }
 
 .work-toggle button.is-selected {
-  color: #1c1c1c;
+  color: var(--ink);
   box-shadow: inset 0 0 0 2px #1c1c1c;
 }
 
@@ -1444,7 +1444,7 @@ a.contribution-item {
 @media (min-width: 769px) and (hover: hover) and (pointer: fine){
 
 .tool-grid li:is(:hover, .is-active) {
-  color: #0a0b0d;
+  color: var(--ink);
 }
 }
 
@@ -1584,7 +1584,7 @@ a.contribution-item {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #333232;
+  color: var(--ink);
   font-size: 14px;
   line-height: 24px;
   font-weight: 500;
@@ -1617,7 +1617,7 @@ a.contribution-item {
   width: fit-content !important;
   align-items: center;
   gap: 8px;
-  color: #333232 !important;
+  color: var(--ink) !important;
   font-weight: 500 !important;
 }
 
@@ -1658,7 +1658,7 @@ a.contribution-item {
   padding: 5px 12px;
   display: flex;
   align-items: center;
-  color: #777777;
+  color: var(--muted-ink);
   font-size: 14px;
   line-height: 24px;
   letter-spacing: -0.28px;
@@ -1669,12 +1669,12 @@ a.contribution-item {
 @media (min-width: 769px) and (hover: hover) and (pointer: fine){
 
 .case-study-index .case-study-index-link:hover {
-  color: #1c1c1c;
+  color: var(--ink);
 }
 }
 
 .case-study-index .case-study-index-link.is-active {
-  color: #1c1c1c;
+  color: var(--ink);
 }
 
 .case-study-index .case-study-index-link.is-active {
@@ -1684,14 +1684,14 @@ a.contribution-item {
 .case-study-rail-meta {
   margin-top: auto;
   padding-top: 24px;
-  color: #777777;
+  color: var(--muted-ink);
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.12px;
 }
 
 .case-study-rail-meta p {
-  color: #333232;
+  color: var(--ink);
   font-weight: 600;
 }
 
@@ -1741,7 +1741,7 @@ a.contribution-item {
 }
 
 .case-study-intro h1 {
-  color: #1c1c1c;
+  color: var(--ink);
   font-family: "DM Sans", sans-serif;
   text-wrap: balance;
 }
@@ -1820,7 +1820,7 @@ a.contribution-item {
 .stay-product-flow > h3,
 .stay-design-decision h4 {
   max-width: 820px;
-  color: #1c1c1c;
+  color: var(--ink);
   text-wrap: balance;
   margin-top: 8px;
   font-family: "Inter", sans-serif;
@@ -1910,7 +1910,7 @@ a.contribution-item {
 .case-study-result-grid strong {
   margin-top: 0;
   display: block;
-  color: #1c1c1c;
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 18px;
   line-height: 26px;
@@ -1939,7 +1939,7 @@ a.contribution-item {
 }
 
 .case-study-process-line span {
-  color: #333232;
+  color: var(--ink);
   font-size: 13px;
   line-height: 20px;
   font-weight: 500;
@@ -1960,7 +1960,7 @@ a.contribution-item {
 }
 
 .case-study-flow-copy h3 {
-  color: #1c1c1c;
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 18px;
   line-height: 26px;
@@ -2415,7 +2415,7 @@ a.contribution-item {
   }
 
   .tool-grid li {
-    color: #0a0b0d;
+    color: var(--ink);
   }
 
   .tool-grid img {
@@ -2469,7 +2469,7 @@ a.contribution-item {
     display: grid;
     place-items: center;
     overflow: hidden;
-    color: #777777;
+    color: var(--muted-ink);
     background: #f7f7f7;
     font-size: 13px;
     font-weight: 600;
@@ -2560,7 +2560,7 @@ a.contribution-item {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #333232;
+    color: var(--ink);
     background: transparent;
   }
 
@@ -2582,7 +2582,7 @@ a.contribution-item {
   }
 
   .case-study-mobile-menu a {
-    color: #1c1c1c;
+    color: var(--ink);
     font-family: "DM Sans", sans-serif;
     font-size: 28px;
     line-height: 1.2;
@@ -2636,7 +2636,7 @@ a.contribution-item {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    color: #333232;
+    color: var(--ink);
     background: transparent;
     font-family: "Inter", "Inter Placeholder", sans-serif;
     font-size: 14px;
@@ -2692,7 +2692,7 @@ a.contribution-item {
     display: flex;
     align-items: center;
     flex: 0 0 auto;
-    color: #777777;
+    color: var(--muted-ink);
     font-family: "Inter", "Inter Placeholder", sans-serif;
     font-size: 12px;
     line-height: 20px;
@@ -2702,7 +2702,7 @@ a.contribution-item {
   }
 
   .case-study-jump-menu a.is-active {
-    color: #1c1c1c;
+    color: var(--ink);
     background: #f4f4f4;
     font-weight: 600;
   }
@@ -3140,7 +3140,7 @@ a.contribution-item {
 }
 
 .case-study-subsection h3 {
-  color: #1c1c1c;
+  color: var(--ink);
   font-family: "Inter", sans-serif;
   font-size: 20px;
   line-height: 22px;
@@ -3458,7 +3458,7 @@ a.contribution-item {
 }
 
 .case-study-mobile-menu .nav-yemi-llm-btn {
-  color: #1c1c1c;
+  color: var(--ink);
   font-family: "DM Sans", sans-serif;
   font-size: 28px;
   line-height: 1.2;
@@ -3523,7 +3523,7 @@ a.contribution-item {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: #1c1c1c;
+  color: var(--ink);
   text-transform: none;
 }
 
@@ -3549,7 +3549,7 @@ a.contribution-item {
   font-weight: bold;
   letter-spacing: 0.02em;
   background: transparent;
-  color: #1c1c1c;
+  color: var(--ink);
   padding: 0;
 }
 
@@ -5420,7 +5420,7 @@ a.contribution-item {
   place-items: center;
   border: 0;
   border-radius: 50%;
-  color: #1c1c1c;
+  color: var(--ink);
   background: transparent;
   cursor: pointer;
   transition: background-color 150ms ease;
@@ -5465,7 +5465,7 @@ a.contribution-item {
   padding: 0 14px;
   border: 1px solid #dfe2e6;
   border-radius: 999px;
-  color: #1c1c1c;
+  color: var(--ink);
   background: transparent;
   font-family: "Inter", sans-serif;
   font-size: 13px;
@@ -5519,7 +5519,7 @@ a.contribution-item {
 .iab-hint a {
   padding: 0;
   border: 0;
-  color: #1c1c1c;
+  color: var(--ink);
   background: none;
   font: inherit;
   font-weight: 600;
@@ -5540,7 +5540,7 @@ a.contribution-item {
 }
 
 .iab-fallback-title {
-  color: #1c1c1c;
+  color: var(--ink);
   font-size: 16px;
   font-weight: 600;
 }
@@ -5837,7 +5837,7 @@ body.iab-open .ask-yemi-fab {
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #333232;
+  color: var(--ink);
   font-size: clamp(9px, 0.8vw, 11px);
   line-height: 13px;
   font-weight: 600;
@@ -6012,6 +6012,8 @@ body.iab-open .ask-yemi-fab {
 }
 
 .case-card-media .project-visual {
+  width: 90%;
+  margin-inline: auto;
   transform: none;
   border-radius: 8px;
   overflow: hidden;
@@ -6177,7 +6179,7 @@ svg.case-card-logo {
 
 /* Keep detail-page navigation in the homepage identity row. */
 @media (min-width: 768px) {
-  .case-study-rail-top.identity-top { flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; min-height: 50px; }
+  .case-study-rail-top.identity-top { flex-direction: row; justify-content: space-between; align-items: center; gap: 24px; min-height: 50px; }
   .case-study-rail-back { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-size: 14px; white-space: nowrap; }
   .case-study-rail .case-study-index-back { display: none !important; }
   .case-study-rail .case-study-profile-links { margin-left: auto; }
@@ -6291,6 +6293,47 @@ svg.case-card-logo {
 /* Keep home contact actions together without changing shared buttons. */
 #about .intro-followup { display: flex; flex-direction: column; align-items: stretch; gap: 0; width: 160px; max-width: 100%; padding: 0; background: transparent; border-radius: 12px; }
 #about .intro-followup > .button-primary { position: relative; z-index: 1; width: 100%; max-width: 100%; margin-inline: 0; }
-#about .intro-note-link { display: inline-flex; align-items: center; justify-content: center; gap: 4px; width: calc(100% - 6px); margin: -8px 3px 0; min-height: 36px; padding: 10px 2px 2px; line-height: 20px; background: #555555; color: #FFFFFF; font-size: 12px; border-radius: 0 0 12px 12px; }
-#about .intro-note-link:hover { background: #535252; color: #fff; }
+#about .intro-note-link { display: inline-flex; align-items: center; justify-content: center; gap: 4px; width: calc(100% - 6px); margin: -8px 3px 0; min-height: 36px; padding: 10px 2px 2px; line-height: 20px; background: transparent; color: var(--muted-ink); font-size: 12px; border-radius: 0; }
+#about .intro-note-link:hover { background: transparent; color: var(--ink); }
 #about .intro-note-link:focus-visible { outline: 2px solid #858585; outline-offset: 3px; }
+
+/* Give the home introduction a little more room on desktop. */
+@media (min-width: 1024px) {
+ :root { --rail-width: 32%; }
+ .portfolio > .portfolio-grid > .identity-column { width: var(--rail-width); max-width: var(--rail-width); flex-basis: var(--rail-width); }
+ .portfolio > .portfolio-grid > .content-column { width: calc(100% - var(--rail-width)); max-width: calc(100% - var(--rail-width)); flex-basis: calc(100% - var(--rail-width)); }
+}
+
+/* Reference palette: anushriya.com/work/hadrius. Color and texture only. */
+body::after {
+ content: "";
+ position: fixed;
+ inset: 0;
+ z-index: 1000;
+ pointer-events: none;
+ background: url("/paper-grain.svg") repeat;
+ opacity: .16;
+ mix-blend-mode: multiply;
+}
+@media print { body::after { display: none; } }
+
+/* Match the desktop navigation centerline to the 50px portrait row. */
+@media (min-width: 768px) {
+ .portfolio .work-tabs-bar { min-height: 50px; align-items: center; }
+ .portfolio .work-toggle { padding: 0; }
+}
+
+/* Compact desktop work controls and case-study previews. */
+@media (min-width: 768px) {
+ .portfolio .projects:has(.case-card-list) { max-width: 720px; width: 100%; }
+ .portfolio .work-toggle button { min-height: 30px; min-width: 72px; padding-inline: 16px; }
+ .portfolio .desktop-chat-launcher,
+ .portfolio .desktop-chat-launcher:hover { background: transparent; border-color: transparent; box-shadow: none; animation: none; }
+ .portfolio .work-tabs-bar.is-stuck { padding-left: 0; padding-right: 20px; }
+ .portfolio .work-tabs-bar.is-stuck::before { bottom: 6px; }
+ .portfolio .work-tabs-bar.is-stuck .work-toggle button::after { bottom: -4px; }
+}
+
+@media (min-width: 768px) {
+ .case-study-rail-top > .case-study-rail-back { width: 50px; flex: 0 0 50px; gap: 4px; }
+}
