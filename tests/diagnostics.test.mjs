@@ -8,9 +8,9 @@ const fixture = (route = ROUTES[0]) => ({
   path: route.path, title: route.title, description: route.description,
   canonical: canonicalUrl(route), canonicalCount: 1, language: SITE.language,
   robots: route.indexable ? "index, follow" : "noindex, follow",
-  og: { title: route.title, description: route.description, image: absoluteUrl(SITE.image),
+  og: { title: route.title, description: route.description, image: absoluteUrl(route.image || SITE.image),
     url: canonicalUrl(route), type: route.type, locale: SITE.locale },
-  twitter: { card: "summary_large_image", title: route.title, description: route.description, image: absoluteUrl(SITE.image) },
+  twitter: { card: "summary_large_image", title: route.title, description: route.description, image: absoluteUrl(route.image || SITE.image) },
   schemas: route.schema ? [route.schema] : [], schemaErrors: [],
 });
 const sitemap = {

@@ -49,7 +49,7 @@ const caseStudySchema = (name, path, description) => ({
       headline: name,
       description,
       url: `${SITE.origin}${path}`,
-      image: `${SITE.origin}${SITE.image}`,
+      image: `${SITE.origin}/social/${path.split("/").pop()}.jpg`,
       author: { "@id": personId },
       isPartOf: { "@id": websiteId },
     },
@@ -60,6 +60,8 @@ const caseStudySchema = (name, path, description) => ({
 export const ROUTES = [
   {
     path: "/",
+    image: "/social/home.jpg",
+    imageAlt: "Design Engineer, Product and AI — Opeyemi Adegboye",
     indexable: true,
     title: "Adegboye Opeyemi | Design Engineer, Product & AI",
     description:
@@ -137,6 +139,8 @@ export const ROUTES = [
   },
   {
     path: "/projects/tasafrica",
+    image: "/social/tasafrica.jpg",
+    imageAlt: "TASAfrica case study — Opeyemi Adegboye",
     indexable: true,
     title: "TASAfrica Case Study | Opeyemi Adegboye",
     description:
@@ -163,6 +167,8 @@ export const ROUTES = [
   },
   {
     path: "/projects/limestone",
+    image: "/social/limestone.jpg",
+    imageAlt: "Limestone case study — Opeyemi Adegboye",
     indexable: true,
     title: "Limestone Case Study | Opeyemi Adegboye",
     description:
@@ -189,6 +195,8 @@ export const ROUTES = [
   },
   {
     path: "/projects/stayafrika",
+    image: "/social/stayafrika.jpg",
+    imageAlt: "Stayafrika case study — Opeyemi Adegboye",
     indexable: true,
     title: "StayAfrika Case Study | Opeyemi Adegboye",
     description:
@@ -215,6 +223,8 @@ export const ROUTES = [
   },
   {
     path: "/about",
+    image: "/social/about.jpg",
+    imageAlt: "About Yemi — Opeyemi Adegboye",
     indexable: true,
     title: "About Yemi | Opeyemi Adegboye",
     description: "Meet Opeyemi Adegboye, a Lagos-based design engineer. From electrical engineering to product design, frontend development, teaching and community.",
@@ -230,17 +240,21 @@ export const ROUTES = [
   },
   {
     path: "/guestbook",
+    image: "/social/guestbook.jpg",
+    imageAlt: "Leave a note in Yemi’s guestbook — Opeyemi Adegboye",
     indexable: true,
     title: "Guestbook | Opeyemi Adegboye",
-    description: "A little corner of Opeyemi Adegboye’s portfolio for visitor notes, kind words and hellos. Leave a short message for Yemi to review before it joins the wall.",
+    description: "A little corner of Opeyemi Adegboye’s portfolio for visitor notes, kind words and hellos. Leave a short message and say hello.",
     type: "website",
     heading: "You were here. Leave a little hello.",
     summary: "A thought, a tiny story, a word of encouragement. A few words from you make this place feel a little more human.",
-    sections: [{ heading: "Leave a note", body: "Share your name and a short note. Every submission is reviewed by Yemi before publication. Do not include links, ads or private details." }, { heading: "Say hello", body: "Want to talk about a project instead? Start a conversation by email.", links: [["Email Yemi", `mailto:${SITE.email}`], ["Get to know Yemi", "/about"]] }],
+    sections: [{ heading: "Leave a note", body: "Share your name and a short note. Notes appear on the wall as soon as you send them. Do not include links, ads or private details." }, { heading: "Say hello", body: "Want to talk about a project instead? Start a conversation by email.", links: [["Email Yemi", `mailto:${SITE.email}`], ["Get to know Yemi", "/about"]] }],
     schema: { "@context": "https://schema.org", "@graph": [{ "@type": "WebPage", "@id": `${SITE.origin}/guestbook#page`, url: `${SITE.origin}/guestbook`, name: "Yemi’s guestbook", isPartOf: { "@id": websiteId } }, breadcrumb("Guestbook", "/guestbook")] },
   },
   {
     path: "/resume",
+    image: "/social/resume.jpg",
+    imageAlt: "Yemi’s resume — Opeyemi Adegboye",
     indexable: false,
     canonicalPath: "/",
     title: "Resume | Opeyemi Adegboye",

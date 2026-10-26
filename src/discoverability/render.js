@@ -27,7 +27,7 @@ export function renderRouteContent(route) {
 
 export function renderHead(route) {
   const canonical = canonicalUrl(route);
-  const image = absoluteUrl(SITE.image);
+  const image = absoluteUrl(route.image || SITE.image);
   const robots = route.indexable
     ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     : "noindex, follow";
@@ -49,12 +49,12 @@ export function renderHead(route) {
     `<meta property="og:image" content="${escapeHtml(image)}" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
-    `<meta property="og:image:alt" content="${escapeHtml(SITE.imageAlt)}" />`,
+    `<meta property="og:image:alt" content="${escapeHtml(route.imageAlt || SITE.imageAlt)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapeHtml(route.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(route.description)}" />`,
     `<meta name="twitter:image" content="${escapeHtml(image)}" />`,
-    `<meta name="twitter:image:alt" content="${escapeHtml(SITE.imageAlt)}" />`,
+    `<meta name="twitter:image:alt" content="${escapeHtml(route.imageAlt || SITE.imageAlt)}" />`,
     schema,
   ]
     .filter(Boolean)

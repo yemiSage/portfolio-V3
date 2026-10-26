@@ -6355,3 +6355,11 @@ body::after {
   .portfolio .home-mobile-work-tabs .work-toggle button { min-height: 52px; }
   .portfolio .home-mobile-work-tabs .work-tabs-bar.is-stuck .work-toggle button::after { bottom: -1px; }
 }
+
+/* Route content is visible at its final position on the first rendered frame. */
+.identity-main, .project-card, .contributed-projects, .toolbox, .footer,
+.case-study-rail, .case-study-content, .shots-grid { animation: none; }
+
+@media (max-width: 767px) {
+  .portfolio .intro-heading h1 { line-height: 1.5; }
+}

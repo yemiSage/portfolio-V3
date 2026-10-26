@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, lazy, Suspense } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, lazy, Suspense, startTransition } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import {
@@ -11,7 +11,6 @@ import {
 
 import ResumeContent, { ResponsiveResumeLink, openResumeInApp } from "./components/ResumePage";
 import { applyRouteMetadata } from "./utils/seo";
-import ScrambleText from "./components/ScrambleText";
 import AskYemiChat from "./components/AskYemiChat";
 import GithubStats from "./components/GithubStats";
 
@@ -23,7 +22,7 @@ const pageImports = {
   "/guestbook": () => import("./components/GuestbookPage"),
 };
 const pagePromises = new Map();
-function loadPage(path) {
+export function loadPage(path) {
   if (!pageImports[path]) return Promise.resolve();
   if (!pagePromises.has(path)) pagePromises.set(path, pageImports[path]().catch(error => { pagePromises.delete(path); throw error; }));
   return pagePromises.get(path);
@@ -421,8 +420,10 @@ function App() {
       await loadPage(nextPath);
       if (requestId !== navigationId.current) return;
       window.history.pushState({}, "", target.pathname + target.search + (nextPath === "/guestbook" ? "" : target.hash));
-      setPath(nextPath);
-      setActivePanel(nextPath === "/resume" ? "resume" : "home");
+      startTransition(() => {
+        setPath(nextPath);
+        setActivePanel(nextPath === "/resume" ? "resume" : "home");
+      });
       requestAnimationFrame(() => {
         if (requestId !== navigationId.current) return;
         const section = nextPath !== "/guestbook" && target.hash && document.getElementById(decodeURIComponent(target.hash.slice(1)));
@@ -442,7 +443,10 @@ function App() {
     return () => { window.history.scrollRestoration = previous; };
   }, []);
   useLayoutEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    const id = window.location.hash.slice(1);
+    const section = path !== "/guestbook" && id && document.getElementById(decodeURIComponent(id));
+    if (section) section.scrollIntoView({ block: "start", behavior: "instant" });
+    else window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [path]);
   useEffect(() => {
     const warmPage = event => {
@@ -473,22 +477,7 @@ function App() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
-  const [isInitialReady, setIsInitialReady] = useState(false);
-
-  useEffect(() => {
-    const markReady = () => {
-      setIsInitialReady(true);
-    };
-
-    if (document.readyState === "complete") {
-      markReady();
-    } else {
-      window.addEventListener("load", markReady, { once: true });
-      return () => window.removeEventListener("load", markReady);
-    }
-  }, []);
-
-  const isSiteLoading = !isInitialReady || isTransitioning;
+  const isSiteLoading = isTransitioning;
   const [isChatOpen, setIsChatOpen] = useState(false);
   const lightboxPointerStart = useRef(null);
 
@@ -809,7 +798,7 @@ function App() {
                   <div className="intro-heading">
                     <p className="greeting">Hi, I am Yemi</p>
                     <h1>
-                      <ScrambleText text={"Design Engineer,\nProduct & AI"} active={!isSiteLoading} />
+                      Design Engineer,<br />Product &amp; AI
                     </h1>
                   </div>
                   <div className="intro-description">
@@ -838,7 +827,7 @@ function App() {
             {activePanel === "resume" ? (
               <motion.div
                 key="resume"
-                initial={{ opacity: 0, y: 16 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
@@ -849,7 +838,7 @@ function App() {
             ) : (
               <motion.div
                 key="home"
-                initial={{ opacity: 0, y: 16 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}

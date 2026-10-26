@@ -62,3 +62,11 @@ Comment UI update: The wall uses initial-based comment pins and expandable dark 
 Avatar update: Optional JPEG/PNG/WebP uploads under 5MB are cropped and resized in the browser to a 96px JPEG. The API accepts only bounded inline JPEG data (24KB maximum encoded avatar; 32KB request ceiling), rejects external URLs and SVG, and stores the avatar with the note. Both comment markers and author badges use the avatar, with initials as fallback. This adds no separate paid media service.
 
 Vercel Marketplace environment aliases: KV_REST_API_URL and KV_REST_API_TOKEN are accepted as alternatives to the UPSTASH_REDIS_REST variables. The read-only token is not used for writes.
+
+## Owner email notifications (2026-10-26)
+
+Every successfully saved note triggers an awaited Brevo email attempt to adegboyeopeyemi065@gmail.com. The recipient is fixed server-side; public requests cannot choose a destination. The payload contains the public note name, text, timestamp, and canonical Guestbook URL; it excludes IPs, avatars and credentials. The visible guidance and Share button have been removed.
+
+Configure server-only BREVO_API_KEY and BREVO_SENDER_EMAIL in the intended hosting environment, using a plain sender email address verified in your own Brevo account (not a display-name/address string); optionally set BREVO_SENDER_NAME, then redeploy. Do not prefix these variables with VITE_ or paste keys into chat. See https://developers.brevo.com/reference/send-transac-email and https://developers.brevo.com/docs/heterogenous-versions-batch-emails.
+
+Transient failures receive up to three bounded attempts, using the note ID as an idempotency key. Successful storage is never rolled back for an email outage. Missing configuration and exhausted retries emit a generic server warning without note content or provider responses. Provider acceptance is not proof of inbox delivery. There is no durable notification queue or guaranteed eventual retry; failures beyond these attempts require operational follow-up. Email delivery has not been configured or verified here. A durable queue and monitoring would be needed for guaranteed recovery after prolonged outages.

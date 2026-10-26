@@ -55,13 +55,11 @@ function buildParticles(img, detailed) {
       const char = RAMP[Math.min(RAMP.length - 1, Math.floor(v * RAMP.length))];
       if (char === " ") continue;
 
-      // Start scattered outward from the centre so the face assembles on load.
-      const angle = Math.atan2(y - cy, x - cx) + Math.random() * 2;
-      const dist = Math.hypot(x - cx, y - cy) + Math.random() * 150 + 60;
+      // Start assembled; pointer interaction still displaces the glyphs.
       particles.push({
         char,
-        x: cx + Math.cos(angle) * dist,
-        y: cy + Math.sin(angle) * dist,
+        x,
+        y,
         baseX: x,
         baseY: y,
         density: Math.random() * 12 + 4,

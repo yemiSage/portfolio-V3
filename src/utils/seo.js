@@ -39,7 +39,7 @@ export function applyRouteMetadata(pathname) {
   }
 
   const canonical = canonicalUrl(route);
-  const image = absoluteUrl(SITE.image);
+  const image = absoluteUrl(route.image || SITE.image);
   document.documentElement.lang = SITE.language;
   document.title = route.title;
 
@@ -61,13 +61,13 @@ export function applyRouteMetadata(pathname) {
   setProperty("og:image", image);
   setProperty("og:image:width", "1200");
   setProperty("og:image:height", "630");
-  setProperty("og:image:alt", SITE.imageAlt);
+  setProperty("og:image:alt", route.imageAlt || SITE.imageAlt);
 
   setMeta("twitter:card", "summary_large_image");
   setMeta("twitter:title", route.title);
   setMeta("twitter:description", route.description);
   setMeta("twitter:image", image);
-  setMeta("twitter:image:alt", SITE.imageAlt);
+  setMeta("twitter:image:alt", route.imageAlt || SITE.imageAlt);
 
   document.head
     .querySelectorAll('script[type="application/ld+json"][data-discoverability="route"]')

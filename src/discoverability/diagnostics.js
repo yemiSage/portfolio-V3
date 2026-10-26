@@ -124,12 +124,12 @@ export function buildDiagnosticReport(page, files = {}) {
     page.robots || "No robots metadata found. This checks page directives, not actual indexing.");
   add("language", "Document language", page.language === SITE.language, page.language || "No language declared.");
   add("og-tags", "Open Graph metadata", Boolean(route && page.og.title === page.title &&
-    page.og.description === page.description && page.og.image === absoluteUrl(SITE.image) &&
+    page.og.description === page.description && page.og.image === absoluteUrl(route?.image || SITE.image) &&
     page.og.url === canonical && page.og.type === route.type && page.og.locale === SITE.locale),
     "Checks actual title, description, image URL, canonical URL, type and locale tags. Image delivery is not tested here.");
   add("twitter-tags", "X Card metadata", page.twitter.card === "summary_large_image" &&
     page.twitter.title === page.title && page.twitter.description === page.description &&
-    page.twitter.image === absoluteUrl(SITE.image),
+    page.twitter.image === absoluteUrl(route?.image || SITE.image),
     "Checks actual card, title, description and image URL tags.");
   if (route?.schema || page.schemas.length || page.schemaErrors.length) {
     const actualTypes = schemaTypes(page.schemas);

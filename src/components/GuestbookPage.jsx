@@ -3,7 +3,7 @@ import { ArrowUpRight, ArrowUp, Plus, ImagePlus, Mic, Square, X } from "lucide-r
 import { isVoiceInputSupported, useVoiceInput } from "./useVoiceInput";
 import PersonalPageShell from "./PersonalPageShell";
 
-const SECTIONS = [["the-wall", "The wall"], ["leave-a-note", "Leave a note"], ["a-small-note", "A small note"]];
+const SECTIONS = [["the-wall", "The wall"], ["leave-a-note", "Leave a note"]];
 const COLORS = { peach: "#fff0e5", lavender: "#f0edff", sage: "#ecf3ed", butter: "#fff8d9", paper: "#f3f3f5" };
 const formatDate = value => new Date(value).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 export default function GuestbookPage({ onOpenAiChat }) {
@@ -127,7 +127,6 @@ export default function GuestbookPage({ onOpenAiChat }) {
       </form>
     </section>
     </dialog>
-    <section id="a-small-note" className="personal-section guest-guidelines"><p>Notes appear on the wall as soon as you send them. No ads, links, or private details, please. Just a little of you.</p><p>Want to talk about a project instead? <a className="personal-text-link" href="mailto:adegboyeopeyemi065@gmail.com">Let’s talk <ArrowUpRight size={14} aria-hidden="true" /></a></p></section>
     </div>
   </PersonalPageShell>;
 }

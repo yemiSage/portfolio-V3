@@ -14,6 +14,30 @@ import {
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const escapeHtml = (value) => String(value).replaceAll("&", "&amp;");
 
+test("every public route has a distinct delivered JPEG and matching share metadata", async () => {
+  assert.equal(new Set(ROUTES.map(route => route.image)).size, ROUTES.length);
+  for (const route of ROUTES) {
+    const bytes = await readFile(path.join(root, "public", route.image));
+    assert.equal(bytes.readUInt16BE(0), 0xffd8, route.path);
+    let dimensions;
+    for (let offset = 2; offset < bytes.length - 9;) {
+      assert.equal(bytes[offset], 0xff);
+      const marker = bytes[offset + 1];
+      if (marker >= 0xc0 && marker <= 0xc3) {
+        dimensions = [bytes.readUInt16BE(offset + 7), bytes.readUInt16BE(offset + 5)];
+        break;
+      }
+      offset += bytes.readUInt16BE(offset + 2) + 2;
+    }
+    assert.deepEqual(dimensions, [1200, 630], route.path);
+    const html = renderRouteHtml(await readFile(path.join(root, "index.html"), "utf8"), route);
+    for (const tag of ['property="og:image"', 'name="twitter:image"']) {
+      assert.ok(html.includes(`${tag} content="${SITE.origin}${route.image}"`), route.path);
+    }
+    assert.ok(html.includes(escapeHtml(route.imageAlt)), route.path);
+  }
+});
+
 test("public route metadata is unique and canonical", () => {
   const indexable = ROUTES.filter((route) => route.indexable);
   assert.equal(new Set(indexable.map((route) => route.path)).size, indexable.length);

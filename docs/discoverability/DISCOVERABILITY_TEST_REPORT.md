@@ -60,3 +60,11 @@ Verified at 1304×884 and 375×812 against development at localhost:3000 and the
 - Provider-side CDN/WAF crawler rules.
 
 These require deployment and provider access. They are not represented as failures of deterministic local tests.
+
+## 2026-10-26 route-specific preview update
+
+`npm test`: 25 passed, 0 failed. New checks verify unique per-route image paths, JPEG encoding, 1200×630 dimensions, image alternative text, and matching Open Graph/X metadata for all seven routes. `npm run build` passed. Guestbook preview was visually inspected locally. Native mobile share-sheet delivery and external platform cache refresh remain unverified.
+
+## 2026-10-26 Brevo notification release checks
+
+`npm test`: 29 passed, 0 failed. Notification tests cover the Brevo endpoint, fixed recipient, server-side sender/key configuration, plain-text body, bounded retries with stable note keys, duplicate responses, missing configuration, permanent failures, and preservation of saved notes when email is unavailable. `npm run build` passed. Production variables, deployed notifications and real inbox delivery have not been verified.

@@ -2,6 +2,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { mkdir, readFile, writeFile, rename } from "node:fs/promises";
 import path from "node:path";
 import { SITE } from "../discoverability/site.js";
+import { notifyGuestbookOwner } from "./guestbookNotifications.mjs";
 
 const COLORS = new Set(["peach", "lavender", "sage", "butter", "paper"]);
 const MAX_PENDING = 500;
@@ -117,7 +118,7 @@ function allowedOrigin(origin) {
   return false;
 }
 const json = (body, status = 200, extra = {}) => Response.json(body, { status, headers: { "Cache-Control": "no-store", "X-Robots-Tag": "noindex, nofollow", ...extra } });
-export async function handleGuestbookRequest(request, store = getGuestbookStore()) {
+export async function handleGuestbookRequest(request, store = getGuestbookStore(), notify = notifyGuestbookOwner) {
   if (request.method === "GET") {
     try { return json({ notes: store ? await store.list("published") : [], canSubmit: Boolean(store) }); }
     catch { return json({ error: "The guestbook could not load. Please try again shortly." }, 503); }
@@ -144,6 +145,9 @@ export async function handleGuestbookRequest(request, store = getGuestbookStore(
     const result = await store.add(note, identity);
     if (result === "limited") return json({ error: "One note at a time. Please wait a minute before sending another." }, 429, { "Retry-After": "60" });
     if (result === "full") return json({ error: "The book is taking a little break. Please try again later." }, 503);
+    // Await delivery attempts so the serverless invocation cannot end before sending.
+    // Storage success is independent of email availability; visitors must not repost.
+    try { await notify(note); } catch { console.warn("[guestbook] Notification unavailable after saving the note."); }
     return json({ status: "published", note }, 201);
   } catch { return json({ error: "Your note could not be saved. Please try again." }, 503); }
 }

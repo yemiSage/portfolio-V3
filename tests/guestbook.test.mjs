@@ -3,7 +3,10 @@ import test from "node:test";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { createFileStore, createRedisStore, handleGuestbookRequest, validateNote } from "../src/utils/guestbook.mjs";
+import { createFileStore, createRedisStore, handleGuestbookRequest as handleRequest, validateNote } from "../src/utils/guestbook.mjs";
+
+// Tests never contact an email provider, even if local credentials exist.
+const handleGuestbookRequest = (request, store) => handleRequest(request, store, async () => ({ status: "unconfigured" }));
 
 const input = { name: "Ada", message: "Thanks for sharing your work!", color: "sage" };
 const request = (body = input, origin = "https://yemii.vercel.app") => new Request("https://yemii.vercel.app/api/guestbook", { method: "POST", headers: { "Content-Type": "application/json", Origin: origin, "x-forwarded-for": "192.0.2.1" }, body: JSON.stringify(body) });
