@@ -224,7 +224,7 @@
 .guest-wall-header::before { content: ""; position: absolute; inset: -32px -32px 0; z-index: -1; background: rgba(255,255,255,.3); -webkit-backdrop-filter: blur(16px) saturate(1.25); backdrop-filter: blur(16px) saturate(1.25); pointer-events: none; }
 .personal-page--guestbook #the-wall { padding-top: 0; }
 @media (max-width: 767px) {
-  .guest-wall-header { top: 157px; }
+  .guest-wall-header { top: 123px; }
   .guest-wall-header::before { inset: -1px calc(-1 * var(--page-padding)) 0; }
   .guest-wall-header h1 { font-size: 20px; }
 }
@@ -363,6 +363,9 @@
 .personal-page--guestbook .guestbook-actions .guest-guidelines p:last-child { margin-bottom: 0; }
 .personal-page--guestbook .case-study-footer { margin-top: 32px; }
 @media (max-width: 767px) {
-  .personal-page--guestbook .case-study-content { padding-top: 12px; }
+  .personal-page--guestbook .case-study-content { padding-top: 4px; }
   .personal-page--guestbook .guest-wall-header h1 { font-weight: 500; }
+}
+@media (max-width: 767px) {
+  .personal-page--guestbook .guest-wall-header { padding-top: 20px; }
 }
