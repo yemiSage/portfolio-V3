@@ -820,6 +820,7 @@ function App() {
                       </button>
                     ))}
                   </div>
+                  <button type="button" className="desktop-chat-launcher yemmy-notion-bubble" aria-label="Ask yemiLLM" onClick={() => setIsChatOpen(true)}><span className="yemmy-notion-badge"><span className="yemmy-notion-sparkle" aria-hidden="true" style={{ display: "inline-block", padding: "2px" }}>✦</span><span className="yemmy-notion-tag">Ask yemiLLM</span></span></button>
                 </div>
 
                 <section className="projects" id="work" aria-label="Selected projects">

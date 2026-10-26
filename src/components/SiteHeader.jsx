@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CloseCircle, HamburgerMenu } from "iconsax-reactjs";
+import { UserRound } from "lucide-react";
 import AiAsteriskIcon from "./AiAsteriskIcon";
 import AsciiPortrait from "./AsciiPortrait";
 import { ResponsiveResumeLink } from "./ResumePage";
@@ -8,7 +9,7 @@ import "../site-header.css";
 export function ProfileLinks({ onOpenAiChat, className = "identity-links" }) {
   return <nav className={className} aria-label="Profile links">
     <button type="button" className="nav-yemi-llm-btn" onClick={onOpenAiChat} aria-label="Open yemiLLM"><AiAsteriskIcon size={14} /><span>yemiLLM</span></button>
-    <a href="/about">About</a>
+    <a href="/about"><UserRound size={14} aria-hidden="true" /><span>About</span></a>
     <ResponsiveResumeLink />
   </nav>;
 }
@@ -44,7 +45,7 @@ export default function SiteHeader({ onOpenAiChat, desktop = false, menuOpen: co
     </div>
     {menuOpen && <nav ref={menu} className="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" onKeyDown={trapFocus}>
       <button type="button" className="nav-yemi-llm-btn" onClick={() => { setMenuOpen(false); onOpenAiChat(); }} aria-label="Open yemiLLM"><AiAsteriskIcon size={14} /><span>yemiLLM</span></button>
-      <a href="/about" onClick={() => setMenuOpen(false)}>About</a>
+      <a href="/about" onClick={() => setMenuOpen(false)}><UserRound size={16} aria-hidden="true" /><span>About</span></a>
       <a href="/guestbook" onClick={() => setMenuOpen(false)}>Guestbook</a>
       <ResponsiveResumeLink onMobileClick={() => setMenuOpen(false)} />
     </nav>}

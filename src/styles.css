@@ -6225,7 +6225,7 @@ svg.case-card-logo {
   backdrop-filter: blur(16px) saturate(1.25);
   pointer-events: none;
 }
-.work-tabs-bar.is-stuck::before { left: 0; right: 0; border-color: #dfe2e6; }
+.work-tabs-bar.is-stuck::before { left: 0; right: 0; border: 0; border-bottom: 1px solid #dfe2e6; }
 .work-tabs-bar.is-stuck .work-toggle button::after { bottom: -17px; }
 @media (min-width: 768px) {
   .work-tabs-bar::before { top: calc(-1 * var(--page-padding)); }
@@ -6234,3 +6234,48 @@ svg.case-card-logo {
 .case-card-list > .case-card,
 .project-card-list > .project-card { border-radius: 20px; }
 .case-card-list > .case-card { overflow: hidden; }
+
+/* Soft pills for profile navigation and desktop chat. */
+.identity-links { gap: 2px; }
+.identity-links > a, .identity-links > button, .case-study-profile-links > a, .case-study-profile-links > button {
+ display: inline-flex; align-items: center; gap: 5px; padding: 7px 8px; border-radius: 999px;
+ transition: background-color 180ms ease, color 180ms ease;
+}
+.mobile-menu a, .footer-links a[href="/resume"] { display: inline-flex; align-items: center; gap: 5px; }
+.identity-links > :focus-visible, .case-study-profile-links > :focus-visible, .desktop-chat-launcher:focus-visible { outline: 2px solid #858585; outline-offset: 3px; }
+.desktop-chat-launcher { display: none; }
+@media (hover: hover) and (pointer: fine) {
+ .identity-links > :hover, .case-study-profile-links > :hover, .mobile-menu > :hover { background: #f2f2f3; }
+ .work-toggle button:not(.is-selected):hover { background: #f2f2f3; border-radius: 999px; }
+
+}
+@media (min-width: 768px) {
+ .work-tabs-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+ .desktop-chat-launcher { display: flex; flex-shrink: 0; font-family: inherit; }
+ body:has(.desktop-chat-launcher) #yemmy-notion-callout-wrapper { display: none !important; }
+
+}
+
+@media (prefers-reduced-motion: reduce) { .desktop-chat-launcher .yemmy-notion-sparkle { animation: none; } }
+
+/* Reveal the supporting menu icons without changing the yemiLLM star. */
+.identity-links > a > svg, .mobile-menu > a > svg, .footer-links a[href="/resume"] > svg {
+ width: 0; opacity: 0; margin-right: -5px;
+ transition: width 180ms ease, opacity 180ms ease, margin 180ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+ .identity-links > a:hover > svg, .mobile-menu > a:hover > svg, .footer-links a[href="/resume"]:hover > svg { width: 14px; opacity: 1; margin-right: 0; }
+}
+.identity-links > a:focus-visible > svg, .mobile-menu > a:focus-visible > svg, .footer-links a[href="/resume"]:focus-visible > svg { width: 14px; opacity: 1; margin-right: 0; }
+.desktop-chat-launcher .yemmy-notion-tag {
+ color: var(--subtle-ink);
+ font-family: "Inter", sans-serif;
+ font-size: 14px;
+ font-weight: 600;
+ letter-spacing: normal;
+}
+.work-tabs-bar.is-stuck .desktop-chat-launcher {
+ border-color: transparent;
+ animation: none;
+ box-shadow: none;
+}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { StickyNote } from "lucide-react";
 import { ArrowLeft2 } from "iconsax-reactjs";
 
 export const resumeViewUrl =
@@ -93,7 +94,7 @@ export function ResponsiveResumeLink({
         onMobileClick?.(event);
       }}
     >
-      Resume
+      <StickyNote size={14} aria-hidden="true" /><span>Resume</span>
     </a>
   );
 }
