@@ -108,7 +108,9 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
       animationFrame = window.requestAnimationFrame(syncActiveSection);
     };
 
-    const requestedSectionId = decodeURIComponent(window.location.hash.slice(1));
+    const isGuestbook = className.includes("personal-page--guestbook");
+    if (isGuestbook && window.location.hash) window.history.replaceState(window.history.state, "", window.location.pathname + window.location.search);
+    const requestedSectionId = isGuestbook ? "" : decodeURIComponent(window.location.hash.slice(1));
     const requestedSection = pageSections.find((section) => section.id === requestedSectionId);
     if (requestedSection) {
       requestedSection.scrollIntoView({ block: "start", behavior: "instant" });

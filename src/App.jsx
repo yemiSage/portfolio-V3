@@ -420,12 +420,12 @@ function App() {
     try {
       await loadPage(nextPath);
       if (requestId !== navigationId.current) return;
-      window.history.pushState({}, "", target.pathname + target.search + target.hash);
+      window.history.pushState({}, "", target.pathname + target.search + (nextPath === "/guestbook" ? "" : target.hash));
       setPath(nextPath);
       setActivePanel(nextPath === "/resume" ? "resume" : "home");
       requestAnimationFrame(() => {
         if (requestId !== navigationId.current) return;
-        const section = target.hash && document.getElementById(decodeURIComponent(target.hash.slice(1)));
+        const section = nextPath !== "/guestbook" && target.hash && document.getElementById(decodeURIComponent(target.hash.slice(1)));
         if (section) section.scrollIntoView({ block: "start", behavior: "instant" });
         else window.scrollTo({ top: 0, left: 0, behavior: "instant" });
       });

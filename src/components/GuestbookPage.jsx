@@ -73,7 +73,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
       setName(""); setMessage(""); setAvatar(null);
       composer.current?.close();
       requestAnimationFrame(() => {
-        document.getElementById("the-wall")?.scrollIntoView({ block: "start" });
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
         requestAnimationFrame(() => document.getElementById(`pin-${data.note.id}`)?.focus({ preventScroll: true }));
       });
     } catch (e) { setResult({ text: e.message || "Could not connect. Please try again.", error: true }); }
@@ -92,6 +92,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
         </div>)}
       </div>
     </section>
+    <div className="guestbook-actions">
     <section id="leave-a-note" className="personal-section guest-open-composer">
       <button type="button" className="button button-primary" onClick={() => {
         setResult(null);
@@ -127,5 +128,6 @@ export default function GuestbookPage({ onOpenAiChat }) {
     </section>
     </dialog>
     <section id="a-small-note" className="personal-section guest-guidelines"><p>Notes appear on the wall as soon as you send them. No ads, links, or private details, please. Just a little of you.</p><p>Want to talk about a project instead? <a className="personal-text-link" href="mailto:adegboyeopeyemi065@gmail.com">Let’s talk <ArrowUpRight size={14} aria-hidden="true" /></a></p></section>
+    </div>
   </PersonalPageShell>;
 }
