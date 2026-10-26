@@ -75,7 +75,7 @@ const projects = [
     href: "/projects/stayafrika",
     tags: ["Travel", "Hospitality", "Marketplace"],
     description:
-      "Designed Stayafrika from flows to launch, connecting property managers, landlords, event hosts, and everyday services all in one app.",
+      "Designed a marketplace for stays, experiences, and services.",
   },
   {
     name: "TASAfrica",
@@ -746,6 +746,38 @@ function App() {
     );
   }
 
+  const renderWorkNavigation = () => (
+    <div className={`work-tabs-bar${tabsStuck ? " is-stuck" : ""}`}>
+                  <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
+                    {workTabs.map((tab) => (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={activeWork === tab.id}
+                        className={activeWork === tab.id ? "is-selected" : ""}
+                        onClick={() => {
+                          setActiveWork(tab.id);
+                          closeLightbox();
+                          requestAnimationFrame(() => {
+                            const sentinel = tabsSentinelRef.current;
+                            if (!sentinel) return;
+                            const mobile = window.matchMedia("(max-width: 767px)").matches;
+                            const headerHeight = mobile ? document.querySelector(".mobile-header")?.offsetHeight ?? 0 : 0;
+                            // Place the tabs directly below the mobile header, with the first item visible beneath them.
+                            const top = sentinel.getBoundingClientRect().top + window.scrollY - headerHeight + 1;
+                            window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
+                          });
+                        }}
+                      >
+                        {tab.label}
+                      </button>
+                    ))}
+                  </div>
+                  <button type="button" className="desktop-chat-launcher yemmy-notion-bubble" aria-label="Ask yemiLLM" onClick={() => setIsChatOpen(true)}><span className="yemmy-notion-badge"><span className="yemmy-notion-sparkle" aria-hidden="true" style={{ display: "inline-block", padding: "2px" }}>✦</span><span className="yemmy-notion-tag">Ask yemiLLM</span></span></button>
+                </div>
+  );
+
   return (
     <>
       {topProgressBar}
@@ -756,7 +788,10 @@ function App() {
         id="top"
         data-node-id="3549:1194"
       >
+      <div className={`home-mobile-navigation${tabsStuck ? " has-work-tabs" : ""}`}>
       <SiteHeader onOpenAiChat={() => setIsChatOpen(true)} menuOpen={mobileMenuOpen} onMenuChange={setMobileMenuOpen} />
+        {tabsStuck && <div className="home-mobile-work-tabs">{renderWorkNavigation()}</div>}
+      </div>
 
       <div className="portfolio-grid">
         <aside className="identity-column" aria-label="Introduction">
@@ -821,35 +856,7 @@ function App() {
                 className="w-full"
               >
                 <div ref={tabsSentinelRef} className="work-tabs-sentinel" aria-hidden="true" />
-                <div className={`work-tabs-bar${tabsStuck ? " is-stuck" : ""}`}>
-                  <div className="work-toggle" role="tablist" aria-label="Portfolio work type">
-                    {workTabs.map((tab) => (
-                      <button
-                        key={tab.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={activeWork === tab.id}
-                        className={activeWork === tab.id ? "is-selected" : ""}
-                        onClick={() => {
-                          setActiveWork(tab.id);
-                          closeLightbox();
-                          requestAnimationFrame(() => {
-                            const sentinel = tabsSentinelRef.current;
-                            if (!sentinel) return;
-                            const mobile = window.matchMedia("(max-width: 767px)").matches;
-                            const headerHeight = mobile ? document.querySelector(".mobile-header")?.offsetHeight ?? 0 : 0;
-                            // Place the tabs directly below the mobile header, with the first item visible beneath them.
-                            const top = sentinel.getBoundingClientRect().top + window.scrollY - headerHeight + 1;
-                            window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
-                          });
-                        }}
-                      >
-                        {tab.label}
-                      </button>
-                    ))}
-                  </div>
-                  <button type="button" className="desktop-chat-launcher yemmy-notion-bubble" aria-label="Ask yemiLLM" onClick={() => setIsChatOpen(true)}><span className="yemmy-notion-badge"><span className="yemmy-notion-sparkle" aria-hidden="true" style={{ display: "inline-block", padding: "2px" }}>✦</span><span className="yemmy-notion-tag">Ask yemiLLM</span></span></button>
-                </div>
+                {renderWorkNavigation()}
 
                 <section className="projects" id="work" aria-label="Selected projects">
                   {activeWork === "case-studies" ? (

@@ -6337,3 +6337,21 @@ body::after {
 @media (min-width: 768px) {
  .case-study-rail-top > .case-study-rail-back { width: 50px; flex: 0 0 50px; gap: 4px; }
 }
+
+/* A single mobile surface owns both the header and pinned work controls. */
+.home-mobile-navigation { display: contents; }
+.home-mobile-work-tabs { display: none; }
+@media (max-width: 767px) {
+  .home-mobile-navigation { display: block; position: fixed; inset: 0 0 auto; z-index: 40; background: var(--header-surface); -webkit-backdrop-filter: var(--header-backdrop); backdrop-filter: var(--header-backdrop); }
+  .portfolio .home-mobile-navigation > .mobile-header { position: relative; inset: auto; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .home-mobile-work-tabs { display: block; padding-inline: var(--page-padding); }
+  .portfolio .home-mobile-work-tabs .work-tabs-bar { position: static; margin: 0; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .home-mobile-work-tabs .work-tabs-bar::before { display: none; }
+  .portfolio .content-column .work-tabs-bar.is-stuck { visibility: hidden; }
+}
+@media (max-width: 767px) {
+  .home-mobile-work-tabs { border-bottom: 1px solid #dfe2e6; }
+  .portfolio .home-mobile-work-tabs .work-toggle { padding: 0; border: 0; align-items: stretch; }
+  .portfolio .home-mobile-work-tabs .work-toggle button { min-height: 52px; }
+  .portfolio .home-mobile-work-tabs .work-tabs-bar.is-stuck .work-toggle button::after { bottom: -1px; }
+}
