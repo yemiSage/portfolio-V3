@@ -13,6 +13,8 @@ import ResumeContent, { ResponsiveResumeLink, openResumeInApp } from "./componen
 import { applyRouteMetadata } from "./utils/seo";
 import AskYemiChat from "./components/AskYemiChat";
 import GithubStats from "./components/GithubStats";
+import FullScreenPreloader from "./components/FullScreenPreloader";
+import { shouldShowHomeIntro, markHomeIntroSeen } from "./utils/homeIntro.mjs";
 
 const pageImports = {
   "/projects/limestone": () => import("./components/LimestoneCaseStudy"),
@@ -395,7 +397,16 @@ function CaseStudyCard({ project }) {
 function App() {
   const [path, setPath] = useState(() => window.location.pathname.replace(/\/+$/, ""));
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionProgress, setTransitionProgress] = useState(0);
+  const [showHomeIntro, setShowHomeIntro] = useState(() => {
+    try { return shouldShowHomeIntro(window.location.pathname, window.localStorage); }
+    catch { return shouldShowHomeIntro(window.location.pathname); }
+  });
+  const dismissHomeIntro = useCallback(() => setShowHomeIntro(false), []);
+  useEffect(() => {
+    if (!showHomeIntro) return;
+    try { markHomeIntroSeen(window.localStorage); }
+    catch { markHomeIntroSeen(); }
+  }, [showHomeIntro]);
 
   const isLimestoneCaseStudy = path === "/projects/limestone";
   const isTasaAfricaCaseStudy = path === "/projects/tasafrica";
@@ -415,7 +426,6 @@ function App() {
     const nextPath = target.pathname.replace(/\/+$/, "") || "/";
     const requestId = ++navigationId.current;
     setIsTransitioning(true);
-    setTransitionProgress(60);
     try {
       await loadPage(nextPath);
       if (requestId !== navigationId.current) return;
@@ -433,7 +443,7 @@ function App() {
     } catch {
       if (requestId === navigationId.current) window.location.assign(target.href);
     } finally {
-      if (requestId === navigationId.current) { setIsTransitioning(false); setTransitionProgress(0); }
+      if (requestId === navigationId.current) { setIsTransitioning(false); }
     }
   }, []);
 
@@ -477,7 +487,7 @@ function App() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPageScrolling, setIsPageScrolling] = useState(false);
-  const isSiteLoading = isTransitioning;
+  const isSiteLoading = isTransitioning || showHomeIntro;
   const [isChatOpen, setIsChatOpen] = useState(false);
   const lightboxPointerStart = useRef(null);
 
@@ -675,25 +685,8 @@ function App() {
     navigateTo(url);
   };
 
-  const topProgressBar = (
-    <AnimatePresence>
-      {isTransitioning && (
-        <motion.div
-          key="top-loading-progress-bar"
-          className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#818cf8] via-[#f472b6] to-[#4f46e5] z-[99999] shadow-[0_1px_8px_rgba(129,140,248,0.4)]"
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: transitionProgress / 100 }}
-          exit={{ opacity: 0 }}
-          transition={{ ease: "easeInOut", duration: 0.15 }}
-          style={{ originX: 0 }}
-        />
-      )}
-    </AnimatePresence>
-  );
-
   if (isPersonalPage) {
     return <Suspense fallback={null}>
-      {topProgressBar}
       {path === "/about" ? <AboutPage onOpenAiChat={() => setIsChatOpen(true)} /> : <GuestbookPage onOpenAiChat={() => setIsChatOpen(true)} />}
       <AskYemiChat isOpen={isChatOpen} onOpen={() => setIsChatOpen(true)} onClose={() => setIsChatOpen(false)} onNavigate={handleChatNavigate} mobileMenuOpen={false} isSiteLoading={isTransitioning} />
     </Suspense>;
@@ -702,7 +695,6 @@ function App() {
   if (isLimestoneCaseStudy || isStayafrikaCaseStudy) {
     return (
       <Suspense fallback={null}>
-        {topProgressBar}
         {isStayafrikaCaseStudy
           ? <StayafrikaCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
           : <LimestoneCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />}
@@ -721,7 +713,6 @@ function App() {
   if (isTasaAfricaCaseStudy) {
     return (
       <Suspense fallback={null}>
-        {topProgressBar}
         <TasaAfricaCaseStudy onOpenAiChat={() => setIsChatOpen(true)} />
         <AskYemiChat
           isOpen={isChatOpen}
@@ -769,7 +760,7 @@ function App() {
 
   return (
     <>
-      {topProgressBar}
+      {showHomeIntro && <FullScreenPreloader onComplete={dismissHomeIntro} />}
       <HoverCursor />
 
       <main

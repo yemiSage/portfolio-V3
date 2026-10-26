@@ -369,3 +369,5 @@
 @media (max-width: 767px) {
   .personal-page--guestbook .guest-wall-header { padding-top: 20px; }
 }
+
+.about-prose .about-inline-link { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
