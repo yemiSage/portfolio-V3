@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArrowLeft2 } from "iconsax-reactjs";
 import { motion } from "framer-motion";
 import SiteHeader, { ProfileLinks } from "./SiteHeader";
@@ -67,7 +67,7 @@ export function SectionNavigation({ sections, activeSection, jumpMenuOpen, onJum
   return (
     <nav className="case-study-index" aria-label="Sections on this page" ref={navigationRef} onPointerLeave={() => moveHighlight(activeSection)}>
       <div className="case-study-index-top">
-        <a className="case-study-index-back" href="/#work"><ArrowLeft2 size={18} color="currentColor" variant="Linear" aria-hidden="true" /><span>Back to projects</span></a>
+        <a className="case-study-index-back" href="/#work"><ArrowLeft2 size={18} color="currentColor" variant="Linear" aria-hidden="true" /><span>Back</span></a>
         <button className="case-study-jump" type="button" aria-expanded={jumpMenuOpen} aria-controls="case-study-jump-menu" onClick={onJumpMenuToggle}><span className="case-study-jump-icon" aria-hidden="true">↵</span><span>Jump to</span></button>
       </div>
       <span aria-hidden="true" className="case-study-nav-highlight" style={{ top: `${highlight.top}px`, height: `${highlight.height}px`, opacity: highlight.visible ? 1 : 0 }} />
@@ -111,7 +111,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
     const requestedSectionId = decodeURIComponent(window.location.hash.slice(1));
     const requestedSection = pageSections.find((section) => section.id === requestedSectionId);
     if (requestedSection) {
-      requestedSection.scrollIntoView({ block: "start" });
+      requestedSection.scrollIntoView({ block: "start", behavior: "instant" });
       setActiveSection(requestedSection.id);
     } else {
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
@@ -136,10 +136,11 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
   return (
     <motion.main
       className={`case-study-page ${className}`.trim()}
-      initial={{ opacity: 0, y: 16 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
     >
+      <div className="case-study-navigation">
       <SiteHeader onOpenAiChat={triggerAiChat} />
       <aside className="case-study-rail" aria-label={`${projectName} navigation`}>
         <div className="case-study-rail-top identity-top">
@@ -149,6 +150,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
         <SectionNavigation sections={sections} activeSection={activeSection} jumpMenuOpen={jumpMenuOpen} onJumpMenuToggle={() => setJumpMenuOpen((isOpen) => !isOpen)} onSectionSelect={handleSectionSelect} />
         <div className="case-study-rail-meta">{railFooter || <><p>{pageLabel}</p>{date && <span>{date}</span>}</>}</div>
       </aside>
+      </div>
       <article id={contentId} className="case-study-content">{children}<CaseStudyFooter onOpenAiChat={triggerAiChat} /></article>
     </motion.main>
   );

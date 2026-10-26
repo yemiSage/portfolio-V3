@@ -407,11 +407,7 @@ function App() {
 
   useEffect(() => {
     applyRouteMetadata(path || "/");
-    const frame = requestAnimationFrame(() => {
-      const id = decodeURIComponent(window.location.hash.slice(1));
-      if (id) document.getElementById(id)?.scrollIntoView({ block: "start" });
-    });
-    return () => cancelAnimationFrame(frame);
+
   }, [path]);
 
   const navigationId = useRef(0);
@@ -427,10 +423,11 @@ function App() {
       window.history.pushState({}, "", target.pathname + target.search + target.hash);
       setPath(nextPath);
       setActivePanel(nextPath === "/resume" ? "resume" : "home");
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
       requestAnimationFrame(() => {
         if (requestId !== navigationId.current) return;
-        if (target.hash) document.getElementById(decodeURIComponent(target.hash.slice(1)))?.scrollIntoView({ block: "start", behavior: "instant" });
+        const section = target.hash && document.getElementById(decodeURIComponent(target.hash.slice(1)));
+        if (section) section.scrollIntoView({ block: "start", behavior: "instant" });
+        else window.scrollTo({ top: 0, left: 0, behavior: "instant" });
       });
     } catch {
       if (requestId === navigationId.current) window.location.assign(target.href);

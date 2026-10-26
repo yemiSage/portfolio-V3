@@ -93,7 +93,15 @@ export default function GuestbookPage({ onOpenAiChat }) {
       </div>
     </section>
     <section id="leave-a-note" className="personal-section guest-open-composer">
-      <button type="button" className="button button-primary" onClick={() => { setResult(null); composer.current?.showModal(); }}>Leave a note <ArrowUpRight size={17} aria-hidden="true" /></button>
+      <button type="button" className="button button-primary" onClick={() => {
+        setResult(null);
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        const dialog = composer.current;
+        if (!dialog) return;
+        dialog.showModal();
+        dialog.scrollTop = 0;
+        dialog.querySelector("input[name=name]")?.focus({ preventScroll: true });
+      }}>Leave a note <ArrowUpRight size={17} aria-hidden="true" /></button>
       {result && !result.error && <div role="status" className="guest-toast">{result.text}<button type="button" aria-label="Dismiss notification" onClick={() => setResult(null)}><X size={16} /></button></div>}
     </section>
     <dialog className="guest-composer-dialog" ref={composer} aria-labelledby="guest-composer-heading" onClose={() => { if (voice.status === "recording") voice.stop(); }} onClick={event => { if (event.target === composer.current) composer.current.close(); }}>

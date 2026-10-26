@@ -23,7 +23,7 @@
 .word-photo span { position: absolute; bottom: 2px; right: 6px; font: 12px Inter,sans-serif; color: white; text-shadow: 0 1px 3px #000; }
 .about-intro-line { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: #76767d; font-size: 9px; letter-spacing: .7px; padding: 12px 0; font-family: "Inter", sans-serif; border-bottom: 1px solid var(--personal-line); margin-bottom: 30px; }
 .about-lede { font-family: 'Bricolage Grotesque',sans-serif; font-size: 20px; line-height: 1.45; letter-spacing: -.6px; color: var(--ink); margin-bottom: 20px; max-width: 580px; }
-.about-prose { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; color: var(--body-copy); font-size: 14px; line-height: 1.8; margin-bottom: 28px; }
+.about-prose { display: grid; grid-template-columns: 1fr; gap: 28px; color: var(--body-copy); font-size: 14px; line-height: 1.8; margin-bottom: 28px; }
 .personal-page :is(.about-prose, .about-chapter-content > p, .about-beliefs p, .guest-guidelines p) { font-size: var(--body-copy-size); line-height: var(--body-copy-line-height); letter-spacing: var(--body-copy-tracking); }
 .personal-text-link { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; color: var(--ink); border-bottom: 1px solid #b9b9c0; padding-block: 3px; }
 .about-chapter { display: grid; grid-template-columns: 118px minmax(0,1fr); column-gap: 28px; padding-top: 24px; }
@@ -144,7 +144,7 @@
   .personal-page .guest-composer { padding: 20px 16px; }
 }
 
-.about-ascii-portrait { width: min(100%, 320px); aspect-ratio: 1; justify-self: center; align-self: center; }
+.about-ascii-portrait { width: min(100%, 260px); aspect-ratio: 1; justify-self: start; align-self: start; }
 .personal-page .about-bio-title { font-size: 24px; margin-bottom: 16px; }
 .personal-page .case-study-section-heading + h2 { margin-top: 8px; }
 .personal-page .case-study-rail-meta .github-activity-margin { margin: 0; }
@@ -331,3 +331,19 @@
 
 /* Compact inline meetup photo across screen sizes. */
 .personal-page--about #off-the-clock .word-photo--wide { width: 24px; }
+
+/* Wrap the opening biography around the portrait. */
+.about-prose > div { display: flow-root; margin-top: 24px; }
+.about-prose .about-ascii-portrait { float: left; width: min(38%, 160px); margin: 0 20px 12px 0; }
+
+@media (max-width: 767px) {
+  .about-prose .about-ascii-portrait { float: none; display: block; width: 140px; max-width: 100%; margin: 0 0 20px; }
+  .about-journey > .about-chapter:first-of-type { padding-top: 0; }
+  .about-beliefs h3 { font-size: 16px; }
+  .about-word-story { font-family: "Inter", sans-serif; }
+}
+
+@media (max-width: 767px) {
+  .personal-page--about .case-study-content { padding-top: 20px; }
+  .personal-page--about .about-prose { padding-top: 0; }
+}
