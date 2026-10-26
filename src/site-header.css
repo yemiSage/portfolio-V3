@@ -21,3 +21,8 @@
   .case-study-navigation .case-study-index { margin-top: 0; }
   .case-study-navigation .case-study-index-top { justify-content: space-between; gap: 24px; }
 }
+@media (max-width: 767px) {
+  .case-study-navigation .case-study-jump,
+  .case-study-navigation .case-study-jump-menu { display: none; }
+  .case-study-navigation .case-study-index-top { min-height: 42px; }
+}

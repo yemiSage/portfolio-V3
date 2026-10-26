@@ -347,3 +347,12 @@
   .personal-page--about .case-study-content { padding-top: 20px; }
   .personal-page--about .about-prose { padding-top: 0; }
 }
+@media (max-width: 767px) {
+  .about-tool-icons { gap: 3px; padding: 4px 6px; }
+  .about-tool-icons img { width: 16px; height: 16px; }
+}
+@media (max-width: 767px) {
+  .personal-page--about .about-intro h1 { font-size: 24px; }
+  .personal-page--about .personal-section > h2 { font-size: 18px; }
+  .personal-page--about .about-chapter-content h3 { font-size: 16px; }
+}
