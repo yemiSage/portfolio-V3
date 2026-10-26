@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import {
@@ -15,11 +15,24 @@ import ScrambleText from "./components/ScrambleText";
 import AskYemiChat from "./components/AskYemiChat";
 import GithubStats from "./components/GithubStats";
 
-const LimestoneCaseStudy = lazy(() => import("./components/LimestoneCaseStudy"));
-const TasaAfricaCaseStudy = lazy(() => import("./components/TasaAfricaCaseStudy"));
-const StayafrikaCaseStudy = lazy(() => import("./components/StayafrikaCaseStudy"));
-const AboutPage = lazy(() => import("./components/AboutPage"));
-const GuestbookPage = lazy(() => import("./components/GuestbookPage"));
+const pageImports = {
+  "/projects/limestone": () => import("./components/LimestoneCaseStudy"),
+  "/projects/tasafrica": () => import("./components/TasaAfricaCaseStudy"),
+  "/projects/stayafrika": () => import("./components/StayafrikaCaseStudy"),
+  "/about": () => import("./components/AboutPage"),
+  "/guestbook": () => import("./components/GuestbookPage"),
+};
+const pagePromises = new Map();
+function loadPage(path) {
+  if (!pageImports[path]) return Promise.resolve();
+  if (!pagePromises.has(path)) pagePromises.set(path, pageImports[path]().catch(error => { pagePromises.delete(path); throw error; }));
+  return pagePromises.get(path);
+}
+const LimestoneCaseStudy = lazy(() => loadPage("/projects/limestone"));
+const TasaAfricaCaseStudy = lazy(() => loadPage("/projects/tasafrica"));
+const StayafrikaCaseStudy = lazy(() => loadPage("/projects/stayafrika"));
+const AboutPage = lazy(() => loadPage("/about"));
+const GuestbookPage = lazy(() => loadPage("/guestbook"));
 const SeoDiagnosticOverlay = lazy(() => import("./components/SeoDiagnosticOverlay"));
 import tasafricaImage from "../assets/figma/tasafrica.webp";
 import limestoneImage from "../assets/figma/limestone.webp";
@@ -401,37 +414,50 @@ function App() {
     return () => cancelAnimationFrame(frame);
   }, [path]);
 
-  const navigateTo = useCallback((targetPath) => {
-    const normalizedTarget = targetPath.replace(/\/+$/, "") || "/";
-    const currentNormalized = window.location.pathname.replace(/\/+$/, "") || "/";
-    
+  const navigationId = useRef(0);
+  const navigateTo = useCallback(async (targetPath) => {
+    const target = new URL(targetPath, window.location.origin);
+    const nextPath = target.pathname.replace(/\/+$/, "") || "/";
+    const requestId = ++navigationId.current;
     setIsTransitioning(true);
-    setTransitionProgress(15);
+    setTransitionProgress(60);
+    try {
+      await loadPage(nextPath);
+      if (requestId !== navigationId.current) return;
+      window.history.pushState({}, "", target.pathname + target.search + target.hash);
+      setPath(nextPath);
+      setActivePanel(nextPath === "/resume" ? "resume" : "home");
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      requestAnimationFrame(() => {
+        if (requestId !== navigationId.current) return;
+        if (target.hash) document.getElementById(decodeURIComponent(target.hash.slice(1)))?.scrollIntoView({ block: "start", behavior: "instant" });
+      });
+    } catch {
+      if (requestId === navigationId.current) window.location.assign(target.href);
+    } finally {
+      if (requestId === navigationId.current) { setIsTransitioning(false); setTransitionProgress(0); }
+    }
+  }, []);
 
-    const timer1 = setTimeout(() => setTransitionProgress(45), 80);
-    const timer2 = setTimeout(() => setTransitionProgress(75), 180);
-    const timer3 = setTimeout(() => setTransitionProgress(90), 320);
-
-    const timerComplete = setTimeout(() => {
-      window.history.pushState({}, "", normalizedTarget);
-      setPath(new URL(normalizedTarget, window.location.origin).pathname.replace(/\/+$/, "") || "/");
-      setActivePanel(normalizedTarget === "/resume" ? "resume" : "home");
-      setTransitionProgress(100);
-      window.scrollTo(0, 0);
-
-      setTimeout(() => {
-        setIsTransitioning(false);
-        setTransitionProgress(0);
-      }, 150);
-    }, 450);
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-      clearTimeout(timerComplete);
-    };
+  useLayoutEffect(() => {
+    const previous = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+    return () => { window.history.scrollRestoration = previous; };
+  }, []);
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [path]);
+  useEffect(() => {
+    const warmPage = event => {
+      const anchor = event.target.closest?.("a[href]");
+      if (!anchor) return;
+      const target = new URL(anchor.href, window.location.origin);
+      if (target.origin === window.location.origin) loadPage(target.pathname.replace(/\/+$/, "") || "/").catch(() => {});
+    };
+    document.addEventListener("pointerover", warmPage);
+    document.addEventListener("focusin", warmPage);
+    return () => { document.removeEventListener("pointerover", warmPage); document.removeEventListener("focusin", warmPage); };
+  }, []);
 
   const [activeWork, setActiveWork] = useState("case-studies");
   const [tabsStuck, setTabsStuck] = useState(false);
@@ -454,7 +480,7 @@ function App() {
 
   useEffect(() => {
     const markReady = () => {
-      setTimeout(() => setIsInitialReady(true), 200);
+      setIsInitialReady(true);
     };
 
     if (document.readyState === "complete") {
@@ -570,6 +596,9 @@ function App() {
 
   useEffect(() => {
     const syncPanelWithHistory = () => {
+      navigationId.current += 1;
+      setIsTransitioning(false);
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
       const newPath = window.location.pathname.replace(/\/+$/, "");
       setPath(newPath);
       setActivePanel(newPath === "/resume" ? "resume" : "home");
@@ -596,6 +625,7 @@ function App() {
 
   useEffect(() => {
     const handleGlobalLinkClick = (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const anchor = event.target.closest("a");
       if (!anchor) return;
       const href = anchor.getAttribute("href");
@@ -745,13 +775,13 @@ function App() {
               <div className="intro-stack" id="about">
                 <div className="intro-copy">
                   <div className="intro-heading">
-                    <p className="greeting">Need a Professional</p>
+                    <p className="greeting">Hi, I am Yemi</p>
                     <h1>
                       <ScrambleText text={"Design Engineer,\nProduct & AI"} active={!isSiteLoading} />
                     </h1>
                   </div>
                   <div className="intro-description">
-                    <p>Hi, I am Yemi. It's been four (4) years now designing and building B2B SaaS, enterprise, marketplace, and AI products, turning complex workflows into simple experiences.</p>
+                    <p>It's been four (4) years now designing and building B2B SaaS, enterprise, marketplace, and AI products, turning complex workflows into simple experiences.</p>
                     <p>The curiosity of knowing How it was done, why it was done, and what it's done in a certain, led me to design. <strong>Coffee, semo and results keep me going</strong></p>
                   </div>
                 </div>
@@ -760,6 +790,7 @@ function App() {
                   <a className="button button-primary" href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">
                     Contact Me
                   </a>
+                  <a className="intro-note-link" href="/guestbook#leave-a-note">Leave a note <ArrowUpRight size={14} aria-hidden="true" /></a>
                 </div>
               </div>
             </div>
@@ -778,7 +809,7 @@ function App() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full"
               >
                 <ResumeContent onBack={showHome} />
@@ -789,7 +820,7 @@ function App() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full"
               >
                 <div ref={tabsSentinelRef} className="work-tabs-sentinel" aria-hidden="true" />

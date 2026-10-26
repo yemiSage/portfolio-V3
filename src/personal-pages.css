@@ -296,3 +296,26 @@
 .guest-wall-grid::-webkit-scrollbar-track, .guest-wall-grid::-webkit-scrollbar-corner { background: transparent; }
 .guest-wall-grid::-webkit-scrollbar-thumb { background: #b8b8c2; border: 0; border-radius: 8px; }
 @supports not selector(::-webkit-scrollbar) { .guest-wall-grid { scrollbar-width: thin; scrollbar-color: #b8b8c2 transparent; } }
+
+/* Continue the wall's existing dot pattern over the guestbook shell. */
+.personal-page--guestbook {
+ background-color: var(--paper);
+ background-image: radial-gradient(#dddde3 1px, transparent 1px);
+ background-size: 20px 20px;
+}
+.personal-page--guestbook .case-study-rail { background: #fff; }
+.personal-page--guestbook .guest-wall-grid { background-image: none; }
+.personal-page--guestbook .case-study-footer { background: var(--paper); box-shadow: 0 0 0 32px var(--paper); }
+
+.personal-page--guestbook .guest-wall-header h1 { font-size: 16px; font-weight: 700; }
+
+/* Notes flow in reading order, with ordinary document scrolling. */
+.guest-notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(0, min(100%, 260px))); gap: 24px; align-items: start; padding-block: 24px; }
+.guest-notes-grid > div { min-width: 0; }
+.guest-notes-grid .guest-comment-panel { margin-top: 0; }
+.guest-notes-grid .guest-comment-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+
+/* Clickable notes stay in ordered rows while the wall grows with its content. */
+.guest-notes-grid { min-height: 400px; align-content: start; }
+.guest-notes-grid .guest-comment-pin { touch-action: auto; cursor: pointer; }
+.guest-notes-grid .guest-comment-panel { margin-top: 10px; cursor: auto; touch-action: auto; user-select: text; }

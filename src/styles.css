@@ -6251,22 +6251,25 @@ svg.case-card-logo {
 }
 @media (min-width: 768px) {
  .work-tabs-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
- .desktop-chat-launcher { display: flex; flex-shrink: 0; font-family: inherit; }
+ .desktop-chat-launcher {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  height: 46px; /* 36px tab + 4px padding and 1px border on each side. */
+  padding: 4px 8px;
+  border: 1px solid #dfe2e6;
+  border-radius: 999px;
+  font-family: inherit;
+  animation: none;
+  box-shadow: none;
+ }
+ .desktop-chat-launcher:hover { border-color: #dfe2e6; }
  body:has(.desktop-chat-launcher) #yemmy-notion-callout-wrapper { display: none !important; }
 
 }
 
 @media (prefers-reduced-motion: reduce) { .desktop-chat-launcher .yemmy-notion-sparkle { animation: none; } }
 
-/* Reveal the supporting menu icons without changing the yemiLLM star. */
-.identity-links > a > svg, .mobile-menu > a > svg, .footer-links a[href="/resume"] > svg {
- width: 0; opacity: 0; margin-right: -5px;
- transition: width 180ms ease, opacity 180ms ease, margin 180ms ease;
-}
-@media (hover: hover) and (pointer: fine) {
- .identity-links > a:hover > svg, .mobile-menu > a:hover > svg, .footer-links a[href="/resume"]:hover > svg { width: 14px; opacity: 1; margin-right: 0; }
-}
-.identity-links > a:focus-visible > svg, .mobile-menu > a:focus-visible > svg, .footer-links a[href="/resume"]:focus-visible > svg { width: 14px; opacity: 1; margin-right: 0; }
 .desktop-chat-launcher .yemmy-notion-tag {
  color: var(--subtle-ink);
  font-family: "Inter", sans-serif;
@@ -6275,7 +6278,19 @@ svg.case-card-logo {
  letter-spacing: normal;
 }
 .work-tabs-bar.is-stuck .desktop-chat-launcher {
+ background: transparent;
  border-color: transparent;
  animation: none;
  box-shadow: none;
 }
+
+/* Home introduction typography applies across existing responsive layouts. */
+#about .intro-heading .greeting { font-family: "Inter", sans-serif; font-size: 15px; }
+#about .intro-description > p:first-child { font-size: 15px; }
+
+/* Keep home contact actions together without changing shared buttons. */
+#about .intro-followup { display: flex; flex-direction: column; align-items: stretch; gap: 0; width: 160px; max-width: 100%; padding: 0; background: transparent; border-radius: 12px; }
+#about .intro-followup > .button-primary { position: relative; z-index: 1; width: 100%; max-width: 100%; margin-inline: 0; }
+#about .intro-note-link { display: inline-flex; align-items: center; justify-content: center; gap: 4px; width: calc(100% - 6px); margin: -8px 3px 0; min-height: 36px; padding: 10px 2px 2px; line-height: 20px; background: #555555; color: #FFFFFF; font-size: 12px; border-radius: 0 0 12px 12px; }
+#about .intro-note-link:hover { background: #535252; color: #fff; }
+#about .intro-note-link:focus-visible { outline: 2px solid #858585; outline-offset: 3px; }

@@ -114,7 +114,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
       requestedSection.scrollIntoView({ block: "start" });
       setActiveSection(requestedSection.id);
     } else {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
       syncActiveSection();
     }
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -138,7 +138,7 @@ export default function CaseStudyShell({ sections, projectName, date, children, 
       className={`case-study-page ${className}`.trim()}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
     >
       <SiteHeader onOpenAiChat={triggerAiChat} />
       <aside className="case-study-rail" aria-label={`${projectName} navigation`}>

@@ -1,77 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ArrowUp, Plus, ImagePlus, Mic, Square, X } from "lucide-react";
 import { isVoiceInputSupported, useVoiceInput } from "./useVoiceInput";
-import { defaultNotePosition, nearestNoteSpace } from "../utils/guestbookLayout.mjs";
 import PersonalPageShell from "./PersonalPageShell";
 
 const SECTIONS = [["the-wall", "The wall"], ["leave-a-note", "Leave a note"], ["a-small-note", "A small note"]];
 const COLORS = { peach: "#fff0e5", lavender: "#f0edff", sage: "#ecf3ed", butter: "#fff8d9", paper: "#f3f3f5" };
 const formatDate = value => new Date(value).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 export default function GuestbookPage({ onOpenAiChat }) {
-  const drag = useRef(null);
-  const boardRef = useRef(null);
-  const [zoom, setZoom] = useState(1);
-  const zoomRef = useRef(1);
-  const pinchRef = useRef(null);
-  zoomRef.current = zoom;
-  const zoomBoard = (value, clientX, clientY) => {
-    const board = boardRef.current;
-    if (!board) return;
-    const rect = board.getBoundingClientRect();
-    const x = clientX == null ? board.clientWidth / 2 : clientX - rect.left;
-    const y = clientY == null ? board.clientHeight / 2 : clientY - rect.top;
-    const next = Math.max(.3, Math.min(2.5, value));
-    const left = (board.scrollLeft + x) / zoomRef.current * next - x;
-    const top = (board.scrollTop + y) / zoomRef.current * next - y;
-    zoomRef.current = next;
-    setZoom(next);
-    requestAnimationFrame(() => { board.scrollLeft = left; board.scrollTop = top; });
-  };
-  useEffect(() => {
-    const board = boardRef.current;
-    const wheel = event => {
-      event.preventDefault();
-      if (event.ctrlKey || event.metaKey) zoomBoard(zoomRef.current * Math.exp(-event.deltaY * .008), event.clientX, event.clientY);
-      else { board.scrollLeft += event.deltaX; board.scrollTop += event.deltaY; }
-    };
-    const pair = touches => {
-      const [a,b] = touches;
-      return { distance: Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY), x: (a.clientX+b.clientX)/2, y: (a.clientY+b.clientY)/2 };
-    };
-    const start = event => {
-      if (event.touches.length !== 2) return;
-      event.preventDefault();
-      pinDrag.current = null; drag.current = null; suppressPinClick.current = true;
-      const point = pair(event.touches), rect = board.getBoundingClientRect();
-      pinchRef.current = { ...point, zoom: zoomRef.current, worldX: (board.scrollLeft + point.x - rect.left) / zoomRef.current, worldY: (board.scrollTop + point.y - rect.top) / zoomRef.current };
-    };
-    const move = event => {
-      if (event.touches.length !== 2 || !pinchRef.current) return;
-      event.preventDefault();
-      const next = pair(event.touches), previous = pinchRef.current;
-      zoomBoard(previous.zoom * next.distance / Math.max(1, previous.distance), next.x, next.y);
-      const rect = board.getBoundingClientRect();
-      requestAnimationFrame(() => { board.scrollLeft = previous.worldX * zoomRef.current - (next.x - rect.left); board.scrollTop = previous.worldY * zoomRef.current - (next.y - rect.top); });
-    };
-    const end = () => { pinchRef.current = null; };
-    board.addEventListener("wheel", wheel, { passive: false });
-    board.addEventListener("touchstart", start, { passive: false, capture: true });
-    board.addEventListener("touchmove", move, { passive: false, capture: true });
-    board.addEventListener("touchend", end);
-    board.addEventListener("touchcancel", end);
-    return () => {
-      board.removeEventListener("wheel", wheel);
-      board.removeEventListener("touchstart", start, true);
-      board.removeEventListener("touchmove", move, true);
-      board.removeEventListener("touchend", end); board.removeEventListener("touchcancel", end);
-    };
-  }, []);
   const composer = useRef(null);
   const avatarInput = useRef(null);
-  const pinDrag = useRef(null);
-  const suppressPinClick = useRef(false);
-  const [positions, setPositions] = useState({});
-  const [activeNote, setActiveNote] = useState("host");
   const [voiceNotice, setVoiceNotice] = useState("");
   const [voiceSupported] = useState(isVoiceInputSupported);
   const voice = useVoiceInput({
@@ -79,6 +16,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
     onError: setVoiceNotice,
   });
   const [notes, setNotes] = useState([]);
+  const [activeNote, setActiveNote] = useState("host");
   const [status, setStatus] = useState("loading");
   const [canSubmit, setCanSubmit] = useState(false);
   const [avatar, setAvatar] = useState(null);
@@ -93,7 +31,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
       const response = await fetch("/api/guestbook", { signal });
       if (!response.ok) throw new Error();
       const data = await response.json();
-      setNotes(data.notes); setActiveNote(data.notes[0]?.id || "host"); setCanSubmit(data.canSubmit); setStatus("ready");
+      setNotes(data.notes); setCanSubmit(data.canSubmit); setStatus("ready");
     } catch (e) { if (e.name !== "AbortError") setStatus("error"); }
   };
   useEffect(() => { const controller = new AbortController(); load(controller.signal); return () => controller.abort(); }, []);
@@ -103,8 +41,6 @@ export default function GuestbookPage({ onOpenAiChat }) {
     return () => clearTimeout(timer);
   }, [result]);
   const allNotes = [{ id: "host", name: "Yemi, your host", message: "The internet is a big place. I’m glad our paths crossed here.", color: "peach" }, ...notes];
-  const boardWidth = Math.max(1600, ...allNotes.map((note, index) => (positions[note.id] || defaultNotePosition(index)).x + 300));
-  const boardHeight = Math.max(1000, ...allNotes.map((note, index) => (positions[note.id] || defaultNotePosition(index)).y + 250));
   const selectAvatar = async event => {
     const file = event.target.files?.[0];
     event.target.value = "";
@@ -131,10 +67,6 @@ export default function GuestbookPage({ onOpenAiChat }) {
       const response = await fetch("/api/guestbook", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, message, color, avatar, website: new FormData(event.currentTarget).get("website") }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "That note could not be sent. Please try again.");
-      const currentPositions = Object.fromEntries(allNotes.map((note, index) => [note.id, positions[note.id] || defaultNotePosition(index)]));
-      const board = boardRef.current;
-      const location = nearestNoteSpace(Object.values(currentPositions), { x: (board?.scrollLeft || 0) / zoom + 20, y: (board?.scrollTop || 0) / zoom + 20 });
-      setPositions({ ...currentPositions, [data.note.id]: location });
       setActiveNote(data.note.id);
       setNotes(current => [data.note, ...current.filter(note => note.id !== data.note.id)].slice(0, 100));
       setResult({ text: "Your note is on the wall. Thanks for stopping by!", error: false });
@@ -142,7 +74,6 @@ export default function GuestbookPage({ onOpenAiChat }) {
       composer.current?.close();
       requestAnimationFrame(() => {
         document.getElementById("the-wall")?.scrollIntoView({ block: "start" });
-        boardRef.current?.scrollTo({ left: Math.max(0, location.x * zoom - 30), top: Math.max(0, location.y * zoom - 30), behavior: "auto" });
         requestAnimationFrame(() => document.getElementById(`pin-${data.note.id}`)?.focus({ preventScroll: true }));
       });
     } catch (e) { setResult({ text: e.message || "Could not connect. Please try again.", error: true }); }
@@ -151,64 +82,14 @@ export default function GuestbookPage({ onOpenAiChat }) {
   return <PersonalPageShell page="guestbook" sections={SECTIONS} onOpenAiChat={onOpenAiChat}>
     <div className="guest-wall-header"><h1>Postal my wall</h1><span>{status === "loading" ? "Opening the book…" : `${notes.length} ${notes.length === 1 ? "published note" : "published notes"}`}</span></div>
     <section id="the-wall" className="guest-wall personal-section">
-      <div className="guest-zoom" aria-label="Board zoom controls"><button type="button" aria-label="Zoom out" disabled={zoom <= .3} onClick={() => zoomBoard(zoomRef.current - .1)}>−</button><button type="button" aria-label="Reset zoom" onClick={() => zoomBoard(1)}>{Math.round(zoom * 100)}%</button><button type="button" aria-label="Zoom in" disabled={zoom >= 2.5} onClick={() => zoomBoard(zoomRef.current + .1)}>+</button></div>
-      <div ref={boardRef} className="guest-wall-grid" role="region" aria-label="Guestbook notes. Drag or use arrow keys to explore." tabIndex={0}
-        onPointerDown={event => {
-          if (event.target.closest("button") || event.button !== 0 || pinchRef.current) return;
-          const board = event.currentTarget;
-          drag.current = { x: event.clientX, y: event.clientY, left: board.scrollLeft, top: board.scrollTop };
-          board.setPointerCapture(event.pointerId);
-          board.dataset.dragging = "true";
-        }}
-        onPointerMove={event => {
-          if (drag.current) { event.currentTarget.scrollLeft = drag.current.left - (event.clientX - drag.current.x); event.currentTarget.scrollTop = drag.current.top - (event.clientY - drag.current.y); }
-        }}
-        onPointerUp={event => { drag.current = null; delete event.currentTarget.dataset.dragging; }}
-        onPointerCancel={event => { drag.current = null; delete event.currentTarget.dataset.dragging; }}
-        onLostPointerCapture={event => { drag.current = null; delete event.currentTarget.dataset.dragging; }}
-        onKeyDown={event => {
-          if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
-          event.preventDefault();
-          const board = event.currentTarget;
-          board.scrollLeft = event.key === "Home" ? 0 : event.key === "End" ? board.scrollWidth : board.scrollLeft + (event.key === "ArrowRight" ? 300 : -300);
-        }}>
-        <div className="guest-comment-space" style={{ width: boardWidth * zoom, height: boardHeight * zoom }}><div className="guest-comment-canvas" style={{ width: boardWidth, height: boardHeight, transform: `scale(${zoom})`, transformOrigin: "top left" }}>
-        {allNotes.map((note, index) => <div className="guest-comment" key={note.id} style={{ "--pin-color": ["#8c42e8", "#317adf", "#d86536", "#2e956f"][index % 4], left: positions[note.id]?.x ?? defaultNotePosition(index).x, top: positions[note.id]?.y ?? defaultNotePosition(index).y }} onPointerDown={event => {
-            if (pinchRef.current || event.button !== 0 || event.target.closest(".guest-comment-panel button")) return;
-            event.stopPropagation();
-            const card = event.currentTarget;
-            pinDrag.current = { id: note.id, x: event.clientX, y: event.clientY, left: card.offsetLeft, top: card.offsetTop };
-            suppressPinClick.current = false;
-            event.currentTarget.setPointerCapture(event.pointerId);
-          }}
-          onPointerMove={event => {
-            const start = pinDrag.current;
-            if (!start || start.id !== note.id) return;
-            const dx = (event.clientX - start.x) / zoom, dy = (event.clientY - start.y) / zoom;
-            if (Math.hypot(dx, dy) < 4 && !suppressPinClick.current) return;
-            suppressPinClick.current = true;
-            const canvas = event.currentTarget.parentElement;
-            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(canvas.clientWidth - 268, start.left + dx)), y: Math.max(8, Math.min(boardHeight - 240, start.top + dy)) } }));
-          }}
-          onPointerUp={() => { pinDrag.current = null; }}
-          onPointerCancel={() => { pinDrag.current = null; }}
-          onLostPointerCapture={() => { pinDrag.current = null; }}
->
-          <button type="button" className="guest-comment-pin" id={`pin-${note.id}`} aria-label={`Read note from ${note.name}`} aria-expanded={activeNote === note.id} aria-controls={`comment-${note.id}`}          onKeyDown={event => {
-            if (!event.key.startsWith("Arrow")) return;
-            event.preventDefault(); event.stopPropagation();
-            const card = event.currentTarget.parentElement;
-            const x = card.offsetLeft + (event.key === "ArrowRight" ? 20 : event.key === "ArrowLeft" ? -20 : 0);
-            const y = card.offsetTop + (event.key === "ArrowDown" ? 20 : event.key === "ArrowUp" ? -20 : 0);
-            setPositions(current => ({ ...current, [note.id]: { x: Math.max(8, Math.min(card.parentElement.clientWidth - 268, x)), y: Math.max(8, Math.min(boardHeight - 240, y)) } }));
-          }}
-          onClick={() => { if (suppressPinClick.current) { suppressPinClick.current = false; return; } setActiveNote(activeNote === note.id ? null : note.id); }}>{note.avatar ? <img src={note.avatar} alt="" /> : note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
-          {activeNote === note.id && <article className="guest-comment-panel" id={`comment-${note.id}`}>
+      <div className="guest-notes-grid" role="list" aria-label="Guestbook notes">
+        {allNotes.map((note, index) => <div role="listitem" key={note.id} style={{ "--pin-color": ["#8c42e8", "#317adf", "#d86536", "#2e956f"][index % 4] }}>
+          <button type="button" className="guest-comment-pin" id={`pin-${note.id}`} aria-label={`Read note from ${note.name}`} aria-expanded={activeNote === note.id} aria-controls={`comment-${note.id}`} onClick={() => setActiveNote(current => current === note.id ? null : note.id)}>{note.avatar ? <img src={note.avatar} alt="" /> : note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
+          <article hidden={activeNote !== note.id} className="guest-comment-panel" id={`comment-${note.id}`} tabIndex={-1} aria-label={`Note from ${note.name}`}>
             <div className="guest-comment-author"><span className="guest-comment-avatar">{note.avatar ? <img src={note.avatar} alt="" /> : note.name[0].toUpperCase()}</span><strong>{note.name}</strong>{note.createdAt && <time dateTime={note.createdAt}>{formatDate(note.createdAt)}</time>}</div>
             <p>{note.message}</p>
-          </article>}
+          </article>
         </div>)}
-        </div></div>
       </div>
     </section>
     <section id="leave-a-note" className="personal-section guest-open-composer">
