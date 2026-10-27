@@ -14,8 +14,11 @@ import {
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const escapeHtml = (value) => String(value).replaceAll("&", "&amp;");
 
-test("every public route has a distinct delivered JPEG and matching share metadata", async () => {
-  assert.equal(new Set(ROUTES.map(route => route.image)).size, ROUTES.length);
+test("every public route shares the homepage JPEG and retains distinct copy", async () => {
+  assert.equal(new Set(ROUTES.map(route => route.image)).size, 1);
+  assert.equal(ROUTES[0].image, SITE.image);
+  assert.equal(new Set(ROUTES.map(route => route.title)).size, ROUTES.length);
+  assert.equal(new Set(ROUTES.map(route => route.description)).size, ROUTES.length);
   for (const route of ROUTES) {
     const bytes = await readFile(path.join(root, "public", route.image));
     assert.equal(bytes.readUInt16BE(0), 0xffd8, route.path);

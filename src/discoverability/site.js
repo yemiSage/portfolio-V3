@@ -6,7 +6,7 @@ export const SITE = {
   language: "en",
   locale: "en_NG",
   author: "Opeyemi Adegboye",
-  image: "/og-design-engineer.jpg",
+  image: "/social/home.jpg",
   imageAlt: "Adegboye Opeyemi, Design Engineer, Product and AI",
   email: "adegboyeopeyemi065@gmail.com",
   profiles: [
@@ -49,7 +49,7 @@ const caseStudySchema = (name, path, description) => ({
       headline: name,
       description,
       url: `${SITE.origin}${path}`,
-      image: `${SITE.origin}/social/${path.split("/").pop()}.jpg`,
+      image: `${SITE.origin}${SITE.image}`,
       author: { "@id": personId },
       isPartOf: { "@id": websiteId },
     },
@@ -60,8 +60,8 @@ const caseStudySchema = (name, path, description) => ({
 export const ROUTES = [
   {
     path: "/",
-    image: "/social/home.jpg",
-    imageAlt: "Design Engineer, Product and AI — Opeyemi Adegboye",
+    image: SITE.image,
+    imageAlt: SITE.imageAlt,
     indexable: true,
     title: "Adegboye Opeyemi | Design Engineer, Product & AI",
     description:
@@ -139,8 +139,8 @@ export const ROUTES = [
   },
   {
     path: "/projects/tasafrica",
-    image: "/social/tasafrica.jpg",
-    imageAlt: "TASAfrica case study — Opeyemi Adegboye",
+    image: SITE.image,
+    imageAlt: SITE.imageAlt,
     indexable: true,
     title: "TASAfrica Case Study | Opeyemi Adegboye",
     description:
@@ -167,8 +167,8 @@ export const ROUTES = [
   },
   {
     path: "/projects/limestone",
-    image: "/social/limestone.jpg",
-    imageAlt: "Limestone case study — Opeyemi Adegboye",
+    image: SITE.image,
+    imageAlt: SITE.imageAlt,
     indexable: true,
     title: "Limestone Case Study | Opeyemi Adegboye",
     description:
@@ -195,8 +195,8 @@ export const ROUTES = [
   },
   {
     path: "/projects/stayafrika",
-    image: "/social/stayafrika.jpg",
-    imageAlt: "Stayafrika case study — Opeyemi Adegboye",
+    image: SITE.image,
+    imageAlt: SITE.imageAlt,
     indexable: true,
     title: "StayAfrika Case Study | Opeyemi Adegboye",
     description:
@@ -223,8 +223,8 @@ export const ROUTES = [
   },
   {
     path: "/about",
-    image: "/social/about.jpg",
-    imageAlt: "About Yemi — Opeyemi Adegboye",
+    image: SITE.image,
+    imageAlt: SITE.imageAlt,
     indexable: true,
     title: "About Yemi | Opeyemi Adegboye",
     description: "Meet Opeyemi Adegboye, a Lagos-based design engineer. From electrical engineering to product design, frontend development, teaching and community.",
@@ -240,8 +240,8 @@ export const ROUTES = [
   },
   {
     path: "/guestbook",
-    image: "/social/guestbook.jpg",
-    imageAlt: "Leave a note in Yemi’s guestbook — Opeyemi Adegboye",
+    image: SITE.image,
+    imageAlt: SITE.imageAlt,
     indexable: true,
     title: "Guestbook | Opeyemi Adegboye",
     description: "A little corner of Opeyemi Adegboye’s portfolio for visitor notes, kind words and hellos. Leave a short message and say hello.",
@@ -253,8 +253,8 @@ export const ROUTES = [
   },
   {
     path: "/resume",
-    image: "/social/resume.jpg",
-    imageAlt: "Yemi’s resume — Opeyemi Adegboye",
+    image: SITE.image,
+    imageAlt: SITE.imageAlt,
     indexable: false,
     canonicalPath: "/",
     title: "Resume | Opeyemi Adegboye",
