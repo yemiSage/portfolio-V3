@@ -84,7 +84,14 @@ export default function GuestbookPage({ onOpenAiChat }) {
     <section id="the-wall" className="guest-wall personal-section">
       <div className="guest-notes-grid" role="list" aria-label="Guestbook notes">
         {allNotes.map((note, index) => <div role="listitem" key={note.id} style={{ "--pin-color": ["#8c42e8", "#317adf", "#d86536", "#2e956f"][index % 4] }}>
-          <button type="button" className="guest-comment-pin" id={`pin-${note.id}`} aria-label={`Read note from ${note.name}`} aria-expanded={activeNote === note.id} aria-controls={`comment-${note.id}`} onClick={() => setActiveNote(current => current === note.id ? null : note.id)}>{note.avatar ? <img src={note.avatar} alt="" /> : note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
+          <button type="button" className="guest-comment-pin" id={`pin-${note.id}`} aria-label={`Read note from ${note.name}`} aria-expanded={activeNote === note.id} aria-controls={`comment-${note.id}`} onClick={event => {
+            const item = event.currentTarget.parentElement;
+            const wall = item.parentElement.getBoundingClientRect();
+            const pin = item.getBoundingClientRect();
+            const panelWidth = Math.min(280, wall.width);
+            item.style.setProperty("--panel-offset", `${Math.min(0, wall.right - pin.left - panelWidth)}px`);
+            setActiveNote(current => current === note.id ? null : note.id);
+          }}>{note.avatar ? <img src={note.avatar} alt="" /> : note.name.trim().split(/\s+/).slice(0, 2).map(word => word[0]).join("").toUpperCase()}</button>
           <article hidden={activeNote !== note.id} className="guest-comment-panel" id={`comment-${note.id}`} tabIndex={-1} aria-label={`Note from ${note.name}`}>
             <div className="guest-comment-author"><span className="guest-comment-avatar">{note.avatar ? <img src={note.avatar} alt="" /> : note.name[0].toUpperCase()}</span><strong>{note.name}</strong>{note.createdAt && <time dateTime={note.createdAt}>{formatDate(note.createdAt)}</time>}</div>
             <p>{note.message}</p>
