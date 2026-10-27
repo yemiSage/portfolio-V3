@@ -15,6 +15,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const escapeHtml = (value) => String(value).replaceAll("&", "&amp;");
 
 test("every public route shares the homepage JPEG and retains distinct copy", async () => {
+  const template = await readFile(path.join(root, "index.html"), "utf8");
+  for (const tag of ['property="og:image"', 'name="twitter:image"']) {
+    assert.ok(template.includes(`${tag} content="${SITE.origin}${SITE.image}"`));
+  }
   assert.equal(new Set(ROUTES.map(route => route.image)).size, 1);
   assert.equal(ROUTES[0].image, SITE.image);
   assert.equal(new Set(ROUTES.map(route => route.title)).size, ROUTES.length);
@@ -38,6 +42,9 @@ test("every public route shares the homepage JPEG and retains distinct copy", as
       assert.ok(html.includes(`${tag} content="${SITE.origin}${route.image}"`), route.path);
     }
     assert.ok(html.includes(escapeHtml(route.imageAlt)), route.path);
+    for (const tag of ['property="og:description"', 'name="twitter:description"']) {
+      assert.ok(html.includes(`${tag} content="${escapeHtml(route.description)}"`), route.path);
+    }
   }
 });
 

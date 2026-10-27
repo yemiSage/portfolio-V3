@@ -8,12 +8,12 @@ Every shareable canonical route receives:
 - `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image` and image alternative text.
 - A matching canonical URL.
 
-Each of the seven maintained routes has its own static 1200×630 JPEG in `public/social/`, selected by `image` and `imageAlt` in `src/discoverability/site.js`. Runtime metadata and build-generated HTML use the same values. Case-study structured data uses the corresponding image.
+All seven maintained routes share the homepage 1200×630 JPEG, `public/social/home.jpg`, and its alternative text. Each page retains its own title, description and canonical URL. Runtime metadata, the HTML fallback, build-generated HTML and case-study structured data use the shared image.
 
 ## Decisions
 
-- Static route-specific images require no image-generation service or credentials. Regenerate them on Windows from the repository root with `./scripts/generate-social-previews.ps1` and commit the outputs. The script reads the maintained route data.
-- Guestbook is shareable at the canonical public `/guestbook` URL with its own preview. The visible Share button was removed at the owner's request; direct link sharing remains supported.
+- The shared static image requires no image-generation service or credentials. Regenerate it on Windows from the repository root with `./scripts/generate-social-previews.ps1`. The script writes the asset once from homepage content so another route cannot overwrite the homepage design.
+- Guestbook is shareable at the canonical public `/guestbook` URL with the shared homepage image and its own description. The visible Share button was removed at the owner's request; direct link sharing remains supported.
 - Open Graph image fields follow https://ogp.me/. Preview delivery on social platforms remains subject to their caches and fetch behavior.
 - Verified profile links are included only where already published by the portfolio.
 - No social publishing API, platform automation, caption CMS or UTM campaign system was added because no approved workflow, credentials or campaign model exists.

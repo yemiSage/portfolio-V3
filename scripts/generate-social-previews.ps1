@@ -4,7 +4,8 @@ Add-Type -AssemblyName System.Drawing
 $previewRoutes = node --input-type=module -e 'import {ROUTES} from "./src/discoverability/site.js"; console.log(JSON.stringify(ROUTES))' | ConvertFrom-Json
 $previewDirectory = Join-Path (Get-Location) 'public/social'
 [IO.Directory]::CreateDirectory($previewDirectory) | Out-Null
-foreach ($route in $previewRoutes) {
+# Write the shared image once, using only the homepage design and content.
+foreach ($route in @($previewRoutes | Where-Object { $_.path -eq '/' })) {
     $bitmap = [Drawing.Bitmap]::new(1200, 630)
     $graphics = [Drawing.Graphics]::FromImage($bitmap)
     $graphics.SmoothingMode = [Drawing.Drawing2D.SmoothingMode]::AntiAlias
