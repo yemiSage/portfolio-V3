@@ -40,7 +40,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
     const timer = setTimeout(() => setResult(null), 5000);
     return () => clearTimeout(timer);
   }, [result]);
-  const allNotes = [{ id: "host", name: "Yemi, your host", message: "The internet is a big place. I’m glad our paths crossed here.", color: "peach" }, ...notes];
+  const allNotes = [{ id: "host", name: "Yemi, your host", avatar: "/avatar.webp", message: "The internet is a big place. I’m glad our paths crossed here.", color: "peach" }, ...notes];
   const selectAvatar = async event => {
     const file = event.target.files?.[0];
     event.target.value = "";
