@@ -1,0 +1,30 @@
+.llm-inbox { max-width: 1040px; margin: 0 auto; padding: 48px 28px 96px; color: #2e2e33; }
+.llm-inbox .llm-back { color: #71717a; font-size: 14px; }
+.llm-inbox-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin: 56px 0 36px; }
+.llm-inbox .llm-eyebrow { font-size: 11px; letter-spacing: .14em; color: #a04732; margin-bottom: 16px; }
+.llm-inbox h1 { font-size: clamp(30px, 4vw, 44px); line-height: 1.15; letter-spacing: -.04em; margin: 0 0 16px; }
+.llm-inbox p { color: #71717a; line-height: 1.6; }
+.llm-inbox button { border: 1px solid #d4d4d8; border-radius: 6px; padding: 10px 16px; cursor: pointer; background: #fff; color: #2e2e33; font: inherit; font-size: 14px; }
+.llm-inbox button:disabled { opacity: .6; cursor: wait; }
+.llm-inbox input { display: block; width: 100%; border: 1px solid #d4d4d8; background: #fff; color: #2e2e33; padding: 12px; border-radius: 6px; font: inherit; margin-top: 8px; }
+.llm-inbox :is(input, button, summary, a):focus-visible { outline: 2px solid #a04732; outline-offset: 4px; }
+.llm-inbox label { font-size: 13px; }
+.llm-login { max-width: 450px; border-top: 1px solid #d4d4d8; padding-top: 30px; }
+.llm-login h2, .llm-empty h2 { font-size: 22px; letter-spacing: -.02em; }
+.llm-login label { display: block; margin-top: 24px; }
+.llm-login button { background: #2e2e33; color: #fff; margin: 16px 0; }
+.llm-inbox small { display: block; color: #71717a; font-size: 12px; line-height: 1.6; }
+.llm-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.llm-toolbar { display: flex; justify-content: space-between; gap: 24px; border-top: 1px solid #d4d4d8; border-bottom: 1px solid #d4d4d8; padding: 24px 0; align-items: center; }
+.llm-toolbar p { font-size: 12px; margin: 8px 0 0; }
+.llm-toolbar label { width: 300px; max-width: 100%; }
+.llm-result-count { font-size: 12px; margin: 20px 0; }
+.llm-exchange { padding: 28px 0; border-bottom: 1px solid #e4e4e7; overflow-wrap: anywhere; }
+.llm-exchange-meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 12px; color: #71717a; }
+.llm-exchange h2 { font-size: 20px; line-height: 1.5; font-weight: 500; margin: 14px 0; white-space: pre-wrap; }
+.llm-exchange summary { font-size: 13px; cursor: pointer; color: #a04732; }
+.llm-inbox .llm-answer { white-space: pre-wrap; color: #3f3f46; font-size: 15px; }
+.llm-inbox .llm-error { padding: 16px; background: #faeee9; color: #8a3529; border-radius: 6px; }
+.llm-empty { padding: 48px 0; }
+.llm-save-notice { font-size: 10px; line-height: 1.5; text-align: center; color: #71717a; margin: 8px 12px 0; }
+@media (max-width: 650px) { .llm-inbox { padding: 28px 20px 64px; } .llm-inbox-heading, .llm-toolbar { flex-direction: column; } .llm-inbox-heading { margin-top: 36px; } .llm-toolbar label { width: 100%; } }

@@ -722,6 +722,7 @@ export default function AskYemiChat({
                     <ArrowUpIcon size={16} />
                   </button>
                 </form>
+                <p style={{ fontSize: 10, lineHeight: 1.5, textAlign: "center", color: "#71717a", margin: "8px 12px 0" }}>Conversations may be saved for Yemi to review. Please avoid sharing sensitive information.</p>
               </div>
             </motion.div>
           </>

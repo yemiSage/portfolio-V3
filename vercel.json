@@ -7,6 +7,7 @@
     }
   },
   "rewrites": [
+    { "source": "/me/LLM", "destination": "/me/LLM/index.html" },
     { "source": "/about", "destination": "/about/index.html" },
     { "source": "/guestbook", "destination": "/guestbook/index.html" },
     {
@@ -27,6 +28,13 @@
     }
   ],
   "headers": [
+    {
+      "source": "/me/:path*",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [

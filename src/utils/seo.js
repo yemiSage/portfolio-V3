@@ -31,6 +31,12 @@ function setCanonical(href) {
 }
 
 export function applyRouteMetadata(pathname) {
+  if (pathname === "/me/LLM") {
+    document.title = "yemiLLM · Private inbox";
+    setMeta("robots", "noindex, nofollow, noarchive");
+    setMeta("description", "Private owner inbox for yemiLLM conversations.");
+    return;
+  }
   const route = getRoute(pathname);
   if (!route) {
     document.title = `Page not found | ${SITE.name}`;

@@ -5,12 +5,18 @@ import { getGithubContributions, getGithubStats } from "./src/utils/githubData.j
 import { handleChatRequest } from "./src/utils/chatEngine.js";
 import { handleTranscribeWebRequest } from "./src/utils/transcribe.js";
 import { handleGuestbookRequest } from "./src/utils/guestbook.mjs";
+import { handleInboxRequest } from "./src/utils/llmInbox.mjs";
 
 const PORT = Number(process.env.PORT || 3000);
 
 async function startServer() {
   const app = express();
   app.use(express.json());
+  app.use("/me", (_req, res, next) => {
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
+    next();
+  });
 
   app.use("/api", (_req, res, next) => {
     res.setHeader("Cache-Control", "no-store");
@@ -34,6 +40,15 @@ async function startServer() {
   });
 
   // Health check
+  app.get("/api/llm-inbox", async (req, res) => {
+    const headers = new Headers();
+    if (req.headers.authorization) headers.set("authorization", req.headers.authorization);
+    headers.set("x-forwarded-for", req.socket.remoteAddress || "local");
+    const response = await handleInboxRequest(new Request("http://localhost/api/llm-inbox", { headers }));
+    response.headers.forEach((value, name) => res.setHeader(name, value));
+    res.status(response.status).send(await response.text());
+  });
+
   app.get("/api/health", (_req, res) => {
     res.json({
       status: "ok",

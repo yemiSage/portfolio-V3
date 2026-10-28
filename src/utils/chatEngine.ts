@@ -1,6 +1,7 @@
 // Shared yemiLLM chat logic used by the Express dev server (server.ts)
 // and the Vercel serverless function (api/chat.ts), so both behave the same.
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+import { recordConversation } from "./llmInbox.mjs";
 import { YEMI_SYSTEM_INSTRUCTION, cleanChatOutput, getSmartPortfolioReply } from "./chatKnowledge.js";
 import { retrieveRelevantContext } from "./ragServer.js";
 import { GROQ_MAX_COMPLETION_TOKENS, getGroqModels, groqJson, streamGroqChat, type GroqMessage } from "./groqClient.js";
@@ -291,8 +292,16 @@ async function startReply(body: ChatRequestBody) {
   const replies = streamChatReply(body, undefined, meta);
   const first = await replies.next();
   const chunks = (async function* () {
-    if (!first.done && first.value) yield first.value;
-    yield* replies;
+    let answer = "";
+    let status = "partial";
+    try {
+      if (!first.done && first.value) { answer += first.value; yield first.value; }
+      for await (const chunk of replies) { answer += chunk; yield chunk; }
+      status = "complete";
+    } finally {
+      await recordConversation({ question: body.message, answer: cleanChatOutput(answer),
+        page: body.context?.currentPath, source: meta.source, status });
+    }
   })();
   const timing = `first words after ${meta.firstChunkMs ?? "?"}ms; ${(meta.attempts || []).join(", ") || "no model call"}`;
   console.log(`[yemiLLM] ${meta.source}; ${timing}`);
@@ -596,6 +605,9 @@ export async function handleChatWebRequest(request: Request, extraHeaders: Recor
         console.error("[yemiLLM] Stream error:", err?.message || err);
         controller.close();
       }
+    },
+    async cancel() {
+      await chunks.return(undefined);
     },
   });
   return new Response(stream, {

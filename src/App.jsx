@@ -34,6 +34,7 @@ const TasaAfricaCaseStudy = lazy(() => loadPage("/projects/tasafrica"));
 const StayafrikaCaseStudy = lazy(() => loadPage("/projects/stayafrika"));
 const AboutPage = lazy(() => loadPage("/about"));
 const GuestbookPage = lazy(() => loadPage("/guestbook"));
+const LlmInboxPage = lazy(() => import("./components/LlmInboxPage"));
 const SeoDiagnosticOverlay = lazy(() => import("./components/SeoDiagnosticOverlay"));
 import tasafricaImage from "../assets/figma/tasafrica.webp";
 import limestoneImage from "../assets/figma/limestone.webp";
@@ -684,6 +685,10 @@ function App() {
     }
     navigateTo(url);
   };
+
+  if (path === "/me/LLM") {
+    return <Suspense fallback={<p role="status">Loading inbox…</p>}><LlmInboxPage /></Suspense>;
+  }
 
   if (isPersonalPage) {
     return <Suspense fallback={null}>

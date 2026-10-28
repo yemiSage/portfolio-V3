@@ -47,6 +47,12 @@ async function generateDistFiles() {
   }
 
   await writeFile(path.join(distDirectory, "404.html"), renderNotFoundHtml(template), "utf8");
+  const inboxDirectory = path.join(distDirectory, "me", "LLM");
+  await mkdir(inboxDirectory, { recursive: true });
+  const inboxHtml = template
+    .replace(/<title>.*?<\/title>/s, "<title>yemiLLM · Private inbox</title>")
+    .replace(/<meta name="robots"[^>]*>/, '<meta name="robots" content="noindex, nofollow, noarchive" />');
+  await writeFile(path.join(inboxDirectory, "index.html"), inboxHtml, "utf8");
 }
 
 if (mode === "--public") {
