@@ -380,7 +380,7 @@
 .about-project-label { transition: opacity 160ms ease; }
 .about-project-link:is(:hover, :focus-visible) .about-project-label { opacity: .65; }
 .about-product-logos { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; margin-inline: 3px; }
-.about-project-link--logo { line-height: 0; padding: 2px; border: 1px solid var(--personal-line); border-radius: 4px; background: white; }
+.about-project-link--logo { line-height: 0; padding: 2px; border: 0; border-radius: 4px; background: white; }
 .about-project-link--logo .about-project-label { display: block; }
 .about-project-link--logo .about-project-label img { display: block; width: 18px; height: 16px; object-fit: contain; filter: grayscale(1); opacity: .7; transition: filter 160ms ease, opacity 160ms ease; }
 .about-project-link--logo:is(:hover, :focus-visible) .about-project-label { opacity: 1; }
