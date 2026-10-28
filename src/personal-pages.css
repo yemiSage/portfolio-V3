@@ -308,6 +308,10 @@
 .personal-page--guestbook .case-study-footer { background: var(--paper); box-shadow: 0 0 0 32px var(--paper); }
 
 .personal-page--guestbook .guest-wall-header h1 { font-size: 16px; font-weight: 700; }
+.guest-wall-intro { min-width: 0; }
+.guest-wall-intro p { max-width: 520px; margin: 10px 0 0; font-size: 13px; line-height: 1.6; color: var(--muted-ink); }
+.personal-page--guestbook .guest-wall-header { align-items: flex-start; gap: 20px; }
+.personal-page--guestbook .guest-wall-header > span { flex-shrink: 0; }
 
 /* Notes flow in reading order, with ordinary document scrolling. */
 .guest-notes-grid { display: grid; grid-template-columns: repeat(auto-fill, 42px); gap: 16px; align-items: start; padding-block: 0; }
@@ -382,7 +386,7 @@
 .about-product-logos { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; margin-inline: 3px; }
 .about-project-link--logo { line-height: 0; padding: 2px; border: 0; border-radius: 4px; background: white; }
 .about-project-link--logo .about-project-label { display: block; }
-.about-project-link--logo .about-project-label img { display: block; width: 18px; height: 16px; object-fit: contain; filter: grayscale(1); opacity: .7; transition: filter 160ms ease, opacity 160ms ease; }
+.about-project-link--logo .about-project-label img { display: block; width: 18px; height: 16px; object-fit: contain; filter: none; opacity: 1; transition: filter 160ms ease, opacity 160ms ease; }
 .about-project-link--logo:is(:hover, :focus-visible) .about-project-label { opacity: 1; }
 .about-project-link--logo:is(:hover, :focus-visible) .about-project-label img { filter: grayscale(0); opacity: 1; }
 .about-project-preview { position: fixed; z-index: 120; display: block; box-sizing: border-box; width: 160px; padding: 7px; border: 1px solid var(--personal-line); border-radius: 8px; background: var(--paper); box-shadow: 0 6px 22px #00000016; color: var(--ink); text-align: center; font: 11px/1.4 Inter, sans-serif; pointer-events: none; }

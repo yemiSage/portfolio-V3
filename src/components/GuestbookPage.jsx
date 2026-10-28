@@ -80,7 +80,7 @@ export default function GuestbookPage({ onOpenAiChat }) {
     finally { setSending(false); }
   };
   return <PersonalPageShell page="guestbook" sections={SECTIONS} onOpenAiChat={onOpenAiChat}>
-    <div className="guest-wall-header"><h1>Postal my wall</h1><span>{status === "loading" ? "Opening the book…" : `${notes.length} ${notes.length === 1 ? "published note" : "published notes"}`}</span></div>
+    <div className="guest-wall-header"><div className="guest-wall-intro"><h1>Postal my wall</h1><p>Make it wall-ficial, share your thoughts about me in your own words. Scroll down to the “Leave a note” button to add yours.</p></div><span>{status === "loading" ? "Opening the book…" : `${notes.length} ${notes.length === 1 ? "published note" : "published notes"}`}</span></div>
     <section id="the-wall" className="guest-wall personal-section">
       <div className="guest-notes-grid" role="list" aria-label="Guestbook notes">
         {allNotes.map((note, index) => <div role="listitem" key={note.id} style={{ "--pin-color": ["#8c42e8", "#317adf", "#d86536", "#2e956f"][index % 4] }}>
