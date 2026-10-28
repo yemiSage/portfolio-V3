@@ -66,6 +66,18 @@ const portraitImage = "/avatar.webp";
 
 const projects = [
   {
+    name: "Limestone App",
+    company: "Limestone Technologies",
+    logo: "/brands/limestone.png",
+    role: "Junior UI/UX Designer",
+    year: "2024",
+    image: limestoneImage,
+    href: "/projects/limestone",
+    tags: ["Community", "Security", "Real Estate", "B2B"],
+    description:
+      "Shipped offline check-ins so tenants could check in without internet access.",
+  },
+  {
     name: "Stayafrika",
     company: "Stayafrika",
     logo: "/brands/stayafrika.svg",
@@ -89,18 +101,6 @@ const projects = [
     tags: ["AI", "Sport", "Social", "Analytics"],
     description:
       "Led design of 690+ screens across 8 features for a platform used by over 3 clubs.",
-  },
-  {
-    name: "Limestone App",
-    company: "Limestone Technologies",
-    logo: "/brands/limestone.png",
-    role: "Junior UI/UX Designer",
-    year: "2024",
-    image: limestoneImage,
-    href: "/projects/limestone",
-    tags: ["Community", "Security", "Real Estate", "B2B"],
-    description:
-      "Shipped offline check-ins so tenants could check in without internet access.",
   },
 ];
 
