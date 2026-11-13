@@ -58,6 +58,7 @@ import newBadgeLoop from "../assets/figma/new-badge-loop.svg";
 import newBadgeStroke from "../assets/figma/new-badge-stroke.svg";
 import HoverCursor from "./components/HoverCursor";
 import { canHover } from "./utils/hover";
+import { COMPACT_LAYOUT_MEDIA } from "./utils/responsive";
 import ProjectFolder from "./components/ProjectFolder";
 import AsciiPortrait from "./components/AsciiPortrait";
 import SiteHeader, { ProfileLinks } from "./components/SiteHeader";
@@ -477,7 +478,9 @@ function App() {
   useEffect(() => {
     const node = tabsSentinelRef.current;
     if (!node) return undefined;
-    const topOffset = window.matchMedia("(max-width: 767px)").matches ? 68 : parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--page-padding")) || 32;
+    const topOffset = window.matchMedia(COMPACT_LAYOUT_MEDIA).matches
+      ? document.querySelector(".mobile-header")?.offsetHeight ?? 72
+      : parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--page-padding")) || 32;
     const observer = new IntersectionObserver(
       ([entry]) => setTabsStuck(!entry.isIntersecting && entry.boundingClientRect.top < topOffset),
       { rootMargin: `-${topOffset}px 0px 0px 0px`, threshold: 0 },
@@ -747,7 +750,7 @@ function App() {
                           requestAnimationFrame(() => {
                             const sentinel = tabsSentinelRef.current;
                             if (!sentinel) return;
-                            const mobile = window.matchMedia("(max-width: 767px)").matches;
+                            const mobile = window.matchMedia(COMPACT_LAYOUT_MEDIA).matches;
                             const headerHeight = mobile ? document.querySelector(".mobile-header")?.offsetHeight ?? 0 : 0;
                             // Place the tabs directly below the mobile header, with the first item visible beneath them.
                             const top = sentinel.getBoundingClientRect().top + window.scrollY - headerHeight + 1;
@@ -868,7 +871,7 @@ function App() {
                           <img
                             src={`/thumbnails/shot-${String(index + 1).padStart(2, "0")}.webp`}
                             srcSet={`/thumbnails/shot-${String(index + 1).padStart(2, "0")}.webp 720w, ${image} 1878w`}
-                            sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) 45vw, 25vw"
+                            sizes="(width < 1200px) calc(100vw - 48px), 45vw"
                             alt=""
                             width="720"
                             height="556"

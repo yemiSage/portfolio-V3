@@ -83,7 +83,7 @@
   .stay-contributions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .stayafrika-case-study .case-study-section,
   .stayafrika-case-study .case-study-section#overview { padding-block: clamp(24px, 6vw, 30px); }
   .stay-product-flow { padding-top: clamp(28px, 8vw, 40px); }

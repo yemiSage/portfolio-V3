@@ -1,7 +1,7 @@
 .shared-site-header.shared-site-header--desktop { position: sticky; top: 0; z-index: 40; height: 88px; padding: 16px var(--page-padding); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f0f0f0; background: var(--header-surface); -webkit-backdrop-filter: var(--header-backdrop); backdrop-filter: var(--header-backdrop); }
 .shared-site-header--desktop > .mobile-header-actions { display: none; }
 .shared-site-header .shared-desktop-links { display: block; }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .shared-site-header, .shared-site-header.shared-site-header--desktop { display: flex; position: fixed; inset: 0 0 auto; min-height: 72px; height: 72px; padding: 12px var(--page-padding); justify-content: space-between; z-index: 40; border-bottom: 0; }
   .shared-site-header .shared-desktop-links { display: none; }
   .shared-site-header > .mobile-header-actions { display: flex; }
@@ -13,7 +13,7 @@
 
 /* One shared mobile glass surface for the header and section navigation. */
 .case-study-navigation { display: contents; }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .case-study-page { padding-top: 0; }
   .case-study-navigation { display: block; position: sticky; top: 0; z-index: 40; background: var(--header-surface); -webkit-backdrop-filter: var(--header-backdrop); backdrop-filter: var(--header-backdrop); }
   .case-study-navigation > .shared-site-header { position: relative; inset: auto; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -21,7 +21,7 @@
   .case-study-navigation .case-study-index { margin-top: 0; }
   .case-study-navigation .case-study-index-top { justify-content: space-between; gap: 24px; }
 }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .case-study-navigation .case-study-jump,
   .case-study-navigation .case-study-jump-menu { display: none; }
   .case-study-navigation .case-study-index-top { min-height: 42px; }

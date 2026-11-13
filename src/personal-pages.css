@@ -106,7 +106,7 @@
   .about-chapter { grid-template-columns: 1fr; gap: 12px; }
   .about-prose { grid-template-columns: 1fr; gap: 14px; }
 }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .personal-section { padding-block: 48px; scroll-margin-top: 140px; }
   .personal-eyebrow { font-size: 10px; letter-spacing: 1px; gap: 8px; margin-bottom: 22px; }
   .about-hero { padding-top: 0; }
@@ -139,7 +139,7 @@
 .personal-page .personal-section:first-child { padding-top: 0; }
 .personal-page .guest-composer { margin-top: 48px; padding: 28px; }
 .personal-page .guest-wall { margin-top: 0; }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .personal-page .personal-section { padding-top: 48px; }
   .personal-page .guest-composer { padding: 20px 16px; }
 }
@@ -158,13 +158,13 @@
 .portrait-monochrome { filter: grayscale(1); }
 .about-invitation { text-align: center; }
 .about-invitation > h2, .about-invitation > p { margin-inline: auto; }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .about-intro h1 { font-size: 32px; letter-spacing: -.96px; }
 }
 
 .personal-page--about .about-hero { padding-top: 0; }
 .personal-page--about .personal-section { scroll-margin-top: 32px; }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .personal-page--about .personal-section { scroll-margin-top: 180px; }
 }
 
@@ -223,7 +223,7 @@
 .guest-wall-header h1 { font: 500 22px/1.2 'Bricolage Grotesque', sans-serif; letter-spacing: -.6px; margin: 0; color: var(--ink); }
 .guest-wall-header::before { content: ""; position: absolute; inset: -32px -32px 0; z-index: -1; background: rgba(255,255,255,.3); -webkit-backdrop-filter: blur(16px) saturate(1.25); backdrop-filter: blur(16px) saturate(1.25); pointer-events: none; }
 .personal-page--guestbook #the-wall { padding-top: 0; }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .guest-wall-header { top: 123px; }
   .guest-wall-header::before { inset: -1px calc(-1 * var(--page-padding)) 0; }
   .guest-wall-header h1 { font-size: 20px; }
@@ -341,22 +341,22 @@
 .about-prose > div { display: flow-root; margin-top: 24px; }
 .about-prose .about-ascii-portrait { float: left; width: min(38%, 160px); margin: 0 20px 12px 0; }
 
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .about-prose .about-ascii-portrait { float: none; display: block; width: 140px; max-width: 100%; margin: 0 0 20px; }
   .about-journey > .about-chapter:first-of-type { padding-top: 0; }
   .about-beliefs h3 { font-size: 16px; }
   .about-word-story { font-family: "Inter", sans-serif; }
 }
 
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .personal-page--about .case-study-content { padding-top: 20px; }
   .personal-page--about .about-prose { padding-top: 0; }
 }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .about-tool-icons { gap: 3px; padding: 4px 6px; }
   .about-tool-icons img { width: 16px; height: 16px; }
 }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .personal-page--about .about-intro h1 { font-size: 24px; }
   .personal-page--about .personal-section > h2 { font-size: 18px; }
   .personal-page--about .about-chapter-content h3 { font-size: 16px; }
@@ -368,11 +368,11 @@
 .personal-page--guestbook .guestbook-actions .guest-guidelines p:last-child { margin-bottom: 0; }
 .personal-page--guestbook .case-study-footer { margin-top: 0; }
 .personal-page--guestbook .case-study-footer-space { flex-basis: 32px; }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .personal-page--guestbook .case-study-content { padding-top: 4px; }
   .personal-page--guestbook .guest-wall-header h1 { font-weight: 500; }
 }
-@media (max-width: 767px) {
+@media (width < 1200px) {
   .personal-page--guestbook .guest-wall-header { padding-top: 20px; }
 }
 

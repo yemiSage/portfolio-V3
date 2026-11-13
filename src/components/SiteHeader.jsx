@@ -3,6 +3,7 @@ import { CloseCircle, HamburgerMenu } from "iconsax-reactjs";
 import AiAsteriskIcon from "./AiAsteriskIcon";
 import AsciiPortrait from "./AsciiPortrait";
 import { ResponsiveResumeLink } from "./ResumePage";
+import { DESKTOP_LAYOUT_MEDIA } from "../utils/responsive";
 import "../site-header.css";
 
 export function ProfileLinks({ onOpenAiChat, className = "identity-links" }) {
@@ -19,6 +20,15 @@ export default function SiteHeader({ onOpenAiChat, desktop = false, menuOpen: co
   const setMenuOpen = onMenuChange || setLocalOpen;
   const toggle = useRef(null);
   const menu = useRef(null);
+  useEffect(() => {
+    const desktopQuery = window.matchMedia(DESKTOP_LAYOUT_MEDIA);
+    const closeDesktopMenu = () => {
+      if (desktopQuery.matches) setMenuOpen(false);
+    };
+    closeDesktopMenu();
+    desktopQuery.addEventListener("change", closeDesktopMenu);
+    return () => desktopQuery.removeEventListener("change", closeDesktopMenu);
+  }, [setMenuOpen]);
   useEffect(() => {
     if (!menuOpen) return;
     const previous = document.body.style.overflow;
