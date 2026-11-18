@@ -369,7 +369,7 @@ const MAX_SUGGESTIONS = 4;
 const MAX_SUGGESTION_CHARS = 70;
 const SUGGEST_RATE_LIMIT_MAX = 40;
 
-const SUGGEST_INSTRUCTION = `You write the tappable follow-up question chips shown under each answer in a chat widget on the portfolio of Opeyemi Adegboye ("Yemi"), a Design Engineer (product designer who codes) with an AI focus.
+const SUGGEST_INSTRUCTION = `You write the tappable follow-up question chips shown under each answer in a chat widget on the portfolio of Opeyemi Adegboye ("Yemi"), a Digital Designer (product designer who codes) with an AI focus.
 Write 4 short questions a recruiter, founder or hiring manager would naturally ask NEXT, given the conversation and the page they are viewing.
 Rules:
 - Each question is under 60 characters, starts with a capital letter, and ends with a question mark.

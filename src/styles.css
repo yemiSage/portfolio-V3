@@ -236,6 +236,11 @@ h6 {
   object-fit: cover;
 }
 
+.portrait-photo,
+.portrait-photo img {
+  border-radius: 50%;
+}
+
 .intro-stack {
   width: 100%;
   padding-top: 20px;

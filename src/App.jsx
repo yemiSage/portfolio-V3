@@ -60,11 +60,10 @@ import HoverCursor from "./components/HoverCursor";
 import { canHover } from "./utils/hover";
 import { COMPACT_LAYOUT_MEDIA } from "./utils/responsive";
 import ProjectFolder from "./components/ProjectFolder";
-import AsciiPortrait from "./components/AsciiPortrait";
 import SiteHeader, { ProfileLinks } from "./components/SiteHeader";
 
 
-const portraitImage = "/avatar.webp";
+const portraitImage = "/avatar-round.webp";
 
 const projects = [
   {
@@ -786,8 +785,8 @@ function App() {
           <div className="identity-main">
             <div className="identity-content-top">
               <div className="identity-top">
-                <a className="portrait portrait-ascii" href={homeAnchorHref("#top")} aria-label="Back to the top">
-                  <AsciiPortrait src={portraitImage} alt="Opeyemi Adegboye" />
+                <a className="portrait portrait-photo" href={homeAnchorHref("#top")} aria-label="Back to the top">
+                  <img src={portraitImage} alt="Opeyemi Adegboye" width="50" height="50" />
                 </a>
                 <ProfileLinks onOpenAiChat={() => setIsChatOpen(true)} />
               </div>
@@ -797,7 +796,7 @@ function App() {
                   <div className="intro-heading">
                     <p className="greeting">Hi, I am Yemi</p>
                     <h1>
-                      Design Engineer,<br />Product &amp; AI
+                      Digital Designer,<br />Product &amp; AI
                     </h1>
                   </div>
                   <div className="intro-description">

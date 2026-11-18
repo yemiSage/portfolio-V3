@@ -7,7 +7,7 @@ export const SITE = {
   locale: "en_NG",
   author: "Opeyemi Adegboye",
   image: "/social/home.jpg",
-  imageAlt: "Adegboye Opeyemi, Design Engineer, Product and AI",
+  imageAlt: "Adegboye Opeyemi, Digital Designer, Product and AI",
   email: "adegboyeopeyemi065@gmail.com",
   profiles: [
     "https://www.linkedin.com/in/opeyemiadegboyeazeez/",
@@ -63,11 +63,11 @@ export const ROUTES = [
     image: SITE.image,
     imageAlt: SITE.imageAlt,
     indexable: true,
-    title: "Adegboye Opeyemi | Design Engineer, Product & AI",
+    title: "Adegboye Opeyemi | Digital Designer, Product & AI",
     description:
-      "Portfolio of Opeyemi Adegboye, a Design Engineer for Product and AI creating product experiences, design systems and production interfaces across SaaS, marketplaces and emerging technology.",
+      "Portfolio of Opeyemi Adegboye, a Digital Designer for Product and AI creating product experiences, design systems and production interfaces across SaaS, marketplaces and emerging technology.",
     type: "profile",
-    heading: "Opeyemi Adegboye — Design Engineer, Product & AI",
+    heading: "Opeyemi Adegboye — Digital Designer, Product & AI",
     summary:
       "I design and build clear digital products, scalable design systems and high-fidelity interfaces across product design and frontend engineering.",
     sections: [
@@ -93,9 +93,9 @@ export const ROUTES = [
           "@id": personId,
           name: "Opeyemi Adegboye",
           alternateName: ["Yemi Adegboye", "yemiSage"],
-          jobTitle: "Design Engineer, Product & AI",
+          jobTitle: "Digital Designer, Product & AI",
           description:
-            "Design Engineer working across product design, design systems, prototyping and frontend interfaces.",
+            "Digital Designer working across product design, design systems, prototyping and frontend interfaces.",
           image: `${SITE.origin}/portfolio-logo.png`,
           url: `${SITE.origin}/`,
           email: `mailto:${SITE.email}`,
@@ -116,7 +116,7 @@ export const ROUTES = [
           url: `${SITE.origin}/`,
           name: SITE.name,
           description:
-            "The official product design and design engineering portfolio of Opeyemi Adegboye.",
+            "The official product and digital design portfolio of Opeyemi Adegboye.",
           inLanguage: SITE.language,
           author: { "@id": personId },
         },
@@ -227,7 +227,7 @@ export const ROUTES = [
     imageAlt: SITE.imageAlt,
     indexable: true,
     title: "About Yemi | Opeyemi Adegboye",
-    description: "Meet Opeyemi Adegboye, a Lagos-based design engineer. From electrical engineering to product design, frontend development, teaching and community.",
+    description: "Meet Opeyemi Adegboye, a Lagos-based digital designer. From electrical engineering to product design, frontend development, teaching and community.",
     type: "profile",
     heading: "I’m Yemi. An engineer’s mind. A designer’s eye. A builder’s hands.",
     summary: "Hi, I'm Yemi. I didn't discover design through design school. The plan was to become an Electrical and Electronics Engineer, designing systems and figuring out how tiny components could power something bigger. Electrical Engineering felt like having a cup of coffee. Fascinating, but pretty confined to its own little circuit. Somewhere along the line, I became more curious about the people using these systems. Then COVID happened, and having a skill I could practise remotely became a necessity. That's how I found Product Design. Fast forward 4 years, I've worked across AI, fintech, logistics, EdTech, and other digital products, turning complex ideas into experiences people can actually use. I care about clarity, thoughtful interactions, and building things that solve real problems. I work closely with engineers, experiment with AI, and believe a Figma file is only half the story until real people start using the product. Outside design, I teach. I've mentored over 100 aspiring designers across 15 African countries through Product Hub Africa and Tech4Dev. Still an engineer at heart, just solving a different kind of problem. No wire, no light. No user, no product.",
@@ -259,7 +259,7 @@ export const ROUTES = [
     canonicalPath: "/",
     title: "Resume | Opeyemi Adegboye",
     description:
-      "Open Opeyemi Adegboye's public design engineering resume from the portfolio.",
+      "Open Opeyemi Adegboye's public digital design resume from the portfolio.",
     type: "website",
     heading: "Opeyemi Adegboye resume",
     summary:

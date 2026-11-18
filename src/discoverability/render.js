@@ -124,7 +124,7 @@ Sitemap: ${SITE.origin}/sitemap.xml
 export function renderLlms() {
   return `# ${SITE.name}
 
-> The official portfolio of Opeyemi Adegboye, a Design Engineer working across product design, design systems, prototyping and frontend interfaces.
+> The official portfolio of Opeyemi Adegboye, a Digital Designer working across product design, design systems, prototyping and frontend interfaces.
 
 ## Canonical site
 

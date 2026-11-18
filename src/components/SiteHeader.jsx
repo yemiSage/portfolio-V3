@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CloseCircle, HamburgerMenu } from "iconsax-reactjs";
 import AiAsteriskIcon from "./AiAsteriskIcon";
-import AsciiPortrait from "./AsciiPortrait";
 import { ResponsiveResumeLink } from "./ResumePage";
 import { DESKTOP_LAYOUT_MEDIA } from "../utils/responsive";
 import "../site-header.css";
@@ -46,7 +45,7 @@ export default function SiteHeader({ onOpenAiChat, desktop = false, menuOpen: co
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   };
   return <header className={`mobile-header shared-site-header${desktop ? " shared-site-header--desktop" : ""}`}>
-    <a className="portrait portrait-ascii mobile-brand" href="/" aria-label="Yemi, back to home"><AsciiPortrait src="/avatar.webp" alt="Opeyemi Adegboye" /></a>
+    <a className="portrait portrait-photo mobile-brand" href="/" aria-label="Yemi, back to home"><img src="/avatar-round.webp" alt="Opeyemi Adegboye" width="48" height="48" /></a>
     <div className="shared-desktop-links"><ProfileLinks onOpenAiChat={onOpenAiChat} /></div>
     <div className="mobile-header-actions">
       <a className="mobile-contact-button" href="mailto:adegboyeopeyemi065@gmail.com" target="_blank" rel="noopener noreferrer">Contact Me</a>
