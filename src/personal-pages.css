@@ -7,22 +7,15 @@
 .personal-skip:focus { top: 8px; }
 .personal-accent { color: var(--accent); }
 .personal-section { scroll-margin-top: 120px; padding: 80px 0; border-bottom: 1px solid var(--personal-line); }
-.personal-section-label { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 10px; letter-spacing: 1px; color: #76767d; margin-bottom: 28px; }
-.personal-section-label > span:first-child { color: var(--ink); }
-.personal-eyebrow { display: flex; align-items: center; gap: 10px; font-size: 10px; letter-spacing: 1.5px; color: #707078; margin-bottom: 30px; }
-.personal-tiny-star { font-size: 22px; color: var(--accent); }
 .personal-section h2 { font-family: 'Bricolage Grotesque',sans-serif; font-size: 32px; line-height: 1.2; font-weight: 500; letter-spacing: -.96px; margin-bottom: 32px; text-wrap: initial; }
 .about-hero { padding-top: 0; }
 .about-hero h1 { font-family: 'Bricolage Grotesque',sans-serif; font-size: 40px; line-height: 1.2; font-weight: 500; letter-spacing: -1.2px; text-wrap: initial; }
 .word-photo { display: inline-flex; position: relative; width: 94px; height: .9em; border: none; border-radius: 99px; overflow: hidden; padding: 0; background: var(--gray-5); vertical-align: -.09em; cursor: zoom-in; transform: rotate(-4deg); transition: transform 250ms cubic-bezier(.22,1,.36,1); }
 .word-photo:nth-of-type(2) { transform: rotate(4deg); }
 .word-photo img { width: 100%; height: 100%; object-fit: cover; }
-.word-photo--portrait { width: 79px; }
-.word-photo--portrait img { object-position: center 32%; }
 .word-photo--wide { width: 110px; height: 1.1em; }
 .word-photo span { position: absolute; bottom: 2px; right: 6px; font: 12px Inter,sans-serif; color: white; text-shadow: 0 1px 3px #000; }
 .about-intro-line { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: #76767d; font-size: 9px; letter-spacing: .7px; padding: 12px 0; font-family: "Inter", sans-serif; border-bottom: 1px solid var(--personal-line); margin-bottom: 30px; }
-.about-lede { font-family: 'Bricolage Grotesque',sans-serif; font-size: 20px; line-height: 1.45; letter-spacing: -.6px; color: var(--ink); margin-bottom: 20px; max-width: 580px; }
 .about-prose { display: grid; grid-template-columns: 1fr; gap: 28px; color: var(--body-copy); font-size: 14px; line-height: 1.8; margin-bottom: 28px; }
 .personal-page :is(.about-prose, .about-chapter-content > p, .about-beliefs p, .guest-guidelines p) { font-size: var(--body-copy-size); line-height: var(--body-copy-line-height); letter-spacing: var(--body-copy-tracking); }
 .personal-text-link { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; color: var(--ink); border-bottom: 1px solid #b9b9c0; padding-block: 3px; }
@@ -40,12 +33,10 @@
 .about-beliefs h3 { font-size: 20px; font-weight: 500; letter-spacing: -.5px; margin-bottom: 10px; }
 .about-beliefs p { color: var(--body-copy); font-size: 14px; line-height: 1.8; }
 .about-word-story { font-family: 'Bricolage Grotesque',sans-serif; font-size: 20px; line-height: 1.5; letter-spacing: -.6px; text-align: center; }
-.about-small-note { color: var(--body-copy); margin-top: 24px; font-size: 13px; }
 .about-invitation { padding-bottom: 72px; border-bottom: 0; }
 .about-invitation h2 { font-size: 40px; margin-bottom: 20px; }
 .about-invitation > p:not(.personal-eyebrow) { color: var(--body-copy); margin-bottom: 25px; max-width: 380px; }
-.about-guestbook-button, .guest-submit { width: auto; padding-inline: 20px; gap: 12px; cursor: pointer; }
-.guest-submit:disabled { opacity: .55; cursor: not-allowed; }
+.about-guestbook-button { width: auto; padding-inline: 20px; gap: 12px; cursor: pointer; }
 .about-contact-actions { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; width: 100%; }
 .about-contact-actions .personal-text-link { margin: 0; }
 .personal-photo-dialog { padding: 16px; max-width: min(900px,92vw); max-height: 92dvh; border: 1px solid var(--personal-line); border-radius: 12px; color: var(--ink); }
@@ -53,11 +44,6 @@
 .personal-photo-dialog > button { position: sticky; margin-left: auto; top: 0; display: flex; background: white; border: 1px solid var(--personal-line); padding: 8px; border-radius: 99px; cursor: pointer; }
 .personal-photo-dialog img { max-width: 100%; max-height: 72dvh; margin-inline: auto; object-fit: contain; }
 .personal-photo-dialog figcaption { color: var(--muted-ink); text-align: center; font-size: 12px; padding: 12px; }
-.guest-hero { padding-bottom: 44px; border-bottom: 0; }
-.guest-hero h1 { font: 600 28px/1.2 'Bricolage Grotesque',sans-serif; letter-spacing: -1.2px; text-wrap: initial; margin-bottom: 25px; }
-.guest-hero h1 em { color: var(--accent); font-style: normal; }
-.guest-hero > p:last-child { max-width: 440px; font-size: 15px; line-height: 1.8; color: var(--body-copy); }
-.guest-stamp { display: inline-flex; justify-content: center; align-items: center; border: 1px solid var(--accent); color: var(--accent); width: 48px; height: 48px; border-radius: 50%; font-size: 24px; vertical-align: middle; transform: rotate(12deg); }
 .guest-composer { border: 0; margin-bottom: 20px; border-radius: 10px; padding: 28px; background: #fcfcfd; position: relative; }
 .guest-composer-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
 .guest-composer-title h2 { font-size: 23px; font-weight: 500; letter-spacing: -.6px; }
@@ -68,17 +54,6 @@
 .guest-form input, .guest-form textarea { width: 100%; min-width: 0; background: white; border: 1px solid #d9d9e2; border-radius: 5px; padding: 12px; font: 14px/1.5 Inter,sans-serif; color: var(--ink); }
 .guest-form textarea { resize: vertical; min-height: 106px; }
 .guest-form input::placeholder, .guest-form textarea::placeholder { color: #8a8a94; }
-.guest-field-heading { display: flex; justify-content: space-between; }
-.guest-field-heading > span { color: #777780; font-size: 11px; }
-.guest-colors { border: 0; padding: 0; margin: 0; display: flex; gap: 12px; flex-wrap: wrap; }
-.guest-colors legend { font-size: 11px; color: var(--muted-ink); margin-bottom: 10px; }
-.guest-colors label { display: block; position: relative; cursor: pointer; }
-.guest-colors input { position: absolute; opacity: 0; width: 28px; height: 28px; margin: 0; padding: 0; }
-.guest-color-chip { width: 28px; height: 28px; border-radius: 50%; display: block; border: 1px solid rgba(0,0,0,.12); background: var(--note-color); }
-.guest-colors input:checked + span { outline: 1.5px solid var(--ink); outline-offset: 3px; }
-.guest-colors input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 4px; }
-.guest-form-bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.guest-form-bottom p { font-size: 11px; line-height: 1.65; color: #777780; max-width: 250px; }
 .guest-honeypot { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; overflow: hidden; clip-path: inset(50%); }
 .guest-result { font-size: 13px; padding: 14px; border-radius: 5px; background: #f1f1f5; color: var(--ink); }
 .guest-result[data-error=true] { background: #fff0ec; color: #9c3821; }
@@ -86,16 +61,6 @@
 .guest-wall-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--personal-line); padding-bottom: 18px; margin-bottom: 28px; }
 .guest-wall-header h2 { font-size: 22px; font-weight: 500; margin: 0; }
 .guest-wall-header span { font-size: 11px; color: var(--muted-ink); }
-.guest-wall-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; padding: 12px 4px 32px; }
-.guest-note { background: var(--note-color,#fff6ef); border: 1px solid rgba(0,0,0,.06); border-radius: 2px; padding: 28px 24px 20px; min-height: 200px; position: relative; transform: rotate(var(--note-tilt,-2deg)); overflow-wrap: anywhere; }
-.guest-note::before { content: ''; display: block; width: 46px; height: 17px; background: rgba(224,217,200,.5); position: absolute; top: -7px; left: calc(50% - 23px); transform: rotate(-4deg); }
-.guest-note > p { font: 500 22px/1.4 'Bricolage Grotesque',sans-serif; letter-spacing: -.5px; color: #29292e; margin-bottom: 26px; white-space: pre-wrap; }
-.guest-note footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font-size: 10px; color: #65656b; }
-.guest-owner-note { grid-column: 1 / -1; max-width: 420px; margin: 12px auto 24px; transform: rotate(-2deg); }
-.guest-owner-note small { display: block; font-size: 9px; letter-spacing: 1px; color: #8c573a; margin-bottom: 16px; }
-.guest-empty-hint { grid-column: 1 / -1; text-align: center; font-size: 12px; color: #76767d; margin-bottom: 16px; }
-.guest-guidelines h2 { margin-bottom: 20px; }
-.guest-guidelines p { color: var(--body-copy); margin-bottom: 12px; }
 @media (hover:hover) and (pointer:fine) {
   .word-photo:hover { transform: rotate(0deg) scale(1.08); }
   .personal-text-link:hover { color: var(--accent); }
@@ -108,27 +73,16 @@
 }
 @media (width < 1200px) {
   .personal-section { padding-block: 48px; scroll-margin-top: 140px; }
-  .personal-eyebrow { font-size: 10px; letter-spacing: 1px; gap: 8px; margin-bottom: 22px; }
   .about-hero { padding-top: 0; }
   .about-hero h1 { font-size: 32px; letter-spacing: -.96px; }
   .word-photo { width: 61px; }
-  .word-photo--portrait { width: 52px; }
-  .about-lede { font-size: 20px; }
   .about-intro-line { font-size: 9px; }
   .personal-section h2 { font-size: 32px; letter-spacing: -.96px; }
-  .personal-section-label { font-size: 9px; margin-bottom: 24px; }
   .about-chapter-content { padding-bottom: 24px; }
   .about-word-story { font-size: 20px; letter-spacing: -.6px; }
   .about-invitation h2 { font-size: 32px; }
-  .guest-hero h1 { font-size: 28px; letter-spacing: -.84px; }
   .guest-composer { padding: 20px 16px; }
-  .guest-form-bottom { flex-direction: column; align-items: stretch; gap: 16px; }
-  .guest-form-bottom p { max-width: none; }
-  .guest-wall-grid { grid-template-columns: 1fr; gap: 25px; padding-inline: 8px; }
-  .guest-note { min-height: 170px; }
-  .guest-note > p { font-size: 22px; }
   .guest-wall-header h2 { font-size: 20px; }
-  .guest-stamp { width: 38px; height: 38px; font-size: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .personal-page *, .personal-page *::before, .personal-page *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
@@ -144,18 +98,14 @@
   .personal-page .guest-composer { padding: 20px 16px; }
 }
 
-.about-ascii-portrait { width: min(100%, 260px); aspect-ratio: 1; justify-self: start; align-self: start; }
-.personal-page .about-bio-title { font-size: 24px; margin-bottom: 16px; }
+.about-portrait { display: block; width: min(100%, 260px); height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 8px; justify-self: start; align-self: start; }
 .personal-page .case-study-section-heading + h2 { margin-top: 8px; }
 .personal-page .case-study-rail-meta .github-activity-margin { margin: 0; }
 
 .personal-page--about .case-study-content { padding-top: 24px; }
 .about-intro h1 { font: 500 40px/1.2 'Bricolage Grotesque', sans-serif; letter-spacing: -1.2px; color: var(--ink); }
 .about-intro .about-intro-line { margin-bottom: 0; }
-.about-hero .about-lede { padding-top: 30px; }
 .about-prose { margin-bottom: 0; }
-.about-ascii-portrait { padding: 0; border: 0; background: transparent; cursor: zoom-in; }
-.portrait-monochrome { filter: grayscale(1); }
 .about-invitation { text-align: center; }
 .about-invitation > h2, .about-invitation > p { margin-inline: auto; }
 @media (width < 1200px) {
@@ -171,9 +121,6 @@
 .about-prose { align-items: center; padding-top: 32px; }
 .about-tool-icons { display: inline-flex; align-items: center; gap: 5px; vertical-align: middle; padding: 6px 8px; border: 1px solid var(--personal-line); border-radius: 99px; }
 .about-tool-icons img { display: block; width: 22px; height: 22px; object-fit: contain; }
-.about-ascii-portrait { cursor: pointer; }
-.about-ascii-portrait > img { width: 100%; height: 100%; object-fit: contain; }
-.about-portrait-photo { display: block; height: auto; object-fit: cover; border-radius: 8px; cursor: auto; }
 .personal-page .about-invitation h2 { font-weight: 600; }
 
 .about-prose > div > p + p { margin-top: 16px; }
@@ -185,29 +132,7 @@
 #how-i-think { container-type: inline-size; }
 .personal-page--about :is(.about-journey, #how-i-think) > h2 { white-space: normal; font-size: 20px; font-weight: 600; }
 
-.guest-guidelines { text-align: center; }
-.guest-form-actions { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
-.guest-form-actions .guest-colors { gap: 10px; flex: 0 1 auto; }
-.guest-form-actions .guest-submit { flex-shrink: 0; }
-.guest-wall-grid { display: flex; gap: 28px; overflow-x: auto; padding: 20px 12px 28px; cursor: grab; overscroll-behavior-x: contain; scrollbar-width: thin; }
-.guest-wall-grid[data-dragging] { cursor: grabbing; user-select: none; }
-.guest-wall-grid > .guest-note { flex: 0 0 min(340px, 85%); margin: 0; max-width: none; min-height: 220px; }
-@media (max-width: 479px) {
-  .guest-form-actions { gap: 8px; }
-  .guest-form-actions .guest-colors { gap: 6px; }
-  .guest-form-actions .guest-color-chip { width: 22px; height: 22px; }
-  .guest-form-actions .guest-submit { padding-inline: 10px; gap: 5px; font-size: 11px; }
-}
-
 @keyframes guest-stamp-roll { from { transform: rotate(12deg); } to { transform: rotate(372deg); } }
-@media (prefers-reduced-motion: no-preference) {
-  .guest-stamp { animation: guest-stamp-roll 12s linear infinite; }
-}
-
-.guest-note > p { font-family: 'Caveat', 'Segoe Print', cursive; font-size: 26px; font-weight: 600; line-height: 1.35; letter-spacing: 0; }
-.guest-owner-note { padding: 12px 12px 20px; }
-
-.guest-wall-grid > .guest-owner-note { flex-basis: min(280px, 85%); }
 
 .guest-open-composer { text-align: center; }
 .guest-open-composer > .button { display: inline-flex; width: auto; gap: 10px; padding-inline: 22px; cursor: pointer; }
@@ -218,7 +143,6 @@
 @media (max-width: 479px) { .guest-composer-dialog .guest-composer { padding: 20px 16px; } }
 
 .personal-page--guestbook .case-study-content { padding-top: 32px; }
-.personal-page--guestbook .guest-guidelines { padding-top: 20px; }
 
 .guest-wall-header { position: sticky; top: 32px; z-index: 8; isolation: isolate; }
 .guest-wall-header h1 { font: 500 22px/1.2 'Bricolage Grotesque', sans-serif; letter-spacing: -.6px; margin: 0; color: var(--ink); }
@@ -231,8 +155,6 @@
 }
 
 /* Comment pins and compact draft composer. */
-.guest-wall-grid { min-height: 420px; background-image: radial-gradient(#dddde3 1px, transparent 1px); background-size: 20px 20px; border-radius: 12px; align-items: flex-start; }
-.guest-comment { flex: 0 0 320px; padding: 4px; }
 .guest-comment-pin { width: 42px; height: 42px; border-radius: 50% 50% 50% 4px; border: 3px solid #a8c8ff; color: white; background: var(--pin-color); font: 600 16px Inter,sans-serif; cursor: pointer; box-shadow: 0 2px 8px #0002; }
 .guest-comment-panel { margin-top: 10px; border: 1px solid #454545; border-radius: 14px; color: #f5f5f5; background: #292a2b; box-shadow: 0 8px 24px #0002; overflow: hidden; }
 .guest-comment-panel header { padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; font: 600 13px Inter,sans-serif; }
@@ -257,17 +179,11 @@
 .guest-send { margin-left: auto; border: 0; border-radius: 50%; width: 28px; height: 28px; display: grid; place-items: center; color: white; background: #338cf5; cursor: pointer; }
 .guest-send:disabled { opacity: .4; cursor: default; }
 .guest-voice-notice { font: 12px/1.5 Inter,sans-serif; color: #c6dfff; margin-top: 10px; }
-@media (max-width: 479px) { .guest-comment { flex-basis: 280px; } }
-
-.guest-comment-canvas { position: relative; height: 480px; flex: 0 0 auto; }
-.guest-comment-canvas .guest-comment { position: absolute; width: 320px; margin: 0; }
 .guest-comment-pin { touch-action: none; cursor: grab; }
 .guest-comment-pin:active { cursor: grabbing; }
 
 .guest-comment-panel { cursor: grab; touch-action: none; user-select: none; }
 .guest-comment-panel:active { cursor: grabbing; }
-
-.guest-comment-canvas .guest-comment { width: 260px; }
 .guest-voice-wave { display: flex; align-items: center; gap: 2px; height: 26px; }
 .guest-voice-wave i { display: block; width: 2px; border-radius: 2px; background: #b5d8ff; transition: height 60ms linear; }
 
@@ -278,25 +194,10 @@
 
 .guest-form .guest-name-field { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .guest-avatar-button { border: 0; padding: 0; cursor: pointer; }
-
-.guest-wall-grid { height: 540px; min-height: 0; overflow: auto; display: block; padding: 0; }
-.guest-comment-space { position: relative; }
-.guest-zoom { display: flex; justify-content: flex-end; gap: 4px; margin-bottom: 12px; }
-.guest-zoom button { border: 1px solid var(--personal-line); border-radius: 6px; background: white; color: var(--ink); min-width: 36px; min-height: 32px; cursor: pointer; }
-.guest-zoom button:disabled { opacity: .4; }
 .guest-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 200; width: max-content; max-width: calc(100vw - 40px); padding: 14px 16px; display: flex; align-items: center; gap: 16px; border: 1px solid #444; border-radius: 12px; background: #292a2b; color: white; box-shadow: 0 8px 32px #0003; font: 13px/1.5 Inter,sans-serif; text-align: left; }
 .guest-toast button { border: 0; background: transparent; color: inherit; cursor: pointer; display: flex; }
 .guest-composer-dialog .guest-toast { position: sticky; bottom: 0; left: auto; transform: none; width: 100%; margin-top: 12px; }
 .guest-composer-dialog :is(input,textarea):focus-visible { outline: none; box-shadow: inset 0 -1px #888; }
-
-.guest-wall-grid { touch-action: none; overscroll-behavior: contain; }
-
-/* Fine board scrollbars in both directions. */
-.guest-wall-grid { scrollbar-width: auto; scrollbar-color: auto; }
-.guest-wall-grid::-webkit-scrollbar { width: 4px; height: 4px; }
-.guest-wall-grid::-webkit-scrollbar-track, .guest-wall-grid::-webkit-scrollbar-corner { background: transparent; }
-.guest-wall-grid::-webkit-scrollbar-thumb { background: #b8b8c2; border: 0; border-radius: 8px; }
-@supports not selector(::-webkit-scrollbar) { .guest-wall-grid { scrollbar-width: thin; scrollbar-color: #b8b8c2 transparent; } }
 
 /* Continue the wall's existing dot pattern over the guestbook shell. */
 .personal-page--guestbook {
@@ -305,7 +206,6 @@
  background-size: 20px 20px;
 }
 .personal-page--guestbook .case-study-rail { background: #fff; }
-.personal-page--guestbook .guest-wall-grid { background-image: none; }
 .personal-page--guestbook .case-study-footer { background: var(--paper); box-shadow: 0 0 0 32px var(--paper); }
 
 .personal-page--guestbook .guest-wall-header h1 { font-size: 16px; font-weight: 700; }
@@ -340,10 +240,10 @@
 
 /* Wrap the opening biography around the portrait. */
 .about-prose > div { display: flow-root; margin-top: 24px; }
-.about-prose .about-ascii-portrait { float: left; width: min(38%, 160px); margin: 0 20px 12px 0; }
+.about-prose .about-portrait { float: left; width: min(38%, 160px); margin: 0 20px 12px 0; }
 
 @media (width < 1200px) {
-  .about-prose .about-ascii-portrait { float: none; display: block; width: 140px; max-width: 100%; margin: 0 0 20px; }
+  .about-prose .about-portrait { float: none; display: block; width: 140px; max-width: 100%; margin: 0 0 20px; }
   .about-journey > .about-chapter:first-of-type { padding-top: 0; }
   .about-beliefs h3 { font-size: 16px; }
   .about-word-story { font-family: "Inter", sans-serif; }
@@ -366,7 +266,6 @@
 /* Keep the guestbook invitation together immediately above the footer. */
 .personal-page--guestbook .guestbook-actions { margin-top: 64px; }
 .personal-page--guestbook .guestbook-actions .guest-open-composer { padding-top: 0; }
-.personal-page--guestbook .guestbook-actions .guest-guidelines p:last-child { margin-bottom: 0; }
 .personal-page--guestbook .case-study-footer { margin-top: 0; }
 .personal-page--guestbook .case-study-footer-space { flex-basis: 32px; }
 @media (width < 1200px) {

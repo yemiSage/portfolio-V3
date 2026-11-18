@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft2 } from "iconsax-reactjs";
 import { motion } from "framer-motion";
 import SiteHeader, { ProfileLinks } from "./SiteHeader";

@@ -26,5 +26,4 @@
 .llm-inbox .llm-answer { white-space: pre-wrap; color: #3f3f46; font-size: 15px; }
 .llm-inbox .llm-error { padding: 16px; background: #faeee9; color: #8a3529; border-radius: 6px; }
 .llm-empty { padding: 48px 0; }
-.llm-save-notice { font-size: 10px; line-height: 1.5; text-align: center; color: #71717a; margin: 8px 12px 0; }
 @media (max-width: 650px) { .llm-inbox { padding: 28px 20px 64px; } .llm-inbox-heading, .llm-toolbar { flex-direction: column; } .llm-inbox-heading { margin-top: 36px; } .llm-toolbar label { width: 100%; } }

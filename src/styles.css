@@ -309,10 +309,6 @@ h1 {
   font-weight: 700;
 }
 
-.intro-description .intro-closing {
-  margin-top: 12px;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -441,7 +437,6 @@ h1 {
 
 body.is-preloading .yemmy-notion-callout-wrapper,
 body.is-preloading #yemmy-notion-callout-wrapper,
-body.is-preloading .ask-yemi-fab,
 .preloader ~ .yemmy-notion-callout-wrapper,
 .preloader ~ #yemmy-notion-callout-wrapper {
   display: none !important;
@@ -492,68 +487,6 @@ body.is-preloading .ask-yemi-fab,
 .button-primary:hover {
   background: #454343;
 }
-}
-
-.button-secondary {
-  color: var(--accent);
-  background: transparent;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.button-secondary:hover {
-  color: #ffffff;
-  background: var(--accent);
-}
-}
-
-.find-me {
-  color: var(--muted-ink);
-  font-size: 16px;
-  line-height: 1.5;
-  letter-spacing: 0;
-  font-weight: 500;
-}
-
-.social-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.resume-page {
-  min-height: 100vh;
-  background: #ffffff;
-}
-
-.resume-identity {
-  position: fixed;
-  inset: 0 auto 0 0;
-  width: 31.5%;
-  padding: 32px;
-  border-right: 1px solid #eeeeee;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: #ffffff;
-  z-index: 2;
-}
-
-.resume-identity-copy {
-  max-width: 340px;
-}
-
-.resume-identity-copy h1 {
-  margin: 8px 0 24px;
-  color: var(--ink);
-  font-family: "DM Sans", sans-serif;
-  font-size: 40px;
-  line-height: 1.2;
-  letter-spacing: -1.6px;
-}
-
-.resume-identity-copy > p:not(.greeting) {
-  margin: 0 0 28px;
 }
 
 .resume-viewer {
@@ -737,31 +670,6 @@ body.is-preloading .ask-yemi-fab,
 }
 }
 
-.social-link {
-  width: 32px;
-  height: 32px;
-  border: 0;
-  border-radius: 0;
-  color: var(--ink);
-  background: transparent;
-  display: grid;
-  place-items: center;
-  transition: background-color 200ms ease-out, color 200ms ease-out;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.social-link:hover {
-  color: var(--accent);
-  background: transparent;
-}
-}
-
-.social-link svg {
-  width: 24px;
-  height: 24px;
-}
-
 .content-column {
   --content-edge-right: var(--page-padding);
   width: 70%;
@@ -823,27 +731,6 @@ body.is-preloading .ask-yemi-fab,
   font-size: 20px;
   letter-spacing: -0.6px;
   font-weight: 600;
-}
-
-.scroll-link {
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 12px;
-  line-height: 1.5;
-  letter-spacing: 0;
-  font-weight: 600;
-  flex: 0 0 auto;
-  color: var(--muted-ink);
-  transition: color 180ms ease;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.scroll-link:hover {
-  color: var(--ink);
-}
 }
 
 .projects {
@@ -1472,8 +1359,6 @@ a.contribution-item {
 }
 
 .button:focus-visible,
-.social-link:focus-visible,
-.scroll-link:focus-visible,
 .identity-links a:focus-visible,
 .mobile-menu-toggle:focus-visible,
 .mobile-menu a:focus-visible {
@@ -1579,39 +1464,6 @@ a.contribution-item {
   gap: 24px;
 }
 
-.case-study-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.case-study-avatar img {
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  object-fit: cover;
-}
-
-.case-study-back {
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--ink);
-  font-size: 14px;
-  line-height: 24px;
-  font-weight: 500;
-  transition: color 180ms ease;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.case-study-back:hover {
-  color: var(--accent);
-}
-}
-
 .case-study-index {
   position: relative;
   display: flex;
@@ -1647,9 +1499,7 @@ a.contribution-item {
 }
 
 .case-study-jump,
-.case-study-jump-menu,
-.case-study-menu-toggle,
-.case-study-mobile-menu {
+.case-study-jump-menu {
   display: none;
 }
 
@@ -1743,7 +1593,6 @@ a.contribution-item {
   align-items: flex-start;
 }
 
-.case-study-kicker,
 .case-study-section-heading p {
   color: var(--accent);
   font-family: "Inter", sans-serif;
@@ -1791,24 +1640,6 @@ a.contribution-item {
 .case-study-meta-grid a:hover {
   color: var(--accent);
 }
-}
-
-.case-study-tags {
-  margin-top: 24px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.case-study-tags span {
-  padding: 5px 12px;
-  border: 1px solid #e7e7e7;
-  border-radius: 999px;
-  color: #666666;
-  background: #f7f7f7;
-  font-size: 12px;
-  line-height: 18px;
-  letter-spacing: -0.12px;
 }
 
 .case-study-hero-image {
@@ -1904,43 +1735,6 @@ a.contribution-item {
   background: #111111;
 }
 
-.case-study-goal-grid,
-.case-study-result-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.case-study-goal-grid article,
-.case-study-result-grid article {
-  min-height: 180px;
-  padding: 24px;
-  border: 1px solid #e5e5e5;
-  border-radius: 14px;
-  background: #fafafa;
-}
-
-.case-study-goal-grid h3,
-.case-study-result-grid strong {
-  margin-top: 0;
-  display: block;
-  color: var(--ink);
-  font-family: "Inter", sans-serif;
-  font-size: 18px;
-  line-height: 26px;
-  letter-spacing: -0.45px;
-  font-weight: 600;
-}
-
-.case-study-goal-grid p,
-.case-study-result-grid p {
-  max-width: 300px;
-  margin-top: 8px;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.28px;
-}
-
 .case-study-process-line {
   width: 100%;
   margin-top: 48px;
@@ -2021,53 +1815,6 @@ a.contribution-item {
   margin-top: 48px;
 }
 
-.case-study-result-grid article {
-  min-height: 160px;
-}
-
-.case-study-result-grid strong {
-  margin-top: 0;
-}
-
-.case-study-store-links {
-  margin-top: 32px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.case-study-store-links a,
-.case-study-next {
-  min-height: 42px;
-  padding: 0 16px;
-  border: 1px solid #333232;
-  border-radius: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: #f4f4f4;
-  background: #333232;
-  font-size: 14px;
-  line-height: 24px;
-  font-weight: 500;
-  transition: background-color 180ms ease, border-color 180ms ease;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.case-study-store-links a:hover,
-.case-study-next:hover {
-  border-color: #494747;
-  background: #494747;
-}
-}
-
-.case-study-next {
-  width: fit-content;
-  margin-top: 48px;
-}
-
 .project-card[href] {
   color: inherit;
   cursor: pointer;
@@ -2078,10 +1825,7 @@ a.contribution-item {
   outline-offset: 6px;
 }
 
-.case-study-back:focus-visible,
-.case-study-index a:focus-visible,
-.case-study-store-links a:focus-visible,
-.case-study-next:focus-visible {
+.case-study-index a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -2534,10 +2278,6 @@ a.contribution-item {
     backdrop-filter: blur(16px);
   }
 
-  .case-study-rail.is-menu-open {
-    z-index: 100;
-  }
-
   .case-study-rail-top {
     width: 100%;
     flex-direction: row;
@@ -2546,58 +2286,9 @@ a.contribution-item {
     gap: 16px;
   }
 
-  .case-study-avatar {
-    display: none;
-  }
-
-  .case-study-menu-toggle {
-    position: relative;
-    z-index: 26;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ink);
-    background: transparent;
-  }
-
-  .case-study-mobile-menu {
-    position: fixed;
-    z-index: 25;
-    inset: 0;
-    min-height: 100dvh;
-    padding: calc(96px + env(safe-area-inset-top)) 24px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    background: rgba(255, 255, 255, 0.96);
-    -webkit-backdrop-filter: blur(18px) saturate(1.1);
-    backdrop-filter: blur(18px) saturate(1.1);
-    animation: case-study-mobile-menu-in 180ms ease both;
-  }
-
-  .case-study-mobile-menu a {
-    color: var(--ink);
-    font-family: "DM Sans", sans-serif;
-    font-size: 28px;
-    line-height: 1.2;
-    letter-spacing: -1px;
-    font-weight: 600;
-  }
-
   @keyframes case-study-mobile-menu-in {
     from { opacity: 0; }
     to { opacity: 1; }
-  }
-
-  .case-study-back {
-    flex-direction: row-reverse;
-    font-size: 13px;
   }
 
   .case-study-index {
@@ -2757,20 +2448,8 @@ a.contribution-item {
     border-radius: 12px;
   }
 
-  .case-study-goal-grid,
-  .case-study-result-grid,
   .case-study-flow-copy {
     grid-template-columns: 1fr;
-  }
-
-  .case-study-goal-grid article,
-  .case-study-result-grid article {
-    min-height: 0;
-    padding: 12px;
-  }
-
-  .case-study-goal-grid h3 {
-    margin-top: 20px;
   }
 
   .case-study-process-line {
@@ -2797,15 +2476,6 @@ a.contribution-item {
   .case-study-phone-grid-two {
     grid-template-columns: 1fr;
   }
-
-  .case-study-store-links {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .case-study-store-links a {
-    width: 100%;
-  }
 }
 
 @media (max-width: 440px) {
@@ -2828,10 +2498,6 @@ a.contribution-item {
 
   .work-tabs-bar {
     margin-bottom: 24px;
-  }
-
-  .scroll-link {
-    gap: 4px;
   }
 
   .projects {
@@ -2963,26 +2629,6 @@ a.contribution-item {
 }
 
 /* Shared case-study standard */
-.case-study-profile-links {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.case-study-profile-links a {
-  color: #545456;
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 500;
-  transition: color 180ms ease;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.case-study-profile-links a:hover {
-  color: var(--accent);
-}
-}
 
 .case-study-index {
   margin-top: 24px;
@@ -3230,8 +2876,6 @@ a.contribution-item {
 .case-study-lede,
 .case-study-section-body > p,
 .case-study-list li,
-.case-study-goal-grid p,
-.case-study-result-grid p,
 .case-study-flow-copy p,
 .case-study-subsection > p,
 .case-study-other-screens p,
@@ -3248,9 +2892,6 @@ a.contribution-item {
 }
 
 @media (width < 1200px) {
-  .case-study-profile-links {
-    display: none;
-  }
 
   .case-study-content {
     padding: 40px var(--page-padding) 0;
@@ -3305,8 +2946,6 @@ a.contribution-item {
   .case-study-subsection > p,
   .case-study-other-screens p,
   .case-study-flow-copy p,
-  .case-study-goal-grid p,
-  .case-study-result-grid p,
   .stay-product-flow > p:not(.stay-flow-label),
   .stay-design-decision p,
   .stay-contributions p,
@@ -3441,42 +3080,6 @@ a.contribution-item {
   .mobile-menu .nav-yemi-llm-btn svg { animation: none; }
 }
 
-.case-study-profile-links .nav-yemi-llm-btn {
-  color: #545456;
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 500;
-  transition: color 180ms ease;
-  cursor: pointer;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.case-study-profile-links .nav-yemi-llm-btn:hover {
-  color: var(--accent);
-}
-}
-
-.case-study-mobile-menu .nav-yemi-llm-btn {
-  color: var(--ink);
-  font-family: "DM Sans", sans-serif;
-  font-size: 28px;
-  line-height: 1.2;
-  letter-spacing: -1px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.case-study-mobile-menu .nav-yemi-llm-btn:hover {
-  color: var(--accent);
-}
-}
-
 /* ==========================================================================
    YEMMY LLM FAB & NOTION CALLOUT (Optimized for High-Contrast on White Canvas)
    ========================================================================== */
@@ -3553,108 +3156,7 @@ a.contribution-item {
   padding: 0;
 }
 
-.yemmy-notion-query-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.yemmy-notion-query-text {
-  font-size: 12.5px;
-  font-weight: 500;
-  color: #1f2937;
-  line-height: 1.35;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.yemmy-notion-arrow {
-  font-size: 13px;
-  font-weight: 600;
-  color: #6366f1;
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.yemmy-notion-bubble:hover .yemmy-notion-arrow {
-  transform: translateX(2px) translateY(1px);
-}
-}
-
-.yemmy-notion-dismiss-btn {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  color: #9ca3af;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.15s ease;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.yemmy-notion-dismiss-btn:hover {
-  background: #f3f4f6;
-  color: #374151;
-}
-}
-
 /* FAB Container and clean white pill */
-.ask-yemi-fab {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 900;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: #ffffff;
-  color: #374151;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-  font-size: 12.5px;
-  font-weight: 500;
-  letter-spacing: -0.1px;
-  cursor: pointer;
-  transition: all 180ms ease;
-  font-family: inherit;
-  white-space: nowrap;
-  animation: yemmy-fab-pulse 3.2s infinite ease-in-out;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.ask-yemi-fab:hover {
-  background: #f9fafb;
-  border-color: #d1d5db;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
-  color: #111827;
-  animation-play-state: paused;
-}
-}
-
-.fab-text {
-  font-weight: 550;
-  color: inherit;
-}
-
-.ask-yemi-fab.is-hidden {
-  display: none !important;
-}
 
 @media (max-width: 640px) {
   .yemmy-notion-callout-wrapper {
@@ -3663,12 +3165,6 @@ a.contribution-item {
     left: auto;
     width: fit-content;
     max-width: calc(100vw - 32px);
-  }
-  .ask-yemi-fab {
-    bottom: 18px;
-    right: 16px;
-    padding: 9px 15px;
-    font-size: 12.5px;
   }
 }
 
@@ -4170,8 +3666,7 @@ a.contribution-item {
 .case-study-content li a:not(.button),
 .case-study-lede a:not(.button),
 .project-copy a:not(.button),
-.contribution-item a:not(.button),
-.resume-body a:not(.button) {
+.contribution-item a:not(.button) {
   color: var(--accent);
   text-decoration: none;
   text-underline-offset: 3px;
@@ -4186,8 +3681,7 @@ a.contribution-item {
 .case-study-content li a:not(.button):hover,
 .case-study-lede a:not(.button):hover,
 .project-copy a:not(.button):hover,
-.contribution-item a:not(.button):hover,
-.resume-body a:not(.button):hover {
+.contribution-item a:not(.button):hover {
   text-decoration: underline;
   opacity: 0.85;
 }
@@ -5011,80 +4505,7 @@ a.contribution-item {
   gap: 0px;
 }
 
-/* GitHub Activity */
-.github-activity-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 0px;
-  width: 100%;
-  max-width: 100%;
-  min-height: auto;
-  filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.02)) drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.02));
-  border-radius: 12px;
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 0;
-  box-sizing: border-box;
-}
-
-/* Frame 2147226663: Header row */
-.github-activity-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px;
-  gap: 12px;
-  width: 100%;
-  height: 20px;
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 0;
-  box-sizing: border-box;
-}
-
-/* Frame 2147226658: User badge */
-.github-activity-user {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 4px;
-  height: 18px;
-  text-decoration: none;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  transition: opacity 150ms ease;
-  cursor: pointer;
-}
-
-@media (min-width: 769px) and (hover: hover) and (pointer: fine){
-
-.github-activity-user:hover {
-  opacity: 0.75;
-}
-}
-
-/* Container */
-.github-activity-icon-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 8px;
-  width: 18px;
-  height: 18px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-}
-
-/* Octocat Icon */
+/* GitHub Activity: Octocat icon */
 .github-activity-octocat {
   width: 18px;
   height: 18px;
@@ -5092,107 +4513,6 @@ a.contribution-item {
   flex: none;
   order: 0;
   flex-grow: 0;
-}
-
-/* @yemiSage */
-.github-activity-username {
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 18px;
-  letter-spacing: 0.2px;
-  color: #6B7280;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-}
-
-/* Text: Pill badge container */
-.github-activity-pill {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 4px 8px;
-  height: 20px;
-  background: #F3F4F6;
-  border-radius: 9999px;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  box-sizing: border-box;
-}
-
-/* This Year (2026) */
-.github-activity-pill-text {
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 10px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.11px;
-  color: #6B7280;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  white-space: nowrap;
-}
-
-/* GitHub statistics for this year: 4-column row */
-.github-activity-stats-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
-  width: 100%;
-  height: 41px;
-  flex: none;
-  order: 1;
-  align-self: stretch;
-  flex-grow: 0;
-  box-sizing: border-box;
-}
-
-.github-activity-stat-col {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 2px;
-  height: 41px;
-  flex: none;
-  flex-grow: 0;
-}
-
-.github-activity-stat-value {
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 21px;
-  letter-spacing: 0.1px;
-  color: #111827;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-}
-
-.github-activity-stat-label {
-  font-family: 'Inter', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 18px;
-  letter-spacing: 0.2px;
-  color: #6B7280;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  white-space: nowrap;
 }
 
 @media (max-width: 1023px) {
@@ -5367,7 +4687,6 @@ a.contribution-item {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   animation: tooltip-in 100ms ease-out;
 }
-
 
 
 /* In-app browser sheet */
@@ -5580,8 +4899,7 @@ a.contribution-item {
 
 /* In-app browser: hide the yemiLLM launcher while it is open. */
 body.iab-open #yemmy-notion-callout-wrapper,
-body.iab-open .yemmy-notion-callout-wrapper,
-body.iab-open .ask-yemi-fab {
+body.iab-open .yemmy-notion-callout-wrapper {
   display: none !important;
 }
 
@@ -5967,14 +5285,6 @@ body.iab-open .ask-yemi-fab {
   }
 }
 
-.ascii-portrait {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  touch-action: none;
-}
-
 /* Stacked work cards with consistent spacing. */
 .case-card-list,
 .project-card-list {
@@ -5991,7 +5301,6 @@ body.iab-open .ask-yemi-fab {
   margin-top: var(--card-divider-size);
   position: relative;
 }
-
 
 
 .case-card {
@@ -6041,40 +5350,12 @@ body.iab-open .ask-yemi-fab {
   color: var(--body-copy);
 }
 
-.case-card-logo {
-  display: block;
-  width: auto;
-  height: 24px;
-  max-width: 140px;
-  object-fit: contain;
-  object-position: left center;
-}
-
-svg.case-card-logo {
-  width: 103px;
-}
-
-.case-card-logo--icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-}
-
 .case-card-body h3 {
   color: var(--ink);
   font-size: 18px;
   line-height: 1.2;
   letter-spacing: -0.72px;
   font-weight: 500;
-}
-
-.case-card-summary {
-  font-family: "Inter", "Inter Placeholder", sans-serif;
-  font-size: var(--body-copy-size);
-  line-height: var(--body-copy-line-height);
-  letter-spacing: var(--body-copy-tracking);
-  color: var(--body-copy);
-  text-wrap: pretty;
 }
 
 .case-card-meta {
@@ -6182,7 +5463,6 @@ svg.case-card-logo {
   .case-study-rail-top.identity-top { flex-direction: row; justify-content: space-between; align-items: center; gap: 24px; min-height: 50px; }
   .case-study-rail-back { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-size: 14px; white-space: nowrap; }
   .case-study-rail .case-study-index-back { display: none !important; }
-  .case-study-rail .case-study-profile-links { margin-left: auto; }
 }
 
 /* Shared subtle glass treatment for headers and sticky navigation. */
@@ -6239,15 +5519,15 @@ svg.case-card-logo {
 
 /* Soft pills for profile navigation and desktop chat. */
 .identity-links { gap: 2px; }
-.identity-links > a, .identity-links > button, .case-study-profile-links > a, .case-study-profile-links > button {
+.identity-links > a, .identity-links > button {
  display: inline-flex; align-items: center; gap: 5px; padding: 7px 8px; border-radius: 999px;
  transition: background-color 180ms ease, color 180ms ease;
 }
 .mobile-menu a, .footer-links a[href="/resume"] { display: inline-flex; align-items: center; gap: 5px; }
-.identity-links > :focus-visible, .case-study-profile-links > :focus-visible, .desktop-chat-launcher:focus-visible { outline: 2px solid #858585; outline-offset: 3px; }
+.identity-links > :focus-visible, .desktop-chat-launcher:focus-visible { outline: 2px solid #858585; outline-offset: 3px; }
 .desktop-chat-launcher { display: none; }
 @media (hover: hover) and (pointer: fine) {
- .identity-links > :hover, .case-study-profile-links > :hover, .mobile-menu > :hover { background: #f2f2f3; }
+ .identity-links > :hover, .mobile-menu > :hover { background: #f2f2f3; }
  .work-toggle button:not(.is-selected):hover { background: #f2f2f3; border-radius: 999px; }
 
 }
