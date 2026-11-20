@@ -5568,7 +5568,7 @@ body.iab-open .yemmy-notion-callout-wrapper {
 
 /* Home introduction typography applies across existing responsive layouts. */
 #about .intro-heading .greeting { font-family: "Inter", sans-serif; font-size: 15px; }
-#about .intro-description > p { font-size: 15px; }
+#about .intro-description > p { font-size: 14px; }
 
 /* Keep home contact actions together without changing shared buttons. */
 #about .intro-followup { display: flex; flex-direction: column; align-items: stretch; gap: 0; width: 160px; max-width: 100%; padding: 0; background: transparent; border-radius: 12px; }
