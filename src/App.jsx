@@ -801,7 +801,7 @@ function App() {
                   </div>
                   <div className="intro-description">
                     <p>It's been four (4) years now designing and building B2B SaaS, enterprise, marketplace, and AI products, turning complex workflows into simple experiences.</p>
-                    <p>The curiosity of knowing How it was done, why it was done, and what it's done in a certain, led me to design. <strong>Coffee, semo and results keep me going</strong></p>
+                    <p>The curiosity of knowing how it was done, why it was done, and why it's done in a certain way led me to design. <strong>Coffee, semo and results keep me going</strong></p>
                   </div>
                 </div>
 
